@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "lerna": "^2.0.0"
+    "lerna": "^2.5.0"
   },
   "name": "wix-ui",
   "version": "0.0.1",
