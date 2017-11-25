@@ -18,7 +18,7 @@
     "build": ":",
     "precommit": "yoshi lint",
     "pretest": "yoshi build && build-storybook",
-    "test": "yoshi test",
+    "test": "yoshi test --jest && yoshi test --protractor",
     "posttest": "yoshi lint",
     "start": "yoshi start & npm run storybook",
     "release": "yoshi release && gh-pages-auto-release --dist=storybook-static",
@@ -31,6 +31,7 @@
     "babel-runtime": "^6.22.0"
   },
   "devDependencies": {
+    "@storybook/addon-options": "3.2.13",
     "@storybook/react": "~3.1.0",
     "@storybook/storybook-deployer": "~2.0.0",
     "babel-plugin-transform-runtime": "^6.22.0",
@@ -41,21 +42,44 @@
     "enzyme": "^2.3.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-react": "^6.8.0",
-    "gh-pages-auto-release": "^1.1.2",
     "express": "^4.13.4",
+    "gh-pages-auto-release": "^1.1.2",
+    "husky": "^0.13.4",
+    "identity-obj-proxy": "^3.0.0",
     "prop-types": "^15.5.4",
     "react": "^15.5.0",
     "react-dom": "^15.5.0",
     "react-test-renderer": "^15.5.4",
-    "husky": "^0.13.4",
+    "react-test-utils": "0.0.1",
     "yoshi": "latest"
   },
   "babel": {
-    "presets": ["env", "react", "stage-3"],
-    "plugins": ["transform-runtime"]
+    "presets": [
+      [
+        "es2015",
+        {
+          "modules": false
+        }
+      ],
+      "react",
+      "stage-2"
+    ]
   },
   "eslintConfig": {
-    "extends": "wix/react"
+    "extends": "wix/react",
+    "env": {
+      "jest": true
+    },
+    "rules": {
+      "react/jsx-handler-names": 0,
+      "react/no-find-dom-node": 0,
+      "react/no-string-refs": 0,
+      "react/jsx-boolean-value": 2,
+      "comma-dangle": [
+        "error",
+        "never"
+      ]
+    }
   },
   "publishConfig": {
     "registry": "http://repo.dev.wix/artifactory/api/npm/npm-local/"
@@ -67,5 +91,18 @@
     "externals": {
       "react": "React"
     }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "identity-obj-proxy"
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist/",
+      "<rootDir>/node_modules/"
+    ],
+    "testEnvironment": "node",
+    "setupFiles": [
+      "<rootDir>/test/mocha-setup.js"
+    ]
   }
 }
