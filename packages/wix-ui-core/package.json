@@ -104,7 +104,7 @@
     ],
     "testEnvironment": "node",
     "setupFiles": [
-      "<rootDir>/test/mocha-setup.js"
+      "<rootDir>/node_modules/babel-polyfill"
     ]
   }
 }
