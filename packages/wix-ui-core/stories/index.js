@@ -1,11 +1,8 @@
 import React from 'react';
 import {storiesOf} from '@storybook/react';
-import Hello from '../src/Hello';
+import ToggleSwitch from '../src/components/ToggleSwitch';
 
-storiesOf('Hello', module)
-  .add('default view', () => (
-    <Hello name="world"/>
-  ))
-  .add('with emojis', () => (
-    <Hello name="😀 😎 👍"/>
+storiesOf('Components', module)
+  .add('ToggleSwitch', () => (
+    <ToggleSwitch/>
   ));
