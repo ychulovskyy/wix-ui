@@ -1,15 +1,13 @@
 import ReactTestUtils from 'react-dom/test-utils';
-import $ from 'jquery';
 
 const toggleSwitchDriverFactory = ({element}) => {
-
-  const toggleSwitch = $(element).find('input')[0];
+  const toggleSwitch = element.querySelector('input');
 
   return {
     exists: () => !!element,
     click: () => ReactTestUtils.Simulate.change(toggleSwitch),
-    isChecked: () => $(toggleSwitch).is(':checked'),
-    isDisabled: () => $(toggleSwitch).is(':disabled')
+    isChecked: () => toggleSwitch.checked,
+    isDisabled: () => toggleSwitch.disabled
   };
 };
 
