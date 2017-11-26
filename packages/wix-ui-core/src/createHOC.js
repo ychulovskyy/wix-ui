@@ -1,14 +1,11 @@
 import React from 'react';
-import {string, any} from 'prop-types';
+import {string} from 'prop-types';
 import ReactDOM from 'react-dom';
 
 
 export const createHOC = Component => {
   class WixComponent extends React.PureComponent {
-    static propTypes = {
-      dataHook: string,
-      children: any
-    };
+    static propTypes = {dataHook: string};
 
     componentDidMount() {
       const {dataHook} = this.props;
