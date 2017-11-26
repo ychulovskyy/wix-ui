@@ -5,7 +5,10 @@ import {generateClasses, detachStyleSheetFromDom} from './DOMStyleRenderer';
 
 export function withClasses(CoreComponent, styles) {
   class ThemedComponent extends React.PureComponent {
-    static propTypes = {theme: object};
+    static propTypes = {
+      ...CoreComponent.propTypes,
+      theme: object
+    };
 
     constructor(props) {
       super(props);
@@ -24,8 +27,10 @@ export function withClasses(CoreComponent, styles) {
     }
 
     render() {
+      // eslint-disable-next-line no-unused-vars
+      const {theme, ...coreProps} = this.props;
       return (
-        <CoreComponent {...this.props} classes={this.state.classes}/>
+        <CoreComponent {...coreProps} classes={this.state.classes}/>
       );
     }
   }
