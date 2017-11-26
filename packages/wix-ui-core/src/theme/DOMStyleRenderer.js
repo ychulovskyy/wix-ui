@@ -5,14 +5,14 @@ const jss = create(preset());
 const sheetManager = new SheetsManager();
 const sheetMapper = {};
 
-const atachStyleSheetToDom = (styles, componentName) => {
+const atachStyleSheetToDom = (styles, componentId) => {
   const newSheet = jss.createStyleSheet(styles);
 
-  if (sheetMapper[componentName]) {
-    sheetManager.unmanage(sheetMapper[componentName]);
+  if (sheetMapper[componentId]) {
+    sheetManager.unmanage(sheetMapper[componentId]);
   }
 
-  sheetMapper[componentName] = styles;
+  sheetMapper[componentId] = styles;
 
   sheetManager.add(styles, newSheet);
   sheetManager.manage(styles);
@@ -20,12 +20,12 @@ const atachStyleSheetToDom = (styles, componentName) => {
   return newSheet;
 };
 
-export const generateClasses = (styles, componentName) => {
-  const {classes} = atachStyleSheetToDom(styles, componentName);
+export const generateClasses = (styles, componentId) => {
+  const {classes} = atachStyleSheetToDom(styles, componentId);
   return classes;
 };
 
-export const detachStyleSheetFromDom = componentName => {
-  sheetManager.unmanage(sheetMapper[componentName]);
-  delete sheetMapper[componentName];
+export const detachStyleSheetFromDom = componentId => {
+  sheetManager.unmanage(sheetMapper[componentId]);
+  delete sheetMapper[componentId];
 };
