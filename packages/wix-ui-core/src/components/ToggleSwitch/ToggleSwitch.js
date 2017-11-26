@@ -1,12 +1,12 @@
 import React from 'react';
 import {bool, func, object} from 'prop-types';
 import uniqueId from 'lodash/uniqueId';
-import WixComponent from '../../WixComponent';
+import {createHOC} from '../../createHOC';
 
 /**
   * Toggle Switch
   */
-export default class ToggleSwitch extends WixComponent {
+class ToggleSwitch extends React.PureComponent {
   constructor(props) {
     super(props);
     this.id = uniqueId('ToggleSwitch');
@@ -48,3 +48,5 @@ ToggleSwitch.propTypes = {
 
   classes: object.isRequired
 };
+
+export default createHOC(ToggleSwitch);

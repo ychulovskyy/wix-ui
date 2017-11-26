@@ -1,0 +1,29 @@
+import React from 'react';
+import {string, any} from 'prop-types';
+import ReactDOM from 'react-dom';
+
+
+export const createHOC = Component => {
+  class WixComponent extends React.PureComponent {
+    static propTypes = {
+      dataHook: string,
+      children: any
+    };
+
+    componentDidMount() {
+      const {dataHook} = this.props;
+      if (dataHook) {
+        const domNode = ReactDOM.findDOMNode(this);
+        if (domNode) {
+          domNode.setAttribute('data-hook', dataHook);
+        }
+      }
+    }
+
+    render() {
+      return <Component {...this.props}/>;
+    }
+  }
+
+  return WixComponent;
+};
