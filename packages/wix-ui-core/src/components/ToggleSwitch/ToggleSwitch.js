@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {bool, func, object} from 'prop-types';
 import uniqueId from 'lodash/uniqueId';
 import WixComponent from '../../WixComponent';
@@ -6,7 +6,7 @@ import WixComponent from '../../WixComponent';
 /**
   * Toggle Switch
   */
-export default class ToggleSwitch extends PureComponent {
+export default class ToggleSwitch extends WixComponent {
   constructor(props) {
     super(props);
     this.id = uniqueId('ToggleSwitch');
