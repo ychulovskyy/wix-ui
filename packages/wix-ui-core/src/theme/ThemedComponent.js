@@ -4,20 +4,20 @@ import pickBy from 'lodash/pickBy';
 
 class ThemeGenerator extends React.PureComponent {
   static propTypes = {
-    children: func.isRequired,
+    render: func.isRequired,
     theme: func.isRequired
   };
 
   constructor(props) {
     super(props);
     // eslint-disable-next-line no-unused-vars
-    const {children, theme, ...propsForTheme} = props;
+    const {render, theme, ...propsForTheme} = props;
     this.state = {calculatedTheme: theme(propsForTheme)};
   }
 
   componentWillReceiveProps(nextProps) {
     // eslint-disable-next-line no-unused-vars
-    const {children, theme, ...propsForTheme} = nextProps;
+    const {render, theme, ...propsForTheme} = nextProps;
 
     const changedProps = pickBy(propsForTheme, (value, key) => this.props[key] !== value);
 
@@ -27,16 +27,16 @@ class ThemeGenerator extends React.PureComponent {
   }
 
   render() {
-    return (
-      <div>{this.props.children(this.state)}</div>
-    );
+    return this.props.render(this.state);
   }
 }
 
 export const ThemedComponent = ({children, theme, ...propsForTheme}) => (
-  <ThemeGenerator theme={theme} {...propsForTheme}>
-    {({calculatedTheme}) => React.cloneElement(children, {theme: calculatedTheme})}
-  </ThemeGenerator>
+  <ThemeGenerator
+    theme={theme}
+    render={({calculatedTheme}) => React.cloneElement(children, {theme: calculatedTheme})}
+    {...propsForTheme}
+    />
 );
 
 ThemedComponent.propTypes = {
