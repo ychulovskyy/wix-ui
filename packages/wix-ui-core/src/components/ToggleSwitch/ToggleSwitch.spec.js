@@ -1,8 +1,8 @@
 import React from 'react';
 import toggleSwitchDriverFactory from './ToggleSwitch.driver';
 import {createDriverFactory} from '../../../test/test-common';
-import {toggleSwitchTestkitFactory} from '../../testkit';
 import ToggleSwitch from './index';
+import {toggleSwitchTestkitFactory} from '../../testkit';
 import {toggleSwitchTestkitFactory as enzymeToggleSwitchTestkitFactory} from '../../testkit/enzyme';
 import {isTestkitExists, isEnzymeTestkitExists} from '../../testkit/utils';
 
