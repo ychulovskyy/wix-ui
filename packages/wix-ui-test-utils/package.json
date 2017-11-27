@@ -8,13 +8,15 @@
     "url": ""
   },
   "main": "dist/src/index.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "yoshi start",
     "build": ":",
     "precommit": "yoshi lint",
     "pretest": "yoshi build",
-    "test": "yoshi test",
+    "test": "yoshi test --jest && yoshi test --protractor",
     "posttest": "yoshi lint",
     "release": "yoshi release"
   },
@@ -22,19 +24,41 @@
     "babel-runtime": "^6.22.0"
   },
   "devDependencies": {
+    "babel-jest": "^21.2.0",
     "babel-plugin-transform-runtime": "^6.22.0",
     "babel-preset-env": "^1.5.2",
     "babel-preset-stage-3": "^6.5.0",
     "chai": "^3.5.0",
     "husky": "^0.13.4",
+    "identity-obj-proxy": "^3.0.0",
+    "react-test-utils": "0.0.1",
     "yoshi": "latest"
   },
   "babel": {
-    "presets": ["stage-3"],
-    "plugins": ["transform-runtime"],
+    "presets": [
+      "stage-3"
+    ],
+    "plugins": [
+      "transform-runtime"
+    ],
     "env": {
-      "test": {"presets": [["env", {"targets": {"node": "current"}}]]},
-      "development": {"presets": ["env"]}
+      "test": {
+        "presets": [
+          [
+            "env",
+            {
+              "targets": {
+                "node": "current"
+              }
+            }
+          ]
+        ]
+      },
+      "development": {
+        "presets": [
+          "env"
+        ]
+      }
     }
   },
   "eslintConfig": {
