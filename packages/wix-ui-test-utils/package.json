@@ -10,7 +10,8 @@
   "main": "./dist/src/index.js",
   "files": [
     "dist",
-    "src"
+    "src",
+    "jest-setup"
   ],
   "scripts": {
     "start": "yoshi start",
@@ -87,7 +88,7 @@
     "setupFiles": [
       "<rootDir>/node_modules/babel-polyfill"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/src/jest-setup",
+    "setupTestFrameworkScriptFile": "<rootDir>/jest-setup",
     "moduleNameMapper": {
       "\\.(css|less|scss)$": "identity-obj-proxy"
     },
