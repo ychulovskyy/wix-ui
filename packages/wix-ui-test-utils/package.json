@@ -1,0 +1,72 @@
+{
+  "private": false,
+  "name": "wix-ui-test-utils",
+  "version": "1.0.0",
+  "author": {
+    "name": "Lior Belinsky",
+    "email": "liorbe@wix.com",
+    "url": ""
+  },
+  "main": "dist/src/index.js",
+  "files": ["dist"],
+  "scripts": {
+    "start": "yoshi start",
+    "build": ":",
+    "precommit": "yoshi lint",
+    "pretest": "yoshi build",
+    "test": "yoshi test",
+    "posttest": "yoshi lint",
+    "release": "yoshi release"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.22.0"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-runtime": "^6.22.0",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-stage-3": "^6.5.0",
+    "chai": "^3.5.0",
+    "husky": "^0.13.4",
+    "yoshi": "latest"
+  },
+  "babel": {
+    "presets": ["stage-3"],
+    "plugins": ["transform-runtime"],
+    "env": {
+      "test": {"presets": [["env", {"targets": {"node": "current"}}]]},
+      "development": {"presets": ["env"]}
+    }
+  },
+  "eslintConfig": {
+    "extends": "wix/react",
+    "env": {
+      "jest": true
+    },
+    "rules": {
+      "react/jsx-handler-names": 0,
+      "react/no-find-dom-node": 0,
+      "react/no-string-refs": 0,
+      "react/jsx-boolean-value": 2,
+      "comma-dangle": [
+        "error",
+        "never"
+      ]
+    }
+  },
+  "publishConfig": {
+    "registry": "http://repo.dev.wix/artifactory/api/npm/npm-local/"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/node_modules/babel-polyfill"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/src/jest-setup",
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "identity-obj-proxy"
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist/",
+      "<rootDir>/node_modules/"
+    ]
+  }
+}
