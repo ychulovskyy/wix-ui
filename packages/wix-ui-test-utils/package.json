@@ -7,6 +7,11 @@
     "email": "liorbe@wix.com",
     "url": ""
   },
+  "main": "./dist/src/index.js",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "start": "yoshi start",
     "build": ":",
@@ -27,7 +32,6 @@
     "babel-preset-env": "^1.5.2",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-3": "^6.5.0",
-    "enzyme": "^2.3.0",
     "husky": "^0.13.4",
     "identity-obj-proxy": "^3.0.0",
     "react-test-utils": "0.0.1",
@@ -35,7 +39,8 @@
   },
   "dependencies": {
     "react": "^15.5.0",
-    "react-dom": "^15.5.0"
+    "react-dom": "^15.5.0",
+    "enzyme": "^2.3.0"
   },
   "babel": {
     "presets": [
