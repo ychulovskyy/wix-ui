@@ -15,7 +15,7 @@
     "testkit"
   ],
   "scripts": {
-    "build": ":",
+    "build": "yoshi build",
     "precommit": "yoshi lint",
     "pretest": "yoshi build && build-storybook",
     "test": "yoshi test --jest && yoshi test --protractor",
@@ -90,10 +90,16 @@
   },
   "yoshi": {
     "entry": {
-      "app": "index.js"
+      "app": "index.js",
+      "toggleSwitch": "components/ToggleSwitch/index"
     },
     "externals": {
-      "react": "React"
+      "react": "react",
+      "react-dom": "reactDOM"
+    },
+    "exports": {
+      "root": "wix-ui-core",
+      "commonjs": "wix-ui-core"
     }
   },
   "jest": {
