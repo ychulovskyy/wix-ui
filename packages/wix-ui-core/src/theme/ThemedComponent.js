@@ -1,11 +1,11 @@
 import React from 'react';
-import {func, node} from 'prop-types';
+import {func, object, node, oneOfType} from 'prop-types';
 import pickBy from 'lodash/pickBy';
 
 class ThemeGenerator extends React.PureComponent {
   static propTypes = {
     render: func.isRequired,
-    theme: func.isRequired
+    theme: oneOfType([func, object]).isRequired
   };
 
   constructor(props) {
@@ -41,7 +41,7 @@ export const ThemedComponent = ({children, theme, ...propsForTheme}) => (
 
 ThemedComponent.propTypes = {
   children: node,
-  theme: func
+  theme: oneOfType([func, object])
 };
 
 ThemedComponent.defaultProps = {
@@ -49,3 +49,6 @@ ThemedComponent.defaultProps = {
   theme: () => {}
 };
 
+function getTheme(theme, params) {
+  return typeof theme === 'function' ? theme(params) : theme;
+}
