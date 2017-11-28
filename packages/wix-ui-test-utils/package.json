@@ -23,7 +23,7 @@
   },
   "license": "MIT",
   "publishConfig": {
-    "registry": "http://repo.dev.wix/artifactory/api/npm/npm-local/"
+    "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "babel-jest": "^21.2.0",
