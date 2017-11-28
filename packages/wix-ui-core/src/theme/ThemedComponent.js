@@ -12,7 +12,7 @@ class ThemeGenerator extends React.PureComponent {
     super(props);
     // eslint-disable-next-line no-unused-vars
     const {render, theme, ...propsForTheme} = props;
-    this.state = {calculatedTheme: theme(propsForTheme)};
+    this.state = {calculatedTheme: getTheme(theme, propsForTheme)};
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,7 +22,7 @@ class ThemeGenerator extends React.PureComponent {
     const changedProps = pickBy(propsForTheme, (value, key) => this.props[key] !== value);
 
     if (Object.keys(changedProps).length > 0) {
-      this.setState({calculatedTheme: theme(propsForTheme)});
+      this.setState({calculatedTheme: getTheme(theme, propsForTheme)});
     }
   }
 
