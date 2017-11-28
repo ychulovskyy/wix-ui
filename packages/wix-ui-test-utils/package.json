@@ -25,9 +25,6 @@
   "publishConfig": {
     "registry": "http://repo.dev.wix/artifactory/api/npm/npm-local/"
   },
-  "yoshi": {
-    "entry": "./index.js"
-  },
   "devDependencies": {
     "babel-jest": "^21.2.0",
     "babel-preset-env": "^1.5.2",
