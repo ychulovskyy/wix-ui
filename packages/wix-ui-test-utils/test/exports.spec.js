@@ -1,7 +1,7 @@
 import {
   createDriverFactory, isClassExists, getStoryUrl, scrollToElement,
   waitForVisibilityOf, testkitFactoryCreator, isTestkitExists,
-  enzymeTestkitFactoryCreator, isEnzymeTestkitExists, protractorTestkitFactoryCreator
+  protractorTestkitFactoryCreator
 } from '../src/index';
 
 describe('exports', () => {
@@ -13,8 +13,6 @@ describe('exports', () => {
     waitForVisibilityOf,
     testkitFactoryCreator,
     isTestkitExists,
-    enzymeTestkitFactoryCreator,
-    isEnzymeTestkitExists,
     protractorTestkitFactoryCreator
   };
 
