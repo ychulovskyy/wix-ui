@@ -15,7 +15,7 @@
     "start": "yoshi start",
     "precommit": "yoshi lint",
     "pretest": "yoshi build",
-    "test": "yoshi test",
+    "test": "yoshi test --jest && yoshi test --protractor",
     "posttest": "yoshi lint",
     "release": "yoshi release"
   },
@@ -23,23 +23,22 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "chai": "~4.1.0",
-    "enzyme": "~2.9.0",
-    "express": "~4.15.0",
-    "express-session": "~1.15.0",
-    "husky": "~0.14.0",
-    "jsdom": "~11.2.0",
-    "jsdom-global": "~3.0.0",
-    "react-test-renderer": "~15.6.0",
-    "yoshi": "latest",
-    "typescript": "~2.4.0",
     "@types/chai": "~4.0.0",
     "@types/express": "~4.0.0",
     "@types/express-session": "~1.15.0",
     "@types/mocha": "~2.2.0",
     "@types/prop-types": "~15.5.0",
     "@types/react": "~15.6.0",
-    "@types/react-dom": "~15.5.0"
+    "@types/react-dom": "~15.5.0",
+    "chai": "~4.1.0",
+    "enzyme": "~2.9.0",
+    "husky": "~0.14.0",
+    "jsdom": "~11.2.0",
+    "jsdom-global": "~3.0.0",
+    "react-test-renderer": "~15.6.0",
+    "ts-jest": "^21.2.3",
+    "typescript": "~2.4.0",
+    "yoshi": "latest"
   },
   "dependencies": {
     "lodash.pickby": "^4.6.0",
@@ -51,5 +50,24 @@
       "react": "React",
       "react-dom": "ReactDOM"
     }
+  },
+  "jest": {
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist/",
+      "<rootDir>/node_modules/"
+    ],
+    "testRegex": "/src/.*\\.spec\\.(ts|tsx)$",    
+    "setupTestFrameworkScriptFile": "<rootDir>/jest-setup"
   }
 }
