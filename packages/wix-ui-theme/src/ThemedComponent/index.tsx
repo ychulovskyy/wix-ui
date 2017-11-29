@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as pickBy from 'lodash.pickby';
 
-export type Theme = (props: any) => object | object;
+export type Theme = ((props: any) => Object) | Object;
 
 export type ThemeGeneratorState = {
   calculatedTheme: object
