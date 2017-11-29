@@ -1,0 +1,1 @@
+export {ThemedComponent} from './ThemedComponent';
