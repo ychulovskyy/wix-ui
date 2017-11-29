@@ -1,1 +1,0 @@
-export {ThemedComponent} from './ThemedComponent';
