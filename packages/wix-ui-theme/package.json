@@ -9,8 +9,7 @@
   },
   "main": "./dist/src/index.js",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
     "start": "yoshi start",
