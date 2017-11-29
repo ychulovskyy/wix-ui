@@ -9,7 +9,7 @@ A theme is simply an object that we need to pass to the core component as a prop
 Each component must have it's own theme object.
 It should have a specific structure (TBD).
 
-![buttons](/assets/buttons.png)
+![buttons](/packages/wix-ui-theme/assets/buttons.png)
 
 ## Basic Example
 ```javascript
