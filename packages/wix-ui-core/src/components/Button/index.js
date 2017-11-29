@@ -1,5 +1,5 @@
 import Button from './Button';
 import {styles} from './styles';
-import {withClasses} from '../../theme';
+import {withClasses} from '../../withClasses';
 
 export default withClasses(Button, styles);
