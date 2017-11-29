@@ -5,7 +5,7 @@
 If you are creating a new component library with a unique theme, this is the package you are looking for.
 
 ## Creating a new theme
-A theme is simply an object that we need to pass to the core component as a prop. The core component has no styles by definition, or at at least only a basic one.
+A theme is simply an object that we need to pass to the core component as a prop. The core component has no style by definition, or at at least only a basic one.
 Each component must have it's own theme object.
 It should have a specific structure (TBD).
 
