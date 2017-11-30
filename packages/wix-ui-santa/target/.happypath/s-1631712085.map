@@ -1,0 +1,1 @@
+{"version":3,"sources":[".storybook/addons.js"],"names":[],"mappings":"AAAA,OAAO,mCAAP","file":"addons.js","sourceRoot":"/Users/liorbe/wix/wix-ui/packages/wix-ui-santa","sourcesContent":["import '@storybook/addon-options/register';\n"]}
