@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as pickBy from 'lodash.pickby';
+import {ReactElement} from 'react';
 
 export type Theme = ((props: any) => Object) | Object;
 
@@ -7,15 +8,16 @@ export type ThemeGeneratorState = {
   calculatedTheme: object
 };
 
-export type ThemeGeneratorProps = {
-  render: (state: ThemeGeneratorState) => React.ReactElement<any>,
-  theme: Theme
-};
+interface ThemeGeneratorProps {
+  render: (state: ThemeGeneratorState) => React.ReactElement<any>;
+  theme?: Theme;
+}
 
-export type ThemedComponentProps = {
-  children: React.ReactElement<any>,
-  theme: Theme
-};
+interface ThemedComponentProps {
+  theme?: Theme;
+  children: ReactElement<any>;
+  [propName: string]: any;
+}
 
 class ThemeGenerator extends React.PureComponent<ThemeGeneratorProps, ThemeGeneratorState> {
   constructor(props) {
@@ -28,7 +30,6 @@ class ThemeGenerator extends React.PureComponent<ThemeGeneratorProps, ThemeGener
     const {render, theme, ...propsForTheme} = nextProps;
 
     const changedProps = pickBy(propsForTheme, (value, key) => this.props[key] !== value);
-
     if (Object.keys(changedProps).length > 0) {
       this.setState({calculatedTheme: getTheme(theme, propsForTheme)});
     }
