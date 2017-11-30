@@ -5,7 +5,7 @@ import {ReactElement} from 'react';
 export type Theme = ((props: any) => Object) | Object;
 
 interface ThemedComponentState {
-  calculatedTheme: object;
+  calculatedTheme: Object;
 }
 
 interface ThemedComponentProps {
@@ -15,6 +15,8 @@ interface ThemedComponentProps {
 }
 
 export class ThemedComponent extends React.PureComponent<ThemedComponentProps, ThemedComponentState> {
+  static defaultProps = {theme: () => ({})};
+
   constructor(props) {
     super(props);
     const {children, theme, ...propsForTheme} = props;
@@ -24,7 +26,7 @@ export class ThemedComponent extends React.PureComponent<ThemedComponentProps, T
   componentWillReceiveProps(nextProps) {
     const {children, theme, ...propsForTheme} = nextProps;
 
-    const changedProps = pickBy(propsForTheme, (value, key) => this.props[key] !== value);
+    const changedProps = pickBy({theme, ...propsForTheme}, (value, key) => this.props[key] !== value);
 
     if (Object.keys(changedProps).length > 0) {
       this.setState({calculatedTheme: getTheme(theme, propsForTheme)});
@@ -37,6 +39,6 @@ export class ThemedComponent extends React.PureComponent<ThemedComponentProps, T
   }
 }
 
-function getTheme(theme: Theme, params?: object): object {
+function getTheme(theme: Theme, params?: Object): Object {
   return typeof theme === 'function' ? theme(params) : theme;
 }
