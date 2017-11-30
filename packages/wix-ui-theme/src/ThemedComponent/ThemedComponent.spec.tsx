@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {mount} from 'enzyme';
 import {ThemedComponent, Theme} from './';
-import {expect} from 'chai';
 
 describe('ThemedComponent', () => {
   const themeObject = {color: 'green'};
@@ -16,7 +15,7 @@ describe('ThemedComponent', () => {
       </ThemedComponent>
     );
 
-    expect(wrapper.html()).to.equal(expectedRender);
+    expect(wrapper.html()).toBe(expectedRender);
   });
 
   it('should keep the original props of the wrapped component', () => {
@@ -28,7 +27,7 @@ describe('ThemedComponent', () => {
       </ThemedComponent>
     );
 
-    expect(wrapper.html()).to.equal('<div>Hello</div>');
+    expect(wrapper.html()).toBe('<div>Hello</div>');
   });
 
   it('should pass the calculated theme object when the given theme is an object', () => {
@@ -40,7 +39,7 @@ describe('ThemedComponent', () => {
       </ThemedComponent>
     );
 
-    expect(wrapper.html()).to.equal(expectedRender);
+    expect(wrapper.html()).toBe(expectedRender);
   });
 
   it('should calculate the theme with the additional props that was given to the wrapper', () => {
@@ -52,7 +51,7 @@ describe('ThemedComponent', () => {
       </ThemedComponent>
     );
 
-    expect(wrapper.html()).to.equal(expectedRender);
+    expect(wrapper.html()).toBe(expectedRender);
   });
 
   it('should re-calculate the theme when the additional prop for the wrapper changes', () => {
@@ -65,7 +64,7 @@ describe('ThemedComponent', () => {
     );
 
     wrapper.setProps({color: 'red'});
-    expect(wrapper.html()).to.equal('<div>red</div>');
+    expect(wrapper.html()).toBe('<div>red</div>');
   });
 
   it('should not re-calculate the theme when the component get\'s updated but not due to a theme dependant props change', () => {
@@ -100,9 +99,9 @@ describe('ThemedComponent', () => {
 
     wrapper.setState({color: 'red'});
 
-    expect(wrapper.html()).to.equal('<div>red</div>');
+    expect(wrapper.html()).toBe('<div>red</div>');
 
     //only the constructor called the theme function
-    expect(mockedTheme.mock.calls.length).to.equal(1);
+    expect(mockedTheme.mock.calls.length).toBe(1);
   });
 });
