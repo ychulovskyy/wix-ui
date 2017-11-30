@@ -4,13 +4,8 @@ import {ReactElement} from 'react';
 
 export type Theme = ((props: any) => Object) | Object;
 
-export type ThemeGeneratorState = {
-  calculatedTheme: object
-};
-
-interface ThemeGeneratorProps {
-  render: (state: ThemeGeneratorState) => React.ReactElement<any>;
-  theme?: Theme;
+interface ThemeGeneratorState {
+  calculatedTheme: object;
 }
 
 interface ThemedComponentProps {
@@ -19,17 +14,18 @@ interface ThemedComponentProps {
   [propName: string]: any;
 }
 
-class ThemeGenerator extends React.PureComponent<ThemeGeneratorProps, ThemeGeneratorState> {
+export class ThemedComponent extends React.PureComponent<ThemedComponentProps, ThemeGeneratorState> {
   constructor(props) {
     super(props);
-    const {render, theme, ...propsForTheme} = props;
+    const {children, theme, ...propsForTheme} = props;
     this.state = {calculatedTheme: getTheme(theme, propsForTheme)};
   }
 
   componentWillReceiveProps(nextProps) {
-    const {render, theme, ...propsForTheme} = nextProps;
+    const {children, theme, ...propsForTheme} = nextProps;
 
     const changedProps = pickBy(propsForTheme, (value, key) => this.props[key] !== value);
+
     if (Object.keys(changedProps).length > 0) {
       this.setState({calculatedTheme: getTheme(theme, propsForTheme)});
     }
@@ -37,22 +33,9 @@ class ThemeGenerator extends React.PureComponent<ThemeGeneratorProps, ThemeGener
 
   render() {
     const {calculatedTheme} = this.state;
-    return this.props.render({calculatedTheme});
+    return React.cloneElement(this.props.children, {theme: calculatedTheme});
   }
 }
-
-export const ThemedComponent: React.SFC<ThemedComponentProps> = ({children, theme, ...propsForTheme}) => (
-  <ThemeGenerator
-    theme={theme}
-    render={({calculatedTheme}) => React.cloneElement(children, {theme: calculatedTheme})}
-    {...propsForTheme}
-    />
-);
-
-ThemedComponent.defaultProps = {
-  children: null,
-  theme: () => ({})
-};
 
 function getTheme(theme: Theme, params?: object): object {
   return typeof theme === 'function' ? theme(params) : theme;
