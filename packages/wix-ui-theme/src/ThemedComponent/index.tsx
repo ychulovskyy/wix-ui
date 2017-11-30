@@ -4,7 +4,7 @@ import {ReactElement} from 'react';
 
 export type Theme = ((props: any) => Object) | Object;
 
-interface ThemeGeneratorState {
+interface ThemedComponentState {
   calculatedTheme: object;
 }
 
@@ -14,7 +14,7 @@ interface ThemedComponentProps {
   [propName: string]: any;
 }
 
-export class ThemedComponent extends React.PureComponent<ThemedComponentProps, ThemeGeneratorState> {
+export class ThemedComponent extends React.PureComponent<ThemedComponentProps, ThemedComponentState> {
   constructor(props) {
     super(props);
     const {children, theme, ...propsForTheme} = props;
