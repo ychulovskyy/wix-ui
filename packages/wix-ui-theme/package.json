@@ -1,8 +1,8 @@
 {
+  "private": false,
   "name": "wix-ui-theme",
   "version": "1.0.0",
   "description": "Enhance the wix-ui-core component with a custom theme",
-  "private": false,
   "author": {
     "name": "Lior Belinsky",
     "email": "liorbe@wix.com"
@@ -27,7 +27,7 @@
     "release": "yoshi release",
     "lint": "yoshi lint"
   },
-  "license": "MIT",  
+  "license": "MIT",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -55,9 +55,6 @@
   "jest": {
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "moduleNameMapper": {
-      "\\.(css|less|scss)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
       "ts",
