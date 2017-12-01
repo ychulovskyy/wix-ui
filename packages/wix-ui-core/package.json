@@ -52,7 +52,7 @@
     "express": "^4.13.4",
     "gh-pages-auto-release": "^1.1.2",
     "identity-obj-proxy": "^3.0.0",
-    "import-path": "^0.0.5",
+    "import-path": "^0.0.7",
     "prop-types": "^15.5.4",
     "react": "^15.5.0",
     "react-dom": "^15.5.0",
