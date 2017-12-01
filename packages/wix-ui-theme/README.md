@@ -73,7 +73,7 @@ export const ThemedButton = ({theme, ...coreProps}) => (
 
 `coreProps`: The props for the core component.
 
-This will result with a new component which has it's own style.
+This will result in a new component which has it's own style.
 The styles will be generated from the custom theme you need to write.
 
 ### Conditional Theme
@@ -103,8 +103,8 @@ All of that is being taken care of by the `ThemedComponent` component which expe
 Here is an example of how to implement a themed Button component properly:
 
 ```javascript
-import CoreButton from 'wix-style-react/Button';
-import {ThemedComponent} from 'wix-style-react/theme';
+import CoreButton from 'wix-ui-core/Button';
+import {ThemedComponent} from 'wix-ui-theme';
 
 const theme = ({height, skin}) => ({
   fontSize: height === 'small' ? '14px' : '20px',
@@ -123,3 +123,5 @@ export const Button = ({height, skin, ...coreProps}) => (
   </ThemedComponent>
 );
 ```
+
+
