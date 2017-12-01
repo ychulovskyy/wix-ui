@@ -10,14 +10,17 @@
   },
   "main": "./dist/src/index.js",
   "files": [
-    "dist"
+    "dist",
+    "*.js",
+    "!wallaby.js",
+    "!protractor.conf.js"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wix/wix-ui.git"
   },
   "scripts": {
-    "build": "yoshi build && import-path --package wix-ui-core --path src/components",
+    "build": "yoshi build && import-path --path src/components",
     "pretest": "yoshi build && build-storybook",
     "test": "yoshi test --jest && yoshi test --protractor",
     "posttest": "yoshi lint",
@@ -49,7 +52,7 @@
     "express": "^4.13.4",
     "gh-pages-auto-release": "^1.1.2",
     "identity-obj-proxy": "^3.0.0",
-    "import-path": "0.0.5",
+    "import-path": "^0.0.5",
     "prop-types": "^15.5.4",
     "react": "^15.5.0",
     "react-dom": "^15.5.0",
