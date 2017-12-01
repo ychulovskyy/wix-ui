@@ -1,4 +1,4 @@
-import {pallete} from '../../pallete';
+import {palette} from '../../palette';
 
 export const core = {
   fontFamily: `"HelveticaNeueW01-45Ligh", "HelveticaNeueW02-45Ligh", "HelveticaNeueW10-45Ligh", "Helvetica Neue", "Helvetica", "Arial", "メイリオ, meiryo", "ヒラギノ角ゴ pro w3", "hiragino kaku gothic pro", "sans-serif"`,
@@ -11,20 +11,20 @@ export const core = {
   height: '36px',
   padding: '0 23px',
 
-  color: pallete.black,
-  backgroundColor: pallete.grey,
-  borderColor: pallete.black,
+  color: palette.black,
+  backgroundColor: palette.grey,
+  borderColor: palette.black,
   borderRadius: '0',
 
   hover: {
-    color: pallete.black,
-    backgroundColor: pallete.grey,
-    borderColor: pallete.black
+    color: palette.black,
+    backgroundColor: palette.grey,
+    borderColor: palette.black
   },
 
   disabled: {
-    color: pallete.black,
-    backgroundColor: pallete.grey,
-    borderColor: pallete.black
+    color: palette.black,
+    backgroundColor: palette.grey,
+    borderColor: palette.black
   }
 };

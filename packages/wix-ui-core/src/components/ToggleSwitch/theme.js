@@ -1,4 +1,4 @@
-import {pallete} from '../../pallete';
+import {palette} from '../../palette';
 
 export const core = {
   transitionSpeed: '.3s',
@@ -10,18 +10,18 @@ export const core = {
 
   innerLabelWidth: '21px',
   innerLabelHeight: '22px',
-  innerLabelBackgroundColor: pallete.white,
+  innerLabelBackgroundColor: palette.white,
 
-  backgroundColor: pallete.grey,
-  backgroundColorChecked: pallete.grey,
-  backgroundColorDisabled: pallete.disabledButton,
-  backgroundColorHover: pallete.grey,
+  backgroundColor: palette.grey,
+  backgroundColorChecked: palette.grey,
+  backgroundColorDisabled: palette.disabledButton,
+  backgroundColorHover: palette.grey,
 
-  color: pallete.white,
-  colorChecked: pallete.white,
-  colorDisabled: pallete.white,
-  colorCheckedDisabled: pallete.white,
-  colorHover: pallete.white,
+  color: palette.white,
+  colorChecked: palette.white,
+  colorDisabled: palette.white,
+  colorCheckedDisabled: palette.white,
+  colorHover: palette.white,
 
   toggleIconWidth: '8px',
   toggleIconHeight: '6px',
