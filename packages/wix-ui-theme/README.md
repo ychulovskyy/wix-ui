@@ -27,7 +27,6 @@ Why not simply do the following:
 
 ```javascript
 import CoreButton from 'wix-ui-core/Button';
-import {ThemedComponent} from 'wix-ui-theme';
 
 const theme = {
   color: 'green',
