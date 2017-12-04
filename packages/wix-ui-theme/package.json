@@ -20,12 +20,11 @@
     "url": "git+ssh://git@github.com/wix/wix-ui.git"
   },
   "scripts": {
-    "start": "yoshi start",
-    "pretest": "yoshi build",
-    "test": "yoshi test --jest",
-    "posttest": "yoshi lint",
-    "release": "yoshi release",
-    "lint": "yoshi lint"
+    "start": "haste start",
+    "pretest": "haste build",
+    "test": "haste test --jest",
+    "release": "haste release",
+    "lint": "haste lint"
   },
   "license": "MIT",
   "publishConfig": {
@@ -39,7 +38,8 @@
     "react-test-renderer": "~15.6.0",
     "ts-jest": "^21.2.3",
     "typescript": "~2.4.0",
-    "yoshi": "latest"
+    "haste-preset-yoshi": "latest",
+    "haste-cli": "~0.1.16"
   },
   "dependencies": {
     "lodash.pickby": "^4.6.0",
@@ -67,5 +67,8 @@
     ],
     "testRegex": "/src/.*\\.spec\\.(ts|tsx)$",
     "setupTestFrameworkScriptFile": "<rootDir>/jest-setup"
+  },
+  "haste": {
+    "preset": "yoshi"
   }
 }
