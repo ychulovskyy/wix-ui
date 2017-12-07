@@ -1,6 +1,34 @@
 import {palette} from '../../palette';
 
-export const core = {
+export type ToggleSwitchTheme = {
+  transitionSpeed?: string;
+  borderRadius?: string;
+  labelMovementRange?: string;
+
+  outerLabelWidth?: string;
+  outerLabelHeight?: string;
+
+  innerLabelWidth?: string;
+  innerLabelHeight?: string;
+  innerLabelBackgroundColor?: string;
+
+  backgroundColor?: string;
+  backgroundColorChecked?: string;
+  backgroundColorDisabled?: string;
+  backgroundColorHover?: string;
+
+  color?: string;
+  colorChecked?: string;
+  colorDisabled?: string;
+  colorCheckedDisabled?: string;
+  colorHover?: string;
+
+  toggleIconWidth?: string;
+  toggleIconHeight?: string;
+  toggleIconDisplay?: string;
+};
+
+export const core: ToggleSwitchTheme = {
   transitionSpeed: '.3s',
   borderRadius: '50px',
   labelMovementRange: '23px',

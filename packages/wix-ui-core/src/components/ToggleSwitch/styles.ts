@@ -1,8 +1,8 @@
-import {core} from './theme';
-import defaultsDeep from 'lodash/defaultsDeep';
+import {core, ToggleSwitchTheme} from './theme';
+import * as defaultsDeep from 'lodash/defaultsDeep';
 
-export const styles = theme => {
-  theme = defaultsDeep(theme, core);
+export const styles = (theme: ToggleSwitchTheme) => {
+  theme = (defaultsDeep(theme, core) as ToggleSwitchTheme);
 
   return {
     root: {

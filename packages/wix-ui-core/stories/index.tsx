@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {storiesOf} from '@storybook/react';
 import ToggleSwitch from '../src/components/ToggleSwitch';
 import Button from '../src/components/Button';

@@ -1,8 +1,8 @@
-import {core} from './theme';
-import defaultsDeep from 'lodash/defaultsDeep';
+import {core, ButtonTheme} from './theme';
+import * as defaultsDeep from 'lodash/defaultsDeep';
 
-export const styles = theme => {
-  theme = defaultsDeep(theme, core);
+export const styles = (theme: ButtonTheme) => {
+  theme = (defaultsDeep(theme, core) as ButtonTheme);
 
   return {
     button: {
