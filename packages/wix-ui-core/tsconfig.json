@@ -10,8 +10,8 @@
     "lib": ["dom", "es2016"]
   },
   "include": [
-    "./src/**/*.tsx",
-    "./test/**/*.tsx"
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
   ],
   "files": [
     "./src/index.ts"
