@@ -1,19 +1,26 @@
-import React from 'react';
-import {string, func} from 'prop-types';
+import * as React from 'react';
 
-export const isClassExists = (element, className) =>
-!!element && !!element.className.match(new RegExp('\\b' + className + '\\b'));
+interface ControlledComponentState {
+  value: string;
+}
+
+interface ControlledComponentProps {
+  value?: string;
+  onChange?: (e: Event) => void;
+  [otherProps: string]: any;
+}
+
+export const isClassExists = (element: HTMLElement, className: String): Boolean =>
+  !!element && !!element.className.match(new RegExp('\\b' + className + '\\b'));
 
 // HOC that makes underlying component "controlled"
 export function makeControlled(Component) {
-  return class ControlledComponent extends React.Component {
+  return class ControlledComponent extends React.Component<ControlledComponentProps, ControlledComponentState> {
     static displayName = `Controlled${Component.name}`;
-    static propTypes = {
-      value: string,
-      onChange: func
-    };
 
-    static defaultProps = {value: ''};
+    static defaultProps = {
+      value: ''
+    };
 
     constructor(props) {
       super(props);
@@ -30,7 +37,7 @@ export function makeControlled(Component) {
       });
 
       onChange && onChange(e);
-    };
+    }
 
     render() {
       const bindedPropMethods = {};
@@ -39,7 +46,7 @@ export function makeControlled(Component) {
         const propValue = this.props[propName];
 
         if (typeof propValue === 'function') {
-          bindedPropMethods[propName] = this.props[propName].bind(this);  // eslint-disable-line react/jsx-no-bind
+          bindedPropMethods[propName] = this.props[propName].bind(this);
         }
       }
 
@@ -49,7 +56,7 @@ export function makeControlled(Component) {
           {...bindedPropMethods}
           value={this.state.value}
           onChange={this._onChange}
-          />
+        />
       );
     }
   };
