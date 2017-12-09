@@ -9,7 +9,7 @@ const atachStyleSheetToDom = (styles, componentId) => {
   const newSheet = jss.createStyleSheet(styles);
 
   if (sheetMapper[componentId]) {
-    sheetManager.unmanage(sheetMapper[componentId]);
+    detachStyleSheetFromDom(componentId);
   }
 
   sheetMapper[componentId] = styles;
@@ -25,7 +25,7 @@ export const generateClasses = (styles, componentId) => {
   return classes;
 };
 
-export const detachStyleSheetFromDom = componentId => {
+export function detachStyleSheetFromDom(componentId) {
   sheetManager.unmanage(sheetMapper[componentId]);
   delete sheetMapper[componentId];
-};
+}
