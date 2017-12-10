@@ -6,7 +6,7 @@ A set of fully functional components with a basic styling that can easily be the
  This library is called `wix-ui-core`.
 
 ## Theme Library
-A set of components and styles that havae a common look a behavior and serves the same usage.
+A set of components and styles that have a common look and behavior that serves the same usage.
 For example, a backoffice application will use a library called `wix-ui-backoffice`.
 
 The library will usually use the wix-ui-core components and wrap it with some custom styles.
