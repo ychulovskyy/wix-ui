@@ -6,7 +6,8 @@
   "license": "MIT",
   "files": [
     "dist",
-    "*.js"
+    "*.js",
+    "src/AutoExample/protractor.driver.js"
   ],
   "bugs": {
     "url": "https://github.com/wix/wix-ui/issues"
