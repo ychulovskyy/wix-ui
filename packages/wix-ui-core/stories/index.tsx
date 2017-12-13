@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {storiesOf} from '@storybook/react';
 import ToggleSwitch from '../src/components/ToggleSwitch';
+import Text from '../src/components/Text';
 import Button from '../src/components/Button';
 import Input from '../src/components/Input';
 
@@ -13,4 +14,9 @@ storiesOf('Components', module)
   ))
   .add('ToggleSwitch', () => (
     <ToggleSwitch/>
+  ))
+  .add('Text', () => (
+    <Text ellipsis>
+        Hello World
+    </Text>
   ));
