@@ -51,7 +51,7 @@
     "enzyme": "^2.3.0",
     "eyes.it": "^2.0.1",
     "gh-pages-auto-release": "^1.1.2",
-    "haste-preset-yoshi": "^1.0.10",
+    "haste-preset-yoshi": "latest",
     "import-path": "^0.0.7",
     "prop-types": "^15.6.0",
     "react": "^15.5.0",
@@ -59,7 +59,7 @@
     "react-test-renderer": "^15.5.4",
     "ts-jest": "^21.2.4",
     "typescript": "^2.6.2",
-    "wix-ui-test-utils": "^1.0.15"
+    "wix-ui-test-utils": "^1.0.0"
   },
   "babel": {
     "presets": [
