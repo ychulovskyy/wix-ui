@@ -4,12 +4,17 @@ import * as defaultsDeep from 'lodash/defaultsDeep';
 export const styles = (theme: VBoxTheme) => {
   theme = (defaultsDeep(theme, core) as VBoxTheme);
 
+  const alignmentMap = {
+    left: 'flex-start',
+    center: 'center',
+    right: 'flex-end'
+  };
+
   return {
-    root: {
+    boxRoot: {
       display: 'flex',
       flexDirection: 'column',
-      textAlign: `-webkit-${theme.horizontalAlignment}`,
-      margin: '0 auto',
+      alignItems: alignmentMap[theme.horizontalAlignment],
       width: theme.width,
       height: theme.height,
       '& *:not(:last-child)': {
