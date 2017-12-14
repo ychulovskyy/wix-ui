@@ -11,7 +11,7 @@ export const styles = (theme: HBoxTheme) => {
   };
 
   return {
-    boxRoot: {
+    hRoot: {
       display: 'flex',
       alignItems: alignmentMap[theme.verticalAlignment],
       height: theme.height,

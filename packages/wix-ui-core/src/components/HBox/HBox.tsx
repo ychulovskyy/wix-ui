@@ -4,7 +4,7 @@ import {createHOC} from '../../createHOC';
 interface HBoxProps {
   children: any;
   classes: {
-    boxRoot: string
+    hRoot: string
   };
 }
 
@@ -12,7 +12,7 @@ class HBox extends React.PureComponent<HBoxProps> {
   render() {
     const {children, classes} = this.props;
     return (
-      <div className={classes.boxRoot}>{children}</div>
+      <div className={classes.hRoot}>{children}</div>
     );
   }
 }

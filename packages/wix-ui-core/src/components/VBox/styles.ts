@@ -11,7 +11,7 @@ export const styles = (theme: VBoxTheme) => {
   };
 
   return {
-    boxRoot: {
+    vRoot: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: alignmentMap[theme.horizontalAlignment],
