@@ -4,6 +4,8 @@ import ToggleSwitch from '../src/components/ToggleSwitch';
 import Text from '../src/components/Text';
 import Button from '../src/components/Button';
 import Input from '../src/components/Input';
+import VBox from '../src/components/VBox';
+import HBox from '../src/components/HBox';
 
 storiesOf('Components', module)
   .add('Button', () => (
@@ -19,4 +21,18 @@ storiesOf('Components', module)
     <Text ellipsis>
         Hello World
     </Text>
+  ))
+  .add('VBox', () => (
+    <VBox>
+        <div>a</div>
+        <div>b</div>
+        <div>c</div>
+    </VBox>
+  ))
+  .add('HBox', () => (
+    <HBox>
+        <div>a</div>
+        <div>b</div>
+        <div>c</div>
+    </HBox>
   ));
