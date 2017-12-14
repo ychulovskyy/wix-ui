@@ -17,7 +17,7 @@ export const styles = (theme: VBoxTheme) => {
       alignItems: alignmentMap[theme.horizontalAlignment],
       width: theme.width,
       height: theme.height,
-      '& *:not(:last-child)': {
+      '& >:not(:last-child)': {
         marginBottom: theme.spacing
       }
     }
