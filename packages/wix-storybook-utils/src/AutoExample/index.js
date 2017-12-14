@@ -178,6 +178,7 @@ export default class extends Component {
 
   controllableComponentGetters = {
     string: () => <Input/>,
+    number: () => <Input/>,
     bool: () => <Toggle/>,
 
     enum: ({type}) =>
