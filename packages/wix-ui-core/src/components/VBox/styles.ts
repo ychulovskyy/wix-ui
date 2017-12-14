@@ -15,8 +15,8 @@ export const styles = (theme: VBoxTheme) => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: alignmentMap[theme.horizontalAlignment],
-      width: theme.width,
-      height: theme.height,
+      width: '100%',
+      height: '100%',
       '& >:not(:last-child)': {
         marginBottom: theme.spacing
       }

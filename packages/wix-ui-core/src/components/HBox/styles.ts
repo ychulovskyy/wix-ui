@@ -14,8 +14,8 @@ export const styles = (theme: HBoxTheme) => {
     hRoot: {
       display: 'flex',
       alignItems: alignmentMap[theme.verticalAlignment],
-      height: theme.height,
-      width: theme.width,
+      height: '100%',
+      width: '100%',
       '& >:not(:last-child)': {
         marginRight: theme.spacing
       }
