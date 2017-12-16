@@ -7,14 +7,21 @@ export class DomTestkit {
     this.componentId = componentId;
   }
 
-  getParsedCss(styleElement) {
+  private getParsedCss(styleElement) {
     const styleElementContent = styleElement.innerHTML;
     return css.parse(styleElementContent);
   }
 
+  getStyleElementByComponentId(componentId) {
+    if (!sheetMapper[componentId]) {
+      throw 'DomStyleRenderer(getStyleElementByComponentId): componentId doesn\'t exists';
+    }
+    return sheetMapper[componentId].styleElement;
+  }
+
   getCssValue({className, property}): string {
     const selector = `.${className}`;
-    const styleElemet = getStyleElementByComponentId(this.componentId);
+    const styleElemet = this.getStyleElementByComponentId(this.componentId);
     const parsedCss = this.getParsedCss(styleElemet);
 
     const rule = parsedCss.stylesheet.rules.find(ruleItem =>
@@ -25,11 +32,4 @@ export class DomTestkit {
 
     return declarationFound.value;
   }
-}
-
-export function getStyleElementByComponentId(componentId) {
-  if (!sheetMapper[componentId]) {
-    throw 'DomStyleRenderer(getStyleElementByComponentId): componentId doesn\'t exists';
-  }
-  return sheetMapper[componentId].styleElement;
 }

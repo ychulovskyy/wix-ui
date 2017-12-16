@@ -2,7 +2,6 @@ import * as React from 'react';
 import {mount} from 'enzyme';
 import {withClasses} from '../src/';
 import {DomTestkit} from '../testkit/domTestkit';
-import {sheetMapper} from '../src/domStyleRenderer';
 
 type Classes = {classes: {someClass: string}};
 
@@ -16,73 +15,78 @@ const Component: React.SFC<Classes> = ({classes, children}) => <div className={c
 
 const StyledComponent = withClasses(Component, styles);
 
+const render = (Comp: any) => mount(Comp, {attachTo: document.createElement('div')});
+
+const getJssStyleElement = () => {
+  const styleElement = document.querySelector('style');
+  return styleElement && styleElement.hasAttribute('data-jss') ? styleElement : undefined;
+};
+
 describe('withClasses', () => {
   let wrapper;
 
-  afterEach(() => {
-    wrapper.detach();
-  });
+  afterEach(() => wrapper.detach());
 
   it('should pass classes prop to the rendered component', () => {
-    wrapper = mount(<StyledComponent/>, {attachTo: document.createElement('div')});
+    wrapper = render(<StyledComponent/>);
     expect(wrapper.html()).toBe('<div class="someClass"></div>');
   });
 
   it('should preserve the component original props', () => {
-    wrapper = mount(<StyledComponent>Hello</StyledComponent>, {attachTo: document.createElement('div')});
-    expect(wrapper.html()).toContain('Hello');
+    wrapper = render(<StyledComponent>Hello</StyledComponent>);
+    expect(wrapper.prop('children')).toBe('Hello');
   });
 
-  it('should set an id for the componet', () => {
-    wrapper = mount(<StyledComponent/>, {attachTo: document.createElement('div')});
-    expect(wrapper.node.id).not.toBe(undefined);
+  it('should set an id for the componet and map it to the style element in the dom', () => {
+    wrapper = render(<StyledComponent/>);
+    const domTestkit = new DomTestkit({componentId: wrapper.node.id});
+
+    expect(wrapper.node.id).toBeDefined();
+    expect(domTestkit.getStyleElementByComponentId(wrapper.node.id)).toBe(getJssStyleElement());
   });
 
-  it('should inject style tag to the DOM', () => {
-    wrapper = mount(<StyledComponent/>, {attachTo: document.createElement('div')});
+  it('should inject the correct style tag to the DOM', () => {
+    wrapper = render(<StyledComponent/>);
     const domTestkit = new DomTestkit({componentId: wrapper.node.id});
     expect(domTestkit.getCssValue({className: 'someClass', property: 'color'})).toBe('green');
   });
 
   it('should calculate the style with respect to the theme prop', () => {
-    wrapper = mount(<StyledComponent theme={{color: 'blue'}}/>, {attachTo: document.createElement('div')});
+    wrapper = render(<StyledComponent theme={{color: 'blue'}}/>);
     const domTestkit = new DomTestkit({componentId: wrapper.node.id});
     expect(domTestkit.getCssValue({className: 'someClass', property: 'color'})).toBe('blue');
   });
 
-  it('should update the style tag when the theme changes', () => {
-    wrapper = mount(<StyledComponent theme={{color: 'blue'}}/>, {attachTo: document.createElement('div')});
+  it('should update the style element when the theme changes, and remove the old style element', () => {
+    wrapper = render(<StyledComponent theme={{color: 'blue'}}/>);
     const domTestkit = new DomTestkit({componentId: wrapper.node.id});
-    const {styleElement} = sheetMapper[wrapper.node.id];
+    const styleElementBefore = domTestkit.getStyleElementByComponentId(wrapper.node.id);
+    const numberOfDomStyleElements = document.querySelectorAll('style').length;
 
     wrapper.setProps({theme: {color: 'yellow'}});
-    expect(styleElement).not.toBe(sheetMapper[wrapper.node.id].styleElement);
+    const styleElementAfter = domTestkit.getStyleElementByComponentId(wrapper.node.id);
+    const updatedNumberOfDomStyleElements = document.querySelectorAll('style').length;
+
+    expect(numberOfDomStyleElements).toBe(updatedNumberOfDomStyleElements);
+    expect(styleElementBefore).not.toBe(styleElementAfter);
     expect(domTestkit.getCssValue({className: 'someClass', property: 'color'})).toBe('yellow');
   });
 
   it('should not update the style tag when the component re-renders not due to a theme changes', () => {
-    wrapper = mount(<StyledComponent theme={{color: 'blue'}}/>, {attachTo: document.createElement('div')});
+    wrapper = render(<StyledComponent theme={{color: 'blue'}}/>);
     const domTestkit = new DomTestkit({componentId: wrapper.node.id});
-    const {styleElement} = sheetMapper[wrapper.node.id];
+    const styleElementBefore = domTestkit.getStyleElementByComponentId(wrapper.node.id);
 
     wrapper.setProps();
-    expect(styleElement).toBe(sheetMapper[wrapper.node.id].styleElement);
+    const styleElementAfter = domTestkit.getStyleElementByComponentId(wrapper.node.id);
+    expect(styleElementBefore).toBe(styleElementAfter);
     expect(domTestkit.getCssValue({className: 'someClass', property: 'color'})).toBe('blue');
-  });
-
-  it('should remove the old style element and replace it with a new one when style should get updated', () => {
-    wrapper = mount(<StyledComponent theme={{color: 'blue'}}/>, {attachTo: document.createElement('div')});
-    const numberOfDomStyleElements = document.querySelectorAll('style').length;
-
-    wrapper.setProps({theme: {color: 'yellow'}});
-    const updatedNumberOfDomStyleElements = document.querySelectorAll('style').length;
-    expect(numberOfDomStyleElements).toBe(updatedNumberOfDomStyleElements);
   });
 });
 
 it('should remove the style tag after component unmounts', () => {
-  const wrapper = mount(<StyledComponent/>, {attachTo: document.createElement('div')});
-  expect(document.querySelector('style').type).toBe('text/css');
+  const wrapper = render(<StyledComponent/>);
+  expect(getJssStyleElement()).toBeDefined();
   wrapper.detach();
-  expect(document.querySelector('style')).toBeNull;
+  expect(getJssStyleElement()).toBeUndefined();
 });
