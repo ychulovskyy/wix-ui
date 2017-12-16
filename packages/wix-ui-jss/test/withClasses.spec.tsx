@@ -36,7 +36,7 @@ describe('withClasses', () => {
     wrapper = mount(<StyledComponent/>, {attachTo: document.createElement('div')});
     expect(wrapper.node.id).not.toBe(undefined);
   });
-  
+
   it('should inject style tag to the DOM', () => {
     wrapper = mount(<StyledComponent/>, {attachTo: document.createElement('div')});
     const domTestDriver = new DomTestDriver({componentId: wrapper.node.id});
@@ -60,7 +60,7 @@ describe('withClasses', () => {
 it('should remove the style tag after component unmounts', () => {
   const wrapper = mount(<StyledComponent/>, {attachTo: document.createElement('div')});
   expect(document.querySelector('style').type).toBe('text/css');
-  
+
   wrapper.detach();
   expect(document.querySelector('style')).toBe(null);
 });
