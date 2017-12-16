@@ -10,8 +10,8 @@ if (process.env.NODE_ENV !== 'production') {
     }
   });
 }
-const sheetManager = new SheetsManager();
-const sheetMapper = {};
+export const sheetManager = new SheetsManager();
+export const sheetMapper = {};
 
 const atachStyleSheetToDom = (styles, componentId) => {
   const newSheet = jss.createStyleSheet(styles);
@@ -39,11 +39,4 @@ export const generateClasses = (styles, componentId) => {
 export function detachStyleSheetFromDom(componentId) {
   sheetManager.unmanage(sheetMapper[componentId].styles);
   delete sheetMapper[componentId];
-}
-
-export function getStyleElementByComponentId(componentId) {
-  if (!sheetMapper[componentId]) {
-    throw 'DomStyleRenderer(getStyleElementByComponentId): componentId doesn\'t exists';
-  }
-  return sheetMapper[componentId].styleElement;
 }

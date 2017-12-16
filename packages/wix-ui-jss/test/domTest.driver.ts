@@ -1,4 +1,4 @@
-import {getStyleElementByComponentId} from '../src/domStyleRenderer';
+import {sheetMapper} from '../src/domStyleRenderer';
 import * as css from 'css';
 
 export class DomTestDriver {
@@ -25,4 +25,11 @@ export class DomTestDriver {
 
     return declarationFound.value;
   }
+}
+
+export function getStyleElementByComponentId(componentId) {
+  if (!sheetMapper[componentId]) {
+    throw 'DomStyleRenderer(getStyleElementByComponentId): componentId doesn\'t exists';
+  }
+  return sheetMapper[componentId].styleElement;
 }
