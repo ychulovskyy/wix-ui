@@ -23,6 +23,7 @@
     "build": "haste build",
     "pretest": "npm run build",
     "test": "haste test --jest",
+    "posttest": "haste lint",
     "test:watch": "haste test --jest --watch",
     "start": "haste start --no-test",
     "release": "haste release"
