@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "wix-ui-jss",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Render style tags to the Dom and provide the relevant classes to the wix-ui-core components, using jss",
   "author": {
     "name": "Lior Belinsky",
@@ -13,14 +13,16 @@
   "homepage": "https://github.com/wix/wix-ui#readme",
   "main": "./dist/src/index.js",
   "files": [
-    "dist"
+    "dist",
+    "*.js",
+    "!wallaby.js"
   ],
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/wix/wix-ui.git"
   },
   "scripts": {
-    "build": "haste build",
+    "build": "haste build && import-path --path testkit",
     "pretest": "npm run build",
     "test": "haste test --jest",
     "posttest": "haste lint",
@@ -37,10 +39,11 @@
     "@types/react": "~15.6.0",
     "@types/react-dom": "~15.5.0",
     "enzyme": "~2.9.0",
+    "haste-preset-yoshi": "latest",
+    "import-path": "0.0.13",
     "react-test-renderer": "~15.6.0",
     "ts-jest": "^21.2.3",
-    "typescript": "~2.4.0",
-    "haste-preset-yoshi": "latest"
+    "typescript": "~2.4.0"
   },
   "dependencies": {
     "jss": "^9.3.3",

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {mount} from 'enzyme';
-import {withClasses} from '../src';
-import {DomTestDriver} from './domTest.driver';
+import {withClasses} from '../src/';
+import {DomTestkit} from '../testkit/domTestkit';
 import {sheetMapper} from '../src/domStyleRenderer';
 
 type Classes = {classes: {someClass: string}};
@@ -40,34 +40,34 @@ describe('withClasses', () => {
 
   it('should inject style tag to the DOM', () => {
     wrapper = mount(<StyledComponent/>, {attachTo: document.createElement('div')});
-    const domTestDriver = new DomTestDriver({componentId: wrapper.node.id});
-    expect(domTestDriver.getCssValue({className: 'someClass', property: 'color'})).toBe('green');
+    const domTestkit = new DomTestkit({componentId: wrapper.node.id});
+    expect(domTestkit.getCssValue({className: 'someClass', property: 'color'})).toBe('green');
   });
 
   it('should calculate the style with respect to the theme prop', () => {
     wrapper = mount(<StyledComponent theme={{color: 'blue'}}/>, {attachTo: document.createElement('div')});
-    const domTestDriver = new DomTestDriver({componentId: wrapper.node.id});
-    expect(domTestDriver.getCssValue({className: 'someClass', property: 'color'})).toBe('blue');
+    const domTestkit = new DomTestkit({componentId: wrapper.node.id});
+    expect(domTestkit.getCssValue({className: 'someClass', property: 'color'})).toBe('blue');
   });
 
   it('should update the style tag when the theme changes', () => {
     wrapper = mount(<StyledComponent theme={{color: 'blue'}}/>, {attachTo: document.createElement('div')});
-    const domTestDriver = new DomTestDriver({componentId: wrapper.node.id});
+    const domTestkit = new DomTestkit({componentId: wrapper.node.id});
     const {styleElement} = sheetMapper[wrapper.node.id];
 
     wrapper.setProps({theme: {color: 'yellow'}});
     expect(styleElement).not.toBe(sheetMapper[wrapper.node.id].styleElement);
-    expect(domTestDriver.getCssValue({className: 'someClass', property: 'color'})).toBe('yellow');
+    expect(domTestkit.getCssValue({className: 'someClass', property: 'color'})).toBe('yellow');
   });
 
   it('should not update the style tag when the component re-renders not due to a theme changes', () => {
     wrapper = mount(<StyledComponent theme={{color: 'blue'}}/>, {attachTo: document.createElement('div')});
-    const domTestDriver = new DomTestDriver({componentId: wrapper.node.id});
+    const domTestkit = new DomTestkit({componentId: wrapper.node.id});
     const {styleElement} = sheetMapper[wrapper.node.id];
 
     wrapper.setProps();
     expect(styleElement).toBe(sheetMapper[wrapper.node.id].styleElement);
-    expect(domTestDriver.getCssValue({className: 'someClass', property: 'color'})).toBe('blue');
+    expect(domTestkit.getCssValue({className: 'someClass', property: 'color'})).toBe('blue');
   });
 
   it('should remove the old style element and replace it with a new one when style should get updated', () => {
