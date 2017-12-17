@@ -9,7 +9,8 @@
   "scripts": {
     "test": "lerna run test --parallel false --concurrency 1",
     "bootstrap": "lerna bootstrap",
-    "build": "lerna run build"
+    "build": "lerna run build",
+    "clean": "lerna clean --yes"
   },
   "repository": {
     "type": "git",
