@@ -8,7 +8,7 @@ export default class AutoTestKit extends Component {
     source: PropTypes.object.isRequired
   };
 
-  isFunction = data => data.type && data.type === 'function';
+  isFunction = data => data && isPlainObject(data) && data.type && data.type === 'function';
 
   isMethodContainer = data =>
     !this.isFunction(data) && isPlainObject(data) &&

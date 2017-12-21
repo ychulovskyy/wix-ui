@@ -13,13 +13,13 @@ class DriverParser {
    */
   constructor(files) {
     this.files = files;
-    const fileContents = files[files.entry];
-    this.ast = parse(fileContents);
   }
 
   parse() {
-    const topParentScope = new GlobalScope(this.ast.program.body, this.files);
-    return this.parseDefaultExport(topParentScope);
+    const fileContents = this.files[this.files.entry];
+    this.ast = parse(fileContents);
+    this.topParentScope = new GlobalScope(this.ast.program.body, this.files);
+    return this.parseDefaultExport(this.topParentScope);
   }
 
   _parseDeclaration(scope, declaration, comments) {
@@ -29,6 +29,12 @@ class DriverParser {
     const {type} = declaration;
     let returnValue = null;
     switch (type) {
+      case 'CallExpression':
+        {
+          const returnData = scope.getIdentifierValue(declaration.callee.name);
+          returnValue = this._parseDeclaration(returnData.scope, returnData.identifierValue);
+        }
+        break;
       case 'ArrowFunctionExpression':
         returnValue = this._parseArrowFunctionExpression(declaration, scope);
         break;
@@ -41,6 +47,9 @@ class DriverParser {
           returnValue = this._parseDeclaration(returnData.scope, returnData.identifierValue);
         }
         break;
+      case 'FunctionExpression':
+        // TODO: support non-arrow function syntax (e.g. DropDownLayout.driver, see optionById method)
+        return null;
       case 'UnaryExpression':
       case 'LogicalExpression':
         // TODO: Do something smart if possible
@@ -51,10 +60,6 @@ class DriverParser {
 
     if (comments) {
       returnValue.description = this._commentsToDescription(comments);
-    }
-
-    if (this.files.origin !== this.files.entry) {
-      returnValue.origin = this.files.entry;
     }
 
     return returnValue;
@@ -79,6 +84,14 @@ class DriverParser {
     }, '');
   }
 
+  _getGlobalScope(scope) {
+    if (scope.files) {
+      return scope;
+    } else if (scope.parentScope) {
+      return this._getGlobalScope(scope.parentScope);
+    }
+  }
+
   _parseArrowFunctionExpression(declaration, scope) {
     const functionScope = new FunctionScope(declaration, scope);
     const arrParams = functionScope.getParams();
@@ -89,6 +102,12 @@ class DriverParser {
       description: declaration.description,
       params: arrParams
     };
+
+    const globalScope = this._getGlobalScope(scope);
+    if (globalScope && globalScope.files.entry !== globalScope.files.origin) {
+      returnValue.origin = globalScope.files.entry;
+    }
+
     if (functionReturnValue) {
       returnValue.returns = this._parseDeclaration(functionScope, functionReturnValue);
     }
@@ -106,7 +125,17 @@ class DriverParser {
             this._parseDeclaration(scope, property.value, property.leadingComments);
           break;
         case 'SpreadProperty':
-          // TODO: handle property spread
+          {
+            const propertyToSpread = this._parseDeclaration(scope, property.argument);
+
+            // Flaten imported methods
+            if (propertyToSpread && propertyToSpread.returns) {
+              Object.keys(propertyToSpread.returns).forEach(methodName => {
+                returnObject[methodName] = propertyToSpread.returns[methodName];
+              });
+            }
+            // TODO: also flaten locally defined method container?
+          }
           break;
         default: break;
       }
