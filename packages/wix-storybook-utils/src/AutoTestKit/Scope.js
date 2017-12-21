@@ -37,6 +37,8 @@ class Scope {
       case 'ImportDeclaration':
         identifierValue = this._getIdentifierValueFromImport(name, declaration);
         break;
+      case 'ExportDefaultDeclaration':
+        break;
       default:
         throw new Error(`Unknown declaration ${type}`);
     }

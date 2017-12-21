@@ -1,3 +1,5 @@
+import dropdownLayoutDriverFactory from '../DropdownLayout.driver'
+
 const IconWithOptionsDriverFactory = ({element, wrapper}) => {
   const iconWrapper = element.querySelector('[data-hook=icon-wrapper]');
   const dropdownLayoutWrapper = element.querySelector('[data-hook=iconWithOptions-dropdownLayout-wrapper]');

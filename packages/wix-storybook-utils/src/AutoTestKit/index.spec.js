@@ -23,15 +23,18 @@ const getFakeTestKitFile = fileName =>
 const getFiles = () => ({
   '../InputWithOptions/InputWithOptions.driver': getFakeTestKitFile(fakeTestKitsPaths.InputWithOptions),
   './Input.driver': getFakeTestKitFile(fakeTestKitsPaths.Input),
-  '../DropdownLayout/DropdownLayout.driver': getFakeTestKitFile(fakeTestKitsPaths.DropdownLayout)
+  '../DropdownLayout.driver': getFakeTestKitFile(fakeTestKitsPaths.DropdownLayout)
 });
 
+const fileContent = getFiles();
+
 const parseTestKit = testKit => {
+
   const entryTestKitFile = getFakeTestKitFile(testKit);
   const files = {
     entry: testKit,
     origin: testKit,
-    ...getFiles,
+    ...fileContent,
     [testKit]: entryTestKitFile
   };
   return new DriverParser(files).parse();
@@ -77,30 +80,17 @@ describe('AutoTestKit', () => {
   });
 
   describe('IconWithOptions testKit', () => {
-    it('should have seven nested methods', () => {
+    it('should have fourty two nested methods', () => {
       const driver = createDriver(render(fakeTestKitsPaths.IconWithOptions));
-      expect(driver.getMethodsCount()).toEqual(7);
+      expect(driver.getMethodsCount()).toEqual(42);
       expect(driver.getMethodAt(2).getName()).toEqual('driver.mouseLeave');
-      expect(driver.getMethodAt(6).getName()).toEqual('dropdownLayoutDriver.isDropDirectionUp');
+      expect(driver.getMethodAt(41).getName()).toEqual('dropdownLayoutDriver.isDropDirectionUp');
     });
 
-    it('should have proper origin', () => {
-      const parseIconWithOptionsTestKit = () => {
-        const files = {
-          entry: fakeTestKitsPaths.IconWithOptions,
-          origin: fakeTestKitsPaths.LanguagePicker,
-          ...getFiles,
-          [fakeTestKitsPaths.IconWithOptions]: getFakeTestKitFile(fakeTestKitsPaths.IconWithOptions)
-        };
-        return new DriverParser(files).parse();
-      };
-
-      const render = () => {
-        return mount(<AutoTestKit source={parseIconWithOptionsTestKit()}/>);
-      };
-
+    it('should have imported methods with correct origin', () => {
       const driver = createDriver(render(fakeTestKitsPaths.IconWithOptions));
-      expect(driver.getMethodAt(2).getOrigin()).toEqual('IconWithOptions.driver.txt');
+      expect(driver.getMethodAt(40).getName()).toEqual('dropdownLayoutDriver.optionByHook');
+      expect(driver.getMethodAt(40).getOrigin()).toEqual('DropdownLayout.driver');
     });
   });
 
@@ -110,5 +100,4 @@ describe('AutoTestKit', () => {
     });
   });
 });
-
 

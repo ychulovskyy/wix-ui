@@ -62,7 +62,7 @@ export default class AutoTestKit extends Component {
             <td>{this.getParams(flatMethods[methodName].params)}</td>
             <td>{flatMethods[methodName].returnType}</td>
             <td data-hook="description">{flatMethods[methodName].description}</td>
-            {hasOrigin ? <td data-hook="origin">{path.basename(flatMethods[methodName].origin)}</td> : null}
+            {hasOrigin ? <td data-hook="origin">{flatMethods[methodName].origin ? path.basename(flatMethods[methodName].origin) : null}</td> : null}
           </tr>)}
       </tbody>
     );
