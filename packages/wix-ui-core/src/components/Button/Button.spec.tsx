@@ -77,7 +77,7 @@ describe('Button', () => {
     });
 
     it('should override default height', () => {
-      const theme: ButtonTheme = {height: '36px'};
+      const theme: ButtonTheme = {height: '78px'};
       const driver = createDriver(<Button theme={theme}/>);
       expect(driver.getHeight()).toBe(theme.height);
     });
