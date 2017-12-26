@@ -2,7 +2,7 @@ import {core, ToggleSwitchTheme} from './theme';
 import * as defaultsDeep from 'lodash/defaultsDeep';
 
 const selectors = {
-  toggleIconPath: '& $toggleIcon path',
+  toggleIconPath: '& ~ $innerLabel > $toggleIcon path',
   outerLabel: '& + $outerLabel',
   innerLabel: '& ~ $innerLabel',
   state: state => `& > input[type=checkbox]:${state}`
@@ -32,11 +32,13 @@ export const styles = (theme: ToggleSwitchTheme) => {
 
       [selectors.state('checked')]: {
         [selectors.outerLabel]: {backgroundColor: theme.backgroundColorChecked},
-        [selectors.innerLabel]: {left: theme.labelMovementRange},
-        '& $toggleIcon': {
-          transition: `all ${theme.transitionSpeed} cubic-bezier(0,1,0,1)`,
-          '& path': {fill: theme.colorChecked}
-        }
+        [selectors.innerLabel]: {
+          left: theme.labelMovementRange,
+          '& > $toggleIcon': {
+            transition: `all ${theme.transitionSpeed} cubic-bezier(0,1,0,1)`,
+            '& path': {fill: theme.colorChecked}
+          }
+        },
       },
 
       [selectors.state('hover')]: {
@@ -98,9 +100,7 @@ export const styles = (theme: ToggleSwitchTheme) => {
       height: theme.toggleIconHeight,
       transition: `all ${theme.transitionSpeed} cubic-bezier(1,0,1,0)`,
 
-      '& path': {
-        fill: theme.color
-      }
+      '& path': {fill: theme.color}
     }
   };
 };
