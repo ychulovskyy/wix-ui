@@ -41,15 +41,6 @@ export const styles = (theme: ToggleSwitchTheme) => {
         },
       },
 
-      [selectors.state('hover')]: {
-        [selectors.outerLabel]: {backgroundColor: theme.backgroundColorHover},
-        [selectors.toggleIconPath]: {fill: theme.colorHover}
-      },
-
-      [selectors.state('hover:checked')]: {
-        [selectors.toggleIconPath]: {fill: theme.colorHover}
-      },
-
       [selectors.state('disabled')]: {
         [selectors.outerLabel]: {backgroundColor: theme.backgroundColorDisabled, cursor: 'default'},
         [selectors.innerLabel]: {cursor: 'default'},
@@ -57,6 +48,30 @@ export const styles = (theme: ToggleSwitchTheme) => {
       },
 
       [selectors.state('checked:disabled')]: {
+        [selectors.outerLabel]: {backgroundColor: theme.backgroundColorDisabled, cursor: 'default'},
+        [selectors.innerLabel]: {cursor: 'default'},
+        [selectors.toggleIconPath]: {fill: theme.colorCheckedDisabled}
+      },
+
+      [selectors.state('hover')]: {
+        [selectors.outerLabel]: {backgroundColor: theme.backgroundColorHover},
+        [selectors.toggleIconPath]: {fill: theme.colorHover}
+      },
+
+      [selectors.state('hover:checked')]: {
+        [selectors.outerLabel]: {backgroundColor: theme.backgroundColorHover},
+        [selectors.toggleIconPath]: {fill: theme.colorHover}
+      },
+
+      [selectors.state('hover:disabled')]: {
+        [selectors.outerLabel]: {backgroundColor: theme.backgroundColorDisabled, cursor: 'default'},
+        [selectors.innerLabel]: {cursor: 'default'},
+        [selectors.toggleIconPath]: {fill: theme.colorDisabled}
+      },
+
+      [selectors.state('hover:checked:disabled')]: {
+        [selectors.outerLabel]: {backgroundColor: theme.backgroundColorDisabled, cursor: 'default'},
+        [selectors.innerLabel]: {cursor: 'default'},
         [selectors.toggleIconPath]: {fill: theme.colorCheckedDisabled}
       }
     },
