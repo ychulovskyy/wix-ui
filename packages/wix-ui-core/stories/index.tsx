@@ -8,6 +8,7 @@ import Input from '../src/components/Input';
 import VBox from '../src/components/VBox';
 import HBox from '../src/components/HBox';
 import Tooltip from '../src/components/Tooltip';
+import {PaginationStory} from './Pagination/pagination-story';
 
 storiesOf('Components', module)
   .add('Badge', () => (
@@ -50,4 +51,7 @@ storiesOf('Components', module)
         <div>b</div>
         <div>c</div>
     </HBox>
+  ))
+  .add('Pagination', () => (
+    <PaginationStory />
   ));
