@@ -39,6 +39,8 @@ class ToggleSwitch extends React.PureComponent<ToggleSwitchProps> {
     id: string,
   };
 
+  static defaultProps = {checked: false};
+
   render() {
     const {checked, disabled, onChange, classes} = this.props;
     const id = this.props.id || this.id;
