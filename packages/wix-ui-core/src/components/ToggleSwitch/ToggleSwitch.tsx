@@ -24,7 +24,9 @@ interface ToggleSwitchProps {
  */
 class ToggleSwitch extends React.PureComponent<ToggleSwitchProps> {
   static displayName = 'ToggleSwitch';
-  id: string = uniqueId('ToggleSwitch');
+  id: string = this.props.id || uniqueId('ToggleSwitch');
+
+  private toggle: HTMLLabelElement;
 
   static propTypes = {
     /** Is the toggleSwitch checked or not */
@@ -41,9 +43,31 @@ class ToggleSwitch extends React.PureComponent<ToggleSwitchProps> {
 
   static defaultProps = {checked: false};
 
+  componentDidMount() {
+    this.toggle.addEventListener('keydown', this._listenToSpace);
+  }
+
+  componentWillUnmount() {
+    this.toggle.removeEventListener('keydown', this._listenToSpace);
+  }
+
+  _listenToSpace = e => {
+    const SPACEBAR = 32;
+    if (e.keyCode === SPACEBAR) {
+      e.preventDefault();
+      this._handleChange(e);
+    }
+  }
+
+  _handleChange = e => {
+    if (!this.props.disabled) {
+      this.props.onChange(e);
+    }
+  }
+
   render() {
-    const {checked, disabled, onChange, classes} = this.props;
-    const id = this.props.id || this.id;
+    const {checked, disabled, classes} = this.props;
+    const {id} = this;
 
     return (
       <div className={classes.root}>
@@ -52,10 +76,10 @@ class ToggleSwitch extends React.PureComponent<ToggleSwitchProps> {
           id={id}
           checked={checked}
           disabled={disabled}
-          onChange={e => !disabled && onChange(e)}
+          onChange={e => this._handleChange(e)}
         />
 
-        <label htmlFor={id} className={classes.outerLabel}/>
+        <label htmlFor={id} className={classes.outerLabel} tabIndex={0} ref={ref => this.toggle = ref}/>
         <label htmlFor={id} className={classes.innerLabel}>
           <svg className={classes.toggleIcon} viewBox={getViewBox(checked)}>
             <path d={getPathDescription(checked)}/>
