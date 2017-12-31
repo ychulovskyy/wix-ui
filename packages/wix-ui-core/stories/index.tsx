@@ -8,6 +8,7 @@ import VBox from '../src/components/VBox';
 import HBox from '../src/components/HBox';
 import Tooltip from '../src/components/Tooltip';
 import {PaginationStory} from './Pagination/pagination-story';
+import {DividerStory} from './Divider/divider-story';
 import {ToggleSwitchStory} from './ToggleSwitch/ToggleSwitch-story';
 
 storiesOf('Components', module)
@@ -54,4 +55,7 @@ storiesOf('Components', module)
   ))
   .add('Pagination', () => (
     <PaginationStory />
+  ))
+  .add('Divider', () => (
+    <DividerStory />
   ));
