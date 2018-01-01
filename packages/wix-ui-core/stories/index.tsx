@@ -10,6 +10,15 @@ import Tooltip from '../src/components/Tooltip';
 import {PaginationStory} from './Pagination/pagination-story';
 import {DividerStory} from './Divider/divider-story';
 import {ToggleSwitchStory} from './ToggleSwitch/ToggleSwitch-story';
+import IconWithOptions from '../src/components/IconWithOptions';
+
+const dropdownOptions = [1, 2, 3, 4, 5].map(x => ({
+  id: x,
+  value: `value${x}`,
+  displayName: `value ${x}`,
+  type: x === 3 ? 'separator' : 'option',
+  isDisabled: x === 4
+}));
 
 storiesOf('Components', module)
   .add('Badge', () => (
@@ -17,6 +26,14 @@ storiesOf('Components', module)
   ))
   .add('Button', () => (
     <Button dataHook="story-button">Hello</Button>
+  ))
+  .add('IconWithOptions', () => (
+    <div style={{padding: '50px'}}>
+      <IconWithOptions
+        iconUrl="https://cdn3.iconfinder.com/data/icons/caps-hats/512/Ladies_cap-128.png"
+        dataHook="story-icon-with-options"
+        options={dropdownOptions}/>
+    </div>
   ))
   .add('Input', () => (
     <Input dataHook="story-input" />

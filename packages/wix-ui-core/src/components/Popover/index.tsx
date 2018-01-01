@@ -1,30 +1,32 @@
 import * as React from 'react';
 import {Manager, Target, Popper, Arrow} from 'react-popper';
-import {bool, string} from 'prop-types';
+import {bool, string, func} from 'prop-types';
 import PopperJS from 'popper.js';
 import {buildChildrenObject, createComponentThatRendersItsChildren} from '../../utils';
 
-export type Placement = PopperJS.Placement;
-
 export interface PopoverProps {
-  shown?: boolean;
-  placement: Placement;
+  shown: boolean;
+  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-export type PopoverType = React.SFC<PopoverProps> & {
+export interface SharedPopoverProps {
+  placement: PopperJS.Placement;
+}
+
+export type PopoverType = React.SFC<PopoverProps & SharedPopoverProps> & {
   Element?: React.SFC;
   Content?: React.SFC;
 };
 
-const Popover: PopoverType = props => {
-    const {placement, shown, children} = props;
+const Popover: PopoverType = ({placement, shown, onMouseEnter, onMouseLeave, children}) => {
     const childrenObject = buildChildrenObject(children, {Element: null, Content: null});
-
     return (
-      <Manager>
-        <Target
-          data-hook="popover-element"
-          style={{display: 'inline-block'}}>
+      <Manager
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        style={{display: 'inline-block'}}>
+        <Target data-hook="popover-element">
           {childrenObject.Element}
         </Target>
         {
@@ -38,11 +40,20 @@ const Popover: PopoverType = props => {
   );
 };
 
+Popover.defaultProps = {
+  shown: false,
+  placement: 'auto'
+};
+
 Popover.propTypes = {
-  /** Is the popover content shown */
-  shown: bool,
   /** The location to display the content */
-  placement: string
+  placement: string.isRequired,
+  /** Is the popover content shown */
+  shown: bool.isRequired,
+  /** Event handler for onMouseEnter event */
+  onMouseEnter: func,
+  /** Event handler for onMouseLeave event */
+  onMouseLeave: func
 };
 
 Popover.Element = createComponentThatRendersItsChildren('Popover.Element');

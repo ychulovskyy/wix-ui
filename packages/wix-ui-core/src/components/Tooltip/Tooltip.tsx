@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {string} from 'prop-types';
-import Popover, {Placement} from '../Popover';
+import Popover, {SharedPopoverProps} from '../Popover';
 import {buildChildrenObject, createComponentThatRendersItsChildren} from '../../utils';
 import {createHOC} from '../../createHOC';
 
-interface TooltipProps {
-  placement: Placement;
+interface TooltipProps extends SharedPopoverProps {
 }
 
 interface TooltipState {
@@ -16,6 +15,10 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
 
   static Element = createComponentThatRendersItsChildren('Tooltip.Element');
   static Content = createComponentThatRendersItsChildren('Tooltip.Content');
+
+  static defaultProps = {
+    placement: 'top'
+  };
 
   static propTypes = {
     /** The location to display the content */
