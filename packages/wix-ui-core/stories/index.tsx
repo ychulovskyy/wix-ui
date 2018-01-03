@@ -10,6 +10,7 @@ import Tooltip from '../src/components/Tooltip';
 import {PaginationStory} from './Pagination/pagination-story';
 import {DividerStory} from './Divider/divider-story';
 import {ToggleSwitchStory} from './ToggleSwitch/ToggleSwitch-story';
+import {StylableToggleSwitchStory, BOStylableToggleSwitchStory} from './StylableToggleSwitch/StylableToggleSwitch-story';
 import IconWithOptions from '../src/components/IconWithOptions';
 
 const dropdownOptions = [1, 2, 3, 4, 5].map(x => ({
@@ -40,6 +41,12 @@ storiesOf('Components', module)
   ))
   .add('ToggleSwitch', () => (
     <ToggleSwitchStory/>
+  ))
+  .add('BOStylableToggleSwitchStory', () => (
+    <BOStylableToggleSwitchStory/>
+  ))
+  .add('StylableToggleSwitchStory', () => (
+    <StylableToggleSwitchStory/>
   ))
   .add('Tooltip', () => (
     <Tooltip dataHook="story-tooltip" placement="right">
