@@ -71,7 +71,6 @@ export const reactEventTrigger = () => {
   const simulate = Simulate;
   return {
     click: (element) => simulate.click(element),
-    doubleClick: (element) => simulate.doubleClick(element),
     mousedown: (element) => simulate.mouseDown(element),
     change: (element, handler) => simulate.change(element, handler),
     mouseEnter: (element) => simulate.mouseEnter(element),
@@ -79,7 +78,6 @@ export const reactEventTrigger = () => {
     focus: (element) => simulate.focus(element),
     blur: (element) => simulate.blur(element),
     keyDown: (element, handler) => simulate.keyDown(element, handler),
-    keyUp: (element, handler) => simulate.keyUp(element, handler),
     compositionStart: (element) => simulate.compositionStart(element),
     compositionEnd: (element) => simulate.compositionEnd(element),
     trigger: (event, element, handler = () => null) => simulate[event](element, handler)
