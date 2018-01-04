@@ -80,6 +80,7 @@ export const reactEventTrigger = () => {
     blur: (element) => simulate.blur(element),
     keyUp: (element, handler) => simulate.keyUp(element, handler),
     keyDown: (element, handler) => simulate.keyDown(element, handler),
+    keyUp: (element, handler) => simulate.keyUp(element, handler),
     compositionStart: (element) => simulate.compositionStart(element),
     compositionEnd: (element) => simulate.compositionEnd(element),
     trigger: (event, element, handler = () => null) => simulate[event](element, handler)
