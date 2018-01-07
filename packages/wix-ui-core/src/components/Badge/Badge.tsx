@@ -14,7 +14,7 @@ export interface BadgeProps {
 /**
  * Badge
  */
-const Badge: React.SFC<BadgeProps>  = ({classes, children}) => (
+const Badge: React.SFC<BadgeProps> = ({classes, children}) => (
   <span className={classes.badge}>
     {children}
   </span>

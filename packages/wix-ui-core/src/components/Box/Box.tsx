@@ -18,7 +18,7 @@ export interface BoxProps {
 /**
  * Box
  */
-const Box: React.SFC<BoxProps>  = ({children, classes, vertical, lastItemTakesRemainingWidth}) => {
+const Box: React.SFC<BoxProps> = ({children, classes, vertical, lastItemTakesRemainingWidth}) => {
   const classNames = classnames(classes.boxRoot, {
     [classes.vertical]: vertical,
     [classes.horizontal]: !vertical,
