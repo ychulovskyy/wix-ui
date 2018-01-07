@@ -3,7 +3,7 @@ import Popover from '../Popover';
 import {Placement} from '../Popover/Popover';
 import {bool, string, oneOf, arrayOf, object, func, oneOfType, number} from 'prop-types';
 import {createHOC} from '../../createHOC';
-import onClickOutside from '../../onClickOutside';
+import onClickOutside from 'react-onclickoutside';
 import DropdownContent from './DropdownContent';
 import {Option} from './DropdownContent/DropdownContent';
 import {CLICK, CLICK_TYPE, HOVER, HOVER_TYPE} from './constants';
