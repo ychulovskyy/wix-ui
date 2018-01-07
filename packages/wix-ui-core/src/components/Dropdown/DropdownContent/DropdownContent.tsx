@@ -135,7 +135,8 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
               key={option.id}
               className={classNames(classes.option, {
                 selected: !option.isDisabled && selectedIds.includes(option.id),
-                hover: hoveredIndex === index
+                hover: hoveredIndex === index,
+                disabled: option.isDisabled
               })}
               onClick={this.isValidOptionForSelection(option) ? () => this.onOptionClick(option) : null}
               onMouseEnter={this.isValidOptionForSelection(option) ? () => this.setHoveredIndex(index) : null}>
