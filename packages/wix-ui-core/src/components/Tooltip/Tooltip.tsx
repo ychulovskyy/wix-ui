@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {string, object} from 'prop-types';
-import Popover, {Placement} from '../Popover';
+import Popover from '../Popover';
+import {Placement} from '../Popover/Popover';
 import {buildChildrenObject, createComponentThatRendersItsChildren, ElementProps} from '../../utils';
 import {createHOC} from '../../createHOC';
 
@@ -15,7 +16,12 @@ export interface TooltipState {
 
 export type TooltipClasses = {
   tooltip: string;
+  arrow: string;
 };
+
+function calculateStyleFromDirection(placement: string) {
+  return `${placement}ArrowStyle`;
+}
 
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   static Element: React.SFC<ElementProps> = createComponentThatRendersItsChildren('Tooltip.Element');
@@ -65,7 +71,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         placement={placement}
         shown={isOpen}
         onMouseEnter={this.open}
-        onMouseLeave={this.close}>
+        onMouseLeave={this.close}
+        arrowStyle={classes[calculateStyleFromDirection(placement)]}>>
         <Popover.Element>
           <div
             data-hook="tooltip-element">

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Dropdown from '../Dropdown';
-import {Placement} from '../Popover';
+import {Placement} from '../Popover/Popover';
 import {TriggerElementProps} from '../Dropdown/Dropdown';
 import {Option} from '../Dropdown/DropdownContent/DropdownContent';
 import {createHOC} from '../../createHOC';
