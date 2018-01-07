@@ -123,7 +123,8 @@ class Dropdown extends React.PureComponent<DropdownProps, DropdownState> {
     let callback = onSelect;
     const newState = {
       isOpen: !closeOnSelect,
-      selectedIds: []
+      selectedIds: [],
+      keyboardEvent: null
     };
 
     if (closeOnSelect) {

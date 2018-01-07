@@ -6,6 +6,7 @@ import {Option} from '../Dropdown/DropdownContent/DropdownContent';
 import {createHOC} from '../../createHOC';
 import {HOVER, CLICK, CLICK_TYPE, HOVER_TYPE} from '../Dropdown/constants';
 import {bool, oneOf, object, arrayOf, string, func, oneOfType, number} from 'prop-types';
+import Input from '../Input';
 
 export interface InputWithOptionsClasses {
 }
@@ -94,9 +95,7 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
         closeOnSelect={closeOnSelect}>
         {
           ({onKeyDown}: TriggerElementProps) =>
-            <input
-              style={{outline: 0}}
-              tabIndex={5}
+            <Input
               value={inputValue}
               onChange={evt => this.setState({inputValue: evt.target.value})}
               onKeyDown={onKeyDown}/>
