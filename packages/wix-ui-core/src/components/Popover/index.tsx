@@ -4,17 +4,16 @@ import {bool, string, func} from 'prop-types';
 import PopperJS from 'popper.js';
 import {buildChildrenObject, createComponentThatRendersItsChildren} from '../../utils';
 
+export type Placement = PopperJS.Placement;
+
 export interface PopoverProps {
-  shown?: boolean;
+  placement: Placement;
+  shown: boolean;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-export interface SharedPopoverProps {
-  placement?: PopperJS.Placement;
-}
-
-export type PopoverType = React.SFC<PopoverProps & SharedPopoverProps> & {
+export type PopoverType = React.SFC<PopoverProps> & {
   Element?: React.SFC;
   Content?: React.SFC;
 };
@@ -25,7 +24,7 @@ const Popover: PopoverType = ({placement, shown, onMouseEnter, onMouseLeave, chi
     <Manager
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      style={{display: 'inline-block'}}>
+      style={{display: 'inline-block', position: 'relative'}}>
       <Target data-hook="popover-element">
         {childrenObject.Element}
       </Target>
