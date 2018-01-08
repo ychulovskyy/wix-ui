@@ -116,7 +116,7 @@ describe('Pagination', () => {
     it('shows the total amount of pages if showInputModeTotalPages is true', () => {
       const pagination = createDriver(<Pagination paginationMode={'input'} totalPages={15} currentPage={4} showInputModeTotalPages/>);
       expect(pagination.getTotalPagesField()).toBeTruthy();
-      expect(pagination.getTotalPagesField().textContent).toEqual('/ 15');
+      expect(pagination.getTotalPagesField().textContent).toMatch(/\b15\b/);
     });
 
     it('accepts numbers in page input', () => {
@@ -295,6 +295,16 @@ describe('Pagination', () => {
         expect(pagination.getNavButton('next').getAttribute('aria-label')).toEqual('Next Page');
       });
     });
+  });
+
+  it('adds ID to the root if provided', () => {
+    const pagination = createDriver(<Pagination id="beet" totalPages={3} />);
+    expect(pagination.root.getAttribute('id')).toBe('beetroot');
+  });
+
+  it('does not add ID to the root if not provided', () => {
+    const pagination = createDriver(<Pagination totalPages={3} />);
+    expect(pagination.root.getAttribute('id')).toBe(null);
   });
 
   describe('testkit', () => {
