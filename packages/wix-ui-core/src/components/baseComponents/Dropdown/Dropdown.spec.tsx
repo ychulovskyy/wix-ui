@@ -3,7 +3,7 @@ import {createDriverFactory} from 'wix-ui-test-utils';
 import {dropdownDriverFactory} from './Dropdown.driver';
 import Dropdown from './index';
 import {HOVER, CLICK} from './constants';
-import Divider from '../Divider';
+import Divider from '../../Divider';
 
 describe('Dropdown', () => {
   const createDriver = createDriverFactory(dropdownDriverFactory);

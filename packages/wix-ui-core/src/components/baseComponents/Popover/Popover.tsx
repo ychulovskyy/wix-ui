@@ -2,8 +2,8 @@ import * as React from 'react';
 import {Manager, Target, Popper, Arrow} from 'react-popper';
 import {bool, string, func} from 'prop-types';
 import PopperJS from 'popper.js';
-import {buildChildrenObject, createComponentThatRendersItsChildren} from '../../utils';
-import {createHOC} from '../../createHOC';
+import {buildChildrenObject, createComponentThatRendersItsChildren} from '../../../utils';
+import {createHOC} from '../../../createHOC';
 
 export type PopoverClasses = {
   popoverContent: string;

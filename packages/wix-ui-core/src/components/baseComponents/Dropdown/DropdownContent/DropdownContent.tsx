@@ -2,7 +2,7 @@ import * as React from 'react';
 import {func, object, arrayOf, oneOfType, number, string} from 'prop-types';
 import {NOT_HOVERED_INDEX} from '../constants';
 import * as classNames from 'classnames';
-import {createHOC} from '../../../createHOC';
+import {createHOC} from '../../../../createHOC';
 
 export type DropdownContentClasses = {
   optionsContainer: string;
