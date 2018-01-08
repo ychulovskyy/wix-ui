@@ -2,7 +2,7 @@ import * as React from 'react';
 import Popover from '../Popover';
 import {Placement} from '../Popover/Popover';
 import {bool, string, oneOf, arrayOf, object, func, oneOfType, number} from 'prop-types';
-import {createHOC} from '../../../createHOC';
+import {createHOC} from '../../createHOC';
 import onClickOutside from 'react-onclickoutside';
 import DropdownContent from './DropdownContent';
 import {Option} from './DropdownContent/DropdownContent';
