@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {createDriverFactory} from 'wix-ui-test-utils';
 import {iconWithOptionsDriverFactory} from './IconWithOptions.driver';
-import IconWithOptions from './index';
+import IconWithOptions from './';
 import Divider from '../Divider';
 
 describe('IconWithOptions', () => {

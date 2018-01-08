@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {createDriverFactory} from 'wix-ui-test-utils';
 import {inputWithOptionsDriverFactory} from './InputWithOptions.driver';
-import InputWithOptions from './index';
+import InputWithOptions from './';
 import Divider from '../Divider';
 
 describe('InputWithOptions', () => {
