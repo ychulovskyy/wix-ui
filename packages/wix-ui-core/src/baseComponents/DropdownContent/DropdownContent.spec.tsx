@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {dropdownContentDriverFactory} from './DropdownContent.driver';
 import {createDriverFactory} from 'wix-ui-test-utils';
-import Divider from '../../../components/Divider';
+import Divider from '../../components/Divider';
 import DropdownContent from './';
 
 describe('DropdownContent', () => {
