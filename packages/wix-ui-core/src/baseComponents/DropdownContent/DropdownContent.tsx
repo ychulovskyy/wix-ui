@@ -3,18 +3,12 @@ import {func, object, arrayOf, oneOfType, number, string} from 'prop-types';
 import {NOT_HOVERED_INDEX} from '../Dropdown/constants';
 import * as classNames from 'classnames';
 import {createHOC} from '../../createHOC';
+import {Option} from '../DropdownOption';
 
 export type DropdownContentClasses = {
   optionsContainer: string;
   option: string;
 };
-
-export interface Option {
-  id: number | string;
-  isDisabled: boolean;
-  isSelectable: boolean;
-  render: () => React.ReactNode;
-}
 
 export interface DropdownContentProps {
   options: Array<Option>;

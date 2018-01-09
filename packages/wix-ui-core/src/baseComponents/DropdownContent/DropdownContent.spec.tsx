@@ -1,17 +1,15 @@
 import * as React from 'react';
 import {dropdownContentDriverFactory} from './DropdownContent.driver';
 import {createDriverFactory} from 'wix-ui-test-utils';
-import Divider from '../../components/Divider';
+import {OptionFactory} from '../DropdownOption';
 import DropdownContent from './';
 
 describe('DropdownContent', () => {
   const createDriver = createDriverFactory(dropdownContentDriverFactory);
-  const options = [1, 2, 3, 4, 5].map(x => ({
-    id: x,
-    isSelectable: x !== 3,
-    isDisabled: x === 4,
-    render: () => x === 3 ? <Divider /> : <span>{`value${x}`}</span>
-  }));
+  const options =
+    Array.from(Array(5))
+      .map((x, index) =>
+        index === 2 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, `value${x}`));
 
   const createDropdownContent = (props = {}) => (
     <DropdownContent {...Object.assign({

@@ -2,17 +2,15 @@ import * as React from 'react';
 import {createDriverFactory} from 'wix-ui-test-utils';
 import {iconWithOptionsDriverFactory} from './IconWithOptions.driver';
 import IconWithOptions from './';
-import Divider from '../Divider';
+import {OptionFactory} from '../../baseComponents/DropdownOption';
 
 describe('IconWithOptions', () => {
 
   const createDriver = createDriverFactory(iconWithOptionsDriverFactory);
-  const options = [1, 2, 3, 4, 5].map(x => ({
-    id: x,
-    isSelectable: x !== 3,
-    isDisabled: x === 4,
-    render: () => x === 3 ? <Divider /> : <span>{`value${x}`}</span>
-  }));
+  const options =
+    Array.from(Array(5))
+      .map((x, index) =>
+        index === 2 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, `value${x}`));
 
   const createIconWithOptions = (props = {}) => (
     <IconWithOptions {...Object.assign({

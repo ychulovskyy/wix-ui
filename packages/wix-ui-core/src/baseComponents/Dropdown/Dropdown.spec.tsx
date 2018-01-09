@@ -3,16 +3,14 @@ import {createDriverFactory} from 'wix-ui-test-utils';
 import {dropdownDriverFactory} from './Dropdown.driver';
 import Dropdown from './';
 import {HOVER, CLICK} from './constants';
-import Divider from '../../components/Divider';
+import {OptionFactory} from '../DropdownOption';
 
 describe('Dropdown', () => {
   const createDriver = createDriverFactory(dropdownDriverFactory);
-  const options = [1, 2, 3, 4, 5].map(x => ({
-    id: x,
-    isSelectable: x !== 3,
-    isDisabled: x === 4,
-    render: () => x === 3 ? <Divider /> : <span>{`value${x}`}</span>
-  }));
+  const options =
+    Array.from(Array(5))
+      .map((x, index) =>
+        index === 2 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, `value${x}`));
 
   const createDropdown = (props = {}) => (
     <Dropdown placement="top" openTrigger={CLICK} {...Object.assign({
@@ -92,7 +90,7 @@ describe('Dropdown', () => {
   describe('onDeselect', () => {
     it('should call onDeselect when option is unselected', () => {
       const onDeselect = jest.fn();
-      const driver = createDriver(createDropdown({initialSelectedIds: [1], options, onDeselect, closeOnSelect: false}));
+      const driver = createDriver(createDropdown({initialSelectedIds: [0], options, onDeselect, closeOnSelect: false}));
 
       driver.click();
       driver.clickOptionAt(0);
