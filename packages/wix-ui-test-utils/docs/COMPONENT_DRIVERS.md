@@ -45,7 +45,7 @@ The component driver receives an object containing the following properties:
 - `wrapper` - a DOM node of a `div` element that wraps the element.
 - `component` - a [cloned react component](https://reactjs.org/docs/react-api.html#cloneelement).
 - `componentInstance` - the rendered component [`ref`](https://reactjs.org/docs/refs-and-the-dom.html).
-- `eventTrigger` - an object containing useful event trigger functions (can be viewed [here](https://github.com/wix/wix-ui/blob/master/packages/wix-ui-test-utils/src/helpers.tsx#L70));
+- `eventTrigger` - an object containing useful event trigger functions (can be viewed [here](https://github.com/wix/wix-ui/blob/master/packages/wix-ui-test-utils/src/helpers.tsx#L70)).
 
 ```javascript
 export const componentDriverFactory = ({
