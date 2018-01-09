@@ -19,10 +19,6 @@ export type TooltipClasses = {
   arrow: string;
 };
 
-function calculateStyleFromDirection(placement: string) {
-  return `${placement}ArrowStyle`;
-}
-
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   static Element: React.SFC<ElementProps> = createComponentThatRendersItsChildren('Tooltip.Element');
   static Content: React.SFC<ElementProps> = createComponentThatRendersItsChildren('Tooltip.Content');
@@ -72,15 +68,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         shown={isOpen}
         onMouseEnter={this.open}
         onMouseLeave={this.close}
-        arrowStyle={classes[calculateStyleFromDirection(placement)]}>>
+        arrowStyle={classes[`${placement}ArrowStyle`]}>>
         <Popover.Element>
-          <div
-            data-hook="tooltip-element">
-            {childrenObject.Element}
-          </div>
+          {childrenObject.Element}
         </Popover.Element>
         <Popover.Content>
-          <div className={classes.tooltip}>
+          <div data-hook="tooltip-content" className={classes.tooltip}>
             {childrenObject.Content}
           </div>
         </Popover.Content>

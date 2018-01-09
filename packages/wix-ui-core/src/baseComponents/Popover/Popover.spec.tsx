@@ -30,4 +30,24 @@ describe('Popover', () => {
     expect(driver.isContentExists()).toBeTruthy();
     expect(driver.isElementExists()).toBeTruthy();
   });
+
+  it('should call mouse enter callback', () => {
+    const onMouseEnter = jest.fn();
+    const driver = createDriver(createPopover({onMouseEnter}));
+    driver.mouseEnter();
+    expect(onMouseEnter).toBeCalled();
+  });
+
+  it('should call mouse leave callback', () => {
+    const onMouseLeave = jest.fn();
+    const driver = createDriver(createPopover({onMouseLeave}));
+    driver.mouseLeave();
+    expect(onMouseLeave).toBeCalled();
+  });
+
+  it('should show arrowStyle class on Arrow', () => {
+    const arrowStyle = 'arrowStyle';
+    const driver = createDriver(createPopover({shown: true, arrowStyle}));
+    expect(driver.getArrowClasses()).toContain(arrowStyle);
+  });
 });

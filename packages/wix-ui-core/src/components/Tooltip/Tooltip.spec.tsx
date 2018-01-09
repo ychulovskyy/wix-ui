@@ -27,10 +27,12 @@ describe('Tooltip', () => {
     expect(driver.isContentExists()).toBeFalsy();
   });
 
-  it('should display content on hover', () => {
+  it('should display content on hover and hide it on leave', () => {
     const driver = createDriver(createTooltip());
     driver.mouseEnter();
     expect(driver.isContentExists()).toBeTruthy();
+    driver.mouseLeave();
+    expect(driver.isContentExists()).toBeFalsy();
   });
 
   describe('style', () => {
