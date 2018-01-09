@@ -53,17 +53,11 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
   }
 
   componentWillMount() {
-    const {keyboardEvent} = this.props;
-    if (keyboardEvent) {
-      this.onKeyDown(keyboardEvent);
-    }
+    this.onKeyDown(this.props.keyboardEvent);
   }
 
   componentWillReceiveProps(nextProps) {
-    const {keyboardEvent} = nextProps;
-    if (keyboardEvent) {
-      this.onKeyDown(keyboardEvent);
-    }
+    this.onKeyDown(nextProps.keyboardEvent);
   }
 
   onOptionClick(option: Option) {
@@ -84,6 +78,10 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
 
   hoverNextItem(interval: number) {
     const {options} = this.props;
+    if (options.filter(this.isValidOptionForSelection).length === 0) {
+      return;
+    }
+
     let {hoveredIndex} = this.state;
     while (true) {
       hoveredIndex += interval;
@@ -101,12 +99,15 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
     this.setHoveredIndex(hoveredIndex);
   }
 
-  onKeyDown(key) {
-    if (key.startsWith('ArrowDown')) {
+  onKeyDown(keyboardEvent) {
+    if (!keyboardEvent) {
+      return;
+    }
+    if (keyboardEvent.startsWith('ArrowDown')) {
       this.hoverNextItem(1);
-    } else if (key.startsWith('ArrowUp')) {
+    } else if (keyboardEvent.startsWith('ArrowUp')) {
       return this.hoverNextItem(-1);
-    } else if (key.startsWith('Enter')) {
+    } else if (keyboardEvent.startsWith('Enter')) {
       const {options} = this.props;
       const {hoveredIndex} = this.state;
       if (hoveredIndex >= 0 && hoveredIndex < options.length) {

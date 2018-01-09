@@ -65,5 +65,19 @@ describe('DropdownContent', () => {
 
       expect(driver.optionAt(4).containsClass('hover')).toBeTruthy();
     });
+
+    it('should not hover over seperator with arrow up', () => {
+      const onOptionClick = jest.fn();
+      const driver = createDriver(createDropdownContent({options: [options[2]], onOptionClick, keyboardEvent: 'ArrowUp'}));
+
+      expect(driver.optionAt(0).containsClass('hover')).toBeFalsy();
+    });
+
+    it('should not hover over seperator with arrow down', () => {
+      const onOptionClick = jest.fn();
+      const driver = createDriver(createDropdownContent({options: [options[2]], onOptionClick, keyboardEvent: 'ArrowDown'}));
+
+      expect(driver.optionAt(0).containsClass('hover')).toBeFalsy();
+    });
   });
 });
