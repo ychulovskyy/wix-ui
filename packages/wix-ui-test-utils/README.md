@@ -1,6 +1,6 @@
 # wix-ui-test-utils
 
-> A common test utils used in `wix-ui` packages
+> A common test utils used within the different `wix-ui` packages
 
 ## Generic test utils
 
