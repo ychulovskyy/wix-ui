@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {func, object, arrayOf, oneOfType, number, string} from 'prop-types';
+import {func, object, arrayOf, oneOfType, number, string, node} from 'prop-types';
 import * as classNames from 'classnames';
 import {createHOC} from '../../createHOC';
 import {Option} from '../DropdownOption';
@@ -17,6 +17,8 @@ export interface DropdownContentProps {
   selectedIds: Array<string | number>;
   classes?: DropdownContentClasses;
   keyboardEvent?: string;
+  fixedHeader?: React.ReactNode;
+  fixedFooter?: React.ReactNode;
 }
 
 interface DropdownContentState {
@@ -41,7 +43,11 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
     /** Keyboard event key */
     keyboardEvent: string,
     /** Classes object */
-    classes: object.isRequired
+    classes: object.isRequired,
+    /** An element that always appears at the top of the options */
+    fixedHeader: node,
+    /** An element that always appears at the bottom of the options */
+    fixedFooter: node
   };
 
   constructor(props) {
@@ -78,7 +84,7 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
 
   hoverNextItem(interval: number) {
     const {options} = this.props;
-    if (options.filter(this.isValidOptionForSelection).length === 0) {
+    if (!options.find(this.isValidOptionForSelection)) {
       return;
     }
 
@@ -99,7 +105,7 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
     this.setHoveredIndex(hoveredIndex);
   }
 
-  onKeyDown(keyboardEvent) {
+  onKeyDown(keyboardEvent: string) {
     if (!keyboardEvent) {
       return;
     }
@@ -117,15 +123,16 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
   }
 
   render() {
-    const {selectedIds, classes} = this.props;
+    const {selectedIds, classes, fixedHeader, fixedFooter, options} = this.props;
     const {hoveredIndex} = this.state;
 
     return (
       <div
         className={classes.optionsContainer}
         tabIndex={1000}>
+        {fixedHeader}
         {
-          (this.props.options || []).map((option, index) => (
+          (options || []).map((option, index) => (
             <div
               data-hook="option"
               key={option.id}
@@ -138,8 +145,9 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
               onMouseEnter={this.isValidOptionForSelection(option) ? () => this.setHoveredIndex(index) : null}>
               {option.render()}
             </div>
-        ))
-      }
+          ))
+        }
+        {fixedFooter}
       </div>
     );
   }
