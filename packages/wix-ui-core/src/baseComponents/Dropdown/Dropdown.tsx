@@ -171,6 +171,7 @@ class Dropdown extends React.PureComponent<DropdownProps, DropdownState> {
           <DropdownContent
             keyboardEvent={keyboardEvent}
             options={options}
+            maxHeight={150}
             selectedIds={selectedIds}
             onOptionClick={this.onOptionClick} />
         </Popover.Content>

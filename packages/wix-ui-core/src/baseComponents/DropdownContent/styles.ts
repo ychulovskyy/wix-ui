@@ -10,7 +10,8 @@ export const styles = (theme: DropdownContentTheme) => {
       border: '1px solid',
       borderColor: theme.borderColor,
       backgroundColor: theme.backgroundColor,
-      borderRadius: theme.borderRadius
+      borderRadius: theme.borderRadius,
+      overflow: 'auto'
     },
 
     option: {

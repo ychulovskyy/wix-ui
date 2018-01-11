@@ -19,6 +19,7 @@ export interface DropdownContentProps {
   keyboardEvent?: string;
   fixedHeader?: React.ReactNode;
   fixedFooter?: React.ReactNode;
+  maxHeight: number;
 }
 
 interface DropdownContentState {
@@ -47,8 +48,12 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
     /** An element that always appears at the top of the options */
     fixedHeader: node,
     /** An element that always appears at the bottom of the options */
-    fixedFooter: node
+    fixedFooter: node,
+    /** Maximum height of the content */
+    maxHeight: node
   };
+
+  private optionsContainerRef: HTMLDivElement;
 
   constructor(props) {
     super(props);
@@ -83,7 +88,7 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
   }
 
   hoverNextItem(interval: number) {
-    const {options} = this.props;
+    const {options, maxHeight} = this.props;
     if (!options.find(this.isValidOptionForSelection)) {
       return;
     }
@@ -99,6 +104,22 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
 
       if (this.isValidOptionForSelection(options[hoveredIndex])) {
         break;
+      }
+    }
+
+    if (this.optionsContainerRef) {
+      const hoveredOption = this.optionsContainerRef.childNodes.item(hoveredIndex) as HTMLElement;
+      const optionHeight = hoveredOption.offsetHeight;
+      const optionTop = hoveredIndex * optionHeight;
+      const {scrollTop} = this.optionsContainerRef;
+
+      // If hovered option is not visible
+      if (!(scrollTop <= optionTop && (scrollTop + maxHeight) > optionTop)) {
+        if (this.optionsContainerRef.scrollTop < optionTop) {
+          this.optionsContainerRef.scrollTop = optionHeight + optionTop - maxHeight;
+        } else {
+          this.optionsContainerRef.scrollTop = optionTop;
+        }
       }
     }
 
@@ -123,29 +144,35 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
   }
 
   render() {
-    const {selectedIds, classes, fixedHeader, fixedFooter, options} = this.props;
+    const {selectedIds, classes, fixedHeader, fixedFooter, options, maxHeight} = this.props;
     const {hoveredIndex} = this.state;
 
     return (
       <div
-        className={classes.optionsContainer}
         tabIndex={1000}>
         {fixedHeader}
         {
-          (options || []).map((option, index) => (
-            <div
-              data-hook="option"
-              key={option.id}
-              className={classNames(classes.option, {
-                selected: !option.isDisabled && selectedIds.includes(option.id),
-                hover: hoveredIndex === index,
-                disabled: option.isDisabled
-              })}
-              onClick={this.isValidOptionForSelection(option) ? () => this.onOptionClick(option) : null}
-              onMouseEnter={this.isValidOptionForSelection(option) ? () => this.setHoveredIndex(index) : null}>
-              {option.render()}
-            </div>
-          ))
+          <div
+            style={{maxHeight: `${maxHeight}px`}}
+            className={classes.optionsContainer}
+            ref={optionsContainer => this.optionsContainerRef = optionsContainer}>
+            {
+              (options || []).map((option, index) => (
+                <div
+                  data-hook="option"
+                  key={option.id}
+                  className={classNames(classes.option, {
+                    selected: !option.isDisabled && selectedIds.includes(option.id),
+                    hover: hoveredIndex === index,
+                    disabled: option.isDisabled
+                  })}
+                  onClick={this.isValidOptionForSelection(option) ? () => this.onOptionClick(option) : null}
+                  onMouseEnter={this.isValidOptionForSelection(option) ? () => this.setHoveredIndex(index) : null}>
+                  {option.render()}
+                </div>
+              ))
+            }
+          </div>
         }
         {fixedFooter}
       </div>
