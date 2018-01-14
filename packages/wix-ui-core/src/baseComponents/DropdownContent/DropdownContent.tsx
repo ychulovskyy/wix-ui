@@ -88,7 +88,7 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
   }
 
   hoverNextItem(interval: number) {
-    const {options, maxHeight} = this.props;
+    const {options} = this.props;
     if (!options.find(this.isValidOptionForSelection)) {
       return;
     }
@@ -108,17 +108,18 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
     }
 
     if (this.optionsContainerRef) {
-      const hoveredOption = this.optionsContainerRef.childNodes.item(hoveredIndex) as HTMLElement;
-      const optionHeight = hoveredOption.offsetHeight;
-      const optionTop = hoveredIndex * optionHeight;
-      const {scrollTop} = this.optionsContainerRef;
+      const hoveredOption = this.optionsContainerRef.childNodes[hoveredIndex] as HTMLElement;
+      const hoveredOptionHeight = hoveredOption.offsetHeight;
+      const hoveredOptionTop = hoveredOption.offsetTop - 1;
+
+      const {scrollTop: optionsContainerScrollTop, clientHeight: optionsContainerClientHeight} = this.optionsContainerRef;
 
       // If hovered option is not visible
-      if (!(scrollTop <= optionTop && (scrollTop + maxHeight) > optionTop)) {
-        if (this.optionsContainerRef.scrollTop < optionTop) {
-          this.optionsContainerRef.scrollTop = optionHeight + optionTop - maxHeight;
+      if (!(optionsContainerScrollTop <= hoveredOptionTop && (optionsContainerScrollTop + optionsContainerClientHeight) > hoveredOptionTop + hoveredOptionHeight)) {
+        if (this.optionsContainerRef.scrollTop < hoveredOptionTop) {
+          this.optionsContainerRef.scrollTop = hoveredOptionHeight + hoveredOptionTop - optionsContainerClientHeight;
         } else {
-          this.optionsContainerRef.scrollTop = optionTop;
+          this.optionsContainerRef.scrollTop = hoveredOptionTop;
         }
       }
     }

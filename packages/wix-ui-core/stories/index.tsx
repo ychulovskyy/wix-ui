@@ -17,7 +17,7 @@ import {OptionFactory} from '../src/baseComponents/DropdownOption';
 const dropdownOptions =
     Array.from(Array(50))
       .map((x, index) =>
-        index === 2500 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, `value${index}`));
+        index === 2 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, index === 15 ? 'fdsf sdf sdf sdf sdf sdfsd fsdf sdf ds' : `value${index}`));
 
 storiesOf('Components', module)
   .add('Badge', () => (
