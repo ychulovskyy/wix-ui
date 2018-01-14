@@ -20,6 +20,7 @@ export interface InputWithOptionsProps {
   onDeselect?: (option: Option) => void;
   initialSelectedIds?: Array<string | number>;
   closeOnSelect?: boolean;
+  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface InputWithOptionsState {
@@ -53,7 +54,9 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
     /** Should close content on select */
     closeOnSelect: bool,
     /** Classes object */
-    classes: object.isRequired
+    classes: object.isRequired,
+    /** Event handler for when the input changes */
+    onInputChange: func
   };
 
   constructor(props) {
@@ -61,9 +64,19 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
 
     this.onSelect = this.onSelect.bind(this);
     this.onDeselect = this.onDeselect.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
     this.state = {
       inputValue: ''
     };
+  }
+
+  onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({
+      inputValue: event.target.value
+    });
+
+    const {onInputChange} = this.props;
+    onInputChange && onInputChange(event);
   }
 
   onDeselect(option) {
@@ -98,7 +111,7 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
           ({onKeyDown}: TriggerElementProps) =>
             <Input
               value={inputValue}
-              onChange={evt => this.setState({inputValue: evt.target.value})}
+              onChange={this.onInputChange}
               onKeyDown={onKeyDown}/>
         }
       </Dropdown>
