@@ -13,6 +13,7 @@ import {StylableToggleSwitchStory, BOStylableToggleSwitchStory} from './Stylable
 import IconWithOptions from '../src/components/IconWithOptions';
 import InputWithOptions from '../src/components/InputWithOptions';
 import {OptionFactory} from '../src/baseComponents/DropdownOption';
+import {GoogleMapsIframeClientStory} from './clients/GoogleMapsIframeClient-story';
 
 const dropdownOptions =
     Array.from(Array(50))
@@ -96,6 +97,9 @@ storiesOf('Components', module)
   ))
   .add('Pagination', () => (
     <PaginationStory />
+  ))
+    .add('GoogleMapsIframeClient', () => (
+    <GoogleMapsIframeClientStory />
   ))
   .add('Divider', () => (
     <DividerStory />
