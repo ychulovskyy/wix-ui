@@ -5,7 +5,7 @@ import {TriggerElementProps} from '../../baseComponents/Dropdown/Dropdown';
 import {Option} from '../../baseComponents/DropdownOption';
 import {createHOC} from '../../createHOC';
 import {HOVER, CLICK, CLICK_TYPE, HOVER_TYPE} from '../../baseComponents/Dropdown/constants';
-import {bool, oneOf, object, arrayOf, string, func, oneOfType, number} from 'prop-types';
+import {bool, oneOf, object, arrayOf, string, func, oneOfType, number, node} from 'prop-types';
 import Input from '../Input';
 
 export interface InputWithOptionsClasses {
@@ -21,6 +21,9 @@ export interface InputWithOptionsProps {
   initialSelectedIds?: Array<string | number>;
   closeOnSelect?: boolean;
   onInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  fixedHeader?: React.ReactNode;
+  fixedFooter?: React.ReactNode;
+  optionsMaxHeight?: number;
 }
 
 interface InputWithOptionsState {
@@ -56,7 +59,13 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
     /** Classes object */
     classes: object.isRequired,
     /** Event handler for when the input changes */
-    onInputChange: func
+    onInputChange: func,
+    /** An element that always appears at the top of the options */
+    fixedHeader: node,
+    /** An element that always appears at the bottom of the options */
+    fixedFooter: node,
+    /** Maximum height of the options */
+    optionsMaxHeight: number
   };
 
   constructor(props) {
@@ -94,7 +103,17 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
   }
 
   render () {
-    const {placement, options, openTrigger, onSelect, onDeselect, initialSelectedIds, closeOnSelect} = this.props;
+    const {
+      placement,
+      options,
+      openTrigger,
+      onSelect,
+      onDeselect,
+      initialSelectedIds,
+      closeOnSelect,
+      fixedFooter,
+      fixedHeader,
+      optionsMaxHeight} = this.props;
     const {inputValue} = this.state;
 
     return (
@@ -103,6 +122,9 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
         openTrigger={openTrigger}
         onSelect={onSelect}
         showArrow={false}
+        optionsMaxHeight={optionsMaxHeight}
+        fixedFooter={fixedFooter}
+        fixedHeader={fixedHeader}
         onDeselect={onDeselect}
         initialSelectedIds={initialSelectedIds}
         options={options}

@@ -28,7 +28,7 @@ export interface DropdownProps {
   closeOnSelect: boolean;
   fixedHeader?: React.ReactNode;
   fixedFooter?: React.ReactNode;
-  optionsMaxHeight: number;
+  optionsMaxHeight?: number;
 }
 
 interface DropdownState {

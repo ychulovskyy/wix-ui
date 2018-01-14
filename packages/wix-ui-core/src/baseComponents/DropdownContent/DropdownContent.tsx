@@ -19,7 +19,7 @@ export interface DropdownContentProps {
   keyboardEvent?: string;
   fixedHeader?: React.ReactNode;
   fixedFooter?: React.ReactNode;
-  maxHeight: number;
+  maxHeight?: number;
 }
 
 interface DropdownContentState {
@@ -31,7 +31,8 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
   static defaultProps = {
     options: [],
     onOptionClick: () => null,
-    selectedIds: []
+    selectedIds: [],
+    maxHeight: 260,
   };
 
   static propTypes = {
