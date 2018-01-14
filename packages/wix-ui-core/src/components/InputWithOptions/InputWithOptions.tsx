@@ -20,10 +20,12 @@ export interface InputWithOptionsProps {
   onDeselect?: (option: Option) => void;
   initialSelectedIds?: Array<string | number>;
   closeOnSelect?: boolean;
-  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onInputChange?: React.EventHandler<React.ChangeEvent<HTMLInputElement>>;
   fixedHeader?: React.ReactNode;
   fixedFooter?: React.ReactNode;
   optionsMaxHeight?: number;
+  onBlur?: React.EventHandler<React.FocusEvent<HTMLInputElement>>;
+  onFocus?: React.EventHandler<React.FocusEvent<HTMLInputElement>>;
 }
 
 interface InputWithOptionsState {
@@ -65,7 +67,11 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
     /** An element that always appears at the bottom of the options */
     fixedFooter: node,
     /** Maximum height of the options */
-    optionsMaxHeight: number
+    optionsMaxHeight: number,
+    /** Event handler for when the input loses focus */
+    onBlur: func,
+    /** Event handler for when the input gains focus */
+    onFocus: func
   };
 
   constructor(props) {
@@ -113,7 +119,9 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
       closeOnSelect,
       fixedFooter,
       fixedHeader,
-      optionsMaxHeight} = this.props;
+      optionsMaxHeight,
+      onFocus,
+      onBlur} = this.props;
     const {inputValue} = this.state;
 
     return (
@@ -132,6 +140,8 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
         {
           ({onKeyDown}: TriggerElementProps) =>
             <Input
+              onFocus={onFocus}
+              onBlur={onBlur}
               value={inputValue}
               onChange={this.onInputChange}
               onKeyDown={onKeyDown}/>
