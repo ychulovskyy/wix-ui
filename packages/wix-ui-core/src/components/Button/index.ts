@@ -6,4 +6,3 @@ import {WixComponentProps} from '../../createHOC';
 
 export {ButtonProps};
 export const Button = withClasses(ButtonComponent, styles) as React.ComponentClass<ButtonProps & ThemedComponentProps & WixComponentProps>;
-export default Button;

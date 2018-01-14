@@ -7,4 +7,3 @@ import {WixComponentProps} from '../../createHOC';
 
 export {BadgeProps};
 export const Badge = withClasses(BadgeComponent, styles) as React.ComponentClass<BadgeProps & ThemedComponentProps & WixComponentProps>;
-export default Badge;

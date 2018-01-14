@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {OptionFactory, OptionType} from './';
-import Divider from '../../components/Divider';
+import {Divider} from '../../components/Divider';
 
 describe('DropdownOption', () => {
   it('should create default Option', () => {

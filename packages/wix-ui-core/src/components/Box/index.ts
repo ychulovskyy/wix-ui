@@ -7,4 +7,3 @@ import {WixComponentProps} from '../../createHOC';
 
 export {BoxProps};
 export const Box = withClasses(BoxComponent, styles) as React.ComponentClass<BoxProps & ThemedComponentProps & WixComponentProps>;
-export default Box;

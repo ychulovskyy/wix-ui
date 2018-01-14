@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Dropdown from '../../baseComponents/Dropdown';
+import {Dropdown} from '../../baseComponents/Dropdown';
 import {Placement} from '../../baseComponents/Popover/Popover';
 import {TriggerElementProps} from '../../baseComponents/Dropdown/Dropdown';
 import {Option} from '../../baseComponents/DropdownOption';

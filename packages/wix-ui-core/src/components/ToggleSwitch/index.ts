@@ -7,4 +7,3 @@ import {WixComponentProps} from '../../createHOC';
 
 export {ToggleSwitchProps};
 export const ToggleSwitch = withClasses(ToggleSwitchComponent, styles) as React.ComponentClass<ToggleSwitchProps & ThemedComponentProps & WixComponentProps>;
-export default ToggleSwitch;

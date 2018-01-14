@@ -7,4 +7,3 @@ import {WixComponentProps} from '../../createHOC';
 
 export {DividerProps};
 export const Divider = withClasses(DividerComponent, styles) as React.ComponentClass<DividerProps & ThemedComponentProps & WixComponentProps>;
-export default Divider;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as uniqueId from 'lodash/uniqueId';
-import Divider from '../../components/Divider';
+import {Divider} from '../../components/Divider';
 
 export interface Option {
   id: number | string;

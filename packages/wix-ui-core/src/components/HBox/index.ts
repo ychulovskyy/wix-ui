@@ -7,4 +7,3 @@ import {WixComponentProps} from '../../createHOC';
 
 export {HBoxProps};
 export const HBox = withClasses(HBoxComponent, styles) as React.ComponentClass<HBoxProps & ThemedComponentProps & WixComponentProps>;
-export default HBox;

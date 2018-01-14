@@ -7,4 +7,4 @@ import {WixComponentProps} from '../../createHOC';
 
 export {TextProps};
 export const Text = withClasses(TextComponent, styles) as React.ComponentClass<TextProps & ThemedComponentProps & WixComponentProps>;
-export default Text;
+Text;

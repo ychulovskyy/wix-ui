@@ -7,4 +7,3 @@ import {WixComponentProps} from '../../createHOC';
 
 export {VBoxProps};
 export const VBox = withClasses(VBoxComponent, styles) as React.ComponentClass<VBoxProps & ThemedComponentProps & WixComponentProps>;
-export default VBox;

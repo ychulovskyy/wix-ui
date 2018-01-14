@@ -7,4 +7,3 @@ import {WixComponentProps} from '../../createHOC';
 
 export {PaginationProps};
 export const Pagination = withClasses(PaginationComponent, styles) as React.ComponentClass<PaginationProps & ThemedComponentProps & WixComponentProps>;
-export default Pagination;

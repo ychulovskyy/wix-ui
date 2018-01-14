@@ -7,4 +7,3 @@ import {WixComponentProps} from '../../createHOC';
 
 export {InputProps};
 export const Input = withClasses(InputComponent, styles) as React.ComponentClass<InputProps & ThemedComponentProps & WixComponentProps>;
-export default Input;

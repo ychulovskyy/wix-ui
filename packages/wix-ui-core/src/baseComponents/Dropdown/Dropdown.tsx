@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Popover from '../Popover';
+import {Popover} from '../Popover';
 import {Placement} from '../Popover/Popover';
 import {bool, string, oneOf, arrayOf, object, func, oneOfType, number, node} from 'prop-types';
 import {createHOC} from '../../createHOC';
 import onClickOutside from 'react-onclickoutside';
-import DropdownContent from '../DropdownContent';
+import {DropdownContent} from '../DropdownContent';
 import {Option} from '../DropdownOption';
 import {CLICK, CLICK_TYPE, HOVER, HOVER_TYPE} from './constants';
 
@@ -66,6 +66,8 @@ class Dropdown extends React.PureComponent<DropdownProps, DropdownState> {
     /** Maximum height of the options */
     optionsMaxHeight: number
   };
+
+  private dropdownContentRef;
 
   constructor(props) {
     super(props);
@@ -178,6 +180,7 @@ class Dropdown extends React.PureComponent<DropdownProps, DropdownState> {
         </Popover.Element>
         <Popover.Content>
           <DropdownContent
+            ref={dropdownContent => this.dropdownContentRef = dropdownContent}
             keyboardEvent={keyboardEvent}
             options={options}
             fixedFooter={fixedFooter}

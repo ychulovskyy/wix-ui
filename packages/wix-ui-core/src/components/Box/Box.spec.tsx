@@ -3,7 +3,7 @@ import {mount} from 'enzyme';
 import {boxDriverFactory} from './Box.driver';
 import {createDriverFactory} from 'wix-ui-test-utils';
 import * as times from 'lodash/times';
-import Box from './';
+import {Box} from './';
 
 describe('Box', () => {
   let wrapper;

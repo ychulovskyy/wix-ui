@@ -1,17 +1,17 @@
 import * as React from 'react';
 import {storiesOf} from '@storybook/react';
-import Text from '../src/components/Text';
-import Button from '../src/components/Button';
-import Badge from '../src/components/Badge';
-import Input from '../src/components/Input';
-import Box from '../src/components/Box';
+import {Text} from '../src/components/Text';
+import {Button} from '../src/components/Button';
+import {Badge} from '../src/components/Badge';
+import {Input} from '../src/components/Input';
+import {Box} from '../src/components/Box';
 import {PaginationStory} from './Pagination/pagination-story';
 import {DividerStory} from './Divider/divider-story';
 import {TooltipStory} from './Tooltip/tooltip-story';
 import {ToggleSwitchStory} from './ToggleSwitch/ToggleSwitch-story';
 import {StylableToggleSwitchStory, BOStylableToggleSwitchStory} from './StylableToggleSwitch/StylableToggleSwitch-story';
-import IconWithOptions from '../src/components/IconWithOptions';
-import InputWithOptions from '../src/components/InputWithOptions';
+import {IconWithOptions} from '../src/components/IconWithOptions';
+import {InputWithOptions} from '../src/components/InputWithOptions';
 import {OptionFactory} from '../src/baseComponents/DropdownOption';
 import {GoogleMapsIframeClientStory} from './clients/GoogleMapsIframeClient-story';
 
