@@ -50,7 +50,7 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
     /** An element that always appears at the bottom of the options */
     fixedFooter: node,
     /** Maximum height of the content */
-    maxHeight: node
+    maxHeight: number
   };
 
   private optionsContainerRef: HTMLDivElement;

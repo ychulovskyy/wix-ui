@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Popover from '../Popover';
 import {Placement} from '../Popover/Popover';
-import {bool, string, oneOf, arrayOf, object, func, oneOfType, number} from 'prop-types';
+import {bool, string, oneOf, arrayOf, object, func, oneOfType, number, node} from 'prop-types';
 import {createHOC} from '../../createHOC';
 import onClickOutside from 'react-onclickoutside';
 import DropdownContent from '../DropdownContent';
@@ -26,6 +26,9 @@ export interface DropdownProps {
   onDeselect: (option: Option) => void;
   initialSelectedIds: Array<string | number>;
   closeOnSelect: boolean;
+  fixedHeader?: React.ReactNode;
+  fixedFooter?: React.ReactNode;
+  optionsMaxHeight: number;
 }
 
 interface DropdownState {
@@ -55,7 +58,13 @@ class Dropdown extends React.PureComponent<DropdownProps, DropdownState> {
     /** Classes object */
     classes: object.isRequired,
     /** Should display arrow with the content */
-    showArrow: bool
+    showArrow: bool,
+    /** An element that always appears at the top of the options */
+    fixedHeader: node,
+    /** An element that always appears at the bottom of the options */
+    fixedFooter: node,
+    /** Maximum height of the options */
+    optionsMaxHeight: number
   };
 
   constructor(props) {
@@ -150,7 +159,7 @@ class Dropdown extends React.PureComponent<DropdownProps, DropdownState> {
   }
 
   render() {
-    const {openTrigger, placement, options, children, showArrow} = this.props;
+    const {openTrigger, placement, options, children, showArrow, optionsMaxHeight, fixedFooter, fixedHeader} = this.props;
     const {isOpen, selectedIds, keyboardEvent} = this.state;
 
     return (
@@ -171,7 +180,9 @@ class Dropdown extends React.PureComponent<DropdownProps, DropdownState> {
           <DropdownContent
             keyboardEvent={keyboardEvent}
             options={options}
-            maxHeight={150}
+            fixedFooter={fixedFooter}
+            fixedHeader={fixedHeader}
+            maxHeight={optionsMaxHeight}
             selectedIds={selectedIds}
             onOptionClick={this.onOptionClick} />
         </Popover.Content>
