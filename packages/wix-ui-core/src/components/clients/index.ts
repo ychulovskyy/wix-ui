@@ -1,5 +1,3 @@
 import {GoogleMapsIframeClient} from './GoogleMapsIframeClient';
 
-export default {
-  GoogleMapsIframeClient
-};
+export {GoogleMapsIframeClient};
