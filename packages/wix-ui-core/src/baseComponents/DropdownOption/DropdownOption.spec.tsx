@@ -24,7 +24,7 @@ describe('DropdownOption', () => {
     expect(option.id).toContain('Divider');
     expect(option.isDisabled).toBeFalsy();
     expect(option.isSelectable).toBeFalsy();
-    expect(option.render()).toEqual(<Divider>{null}</Divider>);
+    expect(option.render()).toEqual(<Divider />);
   });
 
   it('should create divider with content', () => {

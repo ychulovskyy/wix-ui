@@ -94,18 +94,24 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
     onInputChange && onInputChange(event);
   }
 
-  onDeselect(option) {
+  onDeselect(option: Option) {
+    const {onDeselect} = this.props;
     const {inputValue} = this.state;
     this.setState({
-      inputValue: inputValue.replace(option.value + ' ', '')
+      inputValue: (inputValue || '').split(' ').filter(x => x !== option.value).join(' ')
     });
+
+    onDeselect(option);
   }
 
-  onSelect(option) {
+  onSelect(option: Option) {
+    const {onSelect, closeOnSelect} = this.props;
     const {inputValue} = this.state;
     this.setState({
-      inputValue: inputValue + `${option.value} `
+      inputValue: closeOnSelect ? option.value : [...((inputValue || '').split(' ')), option.value].join(' ')
     });
+
+    onSelect(option);
   }
 
   render () {
@@ -113,8 +119,6 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
       placement,
       options,
       openTrigger,
-      onSelect,
-      onDeselect,
       initialSelectedIds,
       closeOnSelect,
       fixedFooter,
@@ -128,12 +132,12 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
       <Dropdown
         placement={placement}
         openTrigger={openTrigger}
-        onSelect={onSelect}
+        onSelect={this.onSelect}
         showArrow={false}
         optionsMaxHeight={optionsMaxHeight}
         fixedFooter={fixedFooter}
         fixedHeader={fixedHeader}
-        onDeselect={onDeselect}
+        onDeselect={this.onDeselect}
         initialSelectedIds={initialSelectedIds}
         options={options}
         closeOnSelect={closeOnSelect}>

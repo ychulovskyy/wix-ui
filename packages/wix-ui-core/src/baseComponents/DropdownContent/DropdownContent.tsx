@@ -68,7 +68,7 @@ class DropdownContent extends React.PureComponent<DropdownContentProps, Dropdown
     this.onKeyDown(this.props.keyboardEvent);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: DropdownContentProps) {
     this.onKeyDown(nextProps.keyboardEvent);
   }
 
