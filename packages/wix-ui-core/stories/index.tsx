@@ -28,20 +28,21 @@ storiesOf('Components', module)
     <Button dataHook="story-button">Hello</Button>
   ))
   .add('IconWithOptions', () => (
-    <div style={{padding: '50px'}}>
-      <IconWithOptions
-        iconUrl="https://cdn3.iconfinder.com/data/icons/caps-hats/512/Ladies_cap-128.png"
-        dataHook="story-icon-with-options"
-        options={dropdownOptions}/>
-    </div>
+    <IconWithOptions
+      iconUrl="https://cdn3.iconfinder.com/data/icons/caps-hats/512/Ladies_cap-128.png"
+      dataHook="story-icon-with-options"
+      options={dropdownOptions}/>
   ))
-  .add('InputWithOptions', () => (
-    <div style={{padding: '50px'}}>
-      <InputWithOptions
-        closeOnSelect={false}
-        dataHook="story-input-with-options"
-        options={dropdownOptions}/>
-    </div>
+  .add('InputWithOptions Single select', () => (
+    <InputWithOptions
+      dataHook="story-input-with-options-single"
+      options={dropdownOptions}/>
+  ))
+  .add('InputWithOptions Multi select', () => (
+    <InputWithOptions
+      closeOnSelect={false}
+      dataHook="story-input-with-options-multi"
+      options={dropdownOptions}/>
   ))
   .add('Input', () => (
     <Input dataHook="story-input" />
