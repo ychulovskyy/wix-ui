@@ -4,13 +4,6 @@ import * as uniqueId from 'lodash/uniqueId';
 import {getViewBox, getPathDescription} from '../ToggleSwitch/utils';
 import style from './ToggleSwitch.st.css';
 
-export type ToggleSwitchClasses = {
-  root: string;
-  outerLabel: string;
-  innerLabel: string;
-  toggleIcon: string;
-};
-
 export interface ToggleSwitchProps {
   checked?: boolean;
   disabled?: boolean;
