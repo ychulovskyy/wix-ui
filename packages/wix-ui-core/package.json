@@ -39,12 +39,12 @@
     "hoist-non-react-statics": "^2.3.1",
     "jss": "^9.3.3",
     "jss-preset-default": "^4.0.1",
-    "prop-types": "^15.6.0",
     "lodash": "^4.17.4",
+    "prop-types": "^15.6.0",
     "react-onclickoutside": "^6.7.0",
     "react-popper": "^0.7.4",
-    "stylable": "^5.0.4",
-    "stylable-integration": "^6.0.1",
+    "stylable": "^5.1.0",
+    "stylable-integration": "^6.0.2",
     "wix-ui-jss": "^1.0.0"
   },
   "devDependencies": {
