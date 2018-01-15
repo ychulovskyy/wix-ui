@@ -1,8 +1,8 @@
 import * as React from 'react';
+import * as times from 'lodash/times';
 import {mount} from 'enzyme';
 import {boxDriverFactory} from './Box.driver';
 import {createDriverFactory} from 'wix-ui-test-utils';
-import * as times from 'lodash/times';
 import {Box} from './';
 
 describe('Box', () => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {createHOC} from '../../createHOC';
-import * as PropTypes from 'prop-types';
 import * as classNames from 'classnames';
+import {createHOC} from '../../createHOC';
+import {number, func, oneOf, bool, string, object} from 'prop-types';
 import {PageStrip} from './PageStrip';
 
 const upperCaseFirst = (str: string): string => str[0].toUpperCase() + str.slice(1);
@@ -73,45 +73,45 @@ class Pagination extends React.Component<PaginationProps, PaginationState> {
   // this is a techincal debt - remove once we have support for typescript props in autodocs
   static propTypes = {
     /** The number of pages available to paginate */
-    totalPages: PropTypes.number.isRequired,
+    totalPages: number.isRequired,
     /** Current page to be shown as current. defaults to 1 */
-    currentPage: PropTypes.number,
+    currentPage: number,
     /** Function that generates URLs for page links. If onitted, pages don't link anywhere. */
-    pageUrl: PropTypes.func,
+    pageUrl: func,
     /** Callback to be called when pagination happens - structure ({event, page: number}) => void */
-    onChange: PropTypes.func,
+    onChange: func,
     /** Changes page selection mode between page selection and input field. defaults to 'pages'*/
-    paginationMode: PropTypes.oneOf(['pages' , 'input']),
+    paginationMode: oneOf(['pages' , 'input']),
     /** Shows the 'first' and 'last' navigation buttons. defaults to false */
-    showFirstLastNavButtons: PropTypes.bool,
+    showFirstLastNavButtons: bool,
     /** Allows replacing navigation arrows with textual buttons */
-    replaceArrowsWithText: PropTypes.bool,
+    replaceArrowsWithText: bool,
     /** Text to appear for the 'first' navigation button when prop 'replaceArrowsWithText' is true */
-    firstText: PropTypes.string,
+    firstText: string,
     /** Text to appear for the 'previous' navigation button when prop 'replaceArrowsWithText' is true */
-    previousText: PropTypes.string,
+    previousText: string,
     /** Text to appear for the 'next' navigation button when prop 'replaceArrowsWithText' is true */
-    nextText: PropTypes.string,
+    nextText: string,
     /** Text to appear for the 'last' navigation button when prop 'replaceArrowsWithText' is true */
-    lastText: PropTypes.string,
+    lastText: string,
     /**  Whether the component layout is right to left */
-    rtl: PropTypes.bool,
+    rtl: bool,
     /** The pixel width the component will render in  */
-    width: PropTypes.number,
+    width: number,
     /** Whether the page numbers always show the first page  */
-    showFirstPage: PropTypes.bool,
+    showFirstPage: bool,
     /** Whether the page numbers always show the last page  */
-    showLastPage: PropTypes.bool,
+    showLastPage: bool,
     /** Whether the to show the total amount of pages next to the input field in "input" paginationMode */
-    showInputModeTotalPages: PropTypes.bool,
+    showInputModeTotalPages: bool,
     /** In 'pages' mode automatically limits the number of pages such that they don't overflow the container */
-    responsive: PropTypes.bool,
+    responsive: bool,
     /** In 'pages' mode defines the maximum number of pages to show */
-    maxPagesToShow: PropTypes.number,
+    maxPagesToShow: number,
     /** Classes object */
-    classes: PropTypes.object,
+    classes: object,
     /** Component ID */
-    id: PropTypes.string
+    id: string
   };
 
   public static defaultProps: Partial<PaginationProps> = {

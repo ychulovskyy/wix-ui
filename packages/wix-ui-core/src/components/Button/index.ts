@@ -1,7 +1,7 @@
 import * as React from 'react';
+import ButtonComponent, {ButtonProps} from './Button';
 import {styles} from './styles';
 import {withClasses, ThemedComponentProps} from 'wix-ui-jss';
-import ButtonComponent, {ButtonProps} from './Button';
 import {WixComponentProps} from '../../createHOC';
 
 export {ButtonProps};

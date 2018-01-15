@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {withStylable} from '../';
 import style from './ToggleSwitch.st.css';
+import {withStylable} from '../';
 import {StylableToggleSwitch} from '../';
 
 const BOStylableToggleSwitch: React.ComponentClass<any> = withStylable(

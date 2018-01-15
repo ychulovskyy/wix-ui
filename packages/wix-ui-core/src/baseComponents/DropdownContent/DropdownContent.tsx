@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {func, object, arrayOf, oneOfType, number, string, node} from 'prop-types';
 import * as classNames from 'classnames';
+import {func, object, arrayOf, oneOfType, number, string, node} from 'prop-types';
 import {createHOC} from '../../createHOC';
 import {Option} from '../DropdownOption';
 
