@@ -16,7 +16,7 @@ import {OptionFactory} from '../src/baseComponents/DropdownOption';
 import {GoogleMapsIframeClientStory} from './clients/GoogleMapsIframeClient-story';
 
 const dropdownOptions =
-    Array.from(Array(50))
+    Array.from(Array(20))
       .map((x, index) =>
         index === 2 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, index === 15 ? 'fdsf sdf sdf sdf sdf sdfsd fsdf sdf ds' : `value${index}`));
 

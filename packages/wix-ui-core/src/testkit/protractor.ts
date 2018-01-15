@@ -23,3 +23,6 @@ export const dividerTestkitFactory = protractorTestkitFactoryCreator(dividerDriv
 
 import {googleMapsIframeClientDriverFactory} from '../clients/GoogleMaps/GoogleMapsIframeClient.protractor.driver';
 export const googleMapsIframeClientTestkitFactory = protractorTestkitFactoryCreator(googleMapsIframeClientDriverFactory);
+
+import {inputWithOptionsDriverFactory} from '../components/InputWithOptions/InputWithOptions.protractor.driver';
+export const inputWithOptionsTestkitFactory = protractorTestkitFactoryCreator(inputWithOptionsDriverFactory);

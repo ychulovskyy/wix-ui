@@ -98,7 +98,7 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
     const {onDeselect} = this.props;
     const {inputValue} = this.state;
     this.setState({
-      inputValue: (inputValue || '').split(' ').filter(x => x !== option.value).join(' ')
+      inputValue: (inputValue || '').split(' ').filter(x => x !== option.value).join(' ').trim()
     });
 
     onDeselect(option);
@@ -108,7 +108,7 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
     const {onSelect, closeOnSelect} = this.props;
     const {inputValue} = this.state;
     this.setState({
-      inputValue: closeOnSelect ? option.value : [...((inputValue || '').split(' ')), option.value].join(' ')
+      inputValue: closeOnSelect ? option.value : [...((inputValue || '').split(' ')), option.value].join(' ').trim()
     });
 
     onSelect(option);
