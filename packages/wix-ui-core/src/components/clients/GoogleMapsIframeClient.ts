@@ -10,7 +10,7 @@ export class GoogleMapsIframeClient {
     window.addEventListener('message', this.handleMessage, false);
   }
 
-  handleMessage = event => {
+  private handleMessage = event => {
     const {data} = event;
     if (data.requestId && this._promisesMap.has(data.requestId)) {
       const promise = this._promisesMap.get(data.requestId);

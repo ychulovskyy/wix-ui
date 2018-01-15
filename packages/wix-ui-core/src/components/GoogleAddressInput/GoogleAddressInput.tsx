@@ -4,69 +4,41 @@ import castArray from 'lodash/castArray';
 
 import Input from '../Input';
 import InputWithOptions from '../InputWithOptions';
-import {google2address, includes} from './google2address';
+import {google2address} from './google2address';
+import {GoogleMapsIframeClient} from "../clients/GoogleMapsIframeClient";
 // import * as styles from './GoogleAddressInput.scss';
 
+export const GoogleAddressInputHandler = {
+    geocode: 'geocode',
+    places: 'places'
+};
+
 export interface GoogleAddressInputProps {
-    /** Placeholder for the input box */
     placeholder?: string;
-
-    /** Value to place before every search term (normally should not be used) */
+    apiKey: string;
+    lang?: string;
     valuePrefix?: string;
-
-    /** Country code used to help with suggestions and geocoding */
     countryCode?: string;
-
-    /** Controlled mode - value to display */
     value?: string;
-
-    /** Limit the autocomplete to specific types (see [here](https://developers.google.com/places/supported_types#table3) for list) */
     types?: any[];
-
-    /** Lower level filtering of autocomplete result types (see [here](https://developers.google.com/places/supported_types) for list)  */
     filterTypes?: any[];
-
-    /** Should display error marker */
     error?: boolean;
     onChange?: Function;
     onBlur?: Function;
     onFocus?: Function;
     onKeyDown?: Function;
-
-    /** Callback for results. Will return an object containing: originValue (value in the search), googleResult (google geocode result for the search), address (which will include: formatted (google formatted address), country, countryCode, street, number, postalCode, latLng (lat, lng)) */
     onSet?: Function;
-
-    /** Google map client implementation (should implement autocomplete and geocode functions). Normally you would use wix-style-react/clients/GoogleMapsClient */
-    Client: Function;,
-
-    /** Show or hide magnifying glass icon */
+    Client: GoogleMapsIframeClient;
     magnifyingGlass?: boolean;
-    theme?: Input.propTypes.theme,
-
-    /** Sets the input to readOnly */
+    /*theme?: Input.propTypes.theme,*/ /* Theme is going to change due to styleable*/
     readOnly?: boolean;
     autoSelect?: boolean;
-
-    /** Display a footer as the last suggestion in the list */
     footer?: any;
-
-    /** Set the footer's options (e.g. disabled, overrideStyles, etc. ) */
     footerOptions?: object;
-
-    /** Clear the suggestions list upon input blur */
     clearSuggestionsOnBlur?: boolean;
-
-    /** If set to `true`, we will attempt to get a Google location from the input's text if there are no suggestions. This is useful when looking for locations for which google does not give suggestions - for example: Apartment/Apt  */
     fallbackToManual?: boolean;
-
-    /** Shows the Powered By Google credit in a fixed footer */
     poweredByGoogle?: boolean;
-
-    /** Sets how to get more details for a place (e.g. geocode, places, etc) */
-    handler?: PropTypes.oneOf([
-                                  GoogleAddressInputHandler.geocode,
-                                  GoogleAddressInputHandler.places
-                              ])
+    handler?: 'geocode' | 'places'
 }
 
 
@@ -80,15 +52,20 @@ export interface GoogleAddressInputState {
     value: string;
 }
 
-export const GoogleAddressInputHandler = {
-    geocode: 'geocode',
-    places: 'places'
-};
 
 /**
  * Address input box (using Google Maps)
  */
 class GoogleAddressInput extends React.Component<GoogleAddressInputProps, GoogleAddressInputState> {
+
+    autocomplete: any;
+    autoCompleteRequestId = 0;
+    geocodeRequestId = 0;
+    client: {
+        autocomplete: Function,
+        placeDetails: Function,
+        geocode: Function
+    };
 
     static defaultProps = {
         magnifyingGlass: true,
@@ -103,15 +80,76 @@ class GoogleAddressInput extends React.Component<GoogleAddressInputProps, Google
 
     static displayName = 'GoogleAddressInput';
 
-    timer: any;
-    autocomplete: any;
-    autoCompleteRequestId = 0;
-    geocodeRequestId = 0;
-    client: {
-        autocomplete: Function,
-        placeDetails: Function,
-        geocode: Function
+    static propTypes = {
+
+        /** Placeholder for the input box */
+        placeholder: PropTypes.string,
+
+        /** apiKey to use for requests */
+        apiKey: PropTypes.string.isRequired,
+
+        /** locale to use for requests */
+        lang: PropTypes.string,
+
+        /** Value to place before every search term (normally should not be used) */
+        valuePrefix: PropTypes.string,
+
+        /** Country code used to help with suggestions and geocoding */
+        countryCode: PropTypes.string,
+
+        /** Controlled mode - value to display */
+        value: PropTypes.string,
+
+        /** Limit the autocomplete to specific types (see [here](https://developers.google.com/places/supported_types#table3) for list) */
+        types: PropTypes.array,
+
+        /** Lower level filtering of autocomplete result types (see [here](https://developers.google.com/places/supported_types) for list)  */
+        filterTypes: PropTypes.array,
+
+        /** Should display error marker */
+        error: PropTypes.bool,
+        onChange: PropTypes.func,
+        onBlur: PropTypes.func,
+        onFocus: PropTypes.func,
+        onKeyDown: PropTypes.func,
+
+        /** Callback for results. Will return an object containing: originValue (value in the search), googleResult (google geocode result for the search), address (which will include: formatted (google formatted address), country, countryCode, street, number, postalCode, latLng (lat, lng)) */
+        onSet: PropTypes.func,
+
+        /** Google map client implementation (should implement autocomplete and geocode functions). Normally you would use wix-style-react/clients/GoogleMapsClient */
+        Client: PropTypes.func.isRequired,
+
+        /** Show or hide magnifying glass icon */
+        magnifyingGlass: PropTypes.bool,
+        /*theme: Input.propTypes.theme, */ //Need to be taken care when themes are supported
+
+        /** Sets the input to readOnly */
+        readOnly: PropTypes.bool,
+        autoSelect: PropTypes.bool,
+
+        /** Display a footer as the last suggestion in the list */
+        footer: PropTypes.any,
+
+        /** Set the footer's options (e.g. disabled, overrideStyles, etc. ) */
+        footerOptions: PropTypes.object,
+
+        /** Clear the suggestions list upon input blur */
+        clearSuggestionsOnBlur: PropTypes.bool,
+
+        /** If set to `true`, we will attempt to get a Google location from the input's text if there are no suggestions. This is useful when looking for locations for which google does not give suggestions - for example: Apartment/Apt  */
+        fallbackToManual: PropTypes.bool,
+
+        /** Shows the Powered By Google credit in a fixed footer */
+        poweredByGoogle: PropTypes.bool,
+
+        /** Sets how to get more details for a place (e.g. geocode, places, etc) */
+        handler: PropTypes.oneOf([
+            GoogleAddressInputHandler.geocode,
+            GoogleAddressInputHandler.places
+        ])
     };
+    timer: any;
+
 
     constructor(props) {
         super(props);
@@ -123,7 +161,6 @@ class GoogleAddressInput extends React.Component<GoogleAddressInputProps, Google
 
         // this.autoCompleteRequestId = 0;
         // this.geocodeRequestId = 0;
-        this.client = new props.Client();
 
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
@@ -176,11 +213,12 @@ class GoogleAddressInput extends React.Component<GoogleAddressInputProps, Google
                     value={value}
                     options={options}
                     fixedFooter={(suggestions.length && this.props.poweredByGoogle) ? GoogleAddressInput.getGoogleFooter() : null}
-                    selectedHighlight={false}
                 />
             </div>
         );
     }
+
+    static includes = (arr, value) => Boolean(arr && arr.find(item => item === value)); // we compare only primitives
 
     static getGoogleFooter = () => {
         {/*<div className={styles.googleFooter} data-hook="google-footer"/>*/
@@ -274,7 +312,8 @@ class GoogleAddressInput extends React.Component<GoogleAddressInputProps, Google
             const result = {
                 originValue: value,
                 googleResult: results[0],
-                address: google2address(results[0])
+                address: results[0]
+               /*address: google2address(results[0])*/
             };
 
             this.props.onSet && this.props.onSet(result);
@@ -345,7 +384,7 @@ class GoogleAddressInput extends React.Component<GoogleAddressInputProps, Google
             }
 
             if (filterTypes) {
-                results = results.filter(result => includes(result.types, filterTypes));
+                results = results.filter(result => this.includes(result.types, filterTypes));
             }
 
             return Promise.resolve(results);

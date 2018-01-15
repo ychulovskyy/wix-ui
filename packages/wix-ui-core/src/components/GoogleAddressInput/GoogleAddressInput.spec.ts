@@ -294,4 +294,18 @@ describe('GoogleAddressInput', () => {
             }, 300);
         });
     });
+
+    describe('Client API', () => {
+        it('should call any client action with apiKey', () => {
+
+        });
+
+        it('should call client action with lang if lang was passed as prop', () => {
+
+        });
+
+        it('should request new results when lang changed', () => {
+
+        })
+    })
 });
