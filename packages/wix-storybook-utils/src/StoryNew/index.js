@@ -9,6 +9,7 @@ import AutoDocs from '../AutoDocs';
 
 import styles from '../Story/styles.scss';
 
+const isE2E = global.self === global.top;
 
 export default ({
   category,
@@ -21,6 +22,22 @@ export default ({
   _metadata: metadata
 }) =>
   config.storiesOf(category, module).add(storyName || metadata.displayName, () => {
+    if (isE2E) {
+      return (
+        <div>
+          <AutoExample
+            isInteractive={false}
+            ref={ref => global.autoexample = ref}
+            component={component}
+            componentProps={componentProps}
+            parsedSource={metadata}
+            />
+
+          {examples}
+        </div>
+      );
+    }
+
     const tabs = [
       'Usage',
       'API',
@@ -63,7 +80,7 @@ export default ({
 
         { metadata.readmeTestkit && <Markdown source={metadata.readmeTestkit}/> }
 
-        {metadata.readmeAccessibility && <Markdown source={metadata.readmeAccessibility}/>}
+        { metadata.readmeAccessibility && <Markdown source={metadata.readmeAccessibility}/> }
       </TabbedView>
     );
   });
