@@ -79,5 +79,3 @@ export class ToggleSwitch extends React.PureComponent<ToggleSwitchProps> {
     );
   }
 }
-
-export default ToggleSwitch;
