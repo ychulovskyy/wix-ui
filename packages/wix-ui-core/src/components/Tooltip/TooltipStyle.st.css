@@ -4,7 +4,7 @@
 }
 
 :import {
-  -st-from: "../../baseComponents/Popover/PopoverVars.st.css";
+  -st-from: "./TooltipVars.st.css";
   -st-named:
     contentBackgroundColor,
     contentBorderWidth,

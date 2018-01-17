@@ -4,7 +4,7 @@
 }
 
 :import {
-  -st-from: "../../baseComponents/Dropdown/DropdownVars.st.css";
+  -st-from: "./IconWithOptionsVars.st.css";
   -st-named:
     contentBackgroundColor,
     contentBorderWidth,
