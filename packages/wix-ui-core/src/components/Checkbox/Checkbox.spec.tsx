@@ -1,22 +1,25 @@
 import * as React from 'react';
 import {checkboxDriverFactory} from './Checkbox.driver';
-import {createDriverFactory, isTestkitExists, isEnzymeTestkitExists} from 'wix-ui-test-utils';
+import {createDriverFactory} from 'wix-ui-test-utils';
 // import {core, CheckboxTheme} from './theme';
-import {mount} from 'enzyme';
-import {checkboxTestkitFactory} from '../../testkit';
-import {checkboxTestkitFactory as enzymeCheckboxTestkitFactory} from '../../testkit/enzyme';
-import {Checkbox} from './';
+// import {mount} from 'enzyme';
+// import {checkboxTestkitFactory} from '../../testkit';
+// import {checkboxTestkitFactory as enzymeCheckboxTestkitFactory} from '../../testkit/enzyme';
+import Checkbox from './Checkbox';
 
-describe('Checkbox', () => {
+describe.only('Checkbox', () => {
 
   const createDriver = createDriverFactory(checkboxDriverFactory);
 
-  describe('type prop', () => {
-    it('should be passed down', () => {
-      const type = 'checkbox';
-      const driver = createDriver(<Checkbox type={type}/>);
-      expect(driver.getType()).toBe(type);
-    });
+  it('Renders with default values', async () => {
+    const driver = createDriver(<Checkbox />);
+
+    expect(driver.exists()).toBe(true);
+    expect(driver.isChecked()).toBe(false);
+    // await waitForDom(() => {
+    //   expect(checkbox.root).to.be.present();
+    //   expect(checkbox.isChecked(), 'checkbox was expected to be unchecked').to.equal(false);
+    // });
   });
 
   // describe('onClick prop', () => {

@@ -1,4 +1,4 @@
-@namespace "CheckBox";
+@namespace "Checkbox";
 
 .root {
     -st-states: checked, disabled, indeterminate, readonly, focus, error;

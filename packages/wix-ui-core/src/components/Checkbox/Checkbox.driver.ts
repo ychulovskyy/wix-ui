@@ -12,6 +12,8 @@ export const checkboxDriverFactory = ({element, eventTrigger}) => {
     mouseLeave: () => eventTrigger.mouseLeave(element),
     /** returns elements type attribute */
     getType: () => element.getAttribute('type'),
+    /** checks if element is checked */
+    isChecked: () => element.getAttribute('checked'),
     /** returns elements textContent */
     getTextContent: () => element.textContent,
     /** returns if the element is disabled */

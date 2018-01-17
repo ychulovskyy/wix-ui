@@ -14,6 +14,7 @@ import {IconWithOptions} from '../src/components/IconWithOptions';
 import {InputWithOptions} from '../src/components/InputWithOptions';
 import {OptionFactory} from '../src/baseComponents/DropdownOption';
 import {GoogleMapsIframeClientStory} from './clients/GoogleMapsIframeClient-story';
+import {CheckboxStory} from './Checkbox/Checkbox-story';
 
 const dropdownOptions =
     Array.from(Array(20))
@@ -104,4 +105,7 @@ storiesOf('Components', module)
   ))
   .add('Divider', () => (
     <DividerStory />
+  ))
+  .add('Checkbox', () => (
+    <CheckboxStory />
   ));

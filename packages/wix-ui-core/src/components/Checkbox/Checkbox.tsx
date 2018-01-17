@@ -6,7 +6,7 @@ import style from './Checkbox.st.css';
 export interface CheckboxProps {
   checked?: boolean;
   disabled?: boolean;
-  onChange: React.EventHandler<React.ChangeEvent<HTMLInputElement>>;
+  onChange?: React.EventHandler<React.ChangeEvent<HTMLInputElement>>;
   id?: string;
   tabIndex?: number;
   tickIcon?: React.ReactNode;
@@ -121,7 +121,7 @@ class Checkbox extends React.PureComponent<CheckboxProps> {
 
   render() {
     const {checked, disabled} = this.props;
-    const {id} = this;
+    // const {id} = this;
 
     return (
       <div {...style('root', {checked, disabled}, this.props) }
