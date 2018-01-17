@@ -12,8 +12,6 @@ export interface DropdownContentProps {
   onOptionClick: (option: Option) => void;
   /** Array of the selected ids */
   selectedIds: Array<string | number>;
-  /** Keyboard event name */
-  keyboardEvent?: string;
   /** An element that always appears at the top of the options */
   fixedHeader?: React.ReactNode;
   /** An element that always appears at the bottom of the options */
@@ -46,14 +44,6 @@ export class DropdownContent extends React.PureComponent<DropdownContentProps, D
     this.state = {
       hoveredIndex: NOT_HOVERED_INDEX
     };
-  }
-
-  componentWillMount() {
-    this.onKeyDown(this.props.keyboardEvent);
-  }
-
-  componentWillReceiveProps(nextProps: DropdownContentProps) {
-    this.onKeyDown(nextProps.keyboardEvent);
   }
 
   onOptionClick(option: Option) {
@@ -112,20 +102,23 @@ export class DropdownContent extends React.PureComponent<DropdownContentProps, D
     this.setHoveredIndex(hoveredIndex);
   }
 
-  onKeyDown(keyboardEvent: string) {
-    if (!keyboardEvent) {
-      return;
-    }
-    if (keyboardEvent.startsWith('ArrowDown')) {
-      this.hoverNextItem(1);
-    } else if (keyboardEvent.startsWith('ArrowUp')) {
-      return this.hoverNextItem(-1);
-    } else if (keyboardEvent.startsWith('Enter')) {
-      const {options} = this.props;
-      const {hoveredIndex} = this.state;
-      if (hoveredIndex >= 0 && hoveredIndex < options.length) {
-        this.onOptionClick(options[hoveredIndex]);
+  onKeyDown(evt: React.KeyboardEvent<HTMLElement>) {
+    switch (evt.key) {
+      case 'Enter': {
+        const {options} = this.props;
+        const {hoveredIndex} = this.state;
+        if (hoveredIndex >= 0 && hoveredIndex < options.length) {
+          this.onOptionClick(options[hoveredIndex]);
+        }
+        return;
       }
+      case 'ArrowUp': {
+        return this.hoverNextItem(-1);
+      }
+      case 'ArrowDown': {
+        return this.hoverNextItem(1);
+      }
+      default: return;
     }
   }
 

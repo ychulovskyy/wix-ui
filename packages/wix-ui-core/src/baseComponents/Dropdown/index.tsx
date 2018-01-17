@@ -40,7 +40,6 @@ export interface DropdownProps {
 export interface DropdownState {
   isOpen: boolean;
   selectedIds: Array<string | number>;
-  keyboardEvent: string;
 }
 
 /**
@@ -66,8 +65,7 @@ export class DropdownComponent extends React.PureComponent<DropdownProps, Dropdo
 
     this.state = {
       isOpen: false,
-      selectedIds,
-      keyboardEvent: null
+      selectedIds
     };
   }
 
@@ -88,10 +86,8 @@ export class DropdownComponent extends React.PureComponent<DropdownProps, Dropdo
   }
 
   setKeyboardEvent(evt: React.KeyboardEvent<HTMLElement>) {
-    this.setState({
-      isOpen: true,
-      keyboardEvent: evt.key + Math.random()
-    });
+    this.open();
+    this.dropdownContentRef.onKeyDown(evt);
   }
 
   onKeyDown(evt: React.KeyboardEvent<HTMLElement>) {
@@ -142,7 +138,7 @@ export class DropdownComponent extends React.PureComponent<DropdownProps, Dropdo
 
   render() {
     const {openTrigger, placement, options, children, showArrow, optionsMaxHeight, fixedFooter, fixedHeader} = this.props;
-    const {isOpen, selectedIds, keyboardEvent} = this.state;
+    const {isOpen, selectedIds} = this.state;
 
     return (
       <Popover
@@ -163,7 +159,6 @@ export class DropdownComponent extends React.PureComponent<DropdownProps, Dropdo
           <DropdownContent
             className={style.dropdownContent}
             ref={dropdownContent => this.dropdownContentRef = dropdownContent}
-            keyboardEvent={keyboardEvent}
             options={options}
             fixedFooter={fixedFooter}
             fixedHeader={fixedHeader}
