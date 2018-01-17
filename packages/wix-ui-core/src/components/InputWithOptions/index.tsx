@@ -4,7 +4,7 @@ import {Dropdown, TriggerElementProps} from '../../baseComponents/Dropdown';
 import {Placement} from '../../baseComponents/Popover';
 import {Option} from '../../baseComponents/DropdownOption';
 import {HOVER, CLICK, CLICK_TYPE, HOVER_TYPE} from '../../baseComponents/Dropdown/constants';
-import {bool, oneOf, object, arrayOf, string, func, oneOfType, number, node} from 'prop-types';
+import {bool, oneOf, object, arrayOf, string, func, oneOfType, number, node, any} from 'prop-types';
 import {Input} from '../Input';
 
 export interface InputWithOptionsProps {
@@ -56,7 +56,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps,
 
   static propTypes = {
     /** The location to display the content */
-    placement: string,
+    placement: any,
     /** The dropdown options array */
     options: arrayOf(object).isRequired,
     /** Trigger type to open the content */
