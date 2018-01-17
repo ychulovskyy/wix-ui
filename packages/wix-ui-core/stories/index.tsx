@@ -30,18 +30,18 @@ storiesOf('Components', module)
   .add('IconWithOptions', () => (
     <IconWithOptions
       iconUrl="https://cdn3.iconfinder.com/data/icons/caps-hats/512/Ladies_cap-128.png"
-      dataHook="story-icon-with-options"
+      data-hook="story-icon-with-options"
       options={dropdownOptions}/>
   ))
   .add('InputWithOptions Single select', () => (
     <InputWithOptions
-      dataHook="story-input-with-options-single"
+      data-hook="story-input-with-options-single"
       options={dropdownOptions}/>
   ))
   .add('InputWithOptions Multi select', () => (
     <InputWithOptions
       closeOnSelect={false}
-      dataHook="story-input-with-options-multi"
+      data-hook="story-input-with-options-multi"
       options={dropdownOptions}/>
   ))
   .add('Input', () => (

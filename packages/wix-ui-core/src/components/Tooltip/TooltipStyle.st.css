@@ -1,0 +1,28 @@
+:import {
+  -st-from: "../../baseComponents/Popover/PopoverStyle.st.css";
+  -st-default: Popover;
+}
+
+:import {
+  -st-from: "../../baseComponents/Popover/PopoverVars.st.css";
+  -st-named:
+    contentBackgroundColor,
+    contentBorderWidth,
+    contentBorderStyle,
+    contentBorderColor,
+    contentBorderRadius,
+    contentPadding,
+    contentArrowSize;
+}
+
+.root {
+  -st-mixin: Popover(
+    contentBackgroundColor value(contentBackgroundColor),
+    contentBorderWidth value(contentBorderWidth),
+    contentBorderStyle value(contentBorderStyle),
+    contentBorderColor value(contentBorderColor),
+    contentBorderRadius value(contentBorderRadius),
+    contentPadding value(contentPadding),
+    contentArrowSize value(contentArrowSize)
+  );
+}
