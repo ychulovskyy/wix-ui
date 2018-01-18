@@ -3,8 +3,8 @@ import style from './InputWithOptionsStyle.st.css';
 import {Dropdown, TriggerElementProps} from '../../baseComponents/Dropdown';
 import {Placement} from '../../baseComponents/Popover';
 import {Option} from '../../baseComponents/DropdownOption';
-import {HOVER, CLICK, CLICK_TYPE, HOVER_TYPE} from '../../baseComponents/Dropdown/constants';
-import {bool, oneOf, object, arrayOf, string, func, oneOfType, number, node, any} from 'prop-types';
+import {CLICK_TYPE, HOVER_TYPE} from '../../baseComponents/Dropdown/constants';
+import {bool, object, arrayOf, string, func, oneOfType, number, node, any} from 'prop-types';
 import {Input} from '../Input';
 
 export interface InputWithOptionsProps {
@@ -46,8 +46,6 @@ export interface InputWithOptionsState {
 export class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputWithOptionsState> {
   static displayName = 'InputWithOptions';
   static defaultProps = {
-    openTrigger: CLICK,
-    placement: 'bottom-start',
     closeOnSelect: true,
     initialSelectedIds: [],
     onSelect: () => null,
@@ -60,7 +58,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps,
     /** The dropdown options array */
     options: arrayOf(object).isRequired,
     /** Trigger type to open the content */
-    openTrigger: oneOf([CLICK, HOVER]),
+    openTrigger: any,
     /** Handler for when an option is selected */
     onSelect: func,
     /** Handler for when an option is deselected */
@@ -83,8 +81,8 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps,
     onFocus: func
   };
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.onSelect = this.onSelect.bind(this);
     this.onDeselect = this.onDeselect.bind(this);
