@@ -3,7 +3,7 @@ import style from './InputWithOptionsStyle.st.css';
 import {Dropdown, TriggerElementProps} from '../../baseComponents/Dropdown';
 import {Placement} from '../../baseComponents/Popover';
 import {Option} from '../../baseComponents/DropdownOption';
-import {CLICK_TYPE, HOVER_TYPE} from '../../baseComponents/Dropdown/constants';
+import {CLICK, CLICK_TYPE, HOVER_TYPE} from '../../baseComponents/Dropdown/constants';
 import {bool, object, arrayOf, string, func, oneOfType, number, node, any} from 'prop-types';
 import {Input} from '../Input';
 
@@ -46,6 +46,8 @@ export interface InputWithOptionsState {
 export class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputWithOptionsState> {
   static displayName = 'InputWithOptions';
   static defaultProps = {
+    openTrigger: CLICK,
+    placement: 'bottom-start',
     closeOnSelect: true,
     initialSelectedIds: [],
     onSelect: () => null,
