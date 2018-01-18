@@ -130,17 +130,16 @@ describe.only('Checkbox', () => {
       expect(nativeInput.getAttribute('checked')).toBe(true);
     });
 
-  //   it('native input gets disabled state', async () => {
-  //     const { driver: checkbox, waitForDom } = clientRenderer.render(
-  //       <CheckBox disabled />
-  //     ).withDriver(CheckBoxTestDriver);
+    it('native input gets disabled state', async () => {
+      const checkbox = createDriver(
+        <Checkbox disabled />
+      );
 
-  //     const nativeInput = checkbox.nativeInput;
+      const nativeInput = checkbox.input();
 
-  //     await waitForDom(() => {
-  //       expect(nativeInput, 'native checkbox should be disabled').to.have.attribute('disabled');
-  //     });
-  //   });
+      expect(nativeInput).toBeDefined();
+      expect(nativeInput.getAttribute('disabled')).toBe(true);
+    });
 
   //   it('native input gets id prop if supplied by user', async () => {
   //     const { driver: checkbox, waitForDom } = clientRenderer.render(
