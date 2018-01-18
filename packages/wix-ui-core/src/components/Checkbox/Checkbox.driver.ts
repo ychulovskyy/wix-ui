@@ -13,9 +13,15 @@ export const checkboxDriverFactory = ({element, eventTrigger}) => {
     /** returns elements type attribute */
     getType: () => element.getAttribute('type'),
     /** checks if element is checked */
-    isChecked: () => element.getAttribute('checked'),
+    isChecked: () => element.querySelector('[data-hook="NATIVE_CHECKBOX"]').checked,
     /** returns elements textContent */
     getTextContent: () => element.textContent,
+    /** returns the checkbox children */
+    children: () => element.querySelectorAll('[data-hook="CHECKBOX_CHILD_CONTAINER"]'),
+    /** returns the checkbox tickmark */
+    tickmark: () => element.querySelector('[data-hook="CHECKBOX_TICKMARK"]'),
+    /** returns the checkbox native input */
+    input: () => element.querySelector('[data-hook="NATIVE_CHECKBOX"]'),
     /** returns if the element is disabled */
     isDisabled: () => element.getAttribute('disabled') === '',
     styles: {
