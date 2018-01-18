@@ -1,42 +1,53 @@
 import * as React from 'react';
-import {Dropdown} from '../../baseComponents/Dropdown';
-import {Placement} from '../../baseComponents/Popover/Popover';
-import {TriggerElementProps} from '../../baseComponents/Dropdown/Dropdown';
+import style from './InputWithOptionsStyle.st.css';
+import {Dropdown, TriggerElementProps} from '../../baseComponents/Dropdown';
+import {Placement} from '../../baseComponents/Popover';
 import {Option} from '../../baseComponents/DropdownOption';
-import {createHOC} from '../../createHOC';
-import {HOVER, CLICK, CLICK_TYPE, HOVER_TYPE} from '../../baseComponents/Dropdown/constants';
-import {bool, oneOf, object, arrayOf, string, func, oneOfType, number, node} from 'prop-types';
+import {CLICK, CLICK_TYPE, HOVER_TYPE} from '../../baseComponents/Dropdown/constants';
+import {bool, object, arrayOf, string, func, oneOfType, number, node, any} from 'prop-types';
 import {Input} from '../Input';
 
-export interface InputWithOptionsClasses {
-}
-
 export interface InputWithOptionsProps {
+  /** The location to display the content */
   placement?: Placement;
-  classes?: InputWithOptionsClasses;
+  /** The dropdown options array */
   options: Array<Option>;
+  /** Trigger type to open the content */
   openTrigger?: CLICK_TYPE | HOVER_TYPE;
+  /** Handler for when an option is selected */
   onSelect?: (option: Option) => void;
+  /** Handler for when an option is deselected */
   onDeselect?: (option: Option) => void;
+  /** initial selected option ids */
   initialSelectedIds?: Array<string | number>;
+  /** Should close content on select */
   closeOnSelect?: boolean;
-  onInputChange?: React.EventHandler<React.ChangeEvent<HTMLInputElement>>;
+  /** An element that always appears at the top of the options */
   fixedHeader?: React.ReactNode;
+  /** An element that always appears at the bottom of the options */
   fixedFooter?: React.ReactNode;
+  /** Maximum height of the options */
   optionsMaxHeight?: number;
+  /** Event handler for when the input changes */
+  onInputChange?: React.EventHandler<React.ChangeEvent<HTMLInputElement>>;
+  /** Event handler for when the input loses focus */
   onBlur?: React.EventHandler<React.FocusEvent<HTMLInputElement>>;
+  /** Event handler for when the input gains focus */
   onFocus?: React.EventHandler<React.FocusEvent<HTMLInputElement>>;
 }
 
-interface InputWithOptionsState {
+export interface InputWithOptionsState {
   inputValue: string;
 }
 
-class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputWithOptionsState> {
+/**
+ * InputWithOptions
+ */
+export class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputWithOptionsState> {
+  static displayName = 'InputWithOptions';
   static defaultProps = {
     openTrigger: CLICK,
     placement: 'bottom-start',
-    options: [],
     closeOnSelect: true,
     initialSelectedIds: [],
     onSelect: () => null,
@@ -44,12 +55,12 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
   };
 
   static propTypes = {
-    /** Trigger type to open the content */
-    openTrigger: oneOf([CLICK, HOVER]),
     /** The location to display the content */
-    placement: string,
+    placement: any,
     /** The dropdown options array */
     options: arrayOf(object).isRequired,
+    /** Trigger type to open the content */
+    openTrigger: any,
     /** Handler for when an option is selected */
     onSelect: func,
     /** Handler for when an option is deselected */
@@ -58,24 +69,22 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
     initialSelectedIds: oneOfType([arrayOf(number), arrayOf(string)]),
     /** Should close content on select */
     closeOnSelect: bool,
-    /** Classes object */
-    classes: object.isRequired,
-    /** Event handler for when the input changes */
-    onInputChange: func,
     /** An element that always appears at the top of the options */
     fixedHeader: node,
     /** An element that always appears at the bottom of the options */
     fixedFooter: node,
     /** Maximum height of the options */
     optionsMaxHeight: number,
+    /** Event handler for when the input changes */
+    onInputChange: func,
     /** Event handler for when the input loses focus */
     onBlur: func,
     /** Event handler for when the input gains focus */
     onFocus: func
   };
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.onSelect = this.onSelect.bind(this);
     this.onDeselect = this.onDeselect.bind(this);
@@ -130,6 +139,7 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
 
     return (
       <Dropdown
+      {...style('root', {}, this.props)}
         placement={placement}
         openTrigger={openTrigger}
         onSelect={this.onSelect}
@@ -155,5 +165,3 @@ class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputW
     );
   }
 }
-
-export default createHOC(InputWithOptions);

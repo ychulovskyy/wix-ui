@@ -9,7 +9,7 @@ import {PaginationStory} from './Pagination/pagination-story';
 import {DividerStory} from './Divider/divider-story';
 import {TooltipStory} from './Tooltip/tooltip-story';
 import {ToggleSwitchStory} from './ToggleSwitch/ToggleSwitch-story';
-import {StylableToggleSwitchStory, BOStylableToggleSwitchStory} from './StylableToggleSwitch/StylableToggleSwitch-story';
+import {StylableToggleSwitchStory} from './StylableToggleSwitch/StylableToggleSwitch-story';
 import {IconWithOptions} from '../src/components/IconWithOptions';
 import {InputWithOptions} from '../src/components/InputWithOptions';
 import {OptionFactory} from '../src/baseComponents/DropdownOption';
@@ -31,18 +31,18 @@ storiesOf('Components', module)
   .add('IconWithOptions', () => (
     <IconWithOptions
       iconUrl="https://cdn3.iconfinder.com/data/icons/caps-hats/512/Ladies_cap-128.png"
-      dataHook="story-icon-with-options"
+      data-hook="story-icon-with-options"
       options={dropdownOptions}/>
   ))
   .add('InputWithOptions Single select', () => (
     <InputWithOptions
-      dataHook="story-input-with-options-single"
+      data-hook="story-input-with-options-single"
       options={dropdownOptions}/>
   ))
   .add('InputWithOptions Multi select', () => (
     <InputWithOptions
       closeOnSelect={false}
-      dataHook="story-input-with-options-multi"
+      data-hook="story-input-with-options-multi"
       options={dropdownOptions}/>
   ))
   .add('Input', () => (
@@ -50,9 +50,6 @@ storiesOf('Components', module)
   ))
   .add('ToggleSwitch', () => (
     <ToggleSwitchStory/>
-  ))
-  .add('BOStylableToggleSwitchStory', () => (
-    <BOStylableToggleSwitchStory/>
   ))
   .add('StylableToggleSwitchStory', () => (
     <StylableToggleSwitchStory/>
