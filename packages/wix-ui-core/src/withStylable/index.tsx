@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export function appendStylable(
+export function withStylable(
   component: React.Component,
   root: JSX.Element | null | false,
   stylesheet: RuntimeStylesheet,

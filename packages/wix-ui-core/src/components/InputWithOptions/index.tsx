@@ -43,7 +43,7 @@ export interface InputWithOptionsState {
 /**
  * InputWithOptions
  */
-export class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputWithOptionsState> {
+export class InputWithOptions<P = {}, S = {}> extends React.PureComponent<InputWithOptionsProps & P, InputWithOptionsState & S> {
   static displayName = 'InputWithOptions';
   static defaultProps = {
     openTrigger: CLICK,
@@ -89,9 +89,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps,
     this.onSelect = this.onSelect.bind(this);
     this.onDeselect = this.onDeselect.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
-    this.state = {
-      inputValue: ''
-    };
+    this.state = Object.assign({inputValue: ''});
   }
 
   onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
