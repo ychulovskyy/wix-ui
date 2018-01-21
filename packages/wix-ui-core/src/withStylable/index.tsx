@@ -1,16 +1,11 @@
 import * as React from 'react';
 
 export function withStylable(
-  component: React.Component,
   root: JSX.Element | null | false,
   stylesheet: RuntimeStylesheet,
-  getState: (p?: any, s?: any, c?: any) => StateMap) {
+  stateMap: StateMap) {
   if (!root) { return null; }
-  const stateMap = getState(component.props, component.state, component.context);
   const className = root.props && root.props.className || '';
-  const props = stylesheet(
-    className ? 'root ' + className : 'root',
-    stateMap
-  );
+  const props = stylesheet(`root ${className}`.trim());
   return React.cloneElement(root, props);
 }
