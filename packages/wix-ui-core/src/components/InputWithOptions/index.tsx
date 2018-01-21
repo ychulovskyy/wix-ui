@@ -1,10 +1,10 @@
 import * as React from 'react';
 import style from './InputWithOptionsStyle.st.css';
 import {Dropdown, TriggerElementProps} from '../../baseComponents/Dropdown';
-import {Placement} from '../../baseComponents/Popover';
+import {Placement, PlacementPropType} from '../../baseComponents/Popover';
 import {Option} from '../../baseComponents/DropdownOption';
-import {CLICK, CLICK_TYPE, HOVER_TYPE} from '../../baseComponents/Dropdown/constants';
-import {bool, object, arrayOf, string, func, oneOfType, number, node, any} from 'prop-types';
+import {CLICK, HOVER, OPEN_TRIGGER_TYPE} from '../../baseComponents/Dropdown/constants';
+import {bool, object, arrayOf, string, func, oneOfType, number, node, oneOf} from 'prop-types';
 import {Input} from '../Input';
 
 export interface InputWithOptionsProps {
@@ -13,7 +13,7 @@ export interface InputWithOptionsProps {
   /** The dropdown options array */
   options: Array<Option>;
   /** Trigger type to open the content */
-  openTrigger?: CLICK_TYPE | HOVER_TYPE;
+  openTrigger?: OPEN_TRIGGER_TYPE;
   /** Handler for when an option is selected */
   onSelect?: (option: Option) => void;
   /** Handler for when an option is deselected */
@@ -56,11 +56,11 @@ export class InputWithOptions<P = {}, S = {}> extends React.PureComponent<InputW
 
   static propTypes = {
     /** The location to display the content */
-    placement: any,
+    placement: PlacementPropType,
     /** The dropdown options array */
     options: arrayOf(object).isRequired,
     /** Trigger type to open the content */
-    openTrigger: any,
+    openTrigger: oneOf([CLICK, HOVER]),
     /** Handler for when an option is selected */
     onSelect: func,
     /** Handler for when an option is deselected */
