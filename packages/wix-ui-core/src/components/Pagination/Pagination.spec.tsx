@@ -7,7 +7,7 @@ import {paginationTestkitFactory as enzymePaginationTestkitFactory} from '../../
 import {mount} from 'enzyme';
 import {Simulate} from 'react-dom/test-utils';
 
-describe.skip('Pagination', () => {
+describe('Pagination', () => {
   const createDriver = createDriverFactory(paginationDriverFactory);
 
   describe('General accessibility', () => {
