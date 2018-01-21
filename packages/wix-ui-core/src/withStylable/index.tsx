@@ -1,18 +1,18 @@
 import * as React from 'react';
 
-export function withStylable<P>(
+export function withStylable<CoreProps, ExtendedProps = {}>(
   Component: React.ComponentClass,
   stylesheet: RuntimeStylesheet,
   getState: (p?: any, s?: any, c?: any) => StateMap,
-  extendedDefaultProps: object = {}): React.ComponentClass<P> {
+  extendedDefaultProps: object = {}): React.ComponentClass<CoreProps & ExtendedProps> {
 
-  return class StylableComponent extends Component implements React.Component<P> {
+  return class StylableComponent extends Component implements React.PureComponent<CoreProps & ExtendedProps> {
     static defaultProps = {
       ...Component.defaultProps,
       ...extendedDefaultProps
     };
 
-    public props: Readonly<P>;
+    public props: Readonly<CoreProps & ExtendedProps>;
 
     render() {
       const root = super.render();
