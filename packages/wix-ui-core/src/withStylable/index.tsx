@@ -10,12 +10,14 @@ export function withStylable(
   return React.cloneElement(root, props);
 }
 
-export function appendStylable(
+export function appendStylable<P>(
   Component: React.ComponentClass,
   stylesheet: RuntimeStylesheet,
-  getState: (p?: any, s?: any, c?: any) => StateMap) {
+  getState: (p?: any, s?: any, c?: any) => StateMap): React.ComponentClass<P> {
 
-  return class StylableComponent extends Component {
+  return class StylableComponent extends Component implements React.Component<P> {
+    public props: Readonly<P>;
+
     render() {
       const root = super.render();
       if (!root) { return null; }
@@ -24,5 +26,5 @@ export function appendStylable(
       const props = stylesheet(`root ${className}`.trim(), statesMap);
       return React.cloneElement(root, props);
     }
-  };
+  } as any;
 }
