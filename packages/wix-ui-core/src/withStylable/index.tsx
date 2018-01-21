@@ -13,9 +13,15 @@ export function withStylable(
 export function appendStylable<P>(
   Component: React.ComponentClass,
   stylesheet: RuntimeStylesheet,
-  getState: (p?: any, s?: any, c?: any) => StateMap): React.ComponentClass<P> {
+  getState: (p?: any, s?: any, c?: any) => StateMap,
+  extendedDefaultProps: object = {}): React.ComponentClass<P> {
 
   return class StylableComponent extends Component implements React.Component<P> {
+    static defaultProps = {
+      ...Component.defaultProps,
+      ...extendedDefaultProps
+    };
+
     public props: Readonly<P>;
 
     render() {
