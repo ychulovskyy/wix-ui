@@ -1,32 +1,26 @@
 import * as React from 'react';
 
-export const appendStylable = (
-  root: JSX.Element | null | false,
+export function withStylable<CoreProps, ExtendedProps = {}>(
+  Component: React.ComponentClass,
   stylesheet: RuntimeStylesheet,
-  stateMap: StateMap) =>  {
-  if (!root) { return null; }
-  const className = root.props && root.props.className || '';
-  const props = stylesheet(
-    className ? 'root ' + className : 'root',
-    stateMap
-  );
-  return React.cloneElement(root, props);
-};
+  getState: (p?: any, s?: any, c?: any) => StateMap,
+  extendedDefaultProps: object = {}): React.ComponentClass<CoreProps & ExtendedProps> {
 
-// Generic adapter to add the root class and it's css states
-export function withStylable<T>(
-  CoreComponent: React.ComponentClass<T>,
-  stylesheet: RuntimeStylesheet,
-  getState: (p?: any, s?: any, c?: any) => StateMap) {
-
-  return class StylableComponent extends CoreComponent {
+  return class StylableComponent extends Component implements React.PureComponent<CoreProps & ExtendedProps> {
     static defaultProps = {
+      ...Component.defaultProps,
+      ...extendedDefaultProps
     };
+
+    public props: Readonly<CoreProps & ExtendedProps>;
 
     render() {
       const root = super.render();
-      const states = getState(this.props, this.state, this.context);
-      return appendStylable(root, stylesheet, states);
+      if (!root) { return null; }
+      const className = root.props && root.props.className || '';
+      const statesMap = getState(this.props, this.state, this.context);
+      const props = stylesheet(`root ${className}`.trim(), statesMap);
+      return React.cloneElement(root, props);
     }
-  };
+  } as any;
 }

@@ -1,9 +1,6 @@
 import * as React from 'react';
 import {storiesOf} from '@storybook/react';
 import {Text} from '../src/components/Text';
-import {Button} from '../src/components/Button';
-import {Badge} from '../src/components/Badge';
-import {Input} from '../src/components/Input';
 import {Box} from '../src/components/Box';
 import {PaginationStory} from './Pagination/pagination-story';
 import {DividerStory} from './Divider/divider-story';
@@ -17,17 +14,15 @@ import {GoogleMapsIframeClientStory} from './clients/GoogleMapsIframeClient-stor
 import {CheckboxStory} from './Checkbox/Checkbox-story';
 
 const dropdownOptions =
-    Array.from(Array(20))
-      .map((x, index) =>
-        index === 2 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, index === 15 ? 'fdsf sdf sdf sdf sdf sdfsd fsdf sdf ds' : `value${index}`));
+  Array.from(Array(20))
+    .map((x, index) =>
+      index === 2 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, index === 15 ? 'fdsf sdf sdf sdf sdf sdfsd fsdf sdf ds' : `value${index}`));
+
+require('./Badge').story();
+require('./Button').story();
+require('./Input').story();
 
 storiesOf('Components', module)
-  .add('Badge', () => (
-    <div style={{width: '50px'}}><Badge dataHook="story-badge">Hello</Badge></div>
-  ))
-  .add('Button', () => (
-    <Button dataHook="story-button">Hello</Button>
-  ))
   .add('IconWithOptions', () => (
     <IconWithOptions
       iconUrl="https://cdn3.iconfinder.com/data/icons/caps-hats/512/Ladies_cap-128.png"
@@ -45,9 +40,6 @@ storiesOf('Components', module)
       data-hook="story-input-with-options-multi"
       options={dropdownOptions}/>
   ))
-  .add('Input', () => (
-    <Input dataHook="story-input" />
-  ))
   .add('ToggleSwitch', () => (
     <ToggleSwitchStory/>
   ))
@@ -55,16 +47,16 @@ storiesOf('Components', module)
     <StylableToggleSwitchStory/>
   ))
   .add('Tooltip', () => (
-    <TooltipStory />
+    <TooltipStory/>
   ))
   .add('Text', () => (
     <Text ellipsis>
-        Hello World
+      Hello World
     </Text>
   ))
   .add('Box', () => (
     <div>
-    <Box vertical>
+      <Box vertical>
         <div>v</div>
         <div>e</div>
         <div>r</div>
@@ -73,9 +65,9 @@ storiesOf('Components', module)
         <div>c</div>
         <div>a</div>
         <div>l</div>
-    </Box>
-    <hr />
-    <Box>
+      </Box>
+      <hr/>
+      <Box>
         <div>h</div>
         <div>o</div>
         <div>r</div>
@@ -86,19 +78,19 @@ storiesOf('Components', module)
         <div>t</div>
         <div>a</div>
         <div>l</div>
-    </Box>
-    <hr />
-    <Box lastItemTakesRemainingWidth>
-      <div>label (input should take remaining width)</div>
-      <input/>
-    </Box>
+      </Box>
+      <hr/>
+      <Box lastItemTakesRemainingWidth>
+        <div>label (input should take remaining width)</div>
+        <input/>
+      </Box>
     </div>
   ))
   .add('Pagination', () => (
-    <PaginationStory />
+    <PaginationStory/>
   ))
-    .add('GoogleMapsIframeClient', () => (
-    <GoogleMapsIframeClientStory />
+  .add('GoogleMapsIframeClient', () => (
+    <GoogleMapsIframeClientStory/>
   ))
   .add('Divider', () => (
     <DividerStory />

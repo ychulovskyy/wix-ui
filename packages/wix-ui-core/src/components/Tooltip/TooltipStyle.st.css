@@ -6,13 +6,16 @@
 :import {
   -st-from: "./TooltipVars.st.css";
   -st-named:
-    contentBackgroundColor,
-    contentBorderWidth,
-    contentBorderStyle,
-    contentBorderColor,
     contentBorderRadius,
     contentPadding,
     contentArrowSize;
+}
+
+:vars {
+  contentBackgroundColor: white;
+  contentBorderColor: black;
+  contentBorderStyle: solid;
+  contentBorderWidth: 1px;
 }
 
 .root {

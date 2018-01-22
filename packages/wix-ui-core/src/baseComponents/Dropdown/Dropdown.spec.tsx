@@ -1,11 +1,11 @@
 import * as React from 'react';
-import {createDriverFactory} from 'wix-ui-test-utils';
+import {createDriverFactory, sleep} from 'wix-ui-test-utils';
 import {dropdownDriverFactory} from './Dropdown.driver';
 import {Dropdown} from './';
 import {HOVER, CLICK} from './constants';
 import {OptionFactory} from '../DropdownOption';
 
-describe.skip('Dropdown', () => {
+describe('Dropdown', () => {
   const createDriver = createDriverFactory(dropdownDriverFactory);
   const options =
     Array.from(Array(5))
@@ -39,12 +39,13 @@ describe.skip('Dropdown', () => {
       expect(driver.isContentElementExists()).toBeTruthy();
     });
 
-    it('should show content on hover', () => {
+    it('should show content on hover', async () => {
       const driver = createDriver(createDropdown({openTrigger: HOVER}));
 
       driver.mouseEnter();
       expect(driver.isContentElementExists()).toBeTruthy();
       driver.mouseLeave();
+      await sleep(150);
       expect(driver.isContentElementExists()).toBeFalsy();
     });
   });
