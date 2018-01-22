@@ -1,16 +1,19 @@
 import * as React from 'react';
 import * as uniqueId from 'lodash/uniqueId';
-import {bool, func, object, string} from 'prop-types';
 import style from './Checkbox.st.css';
 
-export interface onChangeEvent extends React.ChangeEvent<HTMLInputElement> {
+export interface OnChangeEvent extends React.ChangeEvent<HTMLInputElement> {
+  checked: boolean;
+}
+
+export interface OnClickEvent extends React.MouseEvent<HTMLDivElement> {
   checked: boolean;
 }
 
 export interface CheckboxProps {
   checked?: boolean;
   disabled?: boolean;
-  onChange?: React.EventHandler<onChangeEvent>;
+  onChange?: React.EventHandler<OnChangeEvent | OnClickEvent>;
   id?: string;
   tabIndex?: number;
   tickIcon?: React.ReactNode;
@@ -60,17 +63,6 @@ export default class Checkbox extends React.PureComponent<CheckboxProps> {
 
   private checkbox: HTMLInputElement;
 
-  static propTypes = {
-    /** Is the Checkbox checked or not */
-    checked: bool,
-    /** Callback function when user changes the value of the component */
-    onChange: func.isRequired,
-    /** Is the Checkbox disabled or not */
-    disabled: bool,
-    /** Component ID, will be generated automatically if not provided */
-    id: string,
-  };
-
   componentDidMount() {
     this.checkbox.addEventListener('keydown', this.listenToSpace);
   }
@@ -87,21 +79,15 @@ export default class Checkbox extends React.PureComponent<CheckboxProps> {
     }
   }
 
-  // private handleChange = e => {
-  //   if (!this.props.disabled) {
-  //     this.props.onChange(e);
-  //   }
-  // }
-
   private handleClick: React.MouseEventHandler<HTMLDivElement> = e => {
     this.handleChange(e);
     this.checkbox && this.checkbox.focus();
     this.setState({isFocused: false});
   }
 
-  private handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  private handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLDivElement>) => {
     if (!this.props.disabled && !this.props.readOnly) {
-      this.props.onChange({checked: !this.props.checked, ...e});
+      this.props.onChange({checked: this.props.indeterminate ? true : !this.props.checked, ...e});
     }
   }
 
