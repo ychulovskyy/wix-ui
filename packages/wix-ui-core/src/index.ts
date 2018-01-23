@@ -1,1 +1,1 @@
-export {withStylable} from '../src/withStylable/index';
+export {withStylable, withStylableStateless} from '../src/withStylable/index';
