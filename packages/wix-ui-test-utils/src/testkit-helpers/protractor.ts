@@ -1,5 +1,4 @@
-import {$, ElementFinder} from 'protractor';
+import {$} from 'protractor';
 
-export function protractorTestkitFactoryCreator<T> (driverFactory: (e: ElementFinder) => T) {
-  return (obj: {dataHook: string}) => driverFactory($(`[data-hook='${obj.dataHook}']`));
-}
+export const protractorTestkitFactoryCreator = driverFactory =>
+  ({dataHook}) => driverFactory($(`[data-hook='${dataHook}']`));

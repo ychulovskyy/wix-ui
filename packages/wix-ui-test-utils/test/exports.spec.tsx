@@ -5,7 +5,7 @@ import {
 } from '../src';
 
 describe('exports', () => {
-  const modules: {[key: string]: Function} = {
+  const modules = {
     createDriverFactory,
     isClassExists,
     makeControlled,

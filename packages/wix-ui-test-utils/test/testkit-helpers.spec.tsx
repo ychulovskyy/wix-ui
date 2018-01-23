@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {isTestkitExists, testkitFactoryCreator, enzymeTestkitFactoryCreator, isEnzymeTestkitExists} from '../src';
-import {DriverFactory} from '../src/createDriverFactory';
 import {mount} from 'enzyme';
 
 describe('isTestkitExists', () => {
-  const MyComp: React.StatelessComponent = () => (<div></div>);
-  const driver: DriverFactory<{exists: () => boolean}> = (element) => {
+  const MyComp: React.SFC = () => (<div></div>);
+  const driver = element => {
     return {
       exists: () => !!element
     };

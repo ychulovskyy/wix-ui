@@ -7,16 +7,8 @@ export interface ControlledComponentState {
 
 export interface ControlledComponentProps {
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLElement>) => void;
+  onChange?: (e: Event) => void;
   [otherProps: string]: any;
-}
-
-export interface ControlledEventTarget extends EventTarget {
-  value: string;
-}
-
-export interface ControlledChangeEvent<T> extends React.ChangeEvent<T> {
-  target: ControlledEventTarget & T;
 }
 
 export const isClassExists = (element: HTMLElement, className: String): Boolean =>
@@ -27,15 +19,20 @@ export const sleep = (ms: number): Promise<void> => {
 };
 
 // HOC that makes underlying component "controlled"
-export function makeControlled<T extends ControlledComponentProps> (Component: React.SFC<T>) {
+export function makeControlled(Component) {
   return class ControlledComponent extends React.Component<ControlledComponentProps, ControlledComponentState> {
+    static displayName = `Controlled${Component.name}`;
+
     static defaultProps = {
       value: ''
     };
 
-    state = {value: this.props.value as string};
+    constructor(props) {
+      super(props);
+      this.state = {value: props.value};
+    }
 
-    _onChange = (e: ControlledChangeEvent<any>) => {
+    _onChange = e => {
       const {
         onChange
       } = this.props;
@@ -48,7 +45,7 @@ export function makeControlled<T extends ControlledComponentProps> (Component: R
     }
 
     render() {
-      const bindedPropMethods: {[key: string]: any} = {};
+      const bindedPropMethods = {};
 
       for (const propName of Object.keys(this.props)) {
         const propValue = this.props[propName];
