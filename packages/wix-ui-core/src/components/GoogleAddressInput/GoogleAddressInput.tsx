@@ -1,11 +1,12 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import castArray from 'lodash/castArray';
+import * as PropTypes from 'prop-types';
+import * as castArray from 'lodash/castArray';
 
-import Input from '../Input';
-import InputWithOptions from '../InputWithOptions';
-import {google2address} from './google2address';
-import {GoogleMapsIframeClient} from "../clients/GoogleMapsIframeClient";
+import {InputWithOptions} from '../InputWithOptions';
+import {google2address, includes} from './google2address/google2address';
+import {GoogleMapsIframeClient} from "../../clients/GoogleMaps/GoogleMapsIframeClient";
+import {OptionFactory, Option} from "../../baseComponents/DropdownOption";
+
 // import * as styles from './GoogleAddressInput.scss';
 
 export const GoogleAddressInputHandler = {
@@ -30,7 +31,8 @@ export interface GoogleAddressInputProps {
     onSet?: Function;
     Client: GoogleMapsIframeClient;
     magnifyingGlass?: boolean;
-    /*theme?: Input.propTypes.theme,*/ /* Theme is going to change due to styleable*/
+    theme?: any,//previously was input theme
+    /* Theme is going to change due to styleable*/
     readOnly?: boolean;
     autoSelect?: boolean;
     footer?: any;
@@ -38,13 +40,15 @@ export interface GoogleAddressInputProps {
     clearSuggestionsOnBlur?: boolean;
     fallbackToManual?: boolean;
     poweredByGoogle?: boolean;
-    handler?: 'geocode' | 'places'
+    handler?: string;
 }
 
 
 export interface suggestionElement {
     description: string;
     place_id: string;
+    types: string[];
+    formatted_address: string;
 }
 
 export interface GoogleAddressInputState {
@@ -59,17 +63,12 @@ export interface GoogleAddressInputState {
 class GoogleAddressInput extends React.Component<GoogleAddressInputProps, GoogleAddressInputState> {
 
     autocomplete: any;
-    autoCompleteRequestId = 0;
-    geocodeRequestId = 0;
-    client: {
-        autocomplete: Function,
-        placeDetails: Function,
-        geocode: Function
-    };
+    currentAutocompleteRequest: Promise<suggestionElement[]> = new Promise(() => {});
+    currentGeocodeRequest: Promise<suggestionElement[]> = new Promise(() => {});
 
     static defaultProps = {
         magnifyingGlass: true,
-        theme: Input.defaultProps.theme,
+        /*theme: Input.defaultProps.theme,*/
         autoSelect: true,
         footerOptions: {},
         clearSuggestionsOnBlur: true,
@@ -159,9 +158,6 @@ class GoogleAddressInput extends React.Component<GoogleAddressInputProps, Google
             value: props.value || ''
         };
 
-        // this.autoCompleteRequestId = 0;
-        // this.geocodeRequestId = 0;
-
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
         this.onFocus = this.onFocus.bind(this);
@@ -173,52 +169,122 @@ class GoogleAddressInput extends React.Component<GoogleAddressInputProps, Google
         if (nextProps.value !== this.props.value) {
             this._getSuggestions(nextProps.value).then(suggestions => {
                 this.setState({suggestions});
-            }).catch(() => {
+            }).catch((e) => {
                 // Nothing really to do...
                 this.setState({suggestions: []});
             });
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.lang !== prevProps.lang) {
+            this.fetchGeoData(this.state.value, true);
+        }
+    }
+
+    fetchGeoData(value, isLanguageChanged = false) {
+        const {
+            countryCode,
+            handler
+        } = this.props;
+
+        const suggestion = this.state.suggestions.find(s => s.description === value);
+
+        this.props.Client.cancel(this.currentGeocodeRequest);
+
+        if (handler === GoogleAddressInputHandler.places && suggestion && suggestion.place_id) {
+            this.currentGeocodeRequest = this.props.Client.placeDetails(
+                this.props.apiKey, this.props.lang,
+                {
+                    placeId: suggestion.place_id
+                }
+            );
+        } else {
+            this.currentGeocodeRequest = this.props.Client.geocode(
+                this.props.apiKey, this.props.lang,
+                {
+                    region: countryCode,
+                    [suggestion ? 'placeId' : 'address']: suggestion ? suggestion.place_id : value
+                });
+        }
+
+        this.currentGeocodeRequest.then(results => {
+            results = castArray(results).filter(Boolean);
+
+            // if (requestId !== this.geocodeRequestId) {
+            //     return;
+            // }
+
+            if (results.length === 0) {
+                console.error(`[GoogleAddressInput] handler (${handler}) returned no results on`, value);
+                this.props.onSet && this.props.onSet(null);
+                // This shouldn't happen since we're running geocode on exactly the same
+                // value returned by suggestions list
+                return;
+            }
+
+            const originValue = isLanguageChanged ? results[0].formatted_address : value;
+
+            const result = {
+                originValue: originValue,
+                googleResult: results[0],
+                address: google2address(results[0])
+            };
+
+            this.props.onSet && this.props.onSet(result);
+
+            this.setState({value: originValue}); //Will render the new value when language is changed
+
+        }).catch(e => {
+            console.error(`[GoogleAddressInput] handler (${handler}) failed on`, value, e.message);
+            this.props.onSet && this.props.onSet(null);
+        });
+    }
+
     render() {
         const {
             suggestions,
-            value
+            /*value*/
         } = this.state;
 
-        const options = [
-            ...suggestions.map(({description}, id) => ({id, value: description})),
+        const options: Option[] = [
+            ...suggestions.map(({description}, id) => OptionFactory.create(id, false, true, description)),
 
             ...(
                 this.props.footer ?
-                    [{
-                        id: suggestions.length,
-                        value: this.props.footer,
-                        ...this.props.footerOptions
-                    }] :
+                    [OptionFactory.create(suggestions.length, true, false, this.props.footer)
+                    ] :
                     []
-            )
+            )//props.footerOptions?
         ];
 
+
         return (
+            /*            <div>
+             <InputWithOptions
+             ref={autocomplete => this.autocomplete = autocomplete}
+             {...this.props}
+             onInput={this.onChange}
+             onBlur={this.onBlur}
+             onFocus={this.onFocus}
+             onSelect={option => this.onSet(option.value)}
+             onManuallyInput={this.onManuallyInput}
+             value={value}
+             options={options}
+             fixedFooter={(suggestions.length && this.props.poweredByGoogle) ? GoogleAddressInput.getGoogleFooter() : null}
+             />
+             </div>  */
+
             <div>
                 <InputWithOptions
                     ref={autocomplete => this.autocomplete = autocomplete}
-                    {...this.props}
-                    onInput={this.onChange}
-                    onBlur={this.onBlur}
-                    onFocus={this.onFocus}
+                    onInputChange={this.onChange}
                     onSelect={option => this.onSet(option.value)}
-                    onManuallyInput={this.onManuallyInput}
-                    value={value}
                     options={options}
-                    fixedFooter={(suggestions.length && this.props.poweredByGoogle) ? GoogleAddressInput.getGoogleFooter() : null}
                 />
             </div>
         );
     }
-
-    static includes = (arr, value) => Boolean(arr && arr.find(item => item === value)); // we compare only primitives
 
     static getGoogleFooter = () => {
         {/*<div className={styles.googleFooter} data-hook="google-footer"/>*/
@@ -267,61 +333,62 @@ class GoogleAddressInput extends React.Component<GoogleAddressInputProps, Google
     }
 
     onSet(value) {
-        const {
-            countryCode,
-            handler
-        } = this.props;
+        /*const {
+         countryCode,
+         handler
+         } = this.props;
 
-        const suggestion = this.state.suggestions.find(s => s.description === value);
-
+         const suggestion = this.state.suggestions.find(s => s.description === value);
+         */
         this.setState({suggestions: [], value: this.props.value || value});
+        this.fetchGeoData(value);
 
-        const requestId = ++this.geocodeRequestId;
-        let handlerCall;
+        /*      const requestId = ++this.geocodeRequestId;
+         let handlerCall;
 
-        if (handler === GoogleAddressInputHandler.places && suggestion && suggestion.place_id) {
-            handlerCall = this.client.placeDetails({
-                request: {
-                    placeId: suggestion.place_id
-                }
-            });
-        } else {
-            handlerCall = this.client.geocode({
-                request: {
-                    region: countryCode,
-                    [suggestion ? 'placeId' : 'address']: suggestion ? suggestion.place_id : value
-                }
-            });
-        }
+         if (handler === GoogleAddressInputHandler.places && suggestion && suggestion.place_id) {
+         handlerCall = this.props.Client.placeDetails(
+         this.props.apiKey, this.props.lang,
+         {
+         placeId: suggestion.place_id
+         }
+         );
+         } else {
+         handlerCall = this.props.Client.geocode(
+         this.props.apiKey, this.props.lang,
+         {
+         region: countryCode,
+         [suggestion ? 'placeId' : 'address']: suggestion ? suggestion.place_id : value
+         });
+         }
 
-        handlerCall.then(results => {
-            results = castArray(results).filter(Boolean);
+         handlerCall.then(results => {
+         results = castArray(results).filter(Boolean);
 
-            if (requestId !== this.geocodeRequestId) {
-                return;
-            }
+         if (requestId !== this.geocodeRequestId) {
+         return;
+         }
 
-            if (results.length === 0) {
-                console.error(`[GoogleAddressInput] handler (${handler}) returned no results on`, value);
-                this.props.onSet && this.props.onSet(null);
-                // This shouldn't happen since we're running geocode on exactly the same
-                // value returned by suggestions list
-                return;
-            }
+         if (results.length === 0) {
+         console.error(`[GoogleAddressInput] handler (${handler}) returned no results on`, value);
+         this.props.onSet && this.props.onSet(null);
+         // This shouldn't happen since we're running geocode on exactly the same
+         // value returned by suggestions list
+         return;
+         }
 
-            const result = {
-                originValue: value,
-                googleResult: results[0],
-                address: results[0]
-               /*address: google2address(results[0])*/
-            };
+         const result = {
+         originValue: value,
+         googleResult: results[0],
+         address: google2address(results[0])
+         };
 
-            this.props.onSet && this.props.onSet(result);
+         this.props.onSet && this.props.onSet(result);
 
-        }).catch(e => {
-            console.error(`[GoogleAddressInput] handler (${handler}) failed on`, value, e.message);
-            this.props.onSet && this.props.onSet(null);
-        });
+         }).catch(e => {
+         console.error(`[GoogleAddressInput] handler (${handler}) failed on`, value, e.message);
+         this.props.onSet && this.props.onSet(null);
+         });*/
     }
 
     onManuallyInput(inputValue) {
@@ -346,18 +413,17 @@ class GoogleAddressInput extends React.Component<GoogleAddressInputProps, Google
         }
     }
 
-    _getSuggestions(value: string, skipSetState?) {
+    _getSuggestions(value: string, skipSetState?): Promise<suggestionElement[]> {
         const {
             valuePrefix = '',
             countryCode,
             types,
-            filterTypes
+            filterTypes,
+            apiKey,
+            lang
         } = this.props;
 
-        const requestId = ++this.autoCompleteRequestId;
-
         return new Promise(resolve => {
-
             if (skipSetState) {
                 // Controlled mode
                 resolve();
@@ -365,93 +431,38 @@ class GoogleAddressInput extends React.Component<GoogleAddressInputProps, Google
             }
 
             this.setState({value}, () => resolve());
-
-        }).then(() => {
+        })
+        .then(() => {
             if (value === '') {
-                return Promise.resolve([]);
+                return [];
             }
 
             const request = {types, components: 'country:' + countryCode, input: valuePrefix + value};
 
-            return this.client.autocomplete({request});
-        }).then(results => {
+            this.props.Client.cancel(this.currentAutocompleteRequest);
+            this.currentAutocompleteRequest = this.props.Client.autocomplete(apiKey, lang, request);
+            return this.currentAutocompleteRequest;
+        })
+        .then(results  => {
             if (results.length === 0) {
-                return Promise.resolve([]);
-            }
-
-            if (requestId !== this.autoCompleteRequestId) {
-                return Promise.resolve([]);
+                return [];
             }
 
             if (filterTypes) {
-                results = results.filter(result => this.includes(result.types, filterTypes));
+                results = results.filter(result => includes(result.types, filterTypes));
             }
 
-            return Promise.resolve(results);
+            return results;
+        })
+        .catch(e => {
+            if (!e.isCancelled) { //Cancelled by request
+                console.error(`[GoogleAddressInput] handler failed on`, value, e.message);
+                this.props.onSet && this.props.onSet(null);
+            }
+
+            return [];
         });
     }
 }
-
-/*GoogleAddressInput.propTypes = {
- /!** Placeholder for the input box *!/
- placeholder: PropTypes.string,
-
- /!** Value to place before every search term (normally should not be used) *!/
- valuePrefix: PropTypes.string,
-
- /!** Country code used to help with suggestions and geocoding *!/
- countryCode: PropTypes.string,
-
- /!** Controlled mode - value to display *!/
- value: PropTypes.string,
-
- /!** Limit the autocomplete to specific types (see [here](https://developers.google.com/places/supported_types#table3) for list) *!/
- types: PropTypes.array,
-
- /!** Lower level filtering of autocomplete result types (see [here](https://developers.google.com/places/supported_types) for list)  *!/
- filterTypes: PropTypes.array,
-
- /!** Should display error marker *!/
- error: PropTypes.bool,
- onChange: PropTypes.func,
- onBlur: PropTypes.func,
- onFocus: PropTypes.func,
- onKeyDown: PropTypes.func,
-
- /!** Callback for results. Will return an object containing: originValue (value in the search), googleResult (google geocode result for the search), address (which will include: formatted (google formatted address), country, countryCode, street, number, postalCode, latLng (lat, lng)) *!/
- onSet: PropTypes.func,
-
- /!** Google map client implementation (should implement autocomplete and geocode functions). Normally you would use wix-style-react/clients/GoogleMapsClient *!/
- Client: PropTypes.func.isRequired,
-
- /!** Show or hide magnifying glass icon *!/
- magnifyingGlass: PropTypes.bool,
- theme: Input.propTypes.theme,
-
- /!** Sets the input to readOnly *!/
- readOnly: PropTypes.bool,
- autoSelect: PropTypes.bool,
-
- /!** Display a footer as the last suggestion in the list *!/
- footer: PropTypes.any,
-
- /!** Set the footer's options (e.g. disabled, overrideStyles, etc. ) *!/
- footerOptions: PropTypes.object,
-
- /!** Clear the suggestions list upon input blur *!/
- clearSuggestionsOnBlur: PropTypes.bool,
-
- /!** If set to `true`, we will attempt to get a Google location from the input's text if there are no suggestions. This is useful when looking for locations for which google does not give suggestions - for example: Apartment/Apt  *!/
- fallbackToManual: PropTypes.bool,
-
- /!** Shows the Powered By Google credit in a fixed footer *!/
- poweredByGoogle: PropTypes.bool,
-
- /!** Sets how to get more details for a place (e.g. geocode, places, etc) *!/
- handler: PropTypes.oneOf([
- GoogleAddressInputHandler.geocode,
- GoogleAddressInputHandler.places
- ])
- };*/
 
 export default GoogleAddressInput;
