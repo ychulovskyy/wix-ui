@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Checkbox from '../../src/components/Checkbox/Checkbox';
 // import { ToggleSwitch } from '../../src/components/StylableToggleSwitch/backoffice/ToggleSwitch';
-// import commonStyle from '../../src/components/StylableToggleSwitch/ToggleSwitchStyle.st.css';
+import commonStyle from '../../src/components/Checkbox/CheckboxStyle.st.css';
 
 export class CheckboxStory extends React.Component<{}, { checked: boolean }> {
   state = {checked: false};
@@ -10,7 +10,7 @@ export class CheckboxStory extends React.Component<{}, { checked: boolean }> {
     return (
       <div style={{height: '100px', width: '100px'}}>
         <Checkbox
-          // {...commonStyle('root') }
+          {...commonStyle('root') }
           checked={this.state.checked}
           onChange={() => this.setState({checked: !this.state.checked})}
           data-hook="story-Checkbox"

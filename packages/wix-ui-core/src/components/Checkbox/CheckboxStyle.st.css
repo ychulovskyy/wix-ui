@@ -1,0 +1,83 @@
+:import {
+  -st-from: "./Checkbox.st.css";
+  -st-default: Checkbox;
+}
+
+:vars {
+  rootWidth: initial;
+  rootHeight: initial;
+
+  /* Colors from styleguide */
+  BK1: #000000;
+  BK2: #7d8c98;
+  BK3: #adbbc6;
+  DS1: #c8c8c8;
+  DS2: #f1f1f1;
+  ER1: #d0011b;
+  PR1: #257ade;
+  PR2: #4a90e2;
+  PR3: #5cb4ff;
+  PR3-50: rgba(92, 180, 255, 0.5);
+  PR4: #edf7ff;
+  WT1: #ffffff;
+
+/* Component state colors */
+  color_Default: value(PR2);
+  color_Hover: value(PR3);
+  color_MainText_Background: value(WT1);
+
+  /* Borders */
+  borderRadius: 0px;
+  borderWidth: 1px;
+  borderStyle: solid;
+
+  borderDefaultColor: value(DS1);
+  borderDefault: value(borderStyle) value(borderWidth) value(borderDefaultColor);
+  color_Focus2: value(PR3-50);
+  color_Disabled2: value(DS2);
+
+  iconTick:                   url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTExLjggNEw2LjUgOS4yIDQuMiA3IDMgOC4ybDMuNSAzLjZMMTMgNS4yIi8+PC9zdmc+);
+  iconTickDisabled:           url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZmlsbD0iI2M4YzhjOCIgZD0iTTExLjggNEw2LjUgOS4yIDQuMiA3IDMgOC4ybDMuNSAzLjZMMTMgNS4yIi8+PC9zdmc+);
+  iconIntermediate:           url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTQgN2g4djJINHoiLz48L3N2Zz4=);
+  iconIntermediateDisabled:   url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZmlsbD0iI2M4YzhjOCIgZD0iTTQgN2g4djJINHoiLz48L3N2Zz4=);
+}
+
+.root {
+  -st-extends: Checkbox;
+  width: value(rootWidth);
+  height: value(rootHeight);
+}
+
+.root::box {
+    background: value(color_MainText_Background);
+    border: value(borderDefault);
+}
+
+.root:checked::box,
+.root:indeterminate::box {
+    background: value(color_Default);
+}
+
+.root:disabled::box {
+    background: value(color_Disabled2);
+}
+
+.root:focus::box {
+    outline: 4px solid value(color_Focus2);
+}
+
+.root::tickIcon {
+    background-image: value(iconTick);
+}
+
+.root::indeterminateIcon {
+    background-image: value(iconIntermediate);
+}
+
+.root:disabled::tickIcon {
+    background-image: value(iconTickDisabled);
+}
+
+.root:disabled::indeterminateIcon {
+    background-image: value(iconIntermediateDisabled);
+}

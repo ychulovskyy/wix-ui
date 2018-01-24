@@ -120,7 +120,7 @@ export default class Checkbox extends React.PureComponent<CheckboxProps> {
           <input
             data-hook="NATIVE_CHECKBOX"
             type="checkbox"
-            className="nativeCheckbox"
+            className={style.nativeCheckbox}
             checked={this.props.checked}
             disabled={this.props.disabled}
             onClick={this.handleInputClick}
@@ -136,7 +136,7 @@ export default class Checkbox extends React.PureComponent<CheckboxProps> {
           />
 
           <span
-            className="box"
+            className={style.box}
             data-automation-id="CHECKBOX_BOX"
           >
             {this.props.indeterminate ?
@@ -146,7 +146,7 @@ export default class Checkbox extends React.PureComponent<CheckboxProps> {
           {this.props.children ? (
             <div
               data-hook="CHECKBOX_CHILD_CONTAINER"
-              className="childContainer"
+              className={style.childContainer}
             >
               {this.props.children}
             </div>
