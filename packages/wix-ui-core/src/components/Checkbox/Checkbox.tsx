@@ -106,11 +106,11 @@ export default class Checkbox extends React.Component<CheckboxProps, CheckboxSta
     this.state.isFocused && this.setState({isFocused: false});
   }
 
-  private handleInputFocus: React.FocusEventHandler<HTMLInputElement>; = () => {
+  private handleInputFocus: React.FocusEventHandler<HTMLInputElement> = () => {
     !this.state.isFocused && this.setState({isFocused: true});
-  };
+  }
 
-  render(); {
+  render() {
     const {checked, disabled} = this.props;
 
     return (
