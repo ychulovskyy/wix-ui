@@ -33,5 +33,5 @@ export const dropdownContentTestkitFactory = protractorTestkitFactoryCreator(dro
 import {dropdownDriverFactory} from '../baseComponents/Dropdown/Dropdown.protractor.driver';
 export const dropdownTestkitFactory = protractorTestkitFactoryCreator(dropdownDriverFactory);
 
-import {checkboxDriverFactory} from '../components/Checkbox/Checkbox.driver';
+import {checkboxDriverFactory} from '../components/Checkbox/Checkbox.protractor.driver';
 export const checkboxTestkitFactory = protractorTestkitFactoryCreator(checkboxDriverFactory);

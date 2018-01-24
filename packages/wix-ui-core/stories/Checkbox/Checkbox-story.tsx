@@ -13,7 +13,7 @@ export class CheckboxStory extends React.Component<{}, { checked: boolean }> {
           {...commonStyle('root') }
           checked={this.state.checked}
           onChange={() => this.setState({checked: !this.state.checked})}
-          data-hook="story-Checkbox"
+          data-hook="storybook-checkbox"
         />
       </div>
     );

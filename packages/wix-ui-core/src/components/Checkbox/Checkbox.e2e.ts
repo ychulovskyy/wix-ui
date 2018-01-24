@@ -12,9 +12,6 @@ describe('Checkbox', () => {
     const dataHook = 'story-checkbox';
     const driver = checkboxTestkitFactory({dataHook});
 
-    return waitForVisibilityOf(driver.element(), 'Cannot find Checkbox')
-      .then(async () => {
-        await expect(driver.getTextContent()).toBe('Hello');
-      });
+    return waitForVisibilityOf(driver.element(), 'Cannot find Checkbox');
   });
 });

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as uniqueId from 'lodash/uniqueId';
 import style from './Checkbox.st.css';
+import {bool, func, object, string} from 'prop-types';
+// import {createHOC} from '../../createHOC';
 
 export interface OnChangeEvent extends React.ChangeEvent<HTMLInputElement> {
   checked: boolean;
@@ -8,6 +10,12 @@ export interface OnChangeEvent extends React.ChangeEvent<HTMLInputElement> {
 
 export interface OnClickEvent extends React.MouseEvent<HTMLDivElement> {
   checked: boolean;
+}
+
+export interface CheckboxStyles {
+  root?: object;
+  box?: object;
+  icon?: object;
 }
 
 export interface CheckboxProps {
@@ -25,6 +33,7 @@ export interface CheckboxProps {
   required?: boolean;
   indeterminate?: boolean;
   autoFocus?: boolean;
+  styles?: CheckboxStyles;
   ['aria-controls']?: string[];
 }
 
@@ -35,7 +44,7 @@ export interface CheckBoxState {
 /**
  * Checkbox
  */
-export default class Checkbox extends React.PureComponent<CheckboxProps> {
+export default class Checkbox<P = {}> extends React.PureComponent<CheckboxProps & P> {
   public static defaultProps: Partial<CheckboxProps> = {
     tickIcon: (
       <span
@@ -53,7 +62,21 @@ export default class Checkbox extends React.PureComponent<CheckboxProps> {
     onChange: () => {},
     checked: false,
     indeterminate: false,
-    tabIndex: 0
+    tabIndex: 0,
+    styles: {}
+  };
+
+  static propTypes = {
+    /** Is the toggleSwitch checked or not */
+    checked: bool,
+    /** Callback function when user changes the value of the component */
+    onChange: func.isRequired,
+    /** Is the toggleSwitch disabled or not */
+    disabled: bool,
+    /** Styles object */
+    styles: object,
+    /** Component ID, will be generated automatically if not provided */
+    id: string
   };
 
   public state: CheckBoxState = {isFocused: false};
@@ -106,11 +129,12 @@ export default class Checkbox extends React.PureComponent<CheckboxProps> {
   }
 
   render() {
-    const {checked, disabled} = this.props;
+    const {checked, disabled, styles} = this.props;
     // const {id} = this;
 
     return (
       <div {...style('root', {checked, disabled}, this.props) }
+        style={styles.root}
         data-automation-id="CHECKBOX_ROOT"
         onClick={this.handleClick}
         role="checkbox"
@@ -156,3 +180,5 @@ export default class Checkbox extends React.PureComponent<CheckboxProps> {
     );
   }
 }
+
+// export default createHOC(Checkbox);
