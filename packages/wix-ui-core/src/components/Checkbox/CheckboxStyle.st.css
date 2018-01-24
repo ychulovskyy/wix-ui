@@ -7,34 +7,20 @@
   rootWidth: initial;
   rootHeight: initial;
 
-  /* Colors from styleguide */
-  BK1: #000000;
-  BK2: #7d8c98;
-  BK3: #adbbc6;
-  DS1: #c8c8c8;
-  DS2: #f1f1f1;
-  ER1: #d0011b;
-  PR1: #257ade;
-  PR2: #4a90e2;
-  PR3: #5cb4ff;
-  PR3-50: rgba(92, 180, 255, 0.5);
-  PR4: #edf7ff;
-  WT1: #ffffff;
-
 /* Component state colors */
-  color_Default: value(PR2);
-  color_Hover: value(PR3);
-  color_MainText_Background: value(WT1);
+  color_Default: #4a90e2;
+  color_Hover: #5cb4ff;
+  color_MainText_Background: #ffffff;
 
   /* Borders */
   borderRadius: 0px;
   borderWidth: 1px;
   borderStyle: solid;
 
-  borderDefaultColor: value(DS1);
+  borderDefaultColor: #c8c8c8;
   borderDefault: value(borderStyle) value(borderWidth) value(borderDefaultColor);
-  color_Focus2: value(PR3-50);
-  color_Disabled2: value(DS2);
+  color_Focus2: rgba(92, 180, 255, 0.5);
+  color_Disabled2: #f1f1f1;
 
   iconTick:                   url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTExLjggNEw2LjUgOS4yIDQuMiA3IDMgOC4ybDMuNSAzLjZMMTMgNS4yIi8+PC9zdmc+);
   iconTickDisabled:           url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZmlsbD0iI2M4YzhjOCIgZD0iTTExLjggNEw2LjUgOS4yIDQuMiA3IDMgOC4ybDMuNSAzLjZMMTMgNS4yIi8+PC9zdmc+);

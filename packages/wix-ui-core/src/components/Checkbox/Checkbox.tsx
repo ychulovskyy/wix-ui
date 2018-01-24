@@ -28,14 +28,19 @@ export interface CheckboxProps {
   ['aria-controls']?: string[];
 }
 
-export interface CheckBoxState {
+export interface CheckboxState {
   isFocused: boolean;
 }
 
 /**
  * Checkbox
  */
-export default class Checkbox extends React.PureComponent<CheckboxProps> {
+export default class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
+  public static displayName: string = 'Checkbox';
+  public state: CheckboxState;
+  public id: string;
+  private checkbox: HTMLInputElement;
+
   public static defaultProps: Partial<CheckboxProps> = {
     tickIcon: (
       <span
@@ -50,18 +55,18 @@ export default class Checkbox extends React.PureComponent<CheckboxProps> {
       />
     ),
     // tslint:disable-next-line:no-empty
-    onChange: () => {},
+    onChange: () => { },
     checked: false,
     indeterminate: false,
     tabIndex: 0
   };
 
-  public state: CheckBoxState = {isFocused: false};
+  constructor(props: CheckboxProps) {
+    super(props);
 
-  static displayName = 'Checkbox';
-  id: string = this.props.id || uniqueId('Checkbox');
-
-  private checkbox: HTMLInputElement;
+    this.state = {isFocused: false};
+    this.id = this.props.id || uniqueId('Checkbox');
+  }
 
   componentDidMount() {
     this.checkbox.addEventListener('keydown', this.listenToSpace);
@@ -73,7 +78,7 @@ export default class Checkbox extends React.PureComponent<CheckboxProps> {
 
   private listenToSpace = e => {
     const SPACEBAR = 32;
-    if (e.keyCode === SPACEBAR) {
+    if (e.key === SPACEBAR) {
       e.preventDefault();
       this.handleChange(e);
     }
@@ -101,11 +106,11 @@ export default class Checkbox extends React.PureComponent<CheckboxProps> {
     this.state.isFocused && this.setState({isFocused: false});
   }
 
-  private handleInputFocus: React.FocusEventHandler<HTMLInputElement> = () => {
+  private handleInputFocus: React.FocusEventHandler<HTMLInputElement>; = () => {
     !this.state.isFocused && this.setState({isFocused: true});
-  }
+  };
 
-  render() {
+  render(); {
     const {checked, disabled} = this.props;
 
     return (
