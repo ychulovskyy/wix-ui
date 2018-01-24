@@ -35,7 +35,7 @@ export interface CheckBoxState {
 /**
  * Checkbox
  */
-export default class Checkbox<P = {}> extends React.PureComponent<CheckboxProps & P> {
+export default class Checkbox extends React.PureComponent<CheckboxProps> {
   public static defaultProps: Partial<CheckboxProps> = {
     tickIcon: (
       <span
