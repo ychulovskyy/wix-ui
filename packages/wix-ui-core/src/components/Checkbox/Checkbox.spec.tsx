@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {checkboxDriverFactory} from './Checkbox.driver';
 import {createDriverFactory} from 'wix-ui-test-utils';
-// import {scopeSelector, expandCustomSelectors} from 'stylable';
 import Checkbox from './Checkbox';
 
 const tickSVG: React.ReactNode = (
@@ -26,9 +25,7 @@ const IndeterminateSVG: React.ReactNode = (
   </svg>
 );
 
-// tslint:disable-next-line:ban
-describe.only('Checkbox', () => {
-
+describe('Checkbox', () => {
   const createDriver = createDriverFactory(checkboxDriverFactory);
 
   it('Renders with default values', async () => {
@@ -47,17 +44,6 @@ describe.only('Checkbox', () => {
 
     expect(checkbox.children()[0].textContent).toContain('covfefe');
   });
-
-  // it('Aligns children and box icon', async () => {
-  //   const checkbox = createDriver(
-  //     <Checkbox>
-  //       <span>yoyo</span>
-  //     </Checkbox>
-  //   );
-
-  //   expect(checkbox.children()[0].textContent).toContain('yoyo');
-  //   // expect([checkbox.box, checkbox.children()[0]]).to.be.verticallyAligned('bottom', 5);
-  // });
 
   it('Displays custom tick mark when value is true', async () => {
     const checkbox = createDriver(
@@ -90,17 +76,6 @@ describe.only('Checkbox', () => {
     expect(onChange.mock.calls[0][0].checked).toBe(false);
   });
 
-  // it('Switches to focus state when focused', async () => {
-  //   const { driver: checkbox, waitForDom } = clientRenderer.render(
-  //     <CheckBox value={true} />
-  //   ).withDriver(CheckBoxTestDriver);
-
-  //   checkbox.focus();
-  //   await waitForDom(() => {
-  //     expect(checkbox.hasStylableState('focus')).to.equal(true);
-  //   });
-  // });
-
   it('Accepts "name" prop', async () => {
     const checkbox = createDriver(
       <Checkbox name="shlomi" />
@@ -117,7 +92,6 @@ describe.only('Checkbox', () => {
       );
 
       expect(document.activeElement).toBe(checkbox.input());
-      // expect(checkbox.hasStylableState('focus')).to.equal(true);
 
     } else {
       console.warn(// tslint:disable-line no-console
@@ -198,26 +172,7 @@ describe.only('Checkbox', () => {
       checkbox.click();
 
       expect(document.activeElement).toBe(checkbox.input());
-      // expect(checkbox.hasStylableState('focus'), 'checkbox should not look focused').to.equal(false);
     });
-
-  //   it('loses focused style state after click', async () => {
-  //     const { driver: checkbox, waitForDom } = clientRenderer.render(
-  //       <CheckBox />
-  //     ).withDriver(CheckBoxTestDriver);
-
-  //     await waitForDom(() => expect(checkbox.root).to.be.present());
-
-  //     checkbox.focus();
-  //     await waitForDom(() =>
-  //       expect(checkbox.hasStylableState('focus'), 'checkbox should look focused').to.equal(true)
-  //     );
-
-  //     checkbox.click();
-  //     await waitForDom(() =>
-  //       expect(checkbox.hasStylableState('focus'), 'checkbox should not look focused').to.equal(false)
-  //     );
-  //   });
   });
 
   describe('When disabled', () => {
@@ -250,16 +205,6 @@ describe.only('Checkbox', () => {
 
       expect(checkbox.isChecked()).toBe(true);
     });
-
-  //   it('gets disabled style state', async () => {
-  //     const { driver: checkbox, waitForDom } = clientRenderer.render(
-  //       <CheckBox disabled />
-  //     ).withDriver(CheckBoxTestDriver);
-
-  //     await waitForDom(() => {
-  //       expect(checkbox.hasStylableState('disabled')).to.equal(true);
-  //     });
-  //   });
 
     it('displays indeterminate icon', async () => {
       const checkbox = createDriver(
@@ -304,29 +249,7 @@ describe.only('Checkbox', () => {
 
       expect(checkbox.isChecked()).toBe(true);
     });
-
-  //   it('gets readOnly style state', async () => {
-  //     const { driver: checkbox, waitForDom } = clientRenderer.render(
-  //       <CheckBox readOnly />
-  //     ).withDriver(CheckBoxTestDriver);
-
-  //     await waitForDom(() => {
-  //       expect(checkbox.hasStylableState('readonly')).to.equal(true);
-  //     });
-  //   });
   });
-
-  // describe('When error', () => {
-  //   it('has error style state', async () => {
-  //     const { driver: checkbox, waitForDom } = clientRenderer.render(
-  //       <CheckBox error />
-  //     ).withDriver(CheckBoxTestDriver);
-
-  //     await waitForDom(() => {
-  //       expect(checkbox.hasStylableState('error')).to.equal(true);
-  //     });
-  //   });
-  // });
 
   describe('When indeterminate', () => {
     it('renders indeterminate icon when value is true', async () => {
@@ -404,15 +327,5 @@ describe.only('Checkbox', () => {
         expect(onChange).not.toHaveBeenCalled();
       }, 10);
     });
-
-  //   it('gets indeterminate style state', async () => {
-  //     const { driver: checkbox, waitForDom } = clientRenderer.render(
-  //       <CheckBox indeterminate />
-  //     ).withDriver(CheckBoxTestDriver);
-
-  //     await waitForDom(() => {
-  //       expect(checkbox.hasStylableState('indeterminate')).to.equal(true);
-  //     });
-  //   });
   });
 });
