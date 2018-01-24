@@ -1,8 +1,6 @@
 import * as React from 'react';
 import * as uniqueId from 'lodash/uniqueId';
 import style from './Checkbox.st.css';
-import {bool, func, object, string} from 'prop-types';
-// import {createHOC} from '../../createHOC';
 
 export interface OnChangeEvent extends React.ChangeEvent<HTMLInputElement> {
   checked: boolean;
