@@ -5,14 +5,12 @@
 
 :import {
   -st-from: "./DividerVars.st.css";
-}
-
-:vars {
-  height: 2px;
-  backgroundColor: black;
-  opacity: 0.5;
-  marginTop: 0;
-  marginBottom: 0;
+  -st-named:
+    dividerHeight,
+    dividerBackgroundColor,
+    dividerOpacity,
+    dividerMarginTop,
+    dividerMarginBottom;
 }
 
 .root {
@@ -20,13 +18,13 @@
 }
 
 .root::divider {
-  height: value(height);
-  background-color: value(backgroundColor);
-  opacity: value(opacity);
-  margin-top: marginTop;
-  margin-bottom: marginBottom
+  height: value(dividerHeight);
+  background-color: value(dividerBackgroundColor);
+  opacity: value(dividerOpacity);
+  margin-top: value(dividerMarginTop);
+  margin-bottom: value(dividerMarginBottom);
 }
 
 .root::vertical {
-  width: value(height);
+  width: value(dividerHeight);
 }
