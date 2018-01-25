@@ -18,8 +18,6 @@ export interface DropdownContentProps {
   fixedFooter?: React.ReactNode;
   /** Maximum height of the component */
   maxHeight?: number;
-  /** Classes for the component */
-  className?: string;
 }
 
 export interface DropdownContentState {

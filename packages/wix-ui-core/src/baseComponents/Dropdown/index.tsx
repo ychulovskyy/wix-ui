@@ -157,7 +157,6 @@ export class DropdownComponent extends React.PureComponent<DropdownProps, Dropdo
         </Popover.Element>
         <Popover.Content>
           <DropdownContent
-            className={style.dropdownContent}
             ref={dropdownContent => this.dropdownContentRef = dropdownContent}
             options={options}
             fixedFooter={fixedFooter}
