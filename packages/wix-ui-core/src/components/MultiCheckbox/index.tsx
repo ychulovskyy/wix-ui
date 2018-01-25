@@ -1,5 +1,6 @@
 import * as React from 'react';
 import style from './MultiCheckbox.st.css';
+import {arrayOf, object} from 'prop-types';
 import {InputWithOptions} from '../InputWithOptions';
 import {Option} from '../../baseComponents/DropdownOption';
 
@@ -15,6 +16,8 @@ export class MultiCheckbox extends React.PureComponent<MultiCheckboxProps, Multi
 
   static displayName = 'MultiCheckbox';
   static propTypes = {
+    /** The dropdown options array */
+    options: arrayOf(object).isRequired,
   };
 
   constructor() {
