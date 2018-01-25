@@ -15,6 +15,7 @@ export interface MultiCheckboxProps {
 
 export interface MultiCheckboxState {
   inputValue: string;
+  displayedOptions: Array<Option>;
 }
 
 export class MultiCheckbox extends React.PureComponent<MultiCheckboxProps, MultiCheckboxState> {
@@ -34,12 +35,17 @@ export class MultiCheckbox extends React.PureComponent<MultiCheckboxProps, Multi
     onDeselect: func,
   };
 
-  constructor() {
-    super();
+  constructor(props: MultiCheckboxProps) {
+    super(props);
 
-    this.state = {inputValue: ''};
+    this.state = {
+      inputValue: '',
+      displayedOptions: props.options
+    };
+
     this.onSelect = this.onSelect.bind(this);
     this.onDeselect = this.onDeselect.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
   }
 
   onDeselect(option: Option) {
@@ -62,16 +68,25 @@ export class MultiCheckbox extends React.PureComponent<MultiCheckboxProps, Multi
     onSelect(option);
   }
 
-  render() {
+  onInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
     const {options} = this.props;
-    const {inputValue} = this.state;
+    const {value} = evt.target;
+    this.setState({
+      inputValue: value,
+      displayedOptions: options.filter(x => !x.value || x.value.includes(value))
+    });
+  }
+
+  render() {
+    const {inputValue, displayedOptions} = this.state;
 
     return (
       <InputWithOptions
         {...style('root', {}, this.props)}
         closeOnSelect={false}
         inputValue={inputValue}
-        options={options}
+        options={displayedOptions}
+        onInputChange={this.onInputChange}
         onSelect={this.onSelect}
         onDeselect={this.onDeselect}
         />
