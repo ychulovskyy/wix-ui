@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as uniqueId from 'lodash/uniqueId';
 import style from './Checkbox.st.css';
-import {bool, func, object, any, oneOf, string, number, array, ReactNode} from 'prop-types';
+import {bool, func, string, number, array, node} from 'prop-types';
 
 export interface OnChangeEvent extends React.ChangeEvent<HTMLInputElement> {
   checked: boolean;
@@ -41,11 +41,8 @@ export interface CheckboxState {
  */
 export default class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   public static displayName: string = 'Checkbox';
-  public state: CheckboxState;
-  public id: string;
-  private checkbox: HTMLInputElement;
 
-  public propTypes: Object = {
+  public static propTypes: Object = {
     /** Whether the checkbox is checked or not */
     checked: bool,
     /** Disabled */
@@ -57,11 +54,11 @@ export default class Checkbox extends React.Component<CheckboxProps, CheckboxSta
     /** The tab-index of the component */
     tabIndex: number,
     /** An element to be displayed when the checkbox is checked */
-    tickIcon: ReactNode,
+    tickIcon: node,
     /** An element to be displayed when the checkbox is in indeterminate state */
-    indeterminateIcon: ReactNode,
+    indeterminateIcon: node,
     /** Children to be rendered (usually a label) */
-    children: ReactNode,
+    children: node,
     /** Whether checkbox should be in error state */
     error: bool,
     /** Name of the checkbox */
@@ -97,6 +94,10 @@ export default class Checkbox extends React.Component<CheckboxProps, CheckboxSta
     indeterminate: false,
     tabIndex: 0
   };
+
+  public state: CheckboxState;
+  public id: string;
+  private checkbox: HTMLInputElement;
 
   constructor(props: CheckboxProps) {
     super(props);
