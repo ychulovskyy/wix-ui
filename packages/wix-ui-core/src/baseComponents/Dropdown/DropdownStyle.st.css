@@ -36,7 +36,7 @@
   );
 }
 
-.dropdownContent {
+[data-hook="dropdown-content"] {
   -st-mixin: DropdownContent(
     optionHoverBackgroundColor value(optionHoverBackgroundColor),
     optionSelectedBackgroundColor value(optionSelectedBackgroundColor),
