@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import jsxToString from 'jsx-to-string';
+import reactElementToJSXString from 'react-element-to-jsx-string';
 import styles from './styles.scss';
 import componentParser from '../AutoDocs/parser';
 
@@ -214,16 +214,9 @@ export default class extends Component {
   }
 
   componentToString = component =>
-    jsxToString(component, {
-      useFunctionCode: true,
-      functionNameOnly: false,
-      shortBooleanSyntax: true,
-      keyValueOverride: {
-        ...(component.props.value && component.props.value._isAMomentObject ?
-          {value: `'${component.props.value.format(component.props.dateFormat || 'YYYY/MM/DD')}'`} :
-          {}
-        )
-      }
+    reactElementToJSXString(component, {
+      showDefaultProps: false,
+      showFunctions: true
     })
 
   render() {
