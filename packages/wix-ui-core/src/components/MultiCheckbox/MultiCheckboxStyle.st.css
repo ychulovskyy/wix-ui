@@ -1,0 +1,34 @@
+:import {
+  -st-from: "../InputWithOptions/InputWithOptionsStyle.st.css";
+  -st-default: InputWithOptions;
+}
+
+:import {
+  -st-from: "./MultiCheckboxVars.st.css";
+  -st-named:
+    contentBackgroundColor,
+    contentBorderWidth,
+    contentBorderStyle,
+    contentBorderColor,
+    contentBorderRadius,
+    contentPadding,
+    optionHoverBackgroundColor,
+    optionDisabledBackgroundColor,
+    optionSelectedBackgroundColor,
+    optionSelectedHoverBackgroundColor;
+}
+
+.root {
+  -st-mixin: InputWithOptions(
+    contentBackgroundColor value(contentBackgroundColor),
+    contentBorderWidth value(contentBorderWidth),
+    contentBorderStyle value(contentBorderStyle),
+    contentBorderColor value(contentBorderColor),
+    contentBorderRadius value(contentBorderRadius),
+    contentPadding value(contentPadding),
+    optionHoverBackgroundColor value(optionHoverBackgroundColor),
+    optionSelectedBackgroundColor value(optionSelectedBackgroundColor),
+    optionSelectedHoverBackgroundColor value(optionSelectedHoverBackgroundColor),
+    optionDisabledBackgroundColor value(optionDisabledBackgroundColor)
+  );
+}
