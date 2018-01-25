@@ -1,3 +1,13 @@
+:import {
+  -st-from: "../../components/Divider/DividerVars.st.css";
+  -st-named:
+    dividerHeight,
+    dividerBackgroundColor,
+    dividerOpacity,
+    dividerMarginTop,
+    dividerMarginBottom;
+}
+
 :vars {
   /** Option background color when hovered */
   optionHoverBackgroundColor: lightgrey;

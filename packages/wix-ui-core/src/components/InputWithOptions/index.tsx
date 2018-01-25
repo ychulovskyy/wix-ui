@@ -117,11 +117,6 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps,
 
   onInputKeyDown(event: React.KeyboardEvent<HTMLElement>, onDropdownKeyDown: (evt: React.KeyboardEvent<HTMLElement>) => void) {
     onDropdownKeyDown(event);
-    switch (event.key) {
-      case 'Enter':
-      case 'Tab':
-      default:
-    }
   }
 
   render () {

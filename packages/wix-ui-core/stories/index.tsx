@@ -16,7 +16,7 @@ import {GoogleMapsIframeClientStory} from './clients/GoogleMapsIframeClient-stor
 const dropdownOptions =
   Array.from(Array(20))
     .map((x, index) =>
-      index === 2 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, index === 15 ? 'fdsf sdf sdf sdf sdf sdfsd fsdf sdf ds' : `value${index}`));
+      index === 5 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, index === 15 ? 'fdsf sdf sdf sdf sdf sdfsd fsdf sdf ds' : `value${index}`));
 
 require('./Badge').story();
 require('./Button').story();

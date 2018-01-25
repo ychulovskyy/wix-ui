@@ -1,7 +1,11 @@
-.root {}
+.root {
+  -st-states: vertical, customDivider;
+}
 
-.root.divider {}
+.root:customDivider {
+  reset: all;
+}
 
-.root.vertical {
+.root:vertical {
   height: auto;
 }

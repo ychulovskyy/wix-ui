@@ -1,5 +1,5 @@
 import * as React from 'react';
-import style from './DividerStyle.st.css';
+import style from './Divider.st.css';
 import {bool, any} from 'prop-types';
 
 export interface DividerProps {
@@ -12,17 +12,15 @@ export interface DividerProps {
  */
 export const Divider: React.SFC<DividerProps> = (props: DividerProps) => {
   const {children, vertical} = props;
-  return children ?
+  const customDivider = !!children;
+
+  return (
     <div
-      {...style('root', {}, props)}
+      {...style('root', {vertical: vertical && !customDivider, customDivider}, props)}
       data-hook="divider"
       >
         {children}
-    </div> :
-    <div
-      {...style(`root ${style.divider} ${vertical ? style.vertical : ''}`.trim(), {}, props)}
-      data-hook="divider"
-      />;
+    </div>);
 };
 
 Divider.displayName = 'Divider';

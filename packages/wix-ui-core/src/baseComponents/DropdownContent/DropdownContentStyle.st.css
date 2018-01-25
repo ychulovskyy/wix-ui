@@ -4,12 +4,22 @@
 }
 
 :import {
+  -st-from: "../../components/Divider/DividerStyle.st.css";
+  -st-default: Divider;
+}
+
+:import {
   -st-from: "./DropdownContentVars.st.css";
   -st-named:
     optionHoverBackgroundColor,
     optionDisabledBackgroundColor,
     optionSelectedBackgroundColor,
-    optionSelectedHoverBackgroundColor;
+    optionSelectedHoverBackgroundColor,
+    dividerHeight,
+    dividerBackgroundColor,
+    dividerOpacity,
+    dividerMarginTop,
+    dividerMarginBottom;
 }
 
 .root {
@@ -30,4 +40,14 @@
 
 .root::optionSelectedAndHovered {
   background-color: value(optionSelectedHoverBackgroundColor);
+}
+
+[data-hook="divider"] {
+  -st-mixin: Divider(
+    dividerHeight value(dividerHeight),
+    dividerBackgroundColor value(dividerBackgroundColor),
+    dividerOpacity value(dividerOpacity),
+    dividerMarginTop value(dividerMarginTop),
+    dividerMarginBottom value(dividerMarginBottom)
+  )
 }
