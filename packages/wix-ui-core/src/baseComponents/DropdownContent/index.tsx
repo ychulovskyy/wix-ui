@@ -102,6 +102,7 @@ export class DropdownContent extends React.PureComponent<DropdownContentProps, D
 
   onKeyDown(evt: React.KeyboardEvent<HTMLElement>) {
     switch (evt.key) {
+      case 'Tab':
       case 'Enter': {
         const {options} = this.props;
         const {hoveredIndex} = this.state;

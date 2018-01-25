@@ -3,7 +3,7 @@ import {dividerDriverFactory} from './Divider.driver';
 import {createDriverFactory} from 'wix-ui-test-utils';
 import {Divider} from './';
 
-describe.skip('Divider', () => {
+describe('Divider', () => {
 
     const createDriver = createDriverFactory(dividerDriverFactory);
 

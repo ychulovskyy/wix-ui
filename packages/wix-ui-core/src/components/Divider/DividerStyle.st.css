@@ -17,7 +17,7 @@
   -st-extends: Divider;
 }
 
-.root::divider {
+.root:not(:customDivider) {
   height: value(dividerHeight);
   background-color: value(dividerBackgroundColor);
   opacity: value(dividerOpacity);
@@ -25,6 +25,6 @@
   margin-bottom: value(dividerMarginBottom);
 }
 
-.root::vertical {
+.root:vertical {
   width: value(dividerHeight);
 }
