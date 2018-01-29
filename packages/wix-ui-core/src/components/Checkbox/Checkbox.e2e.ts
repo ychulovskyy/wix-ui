@@ -3,7 +3,7 @@ import {browser} from 'protractor';
 import {getStoryUrl, waitForVisibilityOf} from 'wix-ui-test-utils';
 import {checkboxTestkitFactory} from '../../testkit/protractor';
 
-describe('Checkbox', () => {
+xdescribe('Checkbox', () => {
   const storyUrl = getStoryUrl('Components', 'Checkbox');
 
   beforeEach(() => browser.get(storyUrl));
