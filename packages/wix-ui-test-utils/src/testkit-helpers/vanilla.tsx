@@ -22,7 +22,7 @@ export function isTestkitExists<T extends BaseDriver> (Element: React.ReactEleme
   return testkit.exists();
 }
 
-export function isAttributeExists(element: HTMLElement, predicate: (attribute: Attr) => boolean) {
+export function isAttributeExists(element: Element, predicate: (attribute: Attr) => boolean) {
   if (!element || !element.attributes) {
     return false;
   }
