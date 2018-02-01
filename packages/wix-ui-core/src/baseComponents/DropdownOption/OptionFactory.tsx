@@ -30,14 +30,22 @@ const createOption: Function = (
       };
   };
 
-const hightlightMatches = (value: string, searchTerm: string): Array<String | React.ReactNode> => {
-  const hightlightString = value.replace(new RegExp(searchTerm, 'gi'), x => '<b>' + x + '</b>');
+const hightlightMatches = (option: Option, searchTerm: string): Option => {
+  const hightlightString = option.value.replace(new RegExp(searchTerm, 'gi'), x => `<b>${x}</b>`);
   const parts: Array<String | React.ReactNode> = hightlightString.split(/<b>|<\/b>/gi);
   for (let i = 1; i < parts.length; i += 2) {
     parts[i] = <Highlighter key={i}>{parts[i]}</Highlighter>;
   }
 
-  return parts;
+  return createOption(
+    option.id,
+    option.isDisabled,
+    option.isSelectable,
+    option.value,
+    () => (
+      <span>{parts}</span>
+    )
+  );
 };
 
 export const OptionFactory = {
@@ -77,19 +85,8 @@ export const OptionFactory = {
       divider);
   },
   createHighlighted(
-    id: number | string,
-    isDisabled: boolean,
-    isSelectable: boolean,
-    value: string,
+    option: Option,
     hightlightValue: string): Option {
-    return createOption(
-      id,
-      isDisabled,
-      isSelectable,
-      value,
-      () =>
-        <span>
-          {hightlightValue ? hightlightMatches(value, hightlightValue) : value}
-        </span>);
-  }
+      return option.value ? hightlightMatches(option, hightlightValue) : option;
+    }
 };
