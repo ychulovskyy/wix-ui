@@ -36,7 +36,7 @@ export class DropdownContent extends React.PureComponent<DropdownContentProps, D
 
   private optionsContainerRef: HTMLDivElement;
 
-  constructor(props) {
+  constructor(props: DropdownContentProps) {
     super(props);
 
     this.state = {
@@ -151,7 +151,7 @@ export class DropdownContent extends React.PureComponent<DropdownContentProps, D
           <div
             style={{maxHeight: `${maxHeight}px`}}
             className={style.optionsContainer}
-            ref={optionsContainer => this.optionsContainerRef = optionsContainer}>
+            ref={(optionsContainer: HTMLDivElement) => this.optionsContainerRef = optionsContainer}>
             {
               (options || []).map((option, index) => (
                 <div

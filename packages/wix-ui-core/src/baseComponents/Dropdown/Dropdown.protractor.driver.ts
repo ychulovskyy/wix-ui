@@ -6,6 +6,6 @@ export const dropdownDriverFactory = component => {
 
   return {
     element: () => component,
-    selectOption: index => getDropdownContentDriver().selectOption(index)
+    selectOption: (index: number) => getDropdownContentDriver().selectOption(index)
   };
 };

@@ -4,7 +4,7 @@ import PopperJS from 'popper.js';
 import style from './Popover.st.css';
 import {Manager, Target, Popper, Arrow} from 'react-popper';
 import Transition from 'react-transition-group/Transition';
-import {buildChildrenObject, createComponentThatRendersItsChildren} from '../../utils';
+import {buildChildrenObject, createComponentThatRendersItsChildren, ElementProps} from '../../utils';
 import {oneOf} from 'prop-types';
 
 export type Placement = PopperJS.Placement;
@@ -24,8 +24,8 @@ export interface PopoverProps {
 }
 
 export type PopoverType = React.SFC<PopoverProps> & {
-  Element?: React.SFC;
-  Content?: React.SFC;
+  Element?: React.SFC<ElementProps>;
+  Content?: React.SFC<ElementProps>;
 };
 
 const duration = 150;

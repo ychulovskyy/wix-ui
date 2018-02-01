@@ -4,6 +4,12 @@
     "declaration": true,
     "module": "commonjs",
     "moduleResolution": "node",
+    "strict": true,
+
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+
     "target": "es5",
     "jsx": "react",
     "lib": ["dom", "es2016"]
