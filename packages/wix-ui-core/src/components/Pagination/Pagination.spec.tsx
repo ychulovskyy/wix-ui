@@ -152,6 +152,16 @@ describe('Pagination', () => {
       });
     });
 
+    it('adds error state to the input with an invalid numeric value after pressing ENTER and removes it on change', () => {
+      const onChange = jest.fn();
+      const pagination = createDriver(<Pagination paginationMode="input" totalPages={3} onChange={onChange} />);
+      pagination.changeInput('4');
+      pagination.commitInput();
+      expect(pagination.inputHasError()).toBe(true);
+      pagination.changeInput('5');
+      expect(pagination.inputHasError()).toBe(false);
+    });
+
     describe('Input mode accessibility',  () => {
       it('has aria-label for the input field', () => {
         const pagination = createDriver(<Pagination paginationMode={'input'} totalPages={42}/>);
@@ -344,6 +354,23 @@ describe('Pagination', () => {
     expect(pagination.getPageByNumber(1).getAttribute('href')).toEqual(null);
     expect(pagination.getPageByNumber(2).getAttribute('href')).toEqual('https://example.com/2/');
     expect(pagination.getPageByNumber(3).getAttribute('href')).toEqual('https://example.com/3/');
+  });
+
+  describe('Numbering logic', () => {
+    it('Renders up to 5 pages during SSR in responsive mode', () => {
+      const pagination = createDriver(
+        <Pagination
+          responsive
+          totalPages={9}
+          currentPage={5}
+          showFirstPage
+          showLastPage
+          // Hack against Haste trying to mock browser environment, e.g. triggering componentDidMount on the server.
+          updateResponsiveLayout={() => null}
+        />
+      );
+      expect(pagination.getPageLabels()).toEqual(['1', '...', '5', '...', '9']);
+    });
   });
 
   describe('testkit', () => {
