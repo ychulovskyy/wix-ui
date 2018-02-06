@@ -20,9 +20,8 @@ describe('DropdownOption', () => {
   const createDropdownOption = (option: Option) => (
     <DropdownOption
       option={option}
-      hoveredIndex={option.isDisabled ? 2 : 1}
-      index={1}
-      selectedIds={option.isDisabled ? [2] : [1]}
+      isHovered={true}
+      isSelected={true}
       onClickHandler={onClickHandler}
       className="className"
       onMouseEnterHandler={onMouseEnterHandler} />
