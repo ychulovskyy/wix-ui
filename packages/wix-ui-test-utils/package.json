@@ -32,6 +32,9 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
+  "dependencies": {
+    "puppeteer": "^1.0.0"
+  },
   "devDependencies": {
     "@types/enzyme": "^3.1.7",
     "@types/express": "^4.0.39",
@@ -43,7 +46,6 @@
     "enzyme-adapter-react-15": "^1.0.5",
     "express": "^4.16.2",
     "haste-preset-yoshi": "^1.0.19",
-    "puppeteer": "^1.0.0",
     "react": "^15.5.0",
     "react-dom": "^15.6.2",
     "react-test-renderer": "^15.5.4",
