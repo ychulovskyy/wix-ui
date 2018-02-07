@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {DropdownOption, Option} from './';
 import {dropdownOptionDriverFactory} from './DropdownOption.driver';
-import {createDriverFactory, sleep} from 'wix-ui-test-utils';
+import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
+import {sleep} from 'wix-ui-test-utils/react-helpers';
 
 describe('DropdownOption', () => {
   const createDriver = createDriverFactory(dropdownOptionDriverFactory);

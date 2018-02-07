@@ -1,6 +1,9 @@
 import * as React from 'react';
 import {paginationDriverFactory, NavButtonName} from './Pagination.driver';
-import {createDriverFactory, isTestkitExists, isEnzymeTestkitExists, sleep} from 'wix-ui-test-utils';
+import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
+import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
+import {isTestkitExists} from 'wix-ui-test-utils/vanilla';
+import {sleep} from 'wix-ui-test-utils/react-helpers';
 import {Pagination} from './';
 import {paginationTestkitFactory} from '../../testkit';
 import {paginationTestkitFactory as enzymePaginationTestkitFactory} from '../../testkit/enzyme';

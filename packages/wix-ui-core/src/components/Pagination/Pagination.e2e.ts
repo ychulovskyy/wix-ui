@@ -1,5 +1,5 @@
 import {paginationTestkitFactory} from '../../testkit/protractor';
-import {getStoryUrl, waitForVisibilityOf} from 'wix-ui-test-utils';
+import {getStoryUrl, waitForVisibilityOf} from 'wix-ui-test-utils/protractor';
 import {browser} from 'protractor';
 import * as eyes from 'eyes.it';
 
