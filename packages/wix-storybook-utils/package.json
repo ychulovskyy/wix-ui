@@ -105,7 +105,7 @@
     "setupFiles": [
       "<rootDir>/test/enzyme-setup"
     ],
-    "setupTestFrameworkScriptFile": "wix-ui-test-utils/dist/src/jest-setup",
+    "setupTestFrameworkScriptFile": "wix-ui-test-utils/jest-setup",
     "moduleNameMapper": {
       "\\.(css|less|scss)$": "identity-obj-proxy"
     },

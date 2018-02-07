@@ -20,7 +20,7 @@
     "url": "git+ssh://git@github.com/wix/wix-ui.git"
   },
   "scripts": {
-    "build": "haste build && import-path --path src/testkit-helpers --dts",
+    "build": "haste build && import-path --path src --dts",
     "pretest": "npm run build",
     "test": "haste test --jest",
     "posttest": "haste lint",
@@ -71,7 +71,7 @@
       "<rootDir>/node_modules/"
     ],
     "testRegex": "/test/.*\\.spec\\.(ts|tsx)$",
-    "setupTestFrameworkScriptFile": "<rootDir>/src/jest-setup.ts",
+    "setupTestFrameworkScriptFile": "<rootDir>/src/jest-setup/index.ts",
     "setupFiles": [
       "<rootDir>/test/enzyme-setup.ts"
     ]
