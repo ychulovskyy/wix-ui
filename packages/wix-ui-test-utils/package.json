@@ -10,8 +10,6 @@
     "url": "https://github.com/wix/wix-ui/issues"
   },
   "homepage": "https://github.com/wix/wix-ui#readme",
-  "main": "./dist/src/index.js",
-  "types": "./dist/src/index.d.js",
   "files": [
     "dist",
     "*.js",
