@@ -24,6 +24,7 @@ const dropdownOptions =
 require('./Badge').story();
 require('./Button').story();
 require('./Input').story();
+require('./InputWithAffixes').story();
 require('./StylableText').story();
 require('./StylableButton').story();
 
