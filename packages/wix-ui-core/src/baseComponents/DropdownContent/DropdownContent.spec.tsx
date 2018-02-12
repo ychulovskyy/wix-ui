@@ -15,7 +15,6 @@ describe('DropdownContent', () => {
   const createDropdownContent = (props = {}) => (
     <DropdownContent {...Object.assign({
       options: [],
-      maxHeight: 150,
       onOptionClick: () => null,
       selectedIds: []
     }, props)}/>

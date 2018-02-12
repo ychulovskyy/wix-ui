@@ -29,8 +29,6 @@ export interface DropdownProps {
   fixedHeader?: React.ReactNode;
   /** An element that always appears at the bottom of the options */
   fixedFooter?: React.ReactNode;
-  /** Maximum height of the options */
-  optionsMaxHeight?: number;
 }
 
 export interface DropdownState {
@@ -138,7 +136,7 @@ export class DropdownComponent extends React.PureComponent<DropdownProps, Dropdo
   }
 
   render() {
-    const {openTrigger, placement, options, children, showArrow, optionsMaxHeight, fixedFooter, fixedHeader} = this.props;
+    const {openTrigger, placement, options, children, showArrow, fixedFooter, fixedHeader} = this.props;
     const {isOpen, selectedIds} = this.state;
 
     return (
@@ -162,7 +160,6 @@ export class DropdownComponent extends React.PureComponent<DropdownProps, Dropdo
             options={options}
             fixedFooter={fixedFooter}
             fixedHeader={fixedHeader}
-            maxHeight={optionsMaxHeight}
             selectedIds={selectedIds}
             onOptionClick={this.onOptionClick} />
         </Popover.Content>

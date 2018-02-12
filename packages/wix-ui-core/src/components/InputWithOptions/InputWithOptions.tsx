@@ -26,8 +26,6 @@ export interface InputWithOptionsProps {
   fixedHeader?: React.ReactNode;
   /** An element that always appears at the bottom of the options */
   fixedFooter?: React.ReactNode;
-  /** Maximum height of the options */
-  optionsMaxHeight?: number;
   /** Callback when the user pressed the Enter key or Tab key after he wrote in the Input field - meaning the user selected something not in the list  */
   onManualInput?: (value: string) => void;
   /** Input prop types */
@@ -71,8 +69,6 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     fixedHeader: node,
     /** An element that always appears at the bottom of the options */
     fixedFooter: node,
-    /** Maximum height of the options */
-    optionsMaxHeight: number,
     /** Input prop types */
     inputProps: object,
     /** Input component */
@@ -105,7 +101,6 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
       closeOnSelect,
       fixedFooter,
       fixedHeader,
-      optionsMaxHeight,
       onDeselect,
       InputComponent,
       inputProps} = this.props;
@@ -118,7 +113,6 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
         openTrigger={openTrigger}
         onSelect={this.onSelect}
         showArrow={false}
-        optionsMaxHeight={optionsMaxHeight}
         fixedFooter={fixedFooter}
         fixedHeader={fixedHeader}
         onDeselect={onDeselect}
