@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import PopperJS from 'popper.js';
 import style from './Popover.st.css';
 import {Manager, Target, Popper, Arrow} from 'react-popper';
-import Transition from 'react-transition-group/Transition';
+import {CSSTransition} from 'react-transition-group';
 import {buildChildrenObject, createComponentThatRendersItsChildren} from '../../utils';
 import {oneOf} from 'prop-types';
 
@@ -23,6 +23,20 @@ export interface PopoverProps {
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
   /** Show show arrow from the content */
   showArrow?: boolean;
+  /** Moves poppover relative to the parent */
+  moveBy?: {x: number, y: number};
+  /** Fade Delay */
+  hideDelay?: number;
+  /** Show Delay */
+  showDelay?: number;
+  /** Moves arrow by amount */
+  moveArrowTo?: number;
+  /** Enables calculations in relation to a dom element */
+  appendTo?: React.ReactNode;
+  /** Enables calculations in relation to the parent element*/
+  appendToParent?: boolean;
+  /** Animation timer */
+  timeout?: number;
 }
 
 export type PopoverType = React.SFC<PopoverProps> & {
@@ -30,38 +44,43 @@ export type PopoverType = React.SFC<PopoverProps> & {
   Content?: React.SFC;
 };
 
-const duration = 150;
+const Animation = ({inProp, children, timeout = 150}) =>
+  <CSSTransition in={inProp} timeout={timeout} unmountOnExit={true} classNames={style.popover}>
+      {children}
+  </CSSTransition>;
 
-const defaultStyle = {
-  opacity: 0,
-  transition: `opacity ${duration}ms ease-in-out`
+const getArrowShift = (shift, direction) => {
+  if (!shift) {
+    return {};
+  }
+
+  return {
+    [direction === 'top' || direction === 'bottom' ? 'left' : 'top']: `${shift}px`
+  };
 };
-
-const transitionStyles = {
-  entering: {opacity: 0},
-  entered: {opacity: 1},
-};
-
-const Fade = ({inProp, children}) => (
-  <Transition in={inProp} timeout={duration} unmountOnExit={true}>
-    {state => (
-      <div key="fade-container"
-        style={{
-        ...defaultStyle,
-        ...transitionStyles[state]
-      }}>
-        {[children]}
-      </div>
-    )}
-  </Transition>
-);
 
 /**
  * Popover
  */
+
 export const Popover: PopoverType = props => {
-  const {placement, shown, onMouseEnter, onMouseLeave, onClick, showArrow, children} = props;
+  const {placement, shown, onMouseEnter, onMouseLeave, onClick, showArrow,
+         children, moveBy, moveArrowTo, timeout, appendToParent, appendTo}  = props;
   const childrenObject = buildChildrenObject(children, {Element: null, Content: null});
+
+  const target = appendToParent ? null : appendTo  || null;
+
+  const modifiers = {
+    offset: {
+      offset: `${moveBy ? moveBy.y : 0}px, ${moveBy ? moveBy.x : 0}px`
+    }
+  };
+
+  if (target) {
+    modifiers['preventOverflow'] = {
+      boundariesElement: target
+    };
+  }
 
   return (
     <Manager
@@ -72,18 +91,23 @@ export const Popover: PopoverType = props => {
       <Target data-hook="popover-element">
         {childrenObject.Element}
       </Target>
-      <Fade inProp={shown}>
+      <Animation inProp={shown} timeout={timeout}>
         <Popper
           data-hook="popover-content"
+          modifiers={modifiers}
           placement={placement}
-          className={classNames(style.popoverContentContainer, {[style.popoverContent]: !showArrow})}>
-          {showArrow && <Arrow data-hook="popover-arrow" className={style.arrow}/>}
+          className={classNames(style.popoverContentContainer, style.contentWrap, {[style.popoverContent]: !showArrow})}>
+          {showArrow &&
+          <Arrow data-hook="popover-arrow"
+                 className={style.arrow}
+                 style={getArrowShift(moveArrowTo, placement)}
+          />}
           {showArrow && <div className={style.popoverContent}>
             {childrenObject.Content}
           </div>}
           {!showArrow && childrenObject.Content}
         </Popper>
-      </Fade>
+      </Animation>
     </Manager>
   );
 };

@@ -4,7 +4,6 @@ import {Text} from '../src/components/Text';
 import {Box} from '../src/components/Box';
 import {PaginationStory} from './Pagination/pagination-story';
 import {DividerStory} from './Divider/divider-story';
-import {TooltipStory} from './Tooltip/tooltip-story';
 import {ToggleSwitchStory} from './ToggleSwitch/ToggleSwitch-story';
 import {StylableToggleSwitchStory} from './StylableToggleSwitch/StylableToggleSwitch-story';
 import {IconWithOptions} from '../src/components/IconWithOptions';
@@ -15,6 +14,7 @@ import {GoogleMapsIframeClientStory} from './clients/GoogleMapsIframeClient-stor
 import {CheckboxStory} from './Checkbox/Checkbox-story';
 import {GoogleInput} from '../src/components/GoogleInput';
 import {ControlledInputWithOptions} from './InputWithOptions';
+import {TooltipStory} from './Tooltip/custom';
 
 const dropdownOptions =
   Array.from(Array(20))
@@ -24,6 +24,7 @@ const dropdownOptions =
 require('./Badge').story();
 require('./Button').story();
 require('./Input').story();
+require('./Tooltip').story();
 require('./InputWithAffixes').story();
 require('./StylableText').story();
 require('./StylableButton').story();
@@ -57,9 +58,6 @@ storiesOf('Components', module)
   ))
   .add('StylableToggleSwitchStory', () => (
     <StylableToggleSwitchStory/>
-  ))
-  .add('Tooltip', () => (
-    <TooltipStory/>
   ))
   .add('Text', () => (
     <Text ellipsis>
@@ -109,4 +107,7 @@ storiesOf('Components', module)
   ))
   .add('Checkbox', () => (
     <CheckboxStory />
+  ))
+  .add('Tooltip Custom', () => (
+    <TooltipStory />
   ));

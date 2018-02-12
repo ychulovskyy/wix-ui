@@ -1,5 +1,6 @@
 const getTargetElement = element => element.querySelector('[data-hook="popover-element"]');
 const getContentElement = element => element.querySelector('[data-hook="popover-content"]');
+const getArrowElement = element => element.querySelector('[data-hook="popover-arrow"]');
 
 export const popoverDriverFactory = ({element, eventTrigger}) => ({
   exists: () => !!element,
@@ -9,5 +10,8 @@ export const popoverDriverFactory = ({element, eventTrigger}) => ({
   isContentExists: () => !!getContentElement(element),
   mouseEnter: () => eventTrigger.mouseEnter(element),
   mouseLeave: () => eventTrigger.mouseLeave(element),
-  getArrowClasses: () => element.querySelector('[data-hook="popover-arrow"]').className
+  getArrowOffset: () => {
+    const {top, left, right, bottom} = getArrowElement(element).style;
+    return {top, left, right, bottom};
+  }
 });
