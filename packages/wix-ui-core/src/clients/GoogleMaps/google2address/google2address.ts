@@ -1,5 +1,5 @@
 /*eslint camelcase: off*/
-import * as isUndefined from 'lodash/isUndefined';
+import * as isUndefined from 'lodash.isUndefined';
 
 interface ComponentsType {
     administrative_area_level_1?: {

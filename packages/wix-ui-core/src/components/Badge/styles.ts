@@ -1,5 +1,5 @@
 import {core, BadgeTheme} from './theme';
-import * as defaultsDeep from 'lodash/defaultsDeep';
+import * as defaultsDeep from 'lodash.defaultsDeep';
 
 const contentSelector = '& [data-class="badge-content"]';
 

@@ -1,5 +1,5 @@
 import {core, ToggleSwitchTheme} from './theme';
-import * as defaultsDeep from 'lodash/defaultsDeep';
+import * as defaultsDeep from 'lodash.defaultsDeep';
 
 const selectors = {
   toggleIconPath: '& ~ $innerLabel > $toggleIcon path',
