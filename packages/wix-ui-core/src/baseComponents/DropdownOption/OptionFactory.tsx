@@ -18,7 +18,7 @@ const createOption = (
   value: string,
   render: (val: React.ReactNode) => React.ReactNode = val => val): Option => {
     return {
-        id,
+        id: id || uniqueId('Option'),
         isDisabled,
         isSelectable,
         value,
