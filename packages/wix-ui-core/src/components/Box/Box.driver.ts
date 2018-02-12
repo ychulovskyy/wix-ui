@@ -1,4 +1,6 @@
-export const boxDriverFactory = ({element}) => ({
+import {ComponentFactory} from 'wix-ui-test-utils/driver-factory';
+
+export const boxDriverFactory = ({element}: ComponentFactory<any>) => ({
     /** check if element exists */
     exists: () => !!element,
     /** return box flex direction value */

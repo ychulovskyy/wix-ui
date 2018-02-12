@@ -1,10 +1,12 @@
+import {ComponentFactory} from 'wix-ui-test-utils/driver-factory';
 import {isAttributeExists} from 'wix-ui-test-utils/vanilla';
 import {DropdownContent} from './';
 
 const getOptionAt = (element, index) => element.querySelectorAll('[data-hook="option"]')[index];
 
-export const dropdownContentDriverFactory = ({element, eventTrigger}) => ({
+export const dropdownContentDriverFactory = ({element, componentInstance, eventTrigger}: ComponentFactory<DropdownContent>) => ({
   exists: () => !!element,
+  onKeyDown: key => componentInstance.onKeyDown(key),
   optionAt: index => {
     const option = getOptionAt(element, index);
     return {
