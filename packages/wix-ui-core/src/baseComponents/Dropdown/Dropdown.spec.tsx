@@ -88,7 +88,7 @@ describe('Dropdown', () => {
     });
   });
 
-  describe('onDeselect', () => {
+  describe.skip('onDeselect', () => {
     it('should call onDeselect when option is unselected', () => {
       const onDeselect = jest.fn();
       const driver = createDriver(createDropdown({initialSelectedIds: [0], options, onDeselect, closeOnSelect: false}));
