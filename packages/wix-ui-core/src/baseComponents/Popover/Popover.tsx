@@ -21,6 +21,8 @@ export interface PopoverProps {
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   /** onMouseLeave on the component */
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+  /** onKeyDown on the target component */
+  onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
   /** Show show arrow from the content */
   showArrow?: boolean;
   /** Moves poppover relative to the parent */
@@ -64,7 +66,7 @@ const getArrowShift = (shift, direction) => {
  */
 
 export const Popover: PopoverType = props => {
-  const {placement, shown, onMouseEnter, onMouseLeave, onClick, showArrow,
+  const {placement, shown, onMouseEnter, onMouseLeave, onKeyDown, onClick, showArrow,
          children, moveBy, moveArrowTo, timeout, appendToParent, appendTo}  = props;
   const childrenObject = buildChildrenObject(children, {Element: null, Content: null});
 
@@ -88,7 +90,7 @@ export const Popover: PopoverType = props => {
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}>
-      <Target data-hook="popover-element">
+      <Target onKeyDown={onKeyDown} data-hook="popover-element">
         {childrenObject.Element}
       </Target>
       <Animation inProp={shown} timeout={timeout}>

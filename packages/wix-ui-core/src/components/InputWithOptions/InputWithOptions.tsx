@@ -32,6 +32,8 @@ export interface InputWithOptionsProps {
   onManualInput?: (value: string) => void;
   /** Input prop types */
   inputProps?: InputProps;
+  /** Input component */
+  InputComponent?: React.ComponentClass<InputProps>;
 }
 
 /**
@@ -45,7 +47,9 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     closeOnSelect: true,
     initialSelectedIds: [],
     onSelect: () => null,
-    onDeselect: () => null
+    onDeselect: () => null,
+    onManualInput: () => null,
+    InputComponent: Input
   };
 
   static propTypes = {
@@ -70,7 +74,9 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     /** Maximum height of the options */
     optionsMaxHeight: number,
     /** Input prop types */
-    inputProps: object
+    inputProps: object,
+    /** Input component */
+    InputComponent: func
   };
 
   private dropdownRef;
@@ -79,21 +85,14 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     super();
 
     this.onSelect = this.onSelect.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
-  }
-
-  onKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
-    this.dropdownRef.getInstance().onKeyDown(evt);
-    const {inputProps} = this.props;
-    inputProps && inputProps.onKeyDown && inputProps.onKeyDown(evt);
   }
 
   onSelect(option: Option) {
     const {onSelect, onManualInput, inputProps} = this.props;
     if (option) {
-      onSelect && onSelect(option);
+      onSelect(option);
     } else {
-      onManualInput && inputProps && inputProps.value && onManualInput(inputProps.value);
+      inputProps && inputProps.value && onManualInput(inputProps.value);
     }
   }
 
@@ -108,6 +107,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
       fixedHeader,
       optionsMaxHeight,
       onDeselect,
+      InputComponent,
       inputProps} = this.props;
 
     return (
@@ -125,11 +125,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
         initialSelectedIds={initialSelectedIds}
         options={options}
         closeOnSelect={closeOnSelect}>
-        <Input
-          {...inputProps}
-          data-hook="dropdown-input"
-          onKeyDown={this.onKeyDown}
-        />
+        <InputComponent {...inputProps} />
       </Dropdown>
     );
   }
