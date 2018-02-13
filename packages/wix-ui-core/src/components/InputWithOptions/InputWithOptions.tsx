@@ -26,10 +26,12 @@ export interface InputWithOptionsProps {
   fixedHeader?: React.ReactNode;
   /** An element that always appears at the bottom of the options */
   fixedFooter?: React.ReactNode;
+  /** Callback for when the editing is changed */
+  onEditingChanged?: (isEditing: boolean) => void;
   /** Callback when the user pressed the Enter key or Tab key after he wrote in the Input field - meaning the user selected something not in the list  */
   onManualInput?: (value: string) => void;
   /** Input prop types */
-  inputProps?: InputProps;
+  inputProps: InputProps;
   /** Input component */
   InputComponent?: React.ComponentClass<InputProps>;
 }
@@ -69,8 +71,10 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     fixedHeader: node,
     /** An element that always appears at the bottom of the options */
     fixedFooter: node,
+    /** Callback for when the editing is changed */
+    onEditingChanged: func,
     /** Input prop types */
-    inputProps: object,
+    inputProps: object.isRequired,
     /** Input component */
     InputComponent: func
   };
@@ -80,7 +84,9 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
   constructor() {
     super();
 
+    this.onFocus = this.onFocus.bind(this);
     this.onSelect = this.onSelect.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
   }
 
   onSelect(option: Option) {
@@ -88,8 +94,26 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     if (option) {
       onSelect(option);
     } else {
-      inputProps && inputProps.value && onManualInput(inputProps.value);
+      inputProps.value && onManualInput(inputProps.value);
     }
+  }
+
+  onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {
+      const {onEditingChanged} = this.props;
+      onEditingChanged && onEditingChanged(true);
+    }
+
+    const {onKeyDown} = this.props.inputProps;
+    onKeyDown && onKeyDown(event);
+  }
+
+  onFocus(event) {
+    const {onEditingChanged} = this.props;
+    onEditingChanged && onEditingChanged(false);
+
+    const {onFocus} = this.props.inputProps;
+    onFocus && onFocus(event);
   }
 
   render () {
@@ -119,7 +143,11 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
         initialSelectedIds={initialSelectedIds}
         options={options}
         closeOnSelect={closeOnSelect}>
-        <InputComponent {...inputProps} />
+        <InputComponent
+          {...inputProps}
+          onKeyDown={this.onKeyDown}
+          onFocus={this.onFocus}
+        />
       </Dropdown>
     );
   }
