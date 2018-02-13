@@ -28,6 +28,7 @@ export interface InputProps {
   onDoubleClick?: React.EventHandler<React.MouseEvent<HTMLInputElement>>;
   onKeyDown?: React.EventHandler<React.KeyboardEvent<HTMLInputElement>>;
   onKeyUp?: React.EventHandler<React.KeyboardEvent<HTMLInputElement>>;
+  onCompositionChange?: (isComposing: boolean) => void;
   placeholder?: string;
   readOnly?: boolean;
   required?: boolean;
@@ -86,7 +87,9 @@ export class Input extends React.Component<InputProps, InputState> {
     tabIndex: number,
     /** The type of the input - number / text */
     type: oneOf(['number', 'text']),
-    className: string
+    className: string,
+    /** Callback for when the input is being in composition mode */
+    onCompositionChange: func
   };
 
   constructor(props) {
@@ -126,7 +129,8 @@ export class Input extends React.Component<InputProps, InputState> {
       required,
       tabIndex,
       type,
-      value
+      value,
+      onCompositionChange
     } = this.props;
 
     const ariaAttributes = createAriaAttributes(this.props);
@@ -152,6 +156,8 @@ export class Input extends React.Component<InputProps, InputState> {
         tabIndex={tabIndex}
         type={type}
         value={value}
+        onCompositionStart={onCompositionChange ? () => onCompositionChange(true) : null}
+        onCompositionEnd={onCompositionChange ? () => onCompositionChange(false) : null}
         {...ariaAttributes}
       />
     );
