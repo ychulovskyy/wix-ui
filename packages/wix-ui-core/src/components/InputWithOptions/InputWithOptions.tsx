@@ -78,7 +78,9 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     /** Input prop types */
     inputProps: object.isRequired,
     /** Input component */
-    InputComponent: func
+    InputComponent: func,
+    /** Makes the component disabled */
+    disabled: bool
   };
 
   private dropdownRef;
