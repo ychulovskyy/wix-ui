@@ -29,6 +29,8 @@ export interface DropdownProps {
   fixedHeader?: React.ReactNode;
   /** An element that always appears at the bottom of the options */
   fixedFooter?: React.ReactNode;
+  /** Makes the component disabled */
+  disabled?: boolean;
 }
 
 export interface DropdownState {
@@ -136,19 +138,19 @@ export class DropdownComponent extends React.PureComponent<DropdownProps, Dropdo
   }
 
   render() {
-    const {openTrigger, placement, options, children, showArrow, fixedFooter, fixedHeader} = this.props;
+    const {openTrigger, placement, options, children, showArrow, fixedFooter, fixedHeader, disabled} = this.props;
     const {isOpen, selectedIds} = this.state;
 
     return (
       <Popover
         {...style('root', {}, this.props)}
         placement={placement}
-        shown={isOpen}
+        shown={isOpen && !disabled}
         showArrow={showArrow}
-        onClick={openTrigger === CLICK ? () => this.open() : null}
-        onMouseEnter={openTrigger === HOVER ? () => this.open() : null}
-        onKeyDown={this.onKeyDown}
-        onMouseLeave={openTrigger === HOVER ? this.close : null}>
+        onClick={!disabled && openTrigger === CLICK ? () => this.open() : null}
+        onMouseEnter={!disabled && openTrigger === HOVER ? () => this.open() : null}
+        onKeyDown={!disabled ? this.onKeyDown : null}
+        onMouseLeave={!disabled && openTrigger === HOVER ? this.close : null}>
         <Popover.Element>
           {children}
         </Popover.Element>

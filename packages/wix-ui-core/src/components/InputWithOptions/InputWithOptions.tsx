@@ -34,6 +34,8 @@ export interface InputWithOptionsProps {
   inputProps: InputProps;
   /** Input component */
   InputComponent?: React.ComponentClass<InputProps>;
+  /** Makes the component disabled */
+  disabled?: boolean;
 }
 
 /**
@@ -126,6 +128,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
       fixedFooter,
       fixedHeader,
       onDeselect,
+      disabled,
       InputComponent,
       inputProps} = this.props;
 
@@ -147,6 +150,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
           {...inputProps}
           onKeyDown={this.onKeyDown}
           onFocus={this.onFocus}
+          disabled={disabled}
         />
       </Dropdown>
     );
