@@ -33,7 +33,7 @@ export interface InputWithOptionsProps {
   /** Input prop types */
   inputProps: InputProps;
   /** Input component */
-  InputComponent?: React.ComponentClass<InputProps>;
+  InputComponent?: React.ComponentClass<InputProps> | React.SFC<InputProps>;
   /** Makes the component disabled */
   disabled?: boolean;
 }
