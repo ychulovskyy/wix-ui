@@ -1,0 +1,22 @@
+:import {
+    -st-from: '../core/Select.st.css';
+    -st-default: Select;
+}
+
+:import {
+    -st-from: '../core/DatePicker.st.css';
+    -st-default: DatePicker;
+}
+
+.root {
+    -st-extends: DatePicker;
+}
+
+Select::toggleIcon {
+    fill: #5E35B1;
+    transition: fill 1s;
+}
+
+Select:hover::toggleIcon {
+    fill: #e53935;
+}

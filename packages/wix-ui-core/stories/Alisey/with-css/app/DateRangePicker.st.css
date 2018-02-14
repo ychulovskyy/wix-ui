@@ -1,0 +1,59 @@
+:import {
+    -st-from: '../core/Select.st.css';
+    -st-default: Select;
+}
+
+:import {
+    -st-from: '../core/DatePicker.st.css';
+    -st-default: DatePicker;
+}
+
+:import {
+    -st-from: '../core/DateRangePicker.st.css';
+    -st-default: DateRangePicker;
+}
+
+.root {
+    -st-extends: DateRangePicker;
+}
+
+Select::toggleIcon {
+    position: relative;
+}
+
+Select::toggleIcon::before,
+Select::toggleIcon::after
+ {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background-size: 100%;
+    transition: opacity 1s, transform 1s;
+}
+
+Select::toggleIcon::before {
+    opacity: 1;
+    background-image: url('data:image/svg+xml,<svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" fill="%23757575"><path d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"/></svg>');
+}
+
+Select::toggleIcon::after {
+    opacity: 0;
+    background-image: url('data:image/svg+xml,<svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" fill="%23e53935"><path d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"/></svg>');
+}
+
+Select:hover::toggleIcon::before {
+    opacity: 0;
+    transform: rotate(180deg);
+}
+
+Select:hover::toggleIcon::after {
+    opacity: 1;
+    transform: rotate(180deg);
+}
+
+::fromDate::year::toggleIcon::before,
+::fromDate::year::toggleIcon::after {
+    background-image: url('data:image/svg+xml,<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" fill="%236A1B9A"><path d="M1262 1075q-37 121-138 195t-228 74-228-74-138-195q-8-25 4-48.5t38-31.5q25-8 48.5 4t31.5 38q25 80 92.5 129.5t151.5 49.5 151.5-49.5 92.5-129.5q8-26 32-38t49-4 37 31.5 4 48.5zm-494-435q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm512 0q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm256 256q0-130-51-248.5t-136.5-204-204-136.5-248.5-51-248.5 51-204 136.5-136.5 204-51 248.5 51 248.5 136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5zm128 0q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"/></svg>');
+}

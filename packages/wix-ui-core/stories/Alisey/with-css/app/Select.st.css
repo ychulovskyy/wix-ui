@@ -1,0 +1,54 @@
+:import {
+    -st-from: '../core/Select.st.css';
+    -st-default: Select;
+}
+
+.root {
+    -st-extends: Select;
+}
+
+/* @note
+   Realistically we would need Stylable to provide something like:
+
+   :import {
+       -st-from: 'icons';
+       -st-named: chevronDown;
+    }
+
+    .root {
+        background-image: chevronDown(#FC0, #DEF);
+    }
+*/
+
+::toggleIcon {
+    position: relative;
+}
+
+::toggleIcon::before,
+::toggleIcon::after
+ {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    content: "";
+    transition: opacity 1s, transform 1s;
+}
+
+::toggleIcon::before {
+    opacity: 1;
+    background-image: url('data:image/svg+xml,<svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" fill="%231E88E5"><path d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"/></svg>');
+}
+
+::toggleIcon::after {
+    opacity: 0;
+    background-image: url('data:image/svg+xml,<svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg" fill="%23f44336"><path d="M1683 808l-742 741q-19 19-45 19t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"/></svg>');
+}
+
+.root:hover::toggleIcon::before {
+    opacity: 0;
+}
+
+.root:hover::toggleIcon::after {
+    opacity: 1;
+}

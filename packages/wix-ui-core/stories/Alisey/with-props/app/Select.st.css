@@ -1,0 +1,18 @@
+:import {
+    -st-from: '../core/Select.st.css';
+    -st-default: Select;
+}
+
+.root {
+    -st-extends: Select;
+    color: #5E35B1;
+}
+
+::toggleIcon {
+    fill: currentColor;
+    transition: fill 1s;
+}
+
+.root:hover::toggleIcon {
+    fill: #e53935;
+}

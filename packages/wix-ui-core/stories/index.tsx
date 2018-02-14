@@ -15,6 +15,7 @@ import {GoogleMapsIframeClientStory} from './clients/GoogleMapsIframeClient-stor
 import {CheckboxStory} from './Checkbox/Checkbox-story';
 import {GoogleInput} from '../src/components/GoogleInput';
 import {ControlledInputWithOptions} from './InputWithOptions';
+import {AliseyStory} from './Alisey/alisey-story';
 
 const dropdownOptions =
   Array.from(Array(20))
@@ -99,6 +100,9 @@ storiesOf('Components', module)
   ))
   .add('Pagination', () => (
     <PaginationStory/>
+  ))
+  .add('Alisey', () => (
+    <AliseyStory />
   ))
   .add('GoogleMapsIframeClient', () => (
     <GoogleMapsIframeClientStory/>

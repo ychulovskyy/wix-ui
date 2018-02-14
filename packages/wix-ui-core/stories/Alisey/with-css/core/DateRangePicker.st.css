@@ -1,0 +1,20 @@
+:import {
+    -st-from: './DatePicker.st.css';
+    -st-default: DatePicker;
+}
+
+.root {
+    display: inline-flex;
+    background-color: #00000011;
+    padding: 0.2em;
+    margin: 0.2em;
+    border-radius: 0.2em;
+}
+
+.fromDate {
+    -st-extends: DatePicker;
+}
+
+.toDate {
+    -st-extends: DatePicker;
+}

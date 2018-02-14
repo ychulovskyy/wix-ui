@@ -1,0 +1,24 @@
+:import {
+    -st-from: './Select.st.css';
+    -st-default: Select;
+}
+
+.root {
+    display: inline-flex;
+    background-color: #00000011;
+    padding: 0.2em;
+    margin: 0.2em;
+    border-radius: 0.2em;
+}
+
+.year {
+    -st-extends: Select;
+}
+
+.month {
+    -st-extends: Select;
+}
+
+.day {
+    -st-extends: Select;
+}
