@@ -2,6 +2,7 @@ import React = require('react');
 import classNames from 'classnames';
 
 import {ThemeProvider, DateRangePicker, DatePicker, Select} from '../core';
+import appStyle from './App.st.css';
 import dateRangePickerStyle from './DateRangePicker.st.css';
 import datePickerStyle from './DatePicker.st.css';
 import selectStyle from './Select.st.css';
@@ -26,10 +27,11 @@ const MyDateRangePicker = props =>
 export function App() {
     return (
         <ThemeProvider theme={myTheme}>
-            <div>
+            <div className={appStyle.root}>
                 <MySelect />
                 <MyDatePicker />
                 <MyDateRangePicker />
+                <DateRangePicker />
             </div>
         </ThemeProvider>
     );

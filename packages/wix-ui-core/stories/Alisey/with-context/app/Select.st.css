@@ -5,10 +5,10 @@
 
 .root {
     -st-extends: Select;
-    color: #5E35B1;
+    color: #9C27B0;
 }
 
-::toggleIcon {
+.root::toggleIcon {
     fill: currentColor;
     transition: fill 1s;
 }

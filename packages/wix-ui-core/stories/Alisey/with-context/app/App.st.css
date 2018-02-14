@@ -1,0 +1,8 @@
+:import {
+    -st-from: '../core/Select.st.css';
+    -st-default: Select;
+}
+
+Select::toggleIcon {
+    fill: #455A64;
+}

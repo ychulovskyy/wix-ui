@@ -13,7 +13,7 @@
 }
 
 Select::toggleIcon {
-    fill: #5E35B1;
+    fill: #E91E63;
     transition: fill 1s;
 }
 
