@@ -2,7 +2,7 @@ import * as React from 'react';
 import style from './Tooltip.st.css';
 import onClickOutside, {InjectedOnClickOutProps, OnClickOutProps} from 'react-onclickoutside';
 import {Popover, Placement, PlacementPropType, AppendTo, AppendToPropType} from '../../baseComponents/Popover';
-import {func, bool, number, node, object} from 'prop-types';
+import {func, bool, number, node, object, Requireable} from 'prop-types';
 import {createComponentThatRendersItsChildren, ElementProps} from '../../utils';
 
 const noop = () => null;
@@ -49,13 +49,13 @@ export interface TooltipState {
  * Tooltip
  */
 
-class TooltipComponent extends React.PureComponent<TooltipProps & InjectedOnClickOutProps, TooltipState> {
+export class TooltipComponent extends React.PureComponent<TooltipProps & InjectedOnClickOutProps, TooltipState> {
   static Element: React.SFC<ElementProps> = createComponentThatRendersItsChildren('Tooltip.Element');
   static Content: React.SFC<ElementProps> = createComponentThatRendersItsChildren('Tooltip.Content');
 
   static displayName = 'Tooltip';
   static defaultProps = {
-    placement: 'top' as Placement,
+    placement: 'top',
     onShow: noop,
     onHide: noop,
     timeout: 150,

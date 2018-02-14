@@ -8,7 +8,7 @@ import {buildChildrenObject, createComponentThatRendersItsChildren, ElementProps
 import {oneOf, oneOfType, element, Requireable} from 'prop-types';
 
 export type Placement = PopperJS.Placement;
-export const PlacementPropType = oneOf(PopperJS.placements);
+export const PlacementPropType = oneOf(['auto-start', 'auto', 'auto-end', 'top-start', 'top', 'top-end', 'right-start', 'right', 'right-end', 'bottom-end', 'bottom', 'bottom-start', 'left-end', 'left', 'left-start']);
 
 export type AppendTo = PopperJS.Boundary | Element;
 export const AppendToPropType = oneOfType([
