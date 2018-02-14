@@ -58,7 +58,7 @@ class TooltipComponent extends React.PureComponent<TooltipProps, TooltipState> {
     placement: 'top',
     onShow: noop,
     onHide: noop,
-    timer: 150,
+    timeout: 150,
     showArrow: true
   };
 
