@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {App} from './with-context/app';
+import {App} from './with-css/app';
 
 export function AliseyStory() {
   return <App />;
