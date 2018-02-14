@@ -1,7 +1,7 @@
 import * as React from 'react';
 import createStory from '../create-story';
-import {InputWithOptions} from '../../src/components/InputWithOptions';
-import * as InputWithOptionsSource from '!raw-loader!../../src/components/InputWithOptions/InputWithOptions.tsx';
+import {IconWithOptions} from '../../src/components/IconWithOptions';
+import * as IconWithOptionsSource from '!raw-loader!../../src/components/IconWithOptions/IconWithOptions.tsx';
 import {OptionFactory} from '../../src/baseComponents/DropdownOption';
 
 const dropdownOptions =
@@ -15,13 +15,14 @@ dropdownOptions.forEach(x => x.render = null);
 
 export const story = () => createStory({
   category: 'Components',
-  name: 'InputWithOptions',
-  storyName: 'InputWithOptions',
-  component: InputWithOptions,
-  source: InputWithOptionsSource,
+  name: 'IconWithOptions',
+  storyName: 'IconWithOptions',
+  component: IconWithOptions,
+  source: IconWithOptionsSource,
   componentProps: {
-    'data-hook': 'storybook-inputwithoptions',
+    'data-hook': 'storybook-iconwithoptions',
     options: dropdownOptions,
-    inputProps: {}
+    inputProps: {},
+    iconUrl: 'https://cdn3.iconfinder.com/data/icons/caps-hats/512/Ladies_cap-128.png'
   }
 });

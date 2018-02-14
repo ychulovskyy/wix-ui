@@ -1,9 +1,9 @@
 import * as React from 'react';
 import style from './InputWithOptions.st.css';
 import {Dropdown} from '../../baseComponents/Dropdown';
-import {Placement, PlacementPropType} from '../../baseComponents/Popover';
+import {Placement} from '../../baseComponents/Popover';
 import {Option} from '../../baseComponents/DropdownOption';
-import {CLICK, HOVER, OPEN_TRIGGER_TYPE} from '../../baseComponents/Dropdown/constants';
+import {OPEN_TRIGGER_TYPE} from '../../baseComponents/Dropdown/constants';
 import {bool, object, arrayOf, string, func, oneOfType, number, node, oneOf, Requireable} from 'prop-types';
 import {Input, InputProps} from '../Input';
 
@@ -44,8 +44,8 @@ export interface InputWithOptionsProps {
 export class InputWithOptions extends React.PureComponent<InputWithOptionsProps> {
   static displayName = 'InputWithOptions';
   static defaultProps = {
-    openTrigger: CLICK as any,
-    placement: 'bottom-start' as any,
+    openTrigger: 'click',
+    placement: 'bottom-start',
     closeOnSelect: true,
     initialSelectedIds: [],
     onSelect: () => null,
@@ -56,11 +56,11 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
 
   static propTypes = {
     /** The location to display the content */
-    placement: PlacementPropType,
+    placement: oneOf(['auto-start', 'auto', 'auto-end', 'top-start', 'top', 'top-end', 'right-start', 'right', 'right-end', 'bottom-end', 'bottom', 'bottom-start', 'left-end', 'left', 'left-start']),
     /** The dropdown options array */
     options: arrayOf(object).isRequired,
     /** Trigger type to open the content */
-    openTrigger: oneOf([CLICK, HOVER]),
+    openTrigger: oneOf(['click', 'hover']),
     /** Handler for when an option is selected */
     onSelect: func,
     /** Handler for when an option is deselected */
@@ -75,6 +75,8 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     fixedFooter: node,
     /** Callback for when the editing is changed */
     onEditingChanged: func,
+    /** Callback when the user pressed the Enter key or Tab key after he wrote in the Input field - meaning the user selected something not in the list  */
+    onManualInput: func,
     /** Input prop types */
     inputProps: object.isRequired,
     /** Input component */
@@ -83,7 +85,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     disabled: bool
   };
 
-  private dropdownRef;
+  dropdownRef;
 
   constructor() {
     super();
