@@ -4,11 +4,17 @@ import PopperJS from 'popper.js';
 import style from './Popover.st.css';
 import {Manager, Target, Popper, Arrow} from 'react-popper';
 import {CSSTransition} from 'react-transition-group';
-import {buildChildrenObject, createComponentThatRendersItsChildren} from '../../utils';
-import {oneOf} from 'prop-types';
+import {buildChildrenObject, createComponentThatRendersItsChildren, ElementProps} from '../../utils';
+import {oneOf, oneOfType, element, Requireable} from 'prop-types';
 
 export type Placement = PopperJS.Placement;
-export const PlacementPropType = oneOf(['auto-start', 'auto', 'auto-end', 'top-start', 'top', 'top-end', 'right-start', 'right', 'right-end', 'bottom-end', 'bottom', 'bottom-start', 'left-end', 'left', 'left-start']);
+export const PlacementPropType = oneOf(PopperJS.placements);
+
+export type AppendTo = PopperJS.Boundary | Element;
+export const AppendToPropType = oneOfType([
+  oneOf(['scrollParent', 'viewport', 'window']),
+  element
+]);
 
 export interface PopoverProps {
   /** The location to display the content */
@@ -34,7 +40,7 @@ export interface PopoverProps {
   /** Moves arrow by amount */
   moveArrowTo?: number;
   /** Enables calculations in relation to a dom element */
-  appendTo?: React.ReactNode;
+  appendTo?: AppendTo;
   /** Enables calculations in relation to the parent element*/
   appendToParent?: boolean;
   /** Animation timer */
@@ -42,8 +48,8 @@ export interface PopoverProps {
 }
 
 export type PopoverType = React.SFC<PopoverProps> & {
-  Element?: React.SFC;
-  Content?: React.SFC;
+  Element?: React.SFC<ElementProps>;
+  Content?: React.SFC<ElementProps>;
 };
 
 const Animation = ({inProp, children, timeout = 150}) =>
@@ -51,7 +57,7 @@ const Animation = ({inProp, children, timeout = 150}) =>
       {children}
   </CSSTransition>;
 
-const getArrowShift = (shift, direction) => {
+const getArrowShift = (shift: number | undefined, direction: string) => {
   if (!shift) {
     return {};
   }
@@ -72,14 +78,14 @@ export const Popover: PopoverType = props => {
 
   const target = appendToParent ? null : appendTo  || null;
 
-  const modifiers = {
+  const modifiers: PopperJS.Modifiers = {
     offset: {
       offset: `${moveBy ? moveBy.y : 0}px, ${moveBy ? moveBy.x : 0}px`
     }
   };
 
   if (target) {
-    modifiers['preventOverflow'] = {
+    modifiers.preventOverflow = {
       boundariesElement: target
     };
   }
