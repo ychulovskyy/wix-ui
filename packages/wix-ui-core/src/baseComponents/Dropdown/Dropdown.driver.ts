@@ -1,4 +1,4 @@
-import {ComponentFactory} from 'wix-ui-test-utils';
+import {ComponentFactory} from 'wix-ui-test-utils/driver-factory';
 import {DropdownComponent} from './Dropdown';
 import {DropdownContent} from '../DropdownContent';
 import {dropdownContentDriverFactory} from '../DropdownContent/DropdownContent.driver';
