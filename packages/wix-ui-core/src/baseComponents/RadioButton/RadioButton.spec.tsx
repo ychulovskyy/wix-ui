@@ -4,7 +4,7 @@ import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
 import {RadioButton} from './';
 
 function createRadio(props = {}) {
-  return <RadioButton content="Horsie" icon="🦄" {...props}/>
+  return <RadioButton data-hook='radio-spec' content="Horsie" icon="🦄" {...props}/>
 }
 
 describe('RadioButton', () => {
@@ -23,5 +23,11 @@ describe('RadioButton', () => {
     radio.select();
 
     expect(onChange).toHaveBeenCalled();
+  });
+
+  it('accepts correct value', () => {
+    const radio = createDriver(createRadio({value: 'unicorn'}));
+
+    expect(radio.value()).toEqual('unicorn');
   });
 });

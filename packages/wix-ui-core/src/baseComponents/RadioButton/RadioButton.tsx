@@ -29,7 +29,7 @@ export const RadioButton: React.SFC<RadioButtonProps> = (props: RadioButtonProps
   return (
     <div onClick={onChange} {...style('root')}>
       <input type="radio" className={style.hiddenRadio}
-             value={value} name={group} />
+             value={value} name={group} data-hook="radio-input"/>
       <span className={style.icon} style={getSize(size)}>{icon}</span>
       <span className={style.content}>{content}</span>
     </div>
