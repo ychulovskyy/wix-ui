@@ -1,10 +1,12 @@
 import * as React from 'react';
 import * as eventually from 'wix-eventually';
-import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
+import {createDriverFactory, ComponentFactory} from 'wix-ui-test-utils/driver-factory';
 import {dropdownDriverFactory} from './Dropdown.driver';
 import {Dropdown} from './';
 import {HOVER, CLICK} from './constants';
 import {OptionFactory} from '../DropdownOption';
+import {mount} from 'enzyme';
+import {Simulate} from 'react-dom/test-utils';
 
 describe('Dropdown', () => {
   const createDriver = createDriverFactory(dropdownDriverFactory);
@@ -121,6 +123,29 @@ describe('Dropdown', () => {
 
       driver.click();
 
+      expect(driver.isContentElementExists()).toBeTruthy();
+    });
+
+    it('Should display options when they exist', () => {
+      const wrapper = mount(<Dropdown
+        closeOnSelect={true}
+        onSelect={() => null}
+        initialSelectedIds={[]}
+        onDeselect={() => null}
+        placement="top"
+        openTrigger={CLICK}
+        options={[]}>
+        <span>Dropdown</span>
+      </Dropdown>);
+
+      const driver = dropdownDriverFactory({
+        element: wrapper.children().at(0).getDOMNode(),
+        eventTrigger: Simulate} as ComponentFactory<any>);
+
+      driver.click();
+      expect(driver.isContentElementExists()).toBeFalsy();
+
+      wrapper.setProps({options});
       expect(driver.isContentElementExists()).toBeTruthy();
     });
   });
