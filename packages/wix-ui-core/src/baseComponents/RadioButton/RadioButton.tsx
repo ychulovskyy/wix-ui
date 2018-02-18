@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {string, number, func, node} from 'prop-types';
+import {string, number, func, node, bool} from 'prop-types';
 import style from './RadioButton.st.css';
 
 export interface RadioButtonProps {
@@ -15,6 +15,8 @@ export interface RadioButtonProps {
   icon?: React.ReactNode;
   /** The content */
   content?: React.ReactNode;
+  /** Selected? */
+  selected?: boolean;
 }
 
 function getSize(size: number) {
@@ -46,5 +48,7 @@ RadioButton.propTypes = {
   /** The icon */
   icon: node,
   /** The content */
-  content: node
+  content: node,
+  /** Selected ? */
+  selected: bool
 };
