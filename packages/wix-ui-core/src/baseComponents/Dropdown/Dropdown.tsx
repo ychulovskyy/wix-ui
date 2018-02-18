@@ -73,7 +73,10 @@ export class DropdownComponent extends React.PureComponent<DropdownProps & Injec
     if (this.state.isOpen) {
       onOpen && onOpen();
     } else {
-      this.setState({isOpen: true}, onOpen);
+      const {options, fixedHeader, fixedFooter} = this.props;
+      if ((options && options.length) || fixedHeader || fixedFooter) {
+        this.setState({isOpen: true}, onOpen);
+      }
     }
   }
 

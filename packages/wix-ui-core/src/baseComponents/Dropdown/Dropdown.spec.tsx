@@ -98,4 +98,30 @@ describe('Dropdown', () => {
       expect(onDeselect).toHaveBeenCalledWith(options[0]);
     });
   });
+
+  describe('Dropdown content edge cases', () => {
+    it('should not open dropdown content if options list is empty', () => {
+      const driver = createDriver(createDropdown({options: []}));
+
+      driver.click();
+
+      expect(driver.isContentElementExists()).toBeFalsy();
+    });
+
+    it('should open dropdown content if options list is empty and fixedHeader exists', () => {
+      const driver = createDriver(createDropdown({options: [], fixedHeader: 'Fixed'}));
+
+      driver.click();
+
+      expect(driver.isContentElementExists()).toBeTruthy();
+    });
+
+    it('should open dropdown content if options list is empty and fixedFooter exists', () => {
+      const driver = createDriver(createDropdown({options: [], fixedFooter: 'Fixed'}));
+
+      driver.click();
+
+      expect(driver.isContentElementExists()).toBeTruthy();
+    });
+  });
 });
