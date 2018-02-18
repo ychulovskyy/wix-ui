@@ -25,13 +25,13 @@ function getSize(size: number) {
 }
 
 export const RadioButton: React.SFC<RadioButtonProps> = (props: RadioButtonProps) => {
-  const {value, group, size, onChange, icon, content} = props;
+  const {value, group, size, onChange, icon, content, selected} = props;
   return (
-    <div onClick={onChange} {...style('root')}>
+    <div onClick={onChange} {...style('root')} data-selected={selected}>
       <input type="radio" className={style.hiddenRadio}
              value={value} name={group} data-hook="radio-input"/>
-      <span className={style.icon} style={getSize(size)}>{icon}</span>
-      <span className={style.content}>{content}</span>
+      <span className={style.icon} style={getSize(size)} data-hook="radio-icon">{icon}</span>
+      <span className={style.content} data-hook="radio-content">{content}</span>
     </div>
   )
 };

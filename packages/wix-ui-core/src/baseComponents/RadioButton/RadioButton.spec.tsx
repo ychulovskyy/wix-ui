@@ -13,7 +13,7 @@ describe('RadioButton', () => {
   it('renders to the screen', () => {
     const radio = createDriver(createRadio());
 
-    expect(radio.exists).toBeTruthy();
+    expect(radio.exists()).toBeTruthy();
   });
 
   it('invokes callback for onChange', () => {
@@ -25,9 +25,33 @@ describe('RadioButton', () => {
     expect(onChange).toHaveBeenCalled();
   });
 
+  it('is selected correctly', () => {
+    const radio = createDriver(createRadio({selected: true}));
+
+    expect(radio.isSelected()).toBeTruthy();
+  });
+
   it('accepts correct value', () => {
     const radio = createDriver(createRadio({value: 'unicorn'}));
 
     expect(radio.value()).toEqual('unicorn');
+  });
+
+  it('accepts correct group name', () => {
+    const radio = createDriver(createRadio({group: 'unicorns'}));
+
+    expect(radio.group()).toEqual('unicorns');
+  });
+
+  it('renders content correctly', () => {
+    const radio = createDriver(createRadio());
+
+    expect(radio.contentExists()).toBeTruthy();
+  });
+
+  it('renders icon correctly', () => {
+    const radio = createDriver(createRadio());
+
+    expect(radio.iconExists()).toBeTruthy();
   });
 });
