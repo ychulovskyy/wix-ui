@@ -1,0 +1,82 @@
+:import {
+    -st-from: "./ToggleSwitch.st.css";
+    -st-default: ToggleSwitch;
+}
+
+:vars {
+    normalColor: #37e654;
+    checkedColor: #eb38b5;
+
+    hoverNormalColor: red;
+    hoverCheckedColor: yellow;
+
+    disabledColor: #c8c8c8;
+    knobColor: white;
+
+    trackBorderRadius: 100px;
+    knobBorderRadius: 100px;
+}
+
+.root {
+    -st-extends: ToggleSwitch;
+}
+
+.root::track {
+    transition: background-color 0.5s;
+    border-radius: value(trackBorderRadius);
+    background-color: value(normalColor);
+}
+
+.root::knob {
+    transition: left 0.35s;
+    height: 100%;
+    width: 50%;
+    border-radius: value(knobBorderRadius);
+    background-color: value(knobColor);
+}
+
+.root::icon {
+    width: 50%;
+    height: 50%;
+    fill: value(normalColor);
+}
+
+
+.root:checked::track {
+    background-color: value(checkedColor);
+}
+
+.root:checked::icon {
+    fill: value(checkedColor);
+}
+
+
+.root:hover::track {
+    background-color: value(hoverNormalColor);
+}
+
+.root:hover::icon {
+    fill: value(hoverNormalColor);
+}
+
+
+/* .root:hover:checked::track {
+    background-color: value(hoverCheckedNormalColor);
+}
+
+.root:hover:checked::icon {
+    fill: value(hoverCheckedNormalColor);
+} */
+
+
+
+
+.root:disabled::icon {
+    fill: value(disabledColor);
+}
+
+.root:disabled::track {
+    background-color: value(disabledColor);
+}
+
+

@@ -1,34 +1,42 @@
 .root {
   -st-states: checked, disabled;
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   position: relative;
-  outline: none
+  outline: none;
+  cursor: pointer;
+}
+
+.root:disabled {
+  cursor: default;
 }
 
 .root > input[type=checkbox] {
   display: none;
 }
 
-.outerLabel {
+.track {
   display: inline-block;
-  cursor: pointer;
+  position:absolute;
+  width:100%;
+  height:100%;
 }
 
-.innerLabel {
+.knob {
+  position: absolute;
+
   display: flex;
 
-  position: absolute;
-  left: 1px;
+  left: 0px;
+  top: 50%;
+  transform: translate(0, -50%);
 
   text-align: center;
   align-items: center;
   justify-content: center;
-
-  cursor: pointer;
-
-  top: 50%;
-  transform: translate(0, -50%);
 }
 
-.toggleIcon {}
+.root:checked .knob {
+  left: 50%;
+}
+
+.icon {}

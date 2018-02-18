@@ -7,12 +7,19 @@ export class StylableToggleSwitchStory extends React.Component<{}, {checked: boo
 
   render() {
     return (
-      <div style={{height: '100px', width: '100px'}}>
+      <div>
         <StylableToggleSwitch
           {...commonStyle('root')}
+          style={{height: '100px', width: '200px'}}
           checked={this.state.checked}
           onChange={() => this.setState({checked: !this.state.checked})}
-          data-hook="story-StylableToggleSwitch"
+          />
+          <StylableToggleSwitch
+          {...commonStyle('root')}
+          disabled={true}
+          style={{height: '100px', width: '200px'}}
+          checked={this.state.checked}
+          onChange={() => this.setState({checked: !this.state.checked})}
           />
         </div>
     );

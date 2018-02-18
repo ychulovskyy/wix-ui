@@ -1,21 +1,22 @@
 import * as React from 'react';
 import * as uniqueId from 'lodash/uniqueId';
 import {bool, func, object, string} from 'prop-types';
-import {getViewBox, getPathDescription} from '../ToggleSwitch/utils';
-import style from './ToggleSwitch.st.css';
+import tsStyle from './ToggleSwitch.st.css';
 
-export type ToggleSwitchStyles = {
-  root?: object;
-  outerLabel?: object;
-  innerLabel?: object;
-  toggleIcon?: object;
-};
+/* ICON STUFF */
+export const activeViewBox = '0 0 41 32';
+export const activePathD = 'M0.169 17.815c0.169 1.098 0.76 2.111 1.689 2.871l14.269 10.385c1.942 1.435 4.644 1.013 6.079-0.844l18.069-23.303c1.435-1.858 1.098-4.559-0.844-5.995s-4.644-1.098-6.164 0.844l-15.367 19.842-10.723-7.852c-1.942-1.435-4.644-1.013-6.164 0.844-0.76 0.929-1.013 2.111-0.844 3.208z';
+export const inactiveViewBox = '0 0 143 32';
+export const inactivePathD = 'M0 0h142.545v32h-142.545v-32z';
+export const getViewBox = checked => checked ? activeViewBox : inactiveViewBox;
+export const getPathDescription = checked => checked ? activePathD : inactivePathD;
 
 export interface ToggleSwitchProps {
   checked?: boolean;
   disabled?: boolean;
   onChange: React.EventHandler<React.ChangeEvent<HTMLInputElement>>;
-  styles?: ToggleSwitchStyles;
+  className?: string;
+  style?: React.CSSProperties;
   id?: string;
 }
 
@@ -36,12 +37,12 @@ export class ToggleSwitch<P = {}> extends React.PureComponent<ToggleSwitchProps 
     /** Is the toggleSwitch disabled or not */
     disabled: bool,
     /** Styles object */
-    styles: object,
+    style: object,
     /** Component ID, will be generated automatically if not provided */
     id: string
   };
 
-  static defaultProps = {checked: false, styles: {}};
+  static defaultProps = {checked: false, style: {}};
 
   componentDidMount() {
     this.toggle.addEventListener('keydown', this._listenToSpace);
@@ -65,23 +66,30 @@ export class ToggleSwitch<P = {}> extends React.PureComponent<ToggleSwitchProps 
   }
 
   render() {
-    const {checked, disabled, styles} = this.props;
+    const {checked, disabled, style} = this.props;
     const {id} = this;
 
     return (
-      <label {...style('root', {checked, disabled}, this.props)} style={styles.root} tabIndex={0} ref={ref => this.toggle = ref}>
+      <label
+        {...tsStyle('root', {checked, disabled}, this.props)}
+        style={style}
+        tabIndex={0}
+        ref={ref => this.toggle = ref
+      }>
         <input
           type="checkbox"
           id={id}
           checked={checked}
           disabled={disabled}
-          onChange={e => this._handleChange(e)}
+          onChange={this._handleChange}
         />
-
-        <div className={style.outerLabel} style={styles.outerLabel} aria-label="Toggle"/>
-        <div className={style.innerLabel} style={styles.innerLabel}>
-          <svg className={style.toggleIcon} viewBox={getViewBox(checked)}>
-            <path d={getPathDescription(checked)}/>
+        <div className={tsStyle.track} aria-label="Toggle" />
+        <div className={tsStyle.knob} >
+          <svg
+            className={tsStyle.icon}
+            viewBox={getViewBox(checked)}
+          >
+            <path d={getPathDescription(checked)} />
           </svg>
         </div>
       </label>
