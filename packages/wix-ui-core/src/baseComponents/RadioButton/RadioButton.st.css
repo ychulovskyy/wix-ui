@@ -1,3 +1,17 @@
 .root {
   display: inline-block;
 }
+
+.hiddenRadio {
+  opacity: 0.001;
+  position: absolute;
+  display: none;
+}
+
+.icon {
+
+}
+
+.content {
+
+}
