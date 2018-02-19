@@ -26,9 +26,9 @@ describe('RadioButton', () => {
   });
 
   it('is selected correctly', () => {
-    const radio = createDriver(createRadio({selected: true}));
+    const radio = createDriver(createRadio({checked: true}));
 
-    expect(radio.isSelected()).toBeTruthy();
+    expect(radio.isChecked()).toBeTruthy();
   });
 
   it('accepts correct value', () => {

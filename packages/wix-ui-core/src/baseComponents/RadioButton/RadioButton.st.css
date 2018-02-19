@@ -1,19 +1,25 @@
 .root {
   display: inline-block;
-  -st-states: disabled, selected, focused;
+  -st-states: disabled, checked, focused;
 }
 
 .icon {
   opacity: 0.3;
 }
 
-.root:selected::icon, .root:hover::icon {
+.root:checked::icon, .root:hover::icon {
   opacity: 1;
 }
 
 .hiddenRadio {
   position: absolute;
-  display: none;
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
 }
 
 .content {

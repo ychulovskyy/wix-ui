@@ -13,14 +13,14 @@ export interface RadioButtonProps {
   icon?: React.ReactNode;
   /** The content */
   content?: React.ReactNode;
-  /** Sets selected status of the radio */
-  selected?: boolean;
+  /** Sets checked status of the radio */
+  checked?: boolean;
 }
 
 export const RadioButton: React.SFC<RadioButtonProps> = (props: RadioButtonProps) => {
-  const {value, name, onChange, icon, content, selected} = props;
+  const {value, name, onChange, icon, content, checked} = props;
   return (
-    <div onClick={onChange} {...style('root', {selected}, props)}>
+    <div onClick={onChange} {...style('root', {checked}, props)}>
       <input type="radio" className={style.hiddenRadio}
              value={value} name={name} data-hook="radio-input"/>
       <span className={style.icon} data-hook="radio-icon">{icon}</span>
@@ -40,6 +40,6 @@ RadioButton.propTypes = {
   icon: node,
   /** The content */
   content: node,
-  /** Sets selected status of the radio */
-  selected: bool
+  /** Sets checked status of the radio */
+  checked: bool
 };
