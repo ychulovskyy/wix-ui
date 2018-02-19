@@ -1,15 +1,19 @@
 .root {
   display: inline-block;
-}
-
-.hiddenRadio {
-  opacity: 0.001;
-  position: absolute;
-  display: none;
+  -st-states: disabled, selected, focused;
 }
 
 .icon {
+  opacity: 0.3;
+}
 
+.root:selected::icon, .root:hover::icon {
+  opacity: 1;
+}
+
+.hiddenRadio {
+  position: absolute;
+  display: none;
 }
 
 .content {

@@ -1,36 +1,29 @@
 import * as React from 'react';
-import {string, number, func, node, bool} from 'prop-types';
+import {string, func, node, bool} from 'prop-types';
 import style from './RadioButton.st.css';
 
 export interface RadioButtonProps {
   /** The value which the radio represents */
   value?: string;
   /** The group name which the button belongs to */
-  group?: string;
-  /** The size of the icon. units TBD */
-  size?: number;
+  name?: string;
   /** A callback to invoke */
   onChange?: (event: React.MouseEvent<HTMLDivElement>) => void;
   /** The icon */
   icon?: React.ReactNode;
   /** The content */
   content?: React.ReactNode;
-  /** Selected? */
+  /** Sets selected status of the radio */
   selected?: boolean;
 }
 
-function getSize(size: number) {
-  const pxSize = `${2 * size}px`;
-  return size ? {height: pxSize, width: pxSize, fontSize: pxSize} : null;
-}
-
 export const RadioButton: React.SFC<RadioButtonProps> = (props: RadioButtonProps) => {
-  const {value, group, size, onChange, icon, content, selected} = props;
+  const {value, name, onChange, icon, content, selected} = props;
   return (
-    <div onClick={onChange} {...style('root')} data-selected={selected}>
+    <div onClick={onChange} {...style('root', {selected}, props)}>
       <input type="radio" className={style.hiddenRadio}
-             value={value} name={group} data-hook="radio-input"/>
-      <span className={style.icon} style={getSize(size)} data-hook="radio-icon">{icon}</span>
+             value={value} name={name} data-hook="radio-input"/>
+      <span className={style.icon} data-hook="radio-icon">{icon}</span>
       <span className={style.content} data-hook="radio-content">{content}</span>
     </div>
   )
@@ -40,15 +33,13 @@ RadioButton.propTypes = {
   /** The value which the radio represents */
   value: string,
   /** The group name which the button belongs to */
-  group: string,
-  /** The size of the icon. units TBD */
-  size: number,
+  name: string,
   /** A callback to invoke */
   onChange: func,
   /** The icon */
   icon: node,
   /** The content */
   content: node,
-  /** Selected ? */
+  /** Sets selected status of the radio */
   selected: bool
 };
