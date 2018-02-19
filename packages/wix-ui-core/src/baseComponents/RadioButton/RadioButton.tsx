@@ -15,14 +15,19 @@ export interface RadioButtonProps {
   content?: React.ReactNode;
   /** Sets checked status of the radio */
   checked?: boolean;
+  /** Sets the disabled status of the radio */
+  disabled?: boolean;
+  /** Sets the required status of the radio */
+  required?: boolean;
 }
 
 export const RadioButton: React.SFC<RadioButtonProps> = (props: RadioButtonProps) => {
-  const {value, name, onChange, icon, content, checked} = props;
+  const {value, name, onChange, icon, content, checked, disabled, required} = props;
   return (
-    <div onClick={onChange} {...style('root', {checked}, props)}>
-      <input type="radio" className={style.hiddenRadio}
-             value={value} name={name} data-hook="radio-input"/>
+    <div onClick={!disabled ? onChange : () => null} {...style('root', {checked, disabled}, props)}
+         role="radio" aria-checked={!!checked}>
+      <input type="radio" className={style.hiddenRadio} disabled={disabled} required={required}
+             defaultChecked={checked} value={value} name={name} data-hook="radio-input"/>
       <span className={style.icon} data-hook="radio-icon">{icon}</span>
       <span className={style.content} data-hook="radio-content">{content}</span>
     </div>
@@ -41,5 +46,9 @@ RadioButton.propTypes = {
   /** The content */
   content: node,
   /** Sets checked status of the radio */
-  checked: bool
+  checked: bool,
+  /** Sets the disabled status of the radio */
+  disabled: bool,
+  /** Sets the required status of the radio */
+  required: bool
 };

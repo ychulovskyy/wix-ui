@@ -13,7 +13,9 @@ export const radioButtonDriverFactory = ({element, eventTrigger}) => ({
   select: () => eventTrigger.click(element),
   value: () => getInput(element).getAttribute('value'),
   name: () => getInput(element).getAttribute('name'),
+  isRequired: () => getInput(element).hasAttribute('required'),
   iconExists: () => !!getIcon(element),
   contentExists: () => !!getContent(element),
-  isChecked: () => hasStyleState(element, 'checked')
+  isChecked: () => hasStyleState(element, 'checked'),
+  isDisabled: () => hasStyleState(element, 'disabled')
 });

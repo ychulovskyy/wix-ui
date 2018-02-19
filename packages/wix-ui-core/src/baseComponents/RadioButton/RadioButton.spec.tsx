@@ -25,10 +25,22 @@ describe('RadioButton', () => {
     expect(onChange).toHaveBeenCalled();
   });
 
-  it('is selected correctly', () => {
+  it('is checked correctly', () => {
     const radio = createDriver(createRadio({checked: true}));
 
     expect(radio.isChecked()).toBeTruthy();
+  });
+
+  it('is disabled correctly', () => {
+    const radio = createDriver(createRadio({disabled: true}));
+
+    expect(radio.isDisabled()).toBeTruthy();
+  });
+
+  it('is required correctly', () => {
+    const radio = createDriver(createRadio({required: true}));
+
+    expect(radio.isRequired()).toBeTruthy();
   });
 
   it('accepts correct value', () => {

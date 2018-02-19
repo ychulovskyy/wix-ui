@@ -9,9 +9,10 @@ export const story = () => createStory({
     name: 'RadioButton',
     storyName: 'RadioButton',
     component: RadioButton,
-    componentProps: setState => ({
+    componentProps: (setState, getState) => ({
       content: <span style={{fontSize: '20px'}}>Horsie</span>,
-      icon: <span style={{fontSize: '20px', marginRight: '0.5em'}}>🦄</span>,
+      // icon: <span style={getState().checked ? {borderColor: 'red'} : null}>🦄</span>,
+      icon: <span style={{fontSize: '20px'}}>🦄</span>,
       onChange: () => setState({checked: true}),
     }),
     source: RadioButtonSource
