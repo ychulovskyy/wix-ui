@@ -3,13 +3,11 @@
   -st-states: disabled, checked, focused;
 }
 
-.icon {
-  opacity: 0.3;
-}
+.icon {}
 
-.root:checked::icon, .root:hover::icon {
-  opacity: 1;
-}
+.content {}
+
+.root:checked::icon, .root:hover::icon {}
 
 .hiddenRadio {
   position: absolute;
@@ -20,8 +18,4 @@
   padding: 0;
   border: 0;
   opacity: 0;
-}
-
-.content {
-
 }

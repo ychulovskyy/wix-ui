@@ -4,7 +4,7 @@ import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
 import {RadioButton} from './';
 
 function createRadio(props = {}) {
-  return <RadioButton data-hook='radio-spec' content={<span>Horsie</span>} icon={<span>🦄</span>} {...props}/>
+  return <RadioButton data-hook='radio-spec' label={<span>Horsie</span>} icon={<span>🦄</span>} {...props}/>
 }
 
 describe('RadioButton', () => {
@@ -31,6 +31,12 @@ describe('RadioButton', () => {
     expect(radio.isChecked()).toBeTruthy();
   });
 
+  it('is focused correctly', () => {
+    const radio = createDriver(createRadio({focused: true}));
+
+    expect(radio.isFocused()).toBeTruthy();
+  });
+
   it('is disabled correctly', () => {
     const radio = createDriver(createRadio({disabled: true}));
 
@@ -55,10 +61,10 @@ describe('RadioButton', () => {
     expect(radio.name()).toEqual('unicorns');
   });
 
-  it('renders content correctly', () => {
+  it('renders label correctly', () => {
     const radio = createDriver(createRadio());
 
-    expect(radio.contentExists()).toBeTruthy();
+    expect(radio.labelExists()).toBeTruthy();
   });
 
   it('renders icon correctly', () => {
