@@ -6,8 +6,8 @@ import * as RadioButtonSource from '!raw-loader!../../src/baseComponents/RadioBu
 
 class StoryIcon extends React.Component<{checked: boolean}> {
   render() {
-    const icon1 = <span style={{fontSize: '20px'}}>🦄</span>;
-    const icon2 = <span style={{fontSize: '20px'}}>🥞</span>;
+    const icon1 = <span style={{fontSize: '20px', opacity: 0.3}}>🔘</span>;
+    const icon2 = <span style={{fontSize: '20px'}}>🔘</span>;
     return this.props.checked ? icon1 : icon2;
   }
 }
@@ -18,7 +18,7 @@ export const story = () => createStory({
     storyName: 'RadioButton',
     component: RadioButton,
     componentProps: (setState, getState) => ({
-        label: <span style={{fontSize: '20px'}}>Horsie</span>,
+        label: <span style={{fontSize: '20px'}}>Radio Label</span>,
         icon: <StoryIcon checked={!!getState().checked} />,
         onChange: () => setState({checked: true})
     }),
