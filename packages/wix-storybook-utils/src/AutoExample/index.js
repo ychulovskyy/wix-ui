@@ -130,27 +130,21 @@ export default class extends Component {
     this.parsedComponent = props.parsedSource || componentParser(this.props.source);
 
     this.state = {
-      propsState: {},
+      propsState: {
+        ...(this.props.component.defaultProps || {}),
+        ...(this.prepareComponentProps(this.props.componentProps))
+      },
       funcValues: {},
       funcAnimate: {},
       isRtl: false,
       isDarkBackground: false
     };
+
+    this._initialPropsState = this.state.propsState;
   }
 
   resetState = () =>
     this.setState({propsState: this._initialPropsState});
-
-  componentDidMount() {
-    this.setState({
-      propsState: {
-        ...(this.props.component.defaultProps || {}),
-        ...(this.prepareComponentProps(this.props.componentProps))
-      }
-    });
-
-    this._initialPropsState = this.state.propsState;
-  }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
