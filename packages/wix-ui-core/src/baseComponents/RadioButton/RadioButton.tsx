@@ -9,8 +9,10 @@ export interface RadioButtonProps {
   name?: string;
   /** A callback to invoke */
   onChange?: Function;
-  /** The icon */
-  icon?: React.ReactNode;
+  /** The checked icon */
+  checkedIcon?: React.ReactNode;
+  /** The unchecked icon */
+  uncheckedIcon?: React.ReactNode;
   /** The label */
   label?: React.ReactNode;
   /** Sets checked status of the radio */
@@ -41,8 +43,10 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
     name: string,
     /** A callback to invoke */
     onChange: func,
-    /** The icon */
-    icon: node,
+    /** The checked icon */
+    checkedIcon: node,
+    /** The unchecked icon */
+    uncheckedIcon: node,
     /** The label */
     label: node,
     /** Sets checked status of the radio */
@@ -66,7 +70,7 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
   }
 
   render() {
-    const {value, name, icon, label, checked, disabled, required} = this.props;
+    const {value, name, checkedIcon, uncheckedIcon, label, checked, disabled, required} = this.props;
     const focused = this.state.focused;
 
     return (
@@ -77,7 +81,7 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
         <input type="radio" className={style.hiddenRadio} disabled={disabled} required={required}
                onFocus={this.onFocus} onBlur={this.onBlur} defaultChecked={checked}
                value={value} name={name} data-hook="radio-input"/>
-        <span className={style.icon} data-hook="radio-icon">{icon}</span>
+        <span className={style.icon} data-hook="radio-icon">{checked ? checkedIcon : uncheckedIcon}</span>
         <span className={style.label} data-hook="radio-label">{label}</span>
       </div>
     );
