@@ -21,6 +21,7 @@ describe('RadioButton', () => {
     const radio = createDriver(createRadio({onChange}));
 
     radio.select();
+    expect(onChange.mock.calls.length).toEqual(1);
     expect(onChange.mock.calls[0][1]).toEqual('horsie');
   });
 
