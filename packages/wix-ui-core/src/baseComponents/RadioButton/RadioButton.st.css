@@ -3,7 +3,9 @@
   -st-states: disabled, checked, focused;
 }
 
-.icon {}
+.icon {
+  pointer-events: none;
+}
 
 .content {}
 

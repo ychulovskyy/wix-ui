@@ -10,7 +10,7 @@ const getLabel = element => element && element.querySelector('[data-hook="radio-
 
 export const radioButtonDriverFactory = ({element, eventTrigger}) => ({
   exists: () => !!element,
-  select: () => eventTrigger.click(element),
+  select: () => eventTrigger.change(element),
   value: () => getInput(element).getAttribute('value'),
   name: () => getInput(element).getAttribute('name'),
   isRequired: () => getInput(element).hasAttribute('required'),

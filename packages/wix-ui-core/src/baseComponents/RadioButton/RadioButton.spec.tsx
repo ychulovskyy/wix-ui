@@ -4,7 +4,7 @@ import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
 import {RadioButton} from './';
 
 function createRadio(props = {}) {
-  return <RadioButton data-hook='radio-spec' label={<span>Horsie</span>} icon={<span>🦄</span>} {...props}/>
+  return <RadioButton data-hook='radio-spec' label={<span>Horsie</span>} icon={<span>🦄</span>} value="horsie" {...props}/>
 }
 
 describe('RadioButton', () => {
@@ -16,13 +16,12 @@ describe('RadioButton', () => {
     expect(radio.exists()).toBeTruthy();
   });
 
-  it('invokes callback for onChange', () => {
+  it('invokes callback for onChange with the correct value', () => {
     const onChange = jest.fn();
     const radio = createDriver(createRadio({onChange}));
 
     radio.select();
-
-    expect(onChange).toHaveBeenCalled();
+    expect(onChange.mock.calls[0][1]).toEqual('horsie');
   });
 
   it('is checked correctly', () => {
@@ -41,6 +40,14 @@ describe('RadioButton', () => {
     const radio = createDriver(createRadio({disabled: true}));
 
     expect(radio.isDisabled()).toBeTruthy();
+  });
+
+  it('does not invoke callback function when disabled and clicked', () => {
+    const onChange = jest.fn();
+    const radio = createDriver(createRadio({onChange, disabled: true}));
+
+    radio.select();
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('is required correctly', () => {

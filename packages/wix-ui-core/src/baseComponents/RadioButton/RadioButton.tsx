@@ -8,7 +8,7 @@ export interface RadioButtonProps {
   /** The group name which the button belongs to */
   name?: string;
   /** A callback to invoke */
-  onChange?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onChange?: Function;
   /** The icon */
   icon?: React.ReactNode;
   /** The label */
@@ -25,10 +25,15 @@ export interface RadioButtonProps {
 
 export const RadioButton: React.SFC<RadioButtonProps> = (props: RadioButtonProps) => {
   const {value, name, onChange, icon, label, checked, disabled, required, focused} = props;
+
+  function handleInputChange(event) {
+    onChange(event, value);
+  }
+
   return (
-    <div onClick={!disabled ? onChange : () => null} {...style('root', {checked, disabled, focused}, props)}
+    <div {...style('root', {checked, disabled, focused}, props)} onChange={!disabled ? handleInputChange : () => null}
          role="radio" aria-checked={!!checked}>
-      <input type="radio" className={style.hiddenRadio} disabled={disabled} required={required}
+      <input id='my-radio' type="radio" className={style.hiddenRadio} disabled={disabled} required={required}
              defaultChecked={checked} value={value} name={name} data-hook="radio-input"/>
       <span className={style.icon} data-hook="radio-icon">{icon}</span>
       <span className={style.label} data-hook="radio-label">{label}</span>
