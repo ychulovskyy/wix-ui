@@ -31,12 +31,6 @@ describe('RadioButton', () => {
     expect(radio.isChecked()).toBeTruthy();
   });
 
-  it('is focused correctly', () => {
-    const radio = createDriver(createRadio({focused: true}));
-
-    expect(radio.isFocused()).toBeTruthy();
-  });
-
   it('is disabled correctly', () => {
     const radio = createDriver(createRadio({disabled: true}));
 
