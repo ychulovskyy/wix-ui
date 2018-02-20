@@ -7,7 +7,7 @@
   pointer-events: none;
 }
 
-.content {}
+.label {}
 
 .root:checked::icon, .root:hover::icon {}
 
