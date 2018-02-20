@@ -1,5 +1,6 @@
 import {protractorTestkitFactoryCreator, ElementFinder} from 'wix-ui-test-utils/protractor';
 
+//JSS
 import {inputDriverFactory} from '../components/Input/Input.protractor.driver';
 export const inputTestkitFactory = protractorTestkitFactoryCreator(inputDriverFactory);
 
@@ -38,3 +39,6 @@ export const checkboxTestkitFactory = protractorTestkitFactoryCreator(checkboxDr
 
 import {radioButtonDriverFactory} from '../baseComponents/RadioButton/RadioButton.protractor.driver';
 export const radioButtonTestkitFactory = protractorTestkitFactoryCreator(radioButtonDriverFactory);
+//Stylable
+import {textDriverFactory} from '../components/StylableText/Text.protractor.driver';
+export const textTestkitFactory = protractorTestkitFactoryCreator(textDriverFactory);
