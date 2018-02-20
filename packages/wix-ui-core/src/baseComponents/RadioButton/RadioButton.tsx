@@ -26,12 +26,14 @@ export interface RadioButtonProps {
 export const RadioButton: React.SFC<RadioButtonProps> = (props: RadioButtonProps) => {
   const {value, name, onChange, icon, label, checked, disabled, required, focused} = props;
 
-  function handleInputChange(event) {
+  const handleInputChange = event => {
     onChange(event, value);
-  }
+  };
 
   return (
-    <div {...style('root', {checked, disabled, focused}, props)} onChange={!disabled ? handleInputChange : () => null}
+    <div {...style('root', {checked, disabled, focused}, props)}
+         onChange={!disabled ? handleInputChange : () => null}
+         onClick={!disabled ? handleInputChange : () => null}
          role="radio" aria-checked={!!checked}>
       <input id='my-radio' type="radio" className={style.hiddenRadio} disabled={disabled} required={required}
              defaultChecked={checked} value={value} name={name} data-hook="radio-input"/>
