@@ -5,7 +5,7 @@ const getTargetElement = (element: Element | undefined) => element && element.qu
 const getContentElement = (element: Element | undefined) => element && element.querySelector('[data-hook="popover-content"]');
 const getArrowElement = (element: Element | undefined) => element && element.querySelector('[data-hook="popover-arrow"]');
 
-export const popoverDriverFactory = ({element, eventTrigger}: ComponentFactory<PopoverType>) => ({
+export const popoverDriverFactory = ({element, eventTrigger}: ComponentFactory) => ({
   exists: () => !!element,
   getTargetElement: () => getTargetElement(element),
   getContentElement: () => getContentElement(element),

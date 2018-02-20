@@ -140,7 +140,7 @@ describe('Dropdown', () => {
 
       const driver = dropdownDriverFactory({
         element: wrapper.children().at(0).getDOMNode(),
-        eventTrigger: Simulate} as ComponentFactory<any>);
+        eventTrigger: Simulate} as ComponentFactory);
 
       driver.click();
       expect(driver.isContentElementExists()).toBeFalsy();

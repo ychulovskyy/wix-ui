@@ -6,7 +6,7 @@ import {dropdownContentDriverFactory} from '../DropdownContent/DropdownContent.d
 const getElement = (element: Element | undefined) => element && element.querySelector('[data-hook="popover-element"]');
 const getContent = (element: Element | undefined) => element && element.querySelector('[data-hook="popover-content"]');
 
-export const dropdownDriverFactory = (args: ComponentFactory<any>) => {
+export const dropdownDriverFactory = (args: ComponentFactory) => {
   const {element, eventTrigger} = args;
   const dropdownContentDriver =  dropdownContentDriverFactory(args);
 

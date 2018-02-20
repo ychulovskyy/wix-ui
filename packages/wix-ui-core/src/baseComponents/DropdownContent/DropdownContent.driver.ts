@@ -4,7 +4,7 @@ import {DropdownContent} from './';
 
 const getOptionAt = (element: Element, index: number) => element.querySelectorAll('[data-hook="option"]')[index];
 
-export const dropdownContentDriverFactory = ({element, eventTrigger}: ComponentFactory<DropdownContent>) => ({
+export const dropdownContentDriverFactory = ({element, eventTrigger}: ComponentFactory) => ({
   exists: () => !!element,
   optionAt: (index: number) => {
     const option = element ? getOptionAt(element, index) : null;
