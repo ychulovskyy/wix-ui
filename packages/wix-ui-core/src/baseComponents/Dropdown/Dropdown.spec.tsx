@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as eventually from 'wix-eventually';
-import {createDriverFactory, ComponentFactory} from 'wix-ui-test-utils/driver-factory';
+import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
 import {dropdownDriverFactory} from './Dropdown.driver';
 import {Dropdown} from './';
 import {HOVER, CLICK} from './constants';
@@ -140,7 +140,7 @@ describe('Dropdown', () => {
 
       const driver = dropdownDriverFactory({
         element: wrapper.children().at(0).getDOMNode(),
-        eventTrigger: Simulate} as ComponentFactory);
+        eventTrigger: Simulate});
 
       driver.click();
       expect(driver.isContentElementExists()).toBeFalsy();
