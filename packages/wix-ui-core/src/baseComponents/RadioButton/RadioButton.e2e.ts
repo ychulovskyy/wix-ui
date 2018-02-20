@@ -8,8 +8,9 @@ describe('RadioButton', () => {
 
   beforeEach(() => browser.get(storyUrl));
 
-  eyes.it('RadioButton renders correctly', async () => {
-    const radio = radioButtonTestkitFactory({dataHook: 'radio-story'});
-    await waitForVisibilityOf(radio.element(), 'Cannot find RadioButton');
+  eyes.it('RadioButton renders correctly', () => {
+    const dataHook = 'radio-story';
+    const radio = radioButtonTestkitFactory({dataHook});
+    return waitForVisibilityOf(radio.element(), 'Cannot find RadioButton');
   });
 });

@@ -40,7 +40,7 @@ export const RadioButton: React.SFC<RadioButtonProps> = (props: RadioButtonProps
       <span className={style.icon} data-hook="radio-icon">{icon}</span>
       <span className={style.label} data-hook="radio-label">{label}</span>
     </div>
-  )
+  );
 };
 
 RadioButton.propTypes = {
