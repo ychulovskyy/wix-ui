@@ -20,7 +20,8 @@ export const story = () => createStory({
     componentProps: (setState, getState) => ({
         label: <span style={{fontSize: '20px'}}>Radio Label</span>,
         icon: <StoryIcon checked={!!getState().checked} />,
-        onChange: () => setState({checked: true})
+        onChange: () => setState({checked: true}),
+        dataHook: 'radio-story'
     }),
     source: RadioButtonSource
   });
