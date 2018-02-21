@@ -11,6 +11,8 @@ export const story = () => createStory({
     component: Rating,
     componentProps: (setState, getState) => ({
         rating: 3,
+        onChange: (_, rating) => setState({rating}),
+        mode: 'display',
         checkedIcon: <span style={{fontSize: '40px'}}>⭐</span>,
         uncheckedIcon: <span style={{fontSize: '40px'}}>★</span>,
         reviewLabels: [' ', ' ', ' ', ' ', ' '],

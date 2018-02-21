@@ -4,7 +4,8 @@
 }
 
 .icon {
-  pointer-events: none;
+  cursor: pointer;
+  height: auto;
 }
 
 .label {}

@@ -104,13 +104,13 @@ export class Rating extends React.Component<RatingProps, RatingState> {
     required: bool
   };
 
-  onRatingChange = (_, value) => {
-    this.setState({hovered: value});
+  onRatingChange = (event, value) => {
+    console.log('click value ', value);
+    this.props.onChange(event, value);
   }
 
-  onIconHover = event => {
-    console.log('onIconHover: ', event);
-    this.setState({hovered: event.rating});
+  onIconHover = rating => {
+    this.setState({hovered: rating});
   }
 
   onIconBlur = () => {

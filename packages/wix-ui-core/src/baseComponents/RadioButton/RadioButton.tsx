@@ -10,7 +10,7 @@ export interface RadioButtonProps {
   /** A callback to invoke on change */
   onChange?: Function;
   /** A callback to invoke on hover */
-  onHover?: (event: React.MouseEvent<any>) => void;
+  onHover?: Function;
   /** A callback to invoke on blur */
   onBlur?: (event: React.MouseEvent<any>) => void;
   /** The checked icon */
@@ -91,7 +91,7 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
                onFocus={this.onFocus} onBlur={this.onBlur} defaultChecked={checked}
                value={value} name={name} data-hook="radio-input"/>
         <span className={style.icon} data-hook="radio-icon"
-              onMouseEnter={onHover} onMouseOut={onBlur}>
+              onMouseEnter={() => onHover(value)} onMouseLeave={onBlur}>
           {checked ? checkedIcon : uncheckedIcon}
         </span>
         <span className={style.label} data-hook="radio-label">{label}</span>
