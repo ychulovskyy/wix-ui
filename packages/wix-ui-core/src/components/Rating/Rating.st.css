@@ -1,0 +1,4 @@
+:import {
+  -st-from: "../../baseComponents/RadioButton/RadioButton.st.css";
+  -st-default: RadioButton;
+}

@@ -29,6 +29,7 @@ require('./StylableBadge').story();
 require('./Tooltip').story();
 require('./RadioButton').story();
 require('./Video').story();
+require('./Rating').story();
 
 storiesOf('Components', module)
   .add('ToggleSwitch', () => (
