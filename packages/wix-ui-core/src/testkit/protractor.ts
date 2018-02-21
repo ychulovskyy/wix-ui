@@ -37,8 +37,9 @@ export const dropdownTestkitFactory = protractorTestkitFactoryCreator(dropdownDr
 import {checkboxDriverFactory} from '../components/Checkbox/Checkbox.protractor.driver';
 export const checkboxTestkitFactory = protractorTestkitFactoryCreator(checkboxDriverFactory);
 
-import {radioButtonDriverFactory} from '../baseComponents/RadioButton/RadioButton.protractor.driver';
-export const radioButtonTestkitFactory = protractorTestkitFactoryCreator(radioButtonDriverFactory);
 //Stylable
 import {textDriverFactory} from '../components/StylableText/Text.protractor.driver';
 export const textTestkitFactory = protractorTestkitFactoryCreator(textDriverFactory);
+
+import {radioButtonDriverFactory} from '../baseComponents/RadioButton/RadioButton.protractor.driver';
+export const radioButtonTestkitFactory = protractorTestkitFactoryCreator(radioButtonDriverFactory);

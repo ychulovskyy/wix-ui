@@ -58,7 +58,9 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
   };
 
   handleInputChange = event => {
-    this.props.onChange(event, this.props.value);
+    if (!this.props.disabled) {
+      this.props.onChange(event, this.props.value);
+    }
   }
 
   onFocus = () => {
@@ -75,9 +77,8 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
 
     return (
       <div {...style('root', {checked, disabled, focused}, this.props)}
-           onChange={!disabled ? this.handleInputChange : () => null}
-           onClick={!disabled ? this.handleInputChange : () => null}
-           role="radio" aria-checked={!!checked}>
+           onChange={this.handleInputChange} onClick={this.handleInputChange}
+           role="radio" aria-checked={checked}>
         <input type="radio" className={style.hiddenRadio} disabled={disabled} required={required}
                onFocus={this.onFocus} onBlur={this.onBlur} defaultChecked={checked}
                value={value} name={name} data-hook="radio-input"/>
