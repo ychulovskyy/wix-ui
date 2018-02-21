@@ -10,8 +10,9 @@ export const story = () => createStory({
     storyName: 'Rating',
     component: Rating,
     componentProps: (setState, getState) => ({
-        checkedIcon: <span style={{fontSize: '80px'}}>⭐</span>,
-        uncheckedIcon: <span style={{fontSize: '40px'}}>⭐</span>,
+        rating: 3,
+        checkedIcon: <span style={{fontSize: '40px'}}>⭐</span>,
+        uncheckedIcon: <span style={{fontSize: '40px'}}>★</span>,
         reviewLabels: [' ', ' ', ' ', ' ', ' '],
         'data-hook': 'rating-story'
     }),

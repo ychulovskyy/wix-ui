@@ -104,8 +104,8 @@ export class Rating extends React.Component<RatingProps, RatingState> {
     required: bool
   };
 
-  onRatingChange = event => {
-    console.log(event);
+  onRatingChange = (_, value) => {
+    this.setState({hovered: value});
   }
 
   onIconHover = event => {
@@ -125,7 +125,7 @@ export class Rating extends React.Component<RatingProps, RatingState> {
           [1,2,3,4,5]
             .map(value =>
               <RadioButton onChange={this.onRatingChange} value={`${value}`} key={value}
-                           checked={this.props.rating >= (this.state.hovered || value)}
+                           checked={value <= (this.state.hovered || this.props.rating)}
                            label={reviewLabels[value - 1]} onHover={this.onIconHover}
                            onBlur={this.onIconBlur} checkedIcon={checkedIcon} uncheckedIcon={uncheckedIcon} />
           )
