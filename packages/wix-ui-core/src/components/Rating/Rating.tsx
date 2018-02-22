@@ -111,21 +111,6 @@ export class Rating extends React.Component<RatingProps, RatingState> {
 
   render() {
     const {checkedIcon, uncheckedIcon, reviewLabels, ratingPosition, showRating} = this.props;
-    const Stars = () => {
-      return (
-        <span className={style.stars}> {
-          [1,2,3,4,5]
-            .map(value =>
-              <RadioButton
-                onChange={this.onRatingChange} value={`${value}`} key={value}
-                checked={value <= (this.state.hovered || this.props.rating)}
-                label={reviewLabels[value - 1]} onHover={this.onIconHover}
-                onBlur={this.onIconBlur} checkedIcon={checkedIcon}
-                uncheckedIcon={uncheckedIcon} />
-            )
-        } </span>
-      )
-    };
 
     return (
       <div {...style('root', {ratingRight: ratingPosition === 'right', noRating: !showRating}, this.props)} role="radiogroup">
