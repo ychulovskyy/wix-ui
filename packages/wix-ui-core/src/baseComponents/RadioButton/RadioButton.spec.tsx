@@ -23,7 +23,7 @@ describe('RadioButton', () => {
 
     radio.select();
     expect(onChange.mock.calls.length).toEqual(1);
-    expect(onChange.mock.calls[0][1]).toEqual('horsie');
+    expect(onChange.mock.calls[0][0].value).toEqual('horsie');
   });
 
   it('is checked correctly', () => {
