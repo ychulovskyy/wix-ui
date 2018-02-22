@@ -2,3 +2,29 @@
   -st-from: "../../baseComponents/RadioButton/RadioButton.st.css";
   -st-default: RadioButton;
 }
+
+.root {
+  display: inline-flex;
+  -st-states: ratingRight, noRating;
+}
+
+.stars {
+  order: 2;
+}
+
+.ratingValue {
+  order: 1;
+  font-size: 24px;
+  line-height: 1.5;
+  align-self: center;
+  margin-right: 0.5em;
+}
+
+.root:ratingRight::stars {
+  order: 0;
+  margin-right: 0.5em;
+}
+
+.root:noRating::ratingValue {
+  display: none;
+}

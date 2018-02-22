@@ -16,6 +16,8 @@ export const story = () => createStory({
         checkedIcon: <span style={{fontSize: '40px'}}>⭐</span>,
         uncheckedIcon: <span style={{fontSize: '40px'}}>★</span>,
         reviewLabels: [' ', ' ', ' ', ' ', ' '],
+        ratingPosition: 'left',
+        showRating: true,
         'data-hook': 'rating-story'
     }),
     source: RatingSource

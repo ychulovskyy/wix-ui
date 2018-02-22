@@ -9,7 +9,7 @@ import style from './Rating.st.css';
  * and to get input about a rating.
  */
 export interface RatingProps {
-  // Some properties are dual-purpose for display and input modes */
+  // Some properties are dual-purpose for display and input modes //
   /** Mode - Display or Input */
   mode?: 'display' | 'input';
   /** Checked Icon */
@@ -110,18 +110,37 @@ export class Rating extends React.Component<RatingProps, RatingState> {
   }
 
   render() {
-    const {checkedIcon, uncheckedIcon, reviewLabels} = this.props;
-    return (
-      <div {...style('root', {}, this.props)} role="radiogroup">
-        {
+    const {checkedIcon, uncheckedIcon, reviewLabels, ratingPosition, showRating} = this.props;
+    const Stars = () => {
+      return (
+        <span className={style.stars}> {
           [1,2,3,4,5]
             .map(value =>
-              <RadioButton onChange={this.onRatingChange} value={`${value}`} key={value}
-                           checked={value <= (this.state.hovered || this.props.rating)}
-                           label={reviewLabels[value - 1]} onHover={this.onIconHover}
-                           onBlur={this.onIconBlur} checkedIcon={checkedIcon} uncheckedIcon={uncheckedIcon} />
-          )
-        }
+              <RadioButton
+                onChange={this.onRatingChange} value={`${value}`} key={value}
+                checked={value <= (this.state.hovered || this.props.rating)}
+                label={reviewLabels[value - 1]} onHover={this.onIconHover}
+                onBlur={this.onIconBlur} checkedIcon={checkedIcon}
+                uncheckedIcon={uncheckedIcon} />
+            )
+        } </span>
+      )
+    };
+
+    return (
+      <div {...style('root', {ratingRight: ratingPosition === 'right', noRating: !showRating}, this.props)} role="radiogroup">
+        <span className={style.ratingValue}>{this.props.rating}</span>
+        <span className={style.stars}> {
+          [1,2,3,4,5]
+            .map(value =>
+              <RadioButton
+                onChange={this.onRatingChange} value={`${value}`} key={value}
+                checked={value <= (this.state.hovered || this.props.rating)}
+                label={reviewLabels[value - 1]} onHover={this.onIconHover}
+                onBlur={this.onIconBlur} checkedIcon={checkedIcon}
+                uncheckedIcon={uncheckedIcon} />
+            )
+        } </span>
       </div>
     );
   }
