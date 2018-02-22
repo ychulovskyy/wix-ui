@@ -65,6 +65,27 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
     required: bool
   };
 
+  public render() {
+    const {value, name, checkedIcon, uncheckedIcon,
+      label, checked, disabled, required, onIconBlur} = this.props;
+    const focused = this.state.focused;
+
+    return (
+      <div {...style('root', {checked, disabled, focused}, this.props)}
+           onChange={this.handleInputChange} onClick={this.handleInputChange}
+           role="radio" aria-checked={checked}>
+        <input type="radio" className={style.hiddenRadio} disabled={disabled} required={required}
+               onFocus={this.onFocus} onBlur={this.onInputBlur} defaultChecked={checked}
+               value={value} name={name} data-hook="radio-input"/>
+        <span className={style.icon} data-hook="radio-icon"
+              onMouseEnter={this.onHover} onMouseLeave={onIconBlur}>
+          {checked ? checkedIcon : uncheckedIcon}
+        </span>
+        <span className={style.label} data-hook="radio-label">{label}</span>
+      </div>
+    );
+  }
+
   handleInputChange = event => {
     if (!this.props.disabled) {
       event.value = this.props.value;
@@ -83,26 +104,5 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
   onHover = event => {
     event.value = this.props.value;
     this.props.onHover(event);
-  }
-
-  render() {
-    const {value, name, checkedIcon, uncheckedIcon,
-           label, checked, disabled, required, onIconBlur} = this.props;
-    const focused = this.state.focused;
-
-    return (
-      <div {...style('root', {checked, disabled, focused}, this.props)}
-           onChange={this.handleInputChange} onClick={this.handleInputChange}
-           role="radio" aria-checked={checked}>
-        <input type="radio" className={style.hiddenRadio} disabled={disabled} required={required}
-               onFocus={this.onFocus} onBlur={this.onInputBlur} defaultChecked={checked}
-               value={value} name={name} data-hook="radio-input"/>
-        <span className={style.icon} data-hook="radio-icon"
-              onMouseEnter={this.onHover} onMouseLeave={onIconBlur}>
-          {checked ? checkedIcon : uncheckedIcon}
-        </span>
-        <span className={style.label} data-hook="radio-label">{label}</span>
-      </div>
-    );
   }
 }
