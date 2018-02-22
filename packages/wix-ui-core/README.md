@@ -1,1 +1,1 @@
-# wix-ui-core2
+# wix-ui-core
