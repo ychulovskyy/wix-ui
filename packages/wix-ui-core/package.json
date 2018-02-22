@@ -12,8 +12,7 @@
     "*.js",
     "*.d.ts",
     "!wallaby.js",
-    "!protractor.conf.js",
-    "index.st.css"
+    "!protractor.conf.js"
   ],
   "repository": {
     "type": "git",
