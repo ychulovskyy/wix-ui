@@ -65,7 +65,7 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
     required: bool
   };
 
-  public render() {
+  render() {
     const {value, name, checkedIcon, uncheckedIcon,
       label, checked, disabled, required, onIconBlur} = this.props;
     const focused = this.state.focused;
