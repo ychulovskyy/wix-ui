@@ -3,14 +3,6 @@ import {RadioButton} from '../../baseComponents/RadioButton';
 import {string, func, node, bool, number, oneOf, array} from 'prop-types';
 import style from './Rating.st.css';
 
-export interface RatingElement {
-  value?: string;
-  onChange?: Function;
-  checkedIcon?: React.ReactNode,
-  uncheckedIcon?: React.ReactNode,
-  label?: string;
-}
-
 /**
  * This component is of dual purpose -
  * can be used to display rating
