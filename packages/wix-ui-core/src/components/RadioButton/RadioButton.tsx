@@ -3,6 +3,8 @@ import {string, func, node, bool} from 'prop-types';
 import style from './RadioButton.st.css';
 
 export interface RadioButtonProps {
+  /** Sets checked status of the radio */
+  checked?: boolean;
   /** The value which the radio represents */
   value?: string;
   /** The group name which the button belongs to */
@@ -19,8 +21,6 @@ export interface RadioButtonProps {
   uncheckedIcon?: React.ReactNode;
   /** The label */
   label?: React.ReactNode;
-  /** Sets checked status of the radio */
-  checked?: boolean;
   /** Sets the disabled status of the radio */
   disabled?: boolean;
   /** Sets the required status of the radio */
@@ -76,12 +76,11 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
            role="radio" aria-checked={checked}>
         <input type="radio" className={style.hiddenRadio} disabled={disabled} required={required}
                onFocus={this.onFocus} onBlur={this.onInputBlur} defaultChecked={checked}
-               value={value} name={name} data-hook="radio-input"/>
-        <span className={style.icon} data-hook="radio-icon"
-              onMouseEnter={this.onHover} onMouseLeave={onIconBlur}>
+               value={value} name={name} />
+        <span className={style.icon} onMouseEnter={this.onHover} onMouseLeave={onIconBlur}>
           {checked ? checkedIcon : uncheckedIcon}
         </span>
-        <span className={style.label} data-hook="radio-label">{label}</span>
+        <span className={style.label}>{label}</span>
       </div>
     );
   }

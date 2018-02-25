@@ -3,11 +3,10 @@ import {StylableDOMUtil} from 'stylable/test-utils';
 
 export const radioButtonDriverFactory = ({element, eventTrigger}) => {
   const domUtils = new StylableDOMUtil(styles, element);
-  const hasStyleState = (element, state) => domUtils.hasStyleState(element, state);
 
   const getInput = () => domUtils.select('.hiddenRadio');
   const getIcon = () => domUtils.select('.icon');
-  const getLabel = ()=> domUtils.select('.label');
+  const getLabel = () => domUtils.select('.label');
 
   return {
     exists: () => !!element,
@@ -17,8 +16,8 @@ export const radioButtonDriverFactory = ({element, eventTrigger}) => {
     isRequired: () => getInput().hasAttribute('required'),
     iconExists: () => !!getIcon(),
     labelExists: () => !!getLabel(),
-    isChecked: () => hasStyleState(element, 'checked'),
-    isFocused: () => hasStyleState(element, 'focused'),
-    isDisabled: () => hasStyleState(element, 'disabled')
-  }
+    isChecked: () => domUtils.hasStyleState(element, 'checked'),
+    isFocused: () => domUtils.hasStyleState(element, 'focused'),
+    isDisabled: () => domUtils.hasStyleState(element, 'disabled')
+  };
 };
