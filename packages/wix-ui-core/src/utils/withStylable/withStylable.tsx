@@ -25,7 +25,7 @@ function withStylableStateful<CoreProps, ExtendedProps = {}>(
       if (!root) { return null; }
       const className = root.props && root.props.className || '';
       const statesMap = getState(this.props, this.state, this.context);
-      const props = stylesheet(`root ${className}`.trim(), statesMap);
+      const props = stylesheet(`root ${className ? className : ''}`.trim(), statesMap);
       return React.cloneElement(root, props);
     }
   } as any;
@@ -41,7 +41,7 @@ function withStylableStateless<CoreProps, ExtendedProps = {}>(
       if (!root) { return null; }
       const className = root.props && root.props.className || '';
       const statesMap = getState(props);
-      const stylableProps = stylesheet(`root ${className}`.trim(), statesMap);
+      const stylableProps = stylesheet(`root ${className ? className : ''}`.trim(), statesMap);
       return React.cloneElement(root, stylableProps);
     };
 
