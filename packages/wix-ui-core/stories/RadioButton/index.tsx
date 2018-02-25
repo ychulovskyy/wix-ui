@@ -14,6 +14,7 @@ export const story = () => createStory({
         checkedIcon: <span style={{fontSize: '20px'}}>🔘</span>,
         uncheckedIcon: <span style={{fontSize: '20px'}}>⚪</span>,
         onChange: () => setState({checked: true}),
+        onHover: () => {},
         'data-hook': 'radio-story'
     }),
     source: RadioButtonSource

@@ -8,11 +8,11 @@ export interface RadioButtonProps {
   /** The group name which the button belongs to */
   name?: string;
   /** A callback to invoke on change */
-  onChange?: Function;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   /** A callback to invoke on hover */
-  onHover?: Function;
+  onHover?: (event: React.MouseEvent<HTMLElement>) => void;
   /** A callback to invoke on blur */
-  onBlur?: (event: React.MouseEvent<any>) => void;
+  onIconBlur?: (event: React.MouseEvent<HTMLElement>) => void;
   /** The checked icon */
   checkedIcon?: React.ReactNode;
   /** The unchecked icon */
@@ -50,7 +50,7 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
     /** A callback to invoke on hover */
     onHover: func,
     /** A callback to invoke on blur */
-    onBlur: func,
+    onIconBlur: func,
     /** The checked icon */
     checkedIcon: node,
     /** The unchecked icon */
@@ -65,22 +65,9 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
     required: bool
   };
 
-  handleInputChange = event => {
-    if (!this.props.disabled) {
-      this.props.onChange(event, this.props.value);
-    }
-  }
-
-  onFocus = () => {
-    this.setState({focused: true});
-  }
-
-  onBlur = () => {
-    this.setState({focused: false});
-  }
-
   render() {
-    const {value, name, checkedIcon, uncheckedIcon, label, checked, disabled, required, onHover, onBlur} = this.props;
+    const {value, name, checkedIcon, uncheckedIcon, label, checked,
+           disabled, required, onHover, onIconBlur} = this.props;
     const focused = this.state.focused;
 
     return (
@@ -88,14 +75,34 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
            onChange={this.handleInputChange} onClick={this.handleInputChange}
            role="radio" aria-checked={checked}>
         <input type="radio" className={style.hiddenRadio} disabled={disabled} required={required}
-               onFocus={this.onFocus} onBlur={this.onBlur} defaultChecked={checked}
+               onFocus={this.onFocus} onBlur={this.onInputBlur} defaultChecked={checked}
                value={value} name={name} data-hook="radio-input"/>
         <span className={style.icon} data-hook="radio-icon"
-              onMouseEnter={() => onHover(value)} onMouseLeave={onBlur}>
+              onMouseEnter={this.onHover} onMouseLeave={onIconBlur}>
           {checked ? checkedIcon : uncheckedIcon}
         </span>
         <span className={style.label} data-hook="radio-label">{label}</span>
       </div>
     );
+  }
+
+  handleInputChange = event => {
+    if (!this.props.disabled) {
+      event.value = this.props.value;
+      this.props.onChange(event);
+    }
+  }
+
+  onFocus = () => {
+    this.setState({focused: true});
+  }
+
+  onInputBlur = () => {
+    this.setState({focused: false});
+  }
+
+  onHover = event => {
+    event.value = this.props.value;
+    this.props.onHover(event);
   }
 }
