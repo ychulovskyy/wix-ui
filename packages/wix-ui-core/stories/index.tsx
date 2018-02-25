@@ -29,9 +29,7 @@ require('./StylableText').story();
 require('./StylableButton').story();
 require('./StylableBadge').story();
 require('./Tooltip').story();
-// require('./RadioButton').story();
 require('./Video').story();
-// require('./Rating').story();
 
 storiesOf('Components', module)
   .add('ToggleSwitch', () => (
@@ -94,6 +92,7 @@ storiesOf('Components', module)
   ))
   .add('RadioButton', () => (
     <RadioButtonStory />
-  )).add('Rating', () => (
+  ))
+  .add('Rating', () => (
     <RatingStory />
   ));

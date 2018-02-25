@@ -1,34 +1,36 @@
 import * as React from 'react';
-import {RadioButton} from '../../src/components/RadioButton/RadioButton';
+import {RadioButton, RadioButtonProps} from '../../src/components/RadioButton/RadioButton';
 
-export class RadioButtonStory extends React.Component {
-    render() {
-        return (
-          <RadioButton label={<span>Horsie</span>}
-                       checkedIcon={<span>🦄</span>} uncheckedIcon={<span>🦄</span>} value="horsie" />
-        )
-    }
+export class RadioButtonStory extends React.Component<{}, {checkedIdx: string}> {
+  state = {
+    checkedIdx: '1'
+  }
+
+  createRadio(props: RadioButtonProps = {}) {
+    return <RadioButton
+              label={<span>props.label</span>}
+              checkedIcon={<span>⭐</span>}
+              uncheckedIcon={<span>★</span>}
+              checked={this.state.checkedIdx === props.value}
+              onChange={() => this.setState({checkedIdx: props.value})}
+              data-hook={`radio-story-${props.value}`}
+              {...props}/>;
+  }
+
+  render() {
+    return (
+      <div style={{fontSize: '20px'}}>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          <h3>Radio Button</h3>
+          {['1','2','3','4'].map(value => this.createRadio({value, label: `Star ${value}`}))}
+        </div>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+          <h3>Radio Buttons - disabled</h3>
+          {['unchecked','checked']
+            .map((value, idx) => this.createRadio({checked: !!idx, label: `Disabled ${value}`, value: '1', disabled: true}))}
+        </div>
+      </div>
+
+    )
+  }
 }
-
-
-// import * as React from 'react';
-// import createStory from '../create-story';
-//
-// import {RadioButton} from '../../src/components/RadioButton';
-// import * as RadioButtonSource from '!raw-loader!../../src/components/RadioButton/RadioButton.tsx';
-//
-// export const story = () => createStory({
-//     category: 'Components',
-//     name: 'RadioButton',
-//     storyName: 'RadioButton',
-//     component: RadioButton,
-//     componentProps: (setState, getState) => ({
-//         label: <span style={{fontSize: '20px'}}>Radio Label</span>,
-//         checkedIcon: <span style={{fontSize: '20px'}}>🔘</span>,
-//         uncheckedIcon: <span style={{fontSize: '20px'}}>⚪</span>,
-//         onChange: () => setState({checked: true}),
-//         onHover: () => {},
-//         'data-hook': 'radio-story'
-//     }),
-//     source: RadioButtonSource
-//   });

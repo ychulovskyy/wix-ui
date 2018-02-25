@@ -1,6 +1,7 @@
 import * as React from 'react';
-import {string, func, node, bool} from 'prop-types';
 import style from './RadioButton.st.css';
+
+const noop = () => null;
 
 export interface RadioButtonChangeEvent extends React.MouseEvent<HTMLDivElement> {
   value: string;
@@ -45,37 +46,15 @@ export interface RadioButtonState {
 
 export class RadioButton extends React.Component<RadioButtonProps, RadioButtonState> {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      focused: false
-    };
-  }
-
-  static propTypes: Object = {
-    /** The value which the radio represents */
-    value: string,
-    /** The group name which the button belongs to */
-    name: string,
-    /** A callback to invoke on change */
-    onChange: func,
-    /** A callback to invoke on hover */
-    onHover: func,
-    /** A callback to invoke on blur */
-    onIconBlur: func,
-    /** The checked icon */
-    checkedIcon: node,
-    /** The unchecked icon */
-    uncheckedIcon: node,
-    /** The label */
-    label: node,
-    /** Sets checked status of the radio */
-    checked: bool,
-    /** Sets the disabled status of the radio */
-    disabled: bool,
-    /** Sets the required status of the radio */
-    required: bool
+  state = {
+    focused: false
   };
+
+  static defaultProps = {
+    onChange: noop,
+    onHover: noop,
+    onBlur: noop
+  }
 
   render() {
     const {value, name, checkedIcon, uncheckedIcon, label, checked,
