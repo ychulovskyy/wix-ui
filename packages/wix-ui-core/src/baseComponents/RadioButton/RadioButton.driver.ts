@@ -6,8 +6,8 @@ export const radioButtonDriverFactory = ({element, eventTrigger}) => {
   const hasStyleState = (element, state) => domUtils.hasStyleState(element, state);
 
   const getInput = () => domUtils.select('.hiddenRadio');
-  const getIcon = element => element && element.querySelector('[data-hook="radio-icon"]');
-  const getLabel = element => element && element.querySelector('[data-hook="radio-label"]');
+  const getIcon = () => domUtils.select('.icon');
+  const getLabel = ()=> domUtils.select('.label');
 
   return {
     exists: () => !!element,
@@ -15,8 +15,8 @@ export const radioButtonDriverFactory = ({element, eventTrigger}) => {
     value: () => getInput().getAttribute('value'),
     name: () => getInput().getAttribute('name'),
     isRequired: () => getInput().hasAttribute('required'),
-    iconExists: () => !!getIcon(element),
-    labelExists: () => !!getLabel(element),
+    iconExists: () => !!getIcon(),
+    labelExists: () => !!getLabel(),
     isChecked: () => hasStyleState(element, 'checked'),
     isFocused: () => hasStyleState(element, 'focused'),
     isDisabled: () => hasStyleState(element, 'disabled')
