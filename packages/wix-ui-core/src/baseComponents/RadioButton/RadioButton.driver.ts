@@ -1,22 +1,24 @@
 import styles from './RadioButton.st.css';
 import {StylableDOMUtil} from 'stylable/test-utils';
 
-const utils = new StylableDOMUtil(styles);
-const hasStyleState = (element, state) => utils.hasStyleState(element, state);
+export const radioButtonDriverFactory = ({element, eventTrigger}) => {
+  const domUtils = new StylableDOMUtil(styles, element);
+  const hasStyleState = (element, state) => domUtils.hasStyleState(element, state);
 
-const getInput = element => element && element.querySelector('[data-hook="radio-input"]');
-const getIcon = element => element && element.querySelector('[data-hook="radio-icon"]');
-const getLabel = element => element && element.querySelector('[data-hook="radio-label"]');
+  const getInput = () => domUtils.select('.hiddenRadio');
+  const getIcon = () => domUtils.select('.icon');
+  const getLabel = ()=> domUtils.select('.label');
 
-export const radioButtonDriverFactory = ({element, eventTrigger}) => ({
-  exists: () => !!element,
-  select: () => eventTrigger.change(element),
-  value: () => getInput(element).getAttribute('value'),
-  name: () => getInput(element).getAttribute('name'),
-  isRequired: () => getInput(element).hasAttribute('required'),
-  iconExists: () => !!getIcon(element),
-  labelExists: () => !!getLabel(element),
-  isChecked: () => hasStyleState(element, 'checked'),
-  isFocused: () => hasStyleState(element, 'focused'),
-  isDisabled: () => hasStyleState(element, 'disabled')
-});
+  return {
+    exists: () => !!element,
+    select: () => eventTrigger.change(element),
+    value: () => getInput().getAttribute('value'),
+    name: () => getInput().getAttribute('name'),
+    isRequired: () => getInput().hasAttribute('required'),
+    iconExists: () => !!getIcon(),
+    labelExists: () => !!getLabel(),
+    isChecked: () => hasStyleState(element, 'checked'),
+    isFocused: () => hasStyleState(element, 'focused'),
+    isDisabled: () => hasStyleState(element, 'disabled')
+  }
+};
