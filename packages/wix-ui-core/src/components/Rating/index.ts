@@ -1,1 +1,1 @@
-export {Rating} from './Rating';
+export {Rating, RatingChangeEvent} from './Rating.tsx';

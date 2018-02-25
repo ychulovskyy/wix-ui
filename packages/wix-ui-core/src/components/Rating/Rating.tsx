@@ -1,7 +1,11 @@
 import * as React from 'react';
-import {RadioButton} from '../../baseComponents/RadioButton';
+import {RadioButton, RadioButtonChangeEvent, RadioButtonHoverEvent} from '../RadioButton';
 import {string, func, node, bool, number, oneOf, array} from 'prop-types';
 import style from './Rating.st.css';
+
+export interface RatingChangeEvent extends React.MouseEvent<HTMLDivElement> {
+  value: number;
+}
 
 /**
  * This component is of dual purpose -
@@ -31,7 +35,7 @@ export interface RatingProps {
   /** on Display mode, specifies a placeholder text to use (if that option is selected) in the absence of reviews */
   noReviewsPlaceholder?: string;
   /** on Input mode, a callback to invoke when the rating is changed by the user */
-  onChange?: Function;
+  onChange?: (event: RatingChangeEvent) => void;
   /** on Input mode, the title of the rating */
   title?: string;
   /** on Input mode, the labels that represent each rating value */
@@ -96,13 +100,16 @@ export class Rating extends React.Component<RatingProps, RatingState> {
     required: bool
   };
 
-  onRatingChange = (event) => {
-    console.log('click value ', event.value);
-    this.props.onChange(event);
+  onRatingChange = (event: RadioButtonChangeEvent) => {
+    console.log('onRatingChangeEvent ', event);
+    const {value, ...rest} = event;
+    console.log(value);
+    this.props.onChange({value: parseInt(event.value), ...rest});
   }
 
-  onIconHover = rating => {
-    this.setState({hovered: rating});
+  onIconHover = (event: RadioButtonHoverEvent) => {
+    console.log('onRatingHoverEvent ', event.value);
+    this.setState({hovered: parseInt(event.value)});
   }
 
   onIconBlur = () => {

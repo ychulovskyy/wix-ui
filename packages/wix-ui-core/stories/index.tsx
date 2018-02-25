@@ -11,6 +11,8 @@ import {OptionFactory} from '../src/baseComponents/DropdownOption';
 import {GoogleMapsIframeClientStory} from './clients/GoogleMapsIframeClient-story';
 import {CheckboxStory} from './Checkbox/Checkbox-story';
 import {TooltipStory} from './Tooltip/custom';
+import {RadioButtonStory} from './RadioButton';
+import {RatingStory} from './Rating';
 
 const dropdownOptions =
   Array.from(Array(20))
@@ -27,9 +29,9 @@ require('./StylableText').story();
 require('./StylableButton').story();
 require('./StylableBadge').story();
 require('./Tooltip').story();
-require('./RadioButton').story();
+// require('./RadioButton').story();
 require('./Video').story();
-require('./Rating').story();
+// require('./Rating').story();
 
 storiesOf('Components', module)
   .add('ToggleSwitch', () => (
@@ -89,4 +91,9 @@ storiesOf('Components', module)
   ))
   .add('Tooltip Custom', () => (
     <TooltipStory />
+  ))
+  .add('RadioButton', () => (
+    <RadioButtonStory />
+  )).add('Rating', () => (
+    <RatingStory />
   ));

@@ -4,7 +4,7 @@ import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
 import {Rating} from './Rating';
 
 function createRating(props = {}) {
-  return <Rating data-hook="rating-spec" mode="display"
+  return <Rating data-hook="rating-spec" mode="display" rating={3}
                  checkedIcon={<span>🦄</span>} uncheckedIcon={<span>🦄</span>}
                  {...props}/>;
 }

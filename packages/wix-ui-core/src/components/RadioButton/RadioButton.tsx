@@ -2,6 +2,18 @@ import * as React from 'react';
 import {string, func, node, bool} from 'prop-types';
 import style from './RadioButton.st.css';
 
+export interface RadioButtonChangeEvent extends React.MouseEvent<HTMLDivElement> {
+  value: string;
+}
+
+export interface RadioButtonClickEvent extends React.MouseEvent<HTMLDivElement> {
+  value: string;
+}
+
+export interface RadioButtonHoverEvent extends React.MouseEvent<HTMLSpanElement> {
+  value: string;
+}
+
 export interface RadioButtonProps {
   /** Sets checked status of the radio */
   checked?: boolean;
@@ -10,9 +22,9 @@ export interface RadioButtonProps {
   /** The group name which the button belongs to */
   name?: string;
   /** A callback to invoke on change */
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: RadioButtonChangeEvent | RadioButtonClickEvent) => void;
   /** A callback to invoke on hover */
-  onHover?: (event: React.MouseEvent<HTMLElement>) => void;
+  onHover?: (event: RadioButtonHoverEvent) => void;
   /** A callback to invoke on blur */
   onIconBlur?: (event: React.MouseEvent<HTMLElement>) => void;
   /** The checked icon */
@@ -85,11 +97,14 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
     );
   }
 
-  handleInputChange = event => {
+  handleInputChange = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!this.props.disabled) {
-      event.value = this.props.value;
-      this.props.onChange(event);
+      this.props.onChange({value: this.props.value, ...event});
     }
+  }
+
+  onHover = (event: React.MouseEvent<HTMLSpanElement>) => {
+    this.props.onHover({value: this.props.value, ...event});
   }
 
   onFocus = () => {
@@ -98,10 +113,5 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
 
   onInputBlur = () => {
     this.setState({focused: false});
-  }
-
-  onHover = event => {
-    event.value = this.props.value;
-    this.props.onHover(event);
   }
 }

@@ -4,6 +4,10 @@
 // const utils = new StylableDOMUtil(styles);
 // const hasStyleState = (element, state) => utils.hasStyleState(element, state);
 
-export const ratingDriverFactory = ({element}) => ({
-  exists: () => !!element
-});
+export const ratingDriverFactory = ({element}) => {
+  console.log('element ', element);
+
+  return {
+    exists: () => !!element
+  };
+};
