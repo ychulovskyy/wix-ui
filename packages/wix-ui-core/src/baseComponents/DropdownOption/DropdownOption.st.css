@@ -17,7 +17,7 @@
   background-color: value(hoverBackgroundColor);
 }
 
-.root:isDisabled {
+.root:disabled {
   background-color: value(disabledBackgroundColor);
 }
 
