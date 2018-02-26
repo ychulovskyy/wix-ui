@@ -70,7 +70,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     fixedFooter: node,
     /** Callback for when the editing is changed */
     onEditingChanged: func,
-    /** Callback when the user pressed the Enter key or Tab key after he wrote in the Input field - meaning the user selected something not in the list  */
+    /** Callback when the user pressed the Enter key or Tab key after he wrote in the Input field - meaning the user selected something not in the list. If the component is controlled then the value will be the Input value. if not it will be `undefined`  */
     onManualInput: func,
     /** Input prop types */
     inputProps: object.isRequired
@@ -91,7 +91,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     if (option) {
       onSelect(option);
     } else {
-      inputProps.value && onManualInput(inputProps.value);
+      onManualInput(inputProps.value);
     }
   }
 
