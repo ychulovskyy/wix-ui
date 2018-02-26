@@ -10,14 +10,14 @@
 }
 
 .root {
-  -st-states: hovered, disabled, selected;
+  -st-states: hovered, isDisabled, selectable, selected;
 }
 
 .root:hovered {
   background-color: value(hoverBackgroundColor);
 }
 
-.root:disabled {
+.root:isDisabled {
   background-color: value(disabledBackgroundColor);
 }
 

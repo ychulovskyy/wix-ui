@@ -16,12 +16,13 @@ export type DropdownOptionType = React.SFC<DropdownOptionProps>;
 export const DropdownOption: DropdownOptionType = (props: DropdownOptionProps) => {
   const {option, isSelected, isHovered, onClickHandler, onMouseEnterHandler} = props;
   const disabled = option.isDisabled;
+  const selectable = option.isSelectable;
   const hovered = !disabled && isHovered;
   const selected = !disabled && isSelected;
 
   return (
     <div
-      {...style('root', {disabled, hovered, selected}, props)}
+      {...style('root', {isDisabled: disabled, selectable, hovered, selected}, props)}
       onClick={onClickHandler}
       title={option.value}
       onMouseEnter={onMouseEnterHandler}>
