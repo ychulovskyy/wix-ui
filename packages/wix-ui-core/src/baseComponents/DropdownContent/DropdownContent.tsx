@@ -93,15 +93,15 @@ export class DropdownContent extends React.PureComponent<DropdownContentProps, D
     this.setHoveredIndex(hoveredIndex);
   }
 
+  onKeyboardSelect() {
+    const {options} = this.props;
+    const {hoveredIndex} = this.state;
+    const isValidIndex = hoveredIndex >= 0 && hoveredIndex < options.length;
+    return isValidIndex ? options[hoveredIndex] : null;
+  }
+
   onKeyDown(eventKey: string) {
     switch (eventKey) {
-      case 'Tab':
-      case 'Enter': {
-        const {options, onOptionClick} = this.props;
-        const {hoveredIndex} = this.state;
-        const isValidIndex = hoveredIndex >= 0 && hoveredIndex < options.length;
-        return onOptionClick(isValidIndex ? options[hoveredIndex] : null);
-      }
       case 'ArrowUp': {
         return this.hoverNextItem(-1);
       }

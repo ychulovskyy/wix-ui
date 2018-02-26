@@ -49,4 +49,20 @@ describe('InputWithOptions', () => {
     driver.keyDown('Enter');
     expect(onManualInput).toHaveBeenCalledWith('a');
   });
+
+  it('should trigger onManualInput with the actual value even if option list is empty', () => {
+    const onManualInput = jest.fn();
+    let inputValue = 'a';
+
+    const driver = createDriver(createInputWithOptions({
+      options: [],
+      onManualInput,
+      inputProps: {
+        value: inputValue
+      }
+    }));
+
+    driver.keyDown('Enter');
+    expect(onManualInput).toHaveBeenCalledWith('a');
+  });
 });
