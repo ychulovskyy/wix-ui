@@ -67,7 +67,8 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
            role="radio" aria-checked={checked}>
         <input type="radio" className={style.hiddenRadio} disabled={disabled} required={required}
                onFocus={this.onFocus} onBlur={this.onInputBlur} checked={checked}
-               value={value} name={name} onChange={() => null}/>
+               value={value} name={name} onChange={() => null}
+               ref={radio => this.radioRef = radio}/>
         <span className={style.icon} onMouseEnter={this.onHover} onMouseLeave={onIconBlur}>
           {checked ? checkedIcon : uncheckedIcon}
         </span>
@@ -79,6 +80,9 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
   handleInputChange = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!this.props.disabled) {
       this.props.onChange({value: this.props.value, ...event});
+      if (this.radioRef) {
+        this.radioRef.focus();
+      }
     }
   }
 
@@ -93,4 +97,6 @@ export class RadioButton extends React.Component<RadioButtonProps, RadioButtonSt
   onInputBlur = () => {
     this.setState({focused: false});
   }
+
+  private radioRef = undefined;
 }
