@@ -61,6 +61,6 @@ describe('OptionFactory', () => {
     expect(option.id).toContain('Divider');
     expect(option.isDisabled).toBeFalsy();
     expect(option.isSelectable).toBeFalsy();
-    expect(option.render(value)).toEqual(<Divider />);
+    expect(option.render(value)).toEqual(<Divider className={null} />);
   });
 });
