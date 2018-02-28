@@ -5,6 +5,7 @@ import {Popover, Placement} from '../Popover';
 import {DropdownContent} from '../DropdownContent';
 import {Option} from '../DropdownOption';
 import {CLICK, HOVER, OPEN_TRIGGER_TYPE} from './constants';
+import isEqual = require('lodash.isequal');
 
 export interface DropdownProps {
   /** The location to display the content */
@@ -63,20 +64,28 @@ export class DropdownComponent extends React.PureComponent<DropdownProps & Injec
   }
 
   componentWillMount() {
-    const {initialSelectedIds, options, onInitialSelectedOptionsSet} = this.props;
+    this.initializeSelectedOptions(this.props);
+  }
+
+  componentWillReceiveProps(props: DropdownProps) {
+    if (!isEqual(props.initialSelectedIds, this.props.initialSelectedIds)) {
+      this.initializeSelectedOptions(props);
+    }
+  }
+
+  initializeSelectedOptions(props) {
+    const {initialSelectedIds, options, onInitialSelectedOptionsSet} = props;
 
     const selectedOptions = (initialSelectedIds || [])
       .map(id => options.find(option => id === option.id))
       .filter(option => option && !option.isDisabled && option.isSelectable);
 
-    if (selectedOptions.length) {
-      const selectedIds = selectedOptions.map(x => x && x.id);
-      this.setState({
-        selectedIds: selectedIds as Array<string | number>
-      });
+    const selectedIds = selectedOptions.map(x => x && x.id);
+    this.setState({
+      selectedIds: selectedIds as Array<string | number>
+    });
 
-      onInitialSelectedOptionsSet && onInitialSelectedOptionsSet(selectedOptions);
-    }
+    onInitialSelectedOptionsSet && onInitialSelectedOptionsSet(selectedOptions);
   }
 
   handleClickOutside() {

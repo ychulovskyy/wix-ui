@@ -89,7 +89,7 @@ IconWithOptions.propTypes = {
   /** Handler for when an option is deselected */
   onDeselect: func,
   /** initial selected option ids */
-  initialSelectedIds: oneOfType([arrayOf(number), arrayOf(string)]),
+  initialSelectedIds: arrayOf(oneOfType([number, string])),
   /** Should close content on select */
   closeOnSelect: bool,
   /** An element that always appears at the top of the options */

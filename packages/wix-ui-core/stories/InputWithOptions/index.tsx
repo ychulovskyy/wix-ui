@@ -24,6 +24,7 @@ export const story = () => createStory({
   },
   exampleProps: {
     fixedFooter: [null, <div>Fixed Footer</div>],
-    fixedHeader: [null, <div>Fixed Header</div>]
+    fixedHeader: [null, <div>Fixed Header</div>],
+    initialSelectedIds: [[], [1]]
   }
 });

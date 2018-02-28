@@ -66,7 +66,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     /** Handler for when an option is deselected */
     onDeselect: func,
     /** initial selected option ids */
-    initialSelectedIds: oneOfType([arrayOf(number), arrayOf(string)]),
+    initialSelectedIds: arrayOf(oneOfType([number, string])),
     /** A callback for when initial selected options are set */
     onInitialSelectedOptionsSet: func,
     /** Should close content on select */
