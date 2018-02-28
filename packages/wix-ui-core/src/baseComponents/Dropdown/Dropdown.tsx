@@ -23,6 +23,8 @@ export interface DropdownProps {
   onDeselect: (option: Option | null) => void;
   /** initial selected option ids */
   initialSelectedIds: Array<string | number>;
+  /** A callback for when initial selected options are set */
+  onInitialSelectedOptionsSet: (options: Array<Option>) => void;
   /** Should close content on select */
   closeOnSelect: boolean;
   /** An element that always appears at the top of the options */
@@ -54,17 +56,27 @@ export class DropdownComponent extends React.PureComponent<DropdownProps & Injec
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onOptionClick = this.onOptionClick.bind(this);
 
-    const {initialSelectedIds, options} = props;
-    const selectedIds =
-       (initialSelectedIds || [])
-         .map(id => options.find(option => id === option.id))
-         .filter(option => option && !option.isDisabled && option.isSelectable)
-         .map(x => x && x.id);
-
     this.state = {
       isOpen: false,
-      selectedIds: selectedIds as Array<string | number>
+      selectedIds: []
     };
+  }
+
+  componentWillMount() {
+    const {initialSelectedIds, options, onInitialSelectedOptionsSet} = this.props;
+
+    const selectedOptions = (initialSelectedIds || [])
+      .map(id => options.find(option => id === option.id))
+      .filter(option => option && !option.isDisabled && option.isSelectable);
+
+    if (selectedOptions.length) {
+      const selectedIds = selectedOptions.map(x => x && x.id);
+      this.setState({
+        selectedIds: selectedIds as Array<string | number>
+      });
+
+      onInitialSelectedOptionsSet && onInitialSelectedOptionsSet(selectedOptions);
+    }
   }
 
   handleClickOutside() {

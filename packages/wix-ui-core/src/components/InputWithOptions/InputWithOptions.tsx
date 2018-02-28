@@ -20,6 +20,8 @@ export interface InputWithOptionsProps {
   onDeselect?: (option: Option) => void;
   /** initial selected option ids */
   initialSelectedIds?: Array<string | number>;
+  /** A callback for when initial selected options are set */
+  onInitialSelectedOptionsSet?: (options: Array<Option>) => void;
   /** Should close content on select */
   closeOnSelect?: boolean;
   /** An element that always appears at the top of the options */
@@ -48,7 +50,8 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     initialSelectedIds: [],
     onSelect: () => null,
     onDeselect: () => null,
-    onManualInput: () => null
+    onManualInput: () => null,
+    onInitialSelectedOptionsSet: () => null
   };
 
   static propTypes = {
@@ -64,6 +67,8 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     onDeselect: func,
     /** initial selected option ids */
     initialSelectedIds: oneOfType([arrayOf(number), arrayOf(string)]),
+    /** A callback for when initial selected options are set */
+    onInitialSelectedOptionsSet: func,
     /** Should close content on select */
     closeOnSelect: bool,
     /** An element that always appears at the top of the options */
@@ -79,8 +84,6 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     /** Input prop types */
     inputProps: object.isRequired
   };
-
-  dropdownRef;
 
   constructor() {
     super();
@@ -123,6 +126,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
       options,
       openTrigger,
       initialSelectedIds,
+      onInitialSelectedOptionsSet,
       closeOnSelect,
       fixedFooter,
       fixedHeader,
@@ -133,7 +137,6 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     return (
       <Dropdown
         {...style('root', {}, this.props)}
-        ref={dropdown => this.dropdownRef = dropdown}
         placement={placement}
         openTrigger={openTrigger}
         disabled={inputProps.disabled}
@@ -143,6 +146,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
         fixedHeader={fixedHeader}
         onDeselect={onDeselect}
         initialSelectedIds={initialSelectedIds}
+        onInitialSelectedOptionsSet={onInitialSelectedOptionsSet}
         options={options}
         timeout={timeout}
         closeOnSelect={closeOnSelect}>

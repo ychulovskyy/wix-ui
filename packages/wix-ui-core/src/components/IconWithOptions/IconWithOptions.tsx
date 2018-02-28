@@ -55,6 +55,7 @@ export const IconWithOptions: React.SFC<IconWithOptionsProps> =
       openTrigger={openTrigger}
       closeOnSelect={closeOnSelect}
       onSelect={onSelect}
+      onInitialSelectedOptionsSet={() => null}
       showArrow={true}
       fixedFooter={fixedFooter}
       fixedHeader={fixedHeader}

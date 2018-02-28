@@ -20,6 +20,7 @@ describe('Dropdown', () => {
       options: [],
       onSelect: () => null,
       onDeselect: () => null,
+      onInitialSelectedOptionsSet: () => null,
       initialSelectedIds: [],
       closeOnSelect: true
     }, props)}>
@@ -132,6 +133,7 @@ describe('Dropdown', () => {
         onSelect={() => null}
         initialSelectedIds={[]}
         onDeselect={() => null}
+        onInitialSelectedOptionsSet={() => null}
         placement="top"
         openTrigger={CLICK}
         options={[]}>
