@@ -1,12 +1,29 @@
+@custom-selector :--contentContainer .root::popover;
+@custom-selector :--option .root::dropdownContent::dropdownOption;
+
 :import {
   -st-from: "../InputWithOptions/InputWithOptions.st.css";
   -st-default: InputWithOptions;
+}
+
+:import {
+  -st-from: "../Input/Input.st.css";
+  -st-default: Input;
+}
+
+:import {
+  -st-from: "../Divider/Divider.st.css";
+  -st-default: Divider;
 }
 
 .root {
   -st-extends: InputWithOptions;
 }
 
-.input { }
+.input {
+  -st-extends: Input;
+}
 
-.divider { }
+.divider {
+  -st-extends: Divider;
+}
