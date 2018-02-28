@@ -10,7 +10,7 @@
 }
 
 .root {
-  -st-states: hovered, isDisabled, selectable, selected;
+  -st-states: hovered, disabled, selectable, selected;
   cursor: pointer;
 }
 
