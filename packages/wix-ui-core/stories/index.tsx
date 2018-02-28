@@ -13,17 +13,13 @@ import {CheckboxStory} from './Checkbox/Checkbox-story';
 import {TooltipStory} from './Tooltip/custom';
 import {RadioButtonStory} from './RadioButton';
 
-const dropdownOptions =
-  Array.from(Array(20))
-    .map((x, index) =>
-      index === 5 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, index === 15 ? 'fdsf sdf sdf sdf sdf sdfsd fsdf sdf ds' : `value${index}`));
-
+require('./InputWithOptions').story();
+require('./Autocomplete').story();
 require('./Badge').story();
 require('./Button').story();
 require('./Input').story();
 require('./IconWithOptions').story();
 require('./InputWithAffixes').story();
-require('./InputWithOptions').story();
 require('./StylableText').story();
 require('./StylableButton').story();
 require('./StylableBadge').story();

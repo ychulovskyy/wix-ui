@@ -26,15 +26,15 @@ describe('OptionFactory', () => {
     expect(option.id).toContain('Divider');
     expect(option.isDisabled).toBeFalsy();
     expect(option.isSelectable).toBeFalsy();
-    expect(option.render(value)).toEqual(<Divider />);
+    expect(option.render(value)).toEqual(<Divider className={null} />);
   });
 
   it('should create divider with content', () => {
-    const option = OptionFactory.createDivider(value);
+    const option = OptionFactory.createDivider({value});
     expect(option.id).toContain('Divider');
     expect(option.isDisabled).toBeFalsy();
     expect(option.isSelectable).toBeFalsy();
-    expect(option.render(value)).toEqual(<Divider>value</Divider>);
+    expect(option.render(value)).toEqual(<Divider className={null}>value</Divider>);
   });
 
   it('should create custom divider', () => {

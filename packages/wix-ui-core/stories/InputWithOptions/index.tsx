@@ -4,22 +4,24 @@ import {InputWithOptions} from '../../src/components/InputWithOptions';
 import * as InputWithOptionsSource from '!raw-loader!../../src/components/InputWithOptions/InputWithOptions.tsx';
 import {OptionFactory} from '../../src/baseComponents/DropdownOption';
 
-const dropdownOptions =
+const options =
   Array.from(Array(20))
-    .map((x, index) =>
-      index === 5 ?
-        OptionFactory.createDivider() :
-        OptionFactory.create(index, index === 3, true, index === 15 ? 'fdsf sdf sdf sdf sdf sdfsd fsdf sdf ds' : `value${index}`));
+    .map((x, index) => OptionFactory.create(index, false, true, `value${index}`));
+
+options[2] = OptionFactory.create(2, true, true, `Disabled item`);
+options[5] = OptionFactory.createDivider();
+options[8].value = 'This is a very very very very very long option';
+options[12] = OptionFactory.createDivider({value: 'Divider'});
 
 export const story = () => createStory({
-  category: 'Components',
+  category: 'Base Components',
   name: 'InputWithOptions',
   storyName: 'InputWithOptions',
   component: InputWithOptions,
   source: InputWithOptionsSource,
   componentProps: {
     'data-hook': 'storybook-inputwithoptions',
-    options: dropdownOptions,
+    options,
     inputProps: {}
   },
   exampleProps: {
