@@ -6,7 +6,7 @@ import {PaginationStory} from './Pagination/pagination-story';
 import {DividerStory} from './Divider/divider-story';
 import {ToggleSwitchStory} from './ToggleSwitch/ToggleSwitch-story';
 import {StylableToggleSwitchStory} from './StylableToggleSwitch/StylableToggleSwitch-story';
-import {InputWithOptions} from '../src/components/InputWithOptions';
+import {InputWithOptions} from '../src/baseComponents/InputWithOptions';
 import {OptionFactory} from '../src/baseComponents/DropdownOption';
 import {GoogleMapsIframeClientStory} from './clients/GoogleMapsIframeClient-story';
 import {CheckboxStory} from './Checkbox/Checkbox-story';

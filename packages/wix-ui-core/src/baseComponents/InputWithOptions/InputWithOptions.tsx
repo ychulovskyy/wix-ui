@@ -5,7 +5,7 @@ import {Placement} from '../../baseComponents/Popover';
 import {Option} from '../../baseComponents/DropdownOption';
 import {OPEN_TRIGGER_TYPE} from '../../baseComponents/Dropdown/constants';
 import {bool, object, arrayOf, string, func, oneOfType, number, node, oneOf, Requireable} from 'prop-types';
-import {Input, InputProps} from '../Input';
+import {Input, InputProps} from '../../components/Input';
 
 export interface InputWithOptionsProps {
   /** The location to display the content */

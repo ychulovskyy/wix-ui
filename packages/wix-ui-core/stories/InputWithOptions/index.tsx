@@ -1,7 +1,7 @@
 import * as React from 'react';
 import createStory from '../create-story';
-import {InputWithOptions} from '../../src/components/InputWithOptions';
-import * as InputWithOptionsSource from '!raw-loader!../../src/components/InputWithOptions/InputWithOptions.tsx';
+import {InputWithOptions} from '../../src/baseComponents/InputWithOptions';
+import * as InputWithOptionsSource from '!raw-loader!../../src/baseComponents/InputWithOptions/InputWithOptions.tsx';
 import {OptionFactory} from '../../src/baseComponents/DropdownOption';
 
 const options =

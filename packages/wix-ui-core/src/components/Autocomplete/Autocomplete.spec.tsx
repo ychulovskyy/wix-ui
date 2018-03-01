@@ -3,6 +3,11 @@ import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
 import {autocompleteDriverFactory} from './Autocomplete.driver';
 import {Autocomplete} from '.';
 import {OptionFactory} from '../../baseComponents/DropdownOption';
+import {autocompleteTestkitFactory} from '../../testkit';
+import {autocompleteTestkitFactory as enzymeAutocompleteTestkitFactory} from '../../testkit/enzyme';
+import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
+import {isTestkitExists} from 'wix-ui-test-utils/vanilla';
+import {mount} from 'enzyme';
 
 const options =
   Array.from(Array(20))
@@ -25,5 +30,17 @@ describe('Autocomplete', () => {
   it('should initialize autocomplete with value', () => {
     const driver = createDriver(<Autocomplete initialSelectedId={1} options={options} />);
     expect(driver.getValue()).toEqual('value1');
+  });
+
+  describe('testkit', () => {
+    it('should exist', () => {
+      expect(isTestkitExists(<Autocomplete options={[]}/>, autocompleteTestkitFactory)).toBe(true);
+    });
+  });
+
+  describe('enzyme testkit', () => {
+    it('should exist', () => {
+      expect(isEnzymeTestkitExists(<Autocomplete options={[]}/>, enzymeAutocompleteTestkitFactory, mount)).toBe(true);
+    });
   });
 });

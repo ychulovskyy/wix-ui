@@ -1,6 +1,6 @@
 import * as React from 'react';
 import style from './Autocomplete.st.css';
-import {InputWithOptions} from '../InputWithOptions';
+import {InputWithOptions} from '../../baseComponents/InputWithOptions';
 import {Option, OptionFactory} from '../../baseComponents/DropdownOption/OptionFactory';
 import {InputProps} from '../Input';
 import {Divider} from '../Divider';

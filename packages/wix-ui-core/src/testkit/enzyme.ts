@@ -44,3 +44,6 @@ export const stylableBadgeTestkitFactory = enzymeTestkitFactoryCreator(stylableB
 
 import {radioButtonDriverFactory} from '../components/RadioButton/RadioButton.driver';
 export const radioButtonTestkitFactory = enzymeTestkitFactoryCreator(radioButtonDriverFactory);
+
+import {autocompleteDriverFactory} from '../components/Autocomplete/Autocomplete.driver';
+export const autocompleteTestkitFactory = enzymeTestkitFactoryCreator(autocompleteDriverFactory);

@@ -25,9 +25,6 @@ export const dividerTestkitFactory = protractorTestkitFactoryCreator(dividerDriv
 import {googleMapsIframeClientDriverFactory} from '../clients/GoogleMaps/GoogleMapsIframeClient.protractor.driver';
 export const googleMapsIframeClientTestkitFactory = protractorTestkitFactoryCreator(googleMapsIframeClientDriverFactory);
 
-import {inputWithOptionsDriverFactory} from '../components/InputWithOptions/InputWithOptions.protractor.driver';
-export const inputWithOptionsTestkitFactory = protractorTestkitFactoryCreator(inputWithOptionsDriverFactory);
-
 import {dropdownContentDriverFactory} from '../baseComponents/DropdownContent/DropdownContent.protractor.driver';
 export const dropdownContentTestkitFactory = protractorTestkitFactoryCreator(dropdownContentDriverFactory);
 
@@ -46,3 +43,6 @@ export const radioButtonTestkitFactory = protractorTestkitFactoryCreator(radioBu
 
 import {badgeDriverFactory as stylableBadgeDriverFactory} from '../components/StylableBadge/Badge.protractor.driver';
 export const stylablebadgeTestkitFactory = protractorTestkitFactoryCreator(stylableBadgeDriverFactory);
+
+import {autocompleteDriverFactory} from '../components/Autocomplete/Autocomplete.protractor.driver';
+export const autocompleteTestkitFactory = protractorTestkitFactoryCreator(autocompleteDriverFactory);
