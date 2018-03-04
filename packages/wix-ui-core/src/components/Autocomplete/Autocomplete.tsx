@@ -20,6 +20,8 @@ export interface AutocompleteProps {
   fixedHeader?: React.ReactNode;
   /** An element that always appears at the bottom of the options */
   fixedFooter?: React.ReactNode;
+  /** Animation timer */
+  timeout?: number;
   /** Callback when the user pressed the Enter key or Tab key after he wrote in the Input field - meaning the user selected something not in the list  */
   onManualInput?: (value: string) => void;
   /** Input prop types */
@@ -43,6 +45,8 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
     fixedHeader: node,
     /** An element that always appears at the bottom of the options */
     fixedFooter: node,
+    /** Animation timer */
+    timeout: number,
     /** Callback when the user pressed the Enter key or Tab key after he wrote in the Input field - meaning the user selected something not in the list  */
     onManualInput: func,
     /** Input prop types */
@@ -121,7 +125,7 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
   }
 
   render() {
-    const {options, initialSelectedIds, fixedHeader, fixedFooter, onManualInput} = this.props;
+    const {options, initialSelectedIds, fixedHeader, fixedFooter, onManualInput, timeout} = this.props;
     const {inputValue, isEditing} = this.state;
     const inputProps = this._createInputProps();
     const displayedOptions =
@@ -135,6 +139,7 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
         onInitialSelectedOptionsSet={this._onInitialSelectedOptionsSet}
         fixedHeader={fixedHeader}
         fixedFooter={fixedFooter}
+        timeout={timeout}
         onManualInput={onManualInput}
         options={displayedOptions}
         onEditingChanged={this._onEditingChanged}
