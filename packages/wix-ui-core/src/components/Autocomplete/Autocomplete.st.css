@@ -18,7 +18,3 @@
 .divider {
   -st-extends: Divider;
 }
-
-.root::input {
-  background: red;
-}
