@@ -4,10 +4,11 @@ import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
 import {sleep} from 'wix-ui-test-utils/react-helpers';
 import {OptionFactory} from '../DropdownOption';
 import {DropdownContent} from './';
-import {optionsExample} from '../DropdownOption/OptionsExample';
+import {generateOptions} from '../DropdownOption/OptionsExample';
 
 describe('DropdownContent', () => {
   const createDriver = createDriverFactory(dropdownContentDriverFactory);
+  const options = generateOptions();
   const createDropdownContent = (props = {}) => (
     <DropdownContent {...Object.assign({
       options: [],
@@ -24,21 +25,21 @@ describe('DropdownContent', () => {
   describe('mouse events', () => {
     it('should select selectable options', () => {
       const onOptionClick = jest.fn();
-      const driver = createDriver(createDropdownContent({options: optionsExample, onOptionClick}));
+      const driver = createDriver(createDropdownContent({options, onOptionClick}));
 
       driver.optionAt(0).click();
-      expect(onOptionClick).toHaveBeenCalledWith(optionsExample[0]);
+      expect(onOptionClick).toHaveBeenCalledWith(options[0]);
 
       driver.optionAt(1).click();
-      expect(onOptionClick).toHaveBeenCalledWith(optionsExample[1]);
+      expect(onOptionClick).toHaveBeenCalledWith(options[1]);
 
       driver.optionAt(4).click();
-      expect(onOptionClick).toHaveBeenCalledWith(optionsExample[4]);
+      expect(onOptionClick).toHaveBeenCalledWith(options[4]);
     });
 
     it('should not select non selectable options', () => {
       const onOptionClick = jest.fn();
-      const driver = createDriver(createDropdownContent({options: optionsExample, onOptionClick}));
+      const driver = createDriver(createDropdownContent({options, onOptionClick}));
 
       driver.optionAt(2).click();
       expect(onOptionClick).not.toHaveBeenCalled();

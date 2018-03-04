@@ -62,11 +62,11 @@ describe('OptionFactory', () => {
   });
 
   it('should create divider without content', () => {
-    const option = OptionFactory.createDivider();
+    const option = OptionFactory.createDivider({className: 'className'});
     expect(option.id).toContain('Divider');
     expect(option.isDisabled).toBeFalsy();
     expect(option.isSelectable).toBeFalsy();
-    expect(option.render(value)).toEqual(<Divider className={null} />);
+    expect(option.render(value)).toEqual(<Divider className={'className'} />);
   });
 
   it('should create divider with content', () => {
@@ -74,7 +74,7 @@ describe('OptionFactory', () => {
     expect(option.id).toContain('Divider');
     expect(option.isDisabled).toBeFalsy();
     expect(option.isSelectable).toBeFalsy();
-    expect(option.render(value)).toEqual(<Divider className={null}>value</Divider>);
+    expect(option.render(value)).toEqual(<Divider className={undefined}>value</Divider>);
   });
 
   it('should create highlighted option', () => {
@@ -92,6 +92,6 @@ describe('OptionFactory', () => {
     expect(option.id).toContain('Divider');
     expect(option.isDisabled).toBeFalsy();
     expect(option.isSelectable).toBeFalsy();
-    expect(option.render(value)).toEqual(<Divider className={null} />);
+    expect(option.render(value)).toEqual(<Divider className={undefined} />);
   });
 });

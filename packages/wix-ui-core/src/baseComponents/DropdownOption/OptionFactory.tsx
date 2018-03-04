@@ -38,9 +38,14 @@ const hightlightMatches = (option: Option, searchTerm: string): Option => {
   });
 };
 
+export type DividerArgs = {
+  className: string;
+  value: React.ReactNode;
+};
+
 export const OptionFactory = {
   create: createOption,
-  createDivider({className = null, value = null} = {}): Option {
+  createDivider({className, value}: Partial<DividerArgs> = {}): Option {
     return createOption({
       id: uniqueId('Divider'),
       isDisabled: false,

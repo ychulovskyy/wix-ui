@@ -5,7 +5,8 @@ import * as AutocompleteSource from '!raw-loader!../../src/components/Autocomple
 import createStory from '../create-story';
 import {OptionFactory, Option} from '../../src/baseComponents/DropdownOption';
 import {Divider} from '../../src/components/Divider';
-import {optionsExample} from '../../src/baseComponents/DropdownOption/OptionsExample';
+import {generateOptions} from '../../src/baseComponents/DropdownOption/OptionsExample';
+import {DividerArgs} from '../../src/baseComponents/DropdownOption/OptionFactory';
 
 export const story = () => createStory({
   category: 'Components',
@@ -15,7 +16,7 @@ export const story = () => createStory({
   source: AutocompleteSource,
   componentProps: {
     'data-hook': 'storybook-autocomplete',
-    options: optionsExample
+    options: generateOptions((args: Partial<DividerArgs> = {}) => Autocomplete.createDivider(args.value))
   },
   exampleProps: {
     fixedFooter: [null, <div>Fixed Footer</div>],

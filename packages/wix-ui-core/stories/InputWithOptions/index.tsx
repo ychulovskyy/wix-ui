@@ -3,7 +3,7 @@ import createStory from '../create-story';
 import {InputWithOptions} from '../../src/baseComponents/InputWithOptions';
 import * as InputWithOptionsSource from '!raw-loader!../../src/baseComponents/InputWithOptions/InputWithOptions.tsx';
 import {OptionFactory} from '../../src/baseComponents/DropdownOption';
-import {optionsExample} from '../../src/baseComponents/DropdownOption/OptionsExample';
+import {generateOptions} from '../../src/baseComponents/DropdownOption/OptionsExample';
 
 export const story = () => createStory({
   category: 'Base Components',
@@ -13,7 +13,7 @@ export const story = () => createStory({
   source: InputWithOptionsSource,
   componentProps: {
     'data-hook': 'storybook-inputwithoptions',
-    options: optionsExample,
+    options: generateOptions(),
     inputProps: {}
   },
   exampleProps: {
