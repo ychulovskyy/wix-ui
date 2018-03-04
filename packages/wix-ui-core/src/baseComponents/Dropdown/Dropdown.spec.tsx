@@ -7,7 +7,7 @@ import {HOVER, CLICK} from './constants';
 import {OptionFactory} from '../DropdownOption';
 import {mount} from 'enzyme';
 import {Simulate} from 'react-dom/test-utils';
-import {optionsExample} from '../DropdownOption/optionsExample';
+import {optionsExample} from '../DropdownOption/OptionsExample';
 
 describe('Dropdown', () => {
   const createDriver = createDriverFactory(dropdownDriverFactory);
