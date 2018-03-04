@@ -22,7 +22,7 @@ export const story = () => createStory({
     fixedFooter: [null, <div>Fixed Footer</div>],
     fixedHeader: [null, <div>Fixed Header</div>],
     onSelect: (option: Option) => option.value,
-    initialSelectedId: [null, 1],
+    initialSelectedIds: [null, [1]],
     onManualInput: (value: string) => `Manual input: ${value}`
   }
 });

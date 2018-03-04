@@ -14,8 +14,8 @@ export interface AutocompleteProps {
   options: Array<Option>;
   /** Handler for when an option is selected */
   onSelect?: (option: Option) => void;
-  /** initial selected option id */
-  initialSelectedId?: string | number;
+  /** initial selected option ids */
+  initialSelectedIds?: Array<string | number>;
   /** An element that always appears at the top of the options */
   fixedHeader?: React.ReactNode;
   /** An element that always appears at the bottom of the options */
@@ -38,7 +38,7 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
     /** Handler for when an option is selected */
     onSelect: func,
     /** initial selected option ids */
-    initialSelectedId: oneOfType([number, string]),
+    initialSelectedIds: arrayOf(oneOfType([number, string])),
     /** An element that always appears at the top of the options */
     fixedHeader: node,
     /** An element that always appears at the bottom of the options */
@@ -121,7 +121,7 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
   }
 
   render() {
-    const {options, initialSelectedId, fixedHeader, fixedFooter, onManualInput} = this.props;
+    const {options, initialSelectedIds, fixedHeader, fixedFooter, onManualInput} = this.props;
     const {inputValue, isEditing} = this.state;
     const inputProps = this._createInputProps();
     const displayedOptions =
@@ -131,7 +131,7 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
       <InputWithOptions
         {...style('root', {}, this.props)}
         onSelect={this._onSelect}
-        initialSelectedIds={initialSelectedId || initialSelectedId === 0 ? [initialSelectedId] : []}
+        initialSelectedIds={initialSelectedIds}
         onInitialSelectedOptionsSet={this._onInitialSelectedOptionsSet}
         fixedHeader={fixedHeader}
         fixedFooter={fixedFooter}

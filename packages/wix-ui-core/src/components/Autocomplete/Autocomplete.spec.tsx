@@ -28,7 +28,7 @@ describe('Autocomplete', () => {
   });
 
   it('should initialize autocomplete with value', () => {
-    const driver = createDriver(<Autocomplete initialSelectedId={1} options={options} />);
+    const driver = createDriver(<Autocomplete initialSelectedIds={[1]} options={options} />);
     expect(driver.getValue()).toEqual('value1');
   });
 
