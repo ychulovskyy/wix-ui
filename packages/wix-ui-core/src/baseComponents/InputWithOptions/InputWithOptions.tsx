@@ -5,7 +5,7 @@ import {Placement} from '../../baseComponents/Popover';
 import {Option} from '../../baseComponents/DropdownOption';
 import {OPEN_TRIGGER_TYPE} from '../../baseComponents/Dropdown/constants';
 import {bool, object, arrayOf, string, func, oneOfType, number, node, oneOf, Requireable} from 'prop-types';
-import {Input, InputProps} from '../../components/Input';
+import {InputWithAffixes, InputWithAffixesProps} from '../../components/InputWithAffixes';
 
 export interface InputWithOptionsProps {
   /** The location to display the content */
@@ -35,7 +35,7 @@ export interface InputWithOptionsProps {
   /** Callback when the user pressed the Enter key or Tab key after he wrote in the Input field - meaning the user selected something not in the list  */
   onManualInput?: (value: string) => void;
   /** Input prop types */
-  inputProps: InputProps;
+  inputProps: InputWithAffixesProps;
 }
 
 /**
@@ -150,11 +150,11 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
         options={options}
         timeout={timeout}
         closeOnSelect={closeOnSelect}>
-        <Input
+        <InputWithAffixes
           {...inputProps}
           onKeyDown={this.onKeyDown}
           onFocus={this.onFocus}
-          className={`${style.input} ${inputProps.className ? inputProps.className : ''}`.trim()}
+          className={style.inputContainer}
         />
       </Dropdown>
     );
