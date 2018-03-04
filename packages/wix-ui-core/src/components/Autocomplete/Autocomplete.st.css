@@ -7,11 +7,6 @@
 }
 
 :import {
-  -st-from: "../Input/Input.st.css";
-  -st-default: Input;
-}
-
-:import {
   -st-from: "../Divider/Divider.st.css";
   -st-default: Divider;
 }
@@ -20,10 +15,10 @@
   -st-extends: InputWithOptions;
 }
 
-.input {
-  -st-extends: Input;
-}
-
 .divider {
   -st-extends: Divider;
+}
+
+.root::input {
+  background: red;
 }

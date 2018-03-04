@@ -11,7 +11,7 @@ export interface Option {
   render: (value: React.ReactNode) => React.ReactNode;
 }
 
-const createOption = (option: Partial<Option> = null) =>
+const createOption = (option: Partial<Option> = null): Option =>
   Object.assign({},
     {
       id: option && (option.id || option.id === 0) ? option.id : uniqueId('Option'),

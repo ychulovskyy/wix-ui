@@ -4,7 +4,7 @@ import {InputWithOptions} from '../../baseComponents/InputWithOptions';
 import {Option, OptionFactory} from '../../baseComponents/DropdownOption/OptionFactory';
 import {Divider} from '../Divider';
 import {func , bool, object, arrayOf, number, string, oneOfType, node, oneOf, Requireable} from 'prop-types';
-import {InputWithAffixesProps} from '../InputWithAffixes';
+import {InputProps} from '../Input';
 
 const createDivider = (value = null) =>
   OptionFactory.createDivider({className: style.divider, value});
@@ -23,7 +23,7 @@ export interface AutocompleteProps {
   /** Callback when the user pressed the Enter key or Tab key after he wrote in the Input field - meaning the user selected something not in the list  */
   onManualInput?: (value: string) => void;
   /** Input prop types */
-  inputProps?: InputWithAffixesProps;
+  inputProps?: InputProps;
 }
 
 export interface AutocompleteState {
@@ -108,7 +108,6 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
     inputProps = inputProps || {};
     inputProps.value = inputValue;
     inputProps.onChange = this._onInputChange;
-    inputProps.className = `${style.input} ${inputProps.className ? inputProps.className : ''}`.trim();
     return inputProps;
   }
 

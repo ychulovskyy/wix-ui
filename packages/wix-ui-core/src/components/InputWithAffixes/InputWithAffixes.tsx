@@ -14,7 +14,7 @@ export interface InputWithAffixesProps extends InputProps {
 export const InputWithAffixes: React.SFC<InputWithAffixesProps> = (props: InputWithAffixesProps) => (
   <div {...style('root', {}, props)}>
     {props.prefix && <div data-hook="input-prefix">{props.prefix}</div>}
-    <Input className={style.input} data-hook="input" {...props} />
+    <Input {...props} className={style.input} data-hook="input" />
     {props.suffix && <div data-hook="input-suffix">{props.suffix}</div>}
   </div>
 );
