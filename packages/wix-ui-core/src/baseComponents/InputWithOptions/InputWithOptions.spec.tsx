@@ -3,14 +3,10 @@ import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
 import {inputWithOptionsDriverFactory} from './InputWithOptions.driver';
 import {InputWithOptions} from './';
 import {OptionFactory} from '../../baseComponents/DropdownOption';
+import {optionsExample} from '../DropdownOption/OptionsExample';
 
 describe('InputWithOptions', () => {
   const createDriver = createDriverFactory(inputWithOptionsDriverFactory);
-  const options =
-    Array.from(Array(5))
-      .map((x, index) =>
-        index === 2 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, `value${index}`));
-
   const createInputWithOptions = (props = {}) => (
     <InputWithOptions {...Object.assign({
       options: [],
@@ -19,7 +15,7 @@ describe('InputWithOptions', () => {
   );
 
   it('should render default component', () => {
-    const driver = createDriver(createInputWithOptions({options}));
+    const driver = createDriver(createInputWithOptions({options: optionsExample}));
     expect(driver.isTargetElementExists()).toBeTruthy();
     expect(driver.isContentElementExists()).toBeFalsy();
   });
@@ -27,7 +23,7 @@ describe('InputWithOptions', () => {
   it('should trigger onManualInput', () => {
     const onManualInput = jest.fn();
 
-    const driver = createDriver(createInputWithOptions({options, onManualInput}));
+    const driver = createDriver(createInputWithOptions({options: optionsExample, onManualInput}));
     driver.keyDown('a');
     driver.keyDown('Enter');
 
@@ -39,7 +35,7 @@ describe('InputWithOptions', () => {
     let inputValue = 'a';
 
     const driver = createDriver(createInputWithOptions({
-      options,
+      options: optionsExample,
       onManualInput,
       inputProps: {
         value: inputValue

@@ -11,9 +11,9 @@ import {mount} from 'enzyme';
 
 const options =
   Array.from(Array(20))
-    .map((x, index) => Autocomplete.createOption(index, false, true, `value${index}`));
+    .map((x, index) => Autocomplete.createOption({id: index, value: `value${index}`}));
 
-options[2] = Autocomplete.createOption(2, true, true, `Disabled item`);
+options[2] = Autocomplete.createOption({id: 2, isDisabled: true, value: `Disabled item`});
 options[5] = Autocomplete.createDivider();
 options[8].value = 'This is a very very very very very long option';
 options[12] = Autocomplete.createDivider('Divider');

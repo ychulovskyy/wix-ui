@@ -7,14 +7,10 @@ import {HOVER, CLICK} from './constants';
 import {OptionFactory} from '../DropdownOption';
 import {mount} from 'enzyme';
 import {Simulate} from 'react-dom/test-utils';
+import {optionsExample} from '../DropdownOption/optionsExample';
 
 describe('Dropdown', () => {
   const createDriver = createDriverFactory(dropdownDriverFactory);
-  const options =
-    Array.from(Array(5))
-      .map((x, index) =>
-        index === 2 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, `value${index}`));
-
   const createDropdown = (props = {}) => (
     <Dropdown placement="top" openTrigger={CLICK} {...Object.assign({
       options: [],
@@ -37,14 +33,14 @@ describe('Dropdown', () => {
 
   describe('openTrigger', () => {
     it('should show content on click', () => {
-      const driver = createDriver(createDropdown({options}));
+      const driver = createDriver(createDropdown({options: optionsExample}));
 
       driver.click();
       expect(driver.isContentElementExists()).toBeTruthy();
     });
 
     it('should show content on hover', async () => {
-      const driver = createDriver(createDropdown({options, openTrigger: HOVER}));
+      const driver = createDriver(createDropdown({options: optionsExample, openTrigger: HOVER}));
 
       driver.mouseEnter();
       expect(driver.isContentElementExists()).toBeTruthy();
@@ -56,16 +52,16 @@ describe('Dropdown', () => {
   describe('onSelect', () => {
     it('should be called when selection changed', () => {
       const onSelect = jest.fn();
-      const driver = createDriver(createDropdown({options, onSelect}));
+      const driver = createDriver(createDropdown({options: optionsExample, onSelect}));
 
       driver.click();
       driver.clickOptionAt(0);
-      expect(onSelect).toHaveBeenCalledWith(options[0]);
+      expect(onSelect).toHaveBeenCalledWith(optionsExample[0]);
     });
 
     it('should not be called when selecting disabled item', () => {
       const onSelect = jest.fn();
-      const driver = createDriver(createDropdown({options, onSelect}));
+      const driver = createDriver(createDropdown({options: optionsExample, onSelect}));
 
       driver.click();
       driver.clickOptionAt(2);
@@ -74,31 +70,31 @@ describe('Dropdown', () => {
 
     it('should not be called when selecting separator item', () => {
       const onSelect = jest.fn();
-      const driver = createDriver(createDropdown({options, onSelect}));
+      const driver = createDriver(createDropdown({options: optionsExample, onSelect}));
 
       driver.click();
-      driver.clickOptionAt(3);
+      driver.clickOptionAt(5);
       expect(onSelect).not.toHaveBeenCalled();
     });
 
     it('should call onSelect when selection is empty then changed', () => {
       const onSelect = jest.fn();
-      const driver = createDriver(createDropdown({options, onSelect, closeOnSelect: false}));
+      const driver = createDriver(createDropdown({options: optionsExample, onSelect, closeOnSelect: false}));
 
       driver.click();
       driver.clickOptionAt(0);
-      expect(onSelect).toHaveBeenCalledWith(options[0]);
+      expect(onSelect).toHaveBeenCalledWith(optionsExample[0]);
     });
   });
 
   describe('onDeselect', () => {
     it('should call onDeselect when option is unselected', () => {
       const onDeselect = jest.fn();
-      const driver = createDriver(createDropdown({initialSelectedIds: [0], options, onDeselect, closeOnSelect: false}));
+      const driver = createDriver(createDropdown({initialSelectedIds: [0], options: optionsExample, onDeselect, closeOnSelect: false}));
 
       driver.click();
       driver.clickOptionAt(0);
-      expect(onDeselect).toHaveBeenCalledWith(options[0]);
+      expect(onDeselect).toHaveBeenCalledWith(optionsExample[0]);
     });
   });
 
@@ -147,7 +143,7 @@ describe('Dropdown', () => {
       driver.click();
       expect(driver.isContentElementExists()).toBeFalsy();
 
-      wrapper.setProps({options});
+      wrapper.setProps({options: optionsExample});
       expect(driver.isContentElementExists()).toBeTruthy();
     });
   });

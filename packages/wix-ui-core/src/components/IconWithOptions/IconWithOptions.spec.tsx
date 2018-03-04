@@ -3,14 +3,10 @@ import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
 import {iconWithOptionsDriverFactory} from './IconWithOptions.driver';
 import {IconWithOptions} from './';
 import {OptionFactory} from '../../baseComponents/DropdownOption';
+import {optionsExample} from '../../baseComponents/DropdownOption/OptionsExample';
 
 describe('IconWithOptions', () => {
   const createDriver = createDriverFactory(iconWithOptionsDriverFactory);
-  const options =
-    Array.from(Array(5))
-      .map((x, index) =>
-        index === 2 ? OptionFactory.createDivider() : OptionFactory.create(index, index === 3, true, `value${index}`));
-
   const createIconWithOptions = (props = {}) => (
     <IconWithOptions {...Object.assign({
       options: [],
@@ -19,7 +15,7 @@ describe('IconWithOptions', () => {
   );
 
   it('should render default component', () => {
-    const driver = createDriver(createIconWithOptions({options}));
+    const driver = createDriver(createIconWithOptions({options: optionsExample}));
     expect(driver.isTargetElementExists()).toBeTruthy();
     expect(driver.isContentElementExists()).toBeFalsy();
   });
