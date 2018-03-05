@@ -2,6 +2,15 @@ import * as React from 'react';
 import uniqueId = require('lodash.uniqueid');
 import {Divider} from '../../components/Divider';
 import {Highlighter} from '../Highlighter';
+import {shape, string, number, func, bool, oneOfType, Requireable} from 'prop-types';
+
+export const optionPropType = shape({
+  id: oneOfType([string, number]).isRequired,
+  isDisabled: bool,
+  isSelectable: bool,
+  value: string,
+  render: func.isRequired
+});
 
 export interface Option {
   id: number | string;

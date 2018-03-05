@@ -1,7 +1,7 @@
 import * as React from 'react';
 import style from './Autocomplete.st.css';
 import {InputWithOptions} from '../../baseComponents/InputWithOptions';
-import {Option, OptionFactory} from '../../baseComponents/DropdownOption/OptionFactory';
+import {Option, OptionFactory, optionPropType} from '../../baseComponents/DropdownOption/OptionFactory';
 import {Divider} from '../Divider';
 import {func , bool, object, arrayOf, number, string, oneOfType, node, oneOf, Requireable} from 'prop-types';
 import {InputProps} from '../Input';
@@ -36,7 +36,7 @@ export interface AutocompleteState {
 export class Autocomplete extends React.PureComponent<AutocompleteProps, AutocompleteState> {
   static propTypes = {
     /** The dropdown options array */
-    options: arrayOf(object).isRequired,
+    options: arrayOf(optionPropType).isRequired,
     /** Handler for when an option is selected */
     onSelect: func,
     /** initial selected option ids */

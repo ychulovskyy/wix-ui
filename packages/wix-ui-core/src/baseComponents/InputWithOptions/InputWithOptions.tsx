@@ -2,7 +2,7 @@ import * as React from 'react';
 import style from './InputWithOptions.st.css';
 import {Dropdown} from '../../baseComponents/Dropdown';
 import {Placement} from '../../baseComponents/Popover';
-import {Option} from '../../baseComponents/DropdownOption';
+import {Option, optionPropType} from '../../baseComponents/DropdownOption';
 import {OPEN_TRIGGER_TYPE} from '../../baseComponents/Dropdown/constants';
 import {bool, object, arrayOf, string, func, oneOfType, number, node, oneOf, Requireable} from 'prop-types';
 import {Input, InputProps} from '../../components/Input';
@@ -58,7 +58,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     /** The location to display the content */
     placement: oneOf(['auto-start', 'auto', 'auto-end', 'top-start', 'top', 'top-end', 'right-start', 'right', 'right-end', 'bottom-end', 'bottom', 'bottom-start', 'left-end', 'left', 'left-start']),
     /** The dropdown options array */
-    options: arrayOf(object).isRequired,
+    options: arrayOf(optionPropType).isRequired,
     /** Trigger type to open the content */
     openTrigger: oneOf(['click', 'hover']),
     /** Handler for when an option is selected */
