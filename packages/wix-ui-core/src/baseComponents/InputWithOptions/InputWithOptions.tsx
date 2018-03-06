@@ -2,7 +2,7 @@ import * as React from 'react';
 import style from './InputWithOptions.st.css';
 import {Dropdown} from '../../baseComponents/Dropdown';
 import {Placement} from '../../baseComponents/Popover';
-import {Option, optionPropType} from '../../baseComponents/DropdownOption';
+import {Option, optionPropType, OptionFactory} from '../../baseComponents/DropdownOption';
 import {OPEN_TRIGGER_TYPE} from '../../baseComponents/Dropdown/constants';
 import {bool, object, arrayOf, string, func, oneOfType, number, node, oneOf, Requireable} from 'prop-types';
 import {Input, InputProps} from '../../components/Input';
@@ -30,10 +30,10 @@ export interface InputWithOptionsProps {
   fixedFooter?: React.ReactNode;
   /** Animation timer */
   timeout?: number;
-  /** Callback for when the editing is changed */
-  onEditingChanged?: (isEditing: boolean) => void;
   /** Callback when the user pressed the Enter key or Tab key after he wrote in the Input field - meaning the user selected something not in the list  */
   onManualInput?: (value: string) => void;
+  /** Should mark the text that matched the filter */
+  highlightMatches?: boolean;
   /** Input prop types */
   inputProps: InputProps;
 }
@@ -48,6 +48,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     placement: 'bottom-start',
     closeOnSelect: true,
     initialSelectedIds: [],
+    highlightMatches: true,
     onSelect: () => null,
     onDeselect: () => null,
     onManualInput: () => null,
@@ -77,23 +78,45 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     fixedFooter: node,
     /** Animation timer */
     timeout: number,
-    /** Callback for when the editing is changed */
-    onEditingChanged: func,
     /** Callback when the user pressed the Enter key or Tab key after he wrote in the Input field - meaning the user selected something not in the list. If the component is controlled then the value will be the Input value. if not it will be `undefined`  */
     onManualInput: func,
+    /** Should mark the text that matched the filter */
+    highlightMatches: bool,
     /** Input prop types */
     inputProps: object.isRequired
   };
 
+  private isEditing: boolean = false;
+
   constructor() {
     super();
 
-    this.onFocus = this.onFocus.bind(this);
-    this.onSelect = this.onSelect.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
+    this._onFocus = this._onFocus.bind(this);
+    this._onSelect = this._onSelect.bind(this);
+    this._onKeyDown = this._onKeyDown.bind(this);
   }
 
-  onSelect(option: Option) {
+  _filterOptions(): Array<Option> {
+    const {highlightMatches, inputProps, options} = this.props;
+    if (!inputProps.value || !this.isEditing) {
+      return options;
+    }
+
+    const lowerValue = inputProps.value.toLowerCase();
+    const filteredOptions = options
+      .filter((option: Option) =>
+        (!option.isSelectable && option.value) ||
+        (option.isSelectable && option.value && option.value.toLowerCase().includes(lowerValue)));
+
+    if (!highlightMatches) {
+      return filteredOptions;
+    }
+
+    return filteredOptions.map((option: Option) =>
+      option.isSelectable && option.value ? OptionFactory.createHighlighted(option, inputProps.value) : option);
+  }
+
+  _onSelect(option: Option) {
     const {onSelect, onManualInput, inputProps} = this.props;
     if (option) {
       onSelect(option);
@@ -102,20 +125,17 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     }
   }
 
-  onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+  _onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {
-      const {onEditingChanged} = this.props;
-      onEditingChanged && onEditingChanged(true);
+      this.isEditing = true;
     }
 
     const {onKeyDown} = this.props.inputProps;
     onKeyDown && onKeyDown(event);
   }
 
-  onFocus(event) {
-    const {onEditingChanged} = this.props;
-    onEditingChanged && onEditingChanged(false);
-
+  _onFocus(event) {
+    this.isEditing = false;
     const {onFocus} = this.props.inputProps;
     onFocus && onFocus(event);
   }
@@ -140,20 +160,20 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
         placement={placement}
         openTrigger={openTrigger}
         disabled={inputProps.disabled}
-        onSelect={this.onSelect}
+        onSelect={this._onSelect}
         showArrow={false}
         fixedFooter={fixedFooter}
         fixedHeader={fixedHeader}
         onDeselect={onDeselect}
         initialSelectedIds={initialSelectedIds}
         onInitialSelectedOptionsSet={onInitialSelectedOptionsSet}
-        options={options}
+        options={this._filterOptions()}
         timeout={timeout}
         closeOnSelect={closeOnSelect}>
         <Input
           {...inputProps}
-          onKeyDown={this.onKeyDown}
-          onFocus={this.onFocus}
+          onKeyDown={this._onKeyDown}
+          onFocus={this._onFocus}
           className={style.input}
         />
       </Dropdown>

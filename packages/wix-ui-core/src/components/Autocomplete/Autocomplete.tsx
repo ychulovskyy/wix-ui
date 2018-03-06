@@ -28,7 +28,6 @@ export interface AutocompleteProps {
 
 export interface AutocompleteState {
   inputValue: string;
-  isEditing: boolean;
 }
 
 export class Autocomplete extends React.PureComponent<AutocompleteProps, AutocompleteState> {
@@ -56,13 +55,11 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
     super(props);
 
     this.state = {
-      isEditing: false,
       inputValue: (props.inputProps && props.inputProps.value) || ''
     };
 
     this._onSelect = this._onSelect.bind(this);
     this._onInputChange = this._onInputChange.bind(this);
-    this._onEditingChanged = this._onEditingChanged.bind(this);
     this._onInitialSelectedOptionsSet = this._onInitialSelectedOptionsSet.bind(this);
   }
 
@@ -85,30 +82,15 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
     }
   }
 
-  _onEditingChanged(isEditing: boolean) {
-    if (this.state.isEditing !== isEditing) {
-      this.setState({isEditing});
-    }
-  }
-
-  _filterOptions(inputValue: string, options: Array<Option>): Array<Option> {
-    const lowerValue = inputValue.toLowerCase();
-    return options
-    .filter((option: Option) =>
-      (!option.isSelectable && option.value) ||
-      (option.isSelectable && option.value && option.value.toLowerCase().includes(lowerValue)))
-    .map((option: Option) =>
-      option.isSelectable && option.value ? OptionFactory.createHighlighted(option, inputValue) : option);
-  }
-
   _createInputProps() {
-    let {inputProps} = this.props;
     const {inputValue} = this.state;
-
-    inputProps = inputProps || {};
-    inputProps.value = inputValue;
-    inputProps.onChange = this._onInputChange;
-    return inputProps;
+    return Object.assign(
+      {},
+      this.props.inputProps,
+      {
+        value: inputValue,
+        onChange: this._onInputChange
+      });
   }
 
   _onInitialSelectedOptionsSet(options: Array<Option>) {
@@ -122,10 +104,8 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
 
   render() {
     const {options, initialSelectedId, fixedHeader, fixedFooter, onManualInput} = this.props;
-    const {inputValue, isEditing} = this.state;
+    const {inputValue} = this.state;
     const inputProps = this._createInputProps();
-    const displayedOptions =
-      inputValue && isEditing ? this._filterOptions(inputValue, options) : options;
 
     return (
       <InputWithOptions
@@ -136,8 +116,7 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
         fixedHeader={fixedHeader}
         fixedFooter={fixedFooter}
         onManualInput={onManualInput}
-        options={displayedOptions}
-        onEditingChanged={this._onEditingChanged}
+        options={options}
         inputProps={inputProps}
       />
     );
