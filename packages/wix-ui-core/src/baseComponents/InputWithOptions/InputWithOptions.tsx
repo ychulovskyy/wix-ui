@@ -86,7 +86,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     inputProps: object.isRequired
   };
 
-  private isEditing: boolean = false;
+  isEditing: boolean = false;
 
   constructor() {
     super();
