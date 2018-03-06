@@ -1,4 +1,4 @@
-import {protractorTestkitFactoryCreator, ElementFinder} from 'wix-ui-test-utils/protractor';
+import {protractorTestkitFactoryCreator} from 'wix-ui-test-utils/protractor';
 
 //JSS
 import {inputDriverFactory} from '../components/Input/Input.protractor.driver';
