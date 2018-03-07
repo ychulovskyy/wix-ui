@@ -79,6 +79,8 @@ export interface InputState {
 export class Input extends React.Component<InputProps, InputState> {
   static displayName = 'Input';
 
+  private inputRef: HTMLInputElement;
+
   static defaultProps = {
     type: 'text'
   };
@@ -89,6 +91,9 @@ export class Input extends React.Component<InputProps, InputState> {
       id: uniqueId('Input')
     };
     this._onChange = this._onChange.bind(this);
+    this.focus = this.focus.bind(this);
+    this.blur = this.blur.bind(this);
+    this.select = this.select.bind(this);
   }
 
   _onChange(e) {
@@ -101,6 +106,18 @@ export class Input extends React.Component<InputProps, InputState> {
     }
 
     this.props.onChange && this.props.onChange(e);
+  }
+
+  focus() {
+    this.inputRef.focus();
+  }
+
+  blur() {
+    this.inputRef.blur();
+  }
+
+  select() {
+    this.inputRef.select();
   }
 
   render() {
@@ -127,6 +144,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     return (
       <input
+        ref = {ref => this.inputRef = ref}
         {...style('root', {disabled}, this.props)}
         disabled={disabled}
         autoComplete={autoComplete}
