@@ -200,7 +200,6 @@ export class DropdownComponent extends React.PureComponent<DropdownProps & Injec
         </Popover.Element>
         <Popover.Content>
           <DropdownContent
-            data-hook="dropdown-content"
             className={style.dropdownContent}
             ref={dropdownContent => this.dropdownContentRef = dropdownContent}
             options={options}
