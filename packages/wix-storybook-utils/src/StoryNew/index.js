@@ -8,7 +8,7 @@ import AutoExample from '../AutoExample';
 import AutoDocs from '../AutoDocs';
 
 import styles from '../Story/styles.scss';
-
+export const IS_EXAMPLES_VISIBLE_PARAM_NAME = 'withExamples';
 const isE2E = global.self === global.top;
 
 export default ({
@@ -33,7 +33,7 @@ export default ({
             parsedSource={_metadata}
             />
 
-          {examples}
+          {window.location.search.includes(IS_EXAMPLES_VISIBLE_PARAM_NAME) && examples}
         </div>
       );
     }
