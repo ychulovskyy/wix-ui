@@ -3,15 +3,13 @@ import {dropdownDriverFactory} from '../Dropdown/Dropdown.protractor.driver';
 
 export const inputWithOptionsDriverFactory = component => {
   const inputDriver = inputDriverFactory(component.$('input'));
-  const getDropdownDriver = () => dropdownDriverFactory(component);
+  const dropdownDriver = dropdownDriverFactory(component);
 
-  return {
-    element: () => component,
+  return Object.assign(
+    dropdownDriver,
+    {
     focusInput: inputDriver.focus,
     enterText: inputDriver.enterText,
     getText: inputDriver.getText,
-    isOpen: () => getDropdownDriver().isOpen(),
-    getOptionsCount: () => getDropdownDriver().getOptionsCount(),
-    selectOption: (index: number) => getDropdownDriver().selectOption(index)
-  };
+  });
 };

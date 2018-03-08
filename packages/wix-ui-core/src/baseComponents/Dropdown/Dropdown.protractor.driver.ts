@@ -7,6 +7,7 @@ export const dropdownDriverFactory = component => {
     element: () => component,
     isOpen: () => !!getDropdownContentDriver().element,
     getOptionsCount: () => getDropdownContentDriver().getOptionsCount(),
-    selectOption: (index: number) => getDropdownContentDriver().selectOption(index)
+    selectOption: (index: number) => getDropdownContentDriver().selectOption(index),
+    getOptionText: (index: number) => getDropdownContentDriver().getOptionText(index)
   };
 };
