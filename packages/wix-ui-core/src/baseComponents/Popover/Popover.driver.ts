@@ -1,5 +1,3 @@
-import {PopoverType} from './';
-
 const getTargetElement = (element: Element | undefined) => element && element.querySelector('[data-hook="popover-element"]');
 const getContentElement = (element: Element | undefined) => element && element.querySelector('[data-hook="popover-content"]');
 const getArrowElement = (element: Element | undefined) => element && element.querySelector('[data-hook="popover-arrow"]');
