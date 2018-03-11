@@ -22,6 +22,7 @@ export const dropdownDriverFactory = args => {
       }
     },
     targetElement: () => getElement(element),
-    clickOptionAt: (index: number) => dropdownContentDriver.optionAt(index).click()
+    clickOptionAt: (index: number) => dropdownContentDriver.optionAt(index).click(),
+    getOptionsCount: () => dropdownContentDriver.getOptionsCount()
   };
 };
