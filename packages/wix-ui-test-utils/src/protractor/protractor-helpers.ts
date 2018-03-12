@@ -44,6 +44,10 @@ export const waitForVisibilityOf = (
   );
 };
 
+export function isFocused(element: ElementFinder) {
+  return element.equals(browser.driver.switchTo().activeElement());
+}
+
 // This interface is copied over from protractor because it isn't exported
 export interface ILocation {
   x: number;
