@@ -23,6 +23,7 @@ require('./StylableText').story();
 require('./StylableBadge').story();
 require('./Tooltip').story();
 require('./Video').story();
+require('./Slider').story();
 require('./StylableToggleSwitch/index.story.ts');
 
 storiesOf('Components', module)
