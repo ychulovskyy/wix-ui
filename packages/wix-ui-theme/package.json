@@ -33,6 +33,9 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
+  "dependencies": {
+    "lodash": "^4.17.5"
+  },
   "devDependencies": {
     "@types/jest": "^22.1.1",
     "@types/lodash": "^4.14.104",
@@ -40,7 +43,6 @@
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-15": "^1.0.5",
     "haste-preset-yoshi": "latest",
-    "lodash": "^4.17.5",
     "react-test-renderer": "^15.6.0",
     "ts-jest": "^22.0.3",
     "react": "^15.6.1",
