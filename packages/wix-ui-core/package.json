@@ -33,7 +33,6 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "hoist-non-react-methods": "^1.1.0",
-    "lodash": "^4.17.5",
     "playable": "^1.2.0",
     "popper.js": "1.12",
     "react-onclickoutside": "^6.7.0",
@@ -59,6 +58,7 @@
     "gh-pages-auto-release": "latest",
     "haste-preset-yoshi": "latest",
     "import-path": "latest",
+    "lodash": "^4.17.5",
     "prop-types": "^15.6.0",
     "protractor": "^5.3.0",
     "react": "^15.5.0",
