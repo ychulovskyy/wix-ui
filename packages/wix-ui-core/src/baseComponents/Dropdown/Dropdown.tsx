@@ -5,7 +5,7 @@ import {Popover, Placement} from '../Popover';
 import {DropdownContent} from '../DropdownContent';
 import {Option} from '../DropdownOption';
 import {CLICK, HOVER, OPEN_TRIGGER_TYPE} from './constants';
-const isEqual = require('lodash.isequal');
+const isEqual = require('lodash/isEqual');
 
 export interface DropdownProps {
   /** The location to display the content */

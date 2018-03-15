@@ -1,5 +1,5 @@
 /*eslint camelcase: off*/
-const isUndefined = require('lodash.isundefined');
+const isUndefined = require('lodash/isUndefined');
 
 interface ComponentsType {
     administrative_area_level_1?: {

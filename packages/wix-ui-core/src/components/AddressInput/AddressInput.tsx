@@ -11,11 +11,11 @@ import {
 } from '../../clients/GoogleMaps/types';
 import {google2address, trySetStreetNumberIfNotReceived} from '../../clients/GoogleMaps/google2address/google2address';
 
-const first = require('lodash.first');
-const map = require('lodash.map');
-const filter = require('lodash.filter');
-const intersection = require('lodash.intersection');
-const throttle = require('lodash.throttle');
+const first = require('lodash/first');
+const map = require('lodash/map');
+const filter = require('lodash/filter');
+const intersection = require('lodash/intersection');
+const throttle = require('lodash/throttle');
 
 export {Handler};
 

@@ -1,5 +1,5 @@
 import {core, VBoxTheme} from './theme';
-const defaultsDeep = require('lodash.defaultsdeep');
+const defaultsDeep = require('lodash/defaultsDeep');
 
 export const styles = (theme: VBoxTheme) => {
   theme = (defaultsDeep(theme, core) as VBoxTheme);
