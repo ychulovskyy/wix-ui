@@ -1,5 +1,5 @@
 import * as React from 'react';
-import uniqueId = require('lodash/uniqueId');
+const uniqueId = require('lodash/uniqueId');
 import style from './Input.st.css';
 
 const createAriaAttributes = props => {
