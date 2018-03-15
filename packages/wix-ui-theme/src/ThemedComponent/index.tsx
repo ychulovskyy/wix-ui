@@ -1,6 +1,5 @@
 import * as React from 'react';
-import * as pickBy from 'lodash.pickby';
-import {ReactElement} from 'react';
+import * as pickBy from 'lodash/pickby';
 
 export type Theme = ((props: any) => Object) | Object;
 
@@ -10,7 +9,7 @@ export interface ThemedComponentState {
 
 export interface ThemedComponentProps {
   theme?: Theme;
-  children: ReactElement<any>;
+  children: React.ReactElement<any>;
   [propName: string]: any;
 }
 
