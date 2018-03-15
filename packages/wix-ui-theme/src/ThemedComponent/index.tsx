@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as pickBy from 'lodash/pickby';
+import pickBy = require('lodash/pickBy');
 
 export type Theme = ((props: any) => Object) | Object;
 

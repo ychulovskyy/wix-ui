@@ -123,5 +123,14 @@
         "port": 3201
       }
     }
+  },
+  "externals": {
+    "react": {
+      "amd": "react",
+      "umd": "react",
+      "commonjs": "react",
+      "commonjs2": "react",
+      "root": "React"
+    }
   }
 }
