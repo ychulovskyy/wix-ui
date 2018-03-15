@@ -49,11 +49,13 @@
     "import-path": "latest",
     "protractor": "^5.3.0",
     "puppeteer": "^1.0.0",
-    "react": "^15.5.0",
-    "react-dom": "^15.6.2",
     "react-test-renderer": "^15.5.4",
     "ts-jest": "^22.0.3",
     "typescript": "^2.6.2"
+  },
+  "dependencies": {
+    "react": "^15.5.0",
+    "react-dom": "^15.6.2"
   },
   "jest": {
     "transform": {
@@ -76,5 +78,23 @@
   },
   "haste": {
     "preset": "yoshi"
+  },
+  "yoshi": {
+    "externals": {
+      "react": {
+        "amd": "react",
+        "umd": "react",
+        "commonjs": "react",
+        "commonjs2": "react",
+        "root": "React"
+      },
+      "react-dom": {
+        "amd": "reactDOM",
+        "umd": "react-dom",
+        "commonjs": "react-dom",
+        "commonjs2": "react-dom",
+        "root": "ReactDOM"
+      }
+    }
   }
 }
