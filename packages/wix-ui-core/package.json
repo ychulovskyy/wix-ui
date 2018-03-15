@@ -88,12 +88,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "yoshi": {
-    "exports": {
-      "root": "wix-ui-core",
-      "commonjs": "wix-ui-core"
-    }
-  },
   "jest": {
     "transform": {
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
@@ -119,5 +113,11 @@
   },
   "haste": {
     "preset": "yoshi"
+  },
+  "yoshi": {
+    "exports": {
+      "root": "wix-ui-core",
+      "commonjs": "wix-ui-core"
+    }
   }
 }
