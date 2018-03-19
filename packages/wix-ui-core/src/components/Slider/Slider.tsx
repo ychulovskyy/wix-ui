@@ -12,7 +12,7 @@ export interface SliderProps {
   onChange?: (x: any) => void;
   onBlur?: (x: any) => void;
   onFocus?: (x: any) => void;
-  vertical?: boolean;
+  orientation?: 'horizontal' | 'vertical';
   step?: number;
   stepType?: 'value' | 'count';
   tooltipPosition?: 'default' | 'across';
@@ -51,8 +51,8 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     onFocus: func,
     /** Callback for handling blur events */
     onBlur: func,
-    /** Vertical layout */
-    vertical: bool,
+    /** Whether the slider has a horizontal or a vertical layout */
+    orientation: oneOf(['horizontal', 'vertical']),
     /** If stepType = 'value', 'step' determines the value of each slider step. If stepType = 'count', 'step' determines the total number of jumps */
     step: number,
     /** If stepType = 'value', 'step' determines the value of each slider step. If stepType = 'count', 'step' determines the total number of jumps */
@@ -83,6 +83,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     value: 5,
     stepType: 'value',
     thumbShape: 'circle',
+    orientation: 'horizontal',
     disabled: false,
     tooltipVisibility: 'hover',
     tooltipPosition: 'default',
@@ -114,7 +115,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   //measurements
   componentDidUpdate(prevProps, prevState) {
     if (this.hasSomePropsChanged(prevProps, this.props, [
-      'vertical', 'step', 'width', 'height', 'tickMarksPosition'
+      'orientation', 'step', 'width', 'height', 'tickMarksPosition'
     ])) {
       this.forceUpdate();
     }
@@ -269,8 +270,12 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return this.props.dir === 'rtl';
   }
 
+  isVertical() {
+    return this.props.orientation === 'vertical';
+  }
+
   moveThumbByMouse = (ev) => {
-    const {min, max, vertical, disabled, dir} = this.props;
+    const {min, max, disabled, dir} = this.props;
     const rtl = this.isRtl();
 
     if (disabled) {
@@ -284,7 +289,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
 
     let value, pxStep, sliderPos;
 
-    if (vertical) {
+    if (this.isVertical()) {
       sliderPos = rect.bottom - (ev.clientY + thumbSize / 2);
       pxStep = (rect.height - thumbSize) / totalSteps;
     } else {
@@ -336,7 +341,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     const progressVal = this.calcThumbProgressPosition();
     const crossVal = this.calcThumbCrossPosition();
 
-    if (this.props.vertical) {
+    if (this.isVertical()) {
       return {bottom: progressVal, left: 0};
     }
 
@@ -368,7 +373,6 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
         value,
         min,
         max,
-        vertical,
         trackSize,
         disabled,
         dir,
@@ -378,6 +382,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
         thumbShape
     } = this.props;
 
+    const vertical = this.isVertical();
     const thumbSize = this.getThumbSize();
     const step = this.state.step;
     const trackRect = this.track ? this.track.getBoundingClientRect() : {height: 0, width: 0};
