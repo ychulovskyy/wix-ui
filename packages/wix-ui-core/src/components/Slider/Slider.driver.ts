@@ -17,7 +17,7 @@ export const sliderDriverFactory = ({element, eventTrigger}) => {
     /** Returns the maximum slider value */
     max: () => Number(element.getAttribute('data-max')),
     /** Returns whether the slider is vertical or not */
-    vertical: () => element.getAttribute('data-vertical') === 'true',
+    vertical: () => element.getAttribute('data-orientation') === 'vertical',
     /** Returns the thumb element */
     thumb: () => getByDataHook('thumb'),
     /** Returns the tooltip element */

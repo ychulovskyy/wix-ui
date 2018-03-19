@@ -379,7 +379,8 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
         onFocus,
         onBlur,
         tickMarksPosition,
-        thumbShape
+        thumbShape,
+        orientation
     } = this.props;
 
     const vertical = this.isVertical();
@@ -408,7 +409,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
         data-value={value}
         data-min={min}
         data-max={max}
-        data-vertical={vertical}
+        data-orientation={orientation}
         data-dir={dir}
         tabIndex={0}
         onKeyDown={this.handleKeyDown}
