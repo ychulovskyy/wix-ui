@@ -177,6 +177,10 @@ export default class extends Component {
   setProp = (key, value) =>
     this.setState({propsState: {...this.state.propsState, [key]: value}});
 
+  nodePropController = ({propKey}) =>
+    this.props.exampleProps[propKey] ?
+      <NodesList values={this.props.exampleProps[propKey]}/> :
+      <Input/>;
 
   controllableComponentGetters = {
     string: () => <Input/>,
@@ -186,10 +190,8 @@ export default class extends Component {
     enum: ({type}) =>
       <List values={type.value.map(({value}) => stripQuotes(value))}/>,
 
-    node: ({propKey}) =>
-      this.props.exampleProps[propKey] ?
-        <NodesList values={this.props.exampleProps[propKey]}/> :
-        <Input/>,
+    ReactNode: this.nodePropController,
+    node: this.nodePropController,
 
     func: ({propKey}) => {
       let classNames = styles.example;
