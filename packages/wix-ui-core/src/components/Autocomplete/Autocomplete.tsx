@@ -5,6 +5,7 @@ import {Option, OptionFactory, optionPropType} from '../../baseComponents/Dropdo
 import {Divider} from '../Divider';
 import {func , bool, object, arrayOf, number, string, oneOfType, node, oneOf, Requireable} from 'prop-types';
 import {InputProps} from '../Input';
+import ArrowDown from 'wix-ui-icons-common/ArrowDown';
 
 const createDivider = (value = null) =>
   OptionFactory.createDivider({className: style.divider, value});
@@ -128,7 +129,8 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
       disabled,
       onBlur,
       onFocus,
-      placeholder
+      placeholder,
+      suffix: <ArrowDown className={style.icon} />
     };
   }
 
