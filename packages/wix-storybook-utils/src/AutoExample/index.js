@@ -236,13 +236,17 @@ export default class extends Component {
 
   render() {
     const component = this.props.component;
-    const componentPropsState = {
+
+    const functionExampleProps = Object.keys(this.props.exampleProps).filter(
+      prop =>
+        this.parsedComponent.props[prop] &&
+        this.parsedComponent.props[prop].type.name === 'func'
+    );
+
     const componentProps = {
       ...this.state.propsState,
       ...(
-        Object
-          .keys(this.props.exampleProps)
-          .filter(prop => this.parsedComponent.props[prop].type.name === 'func')
+        functionExampleProps
           .reduce((acc, prop) => {
             acc[prop] = (...rest) => {
               if (this.state.propsState[prop]) {
@@ -261,9 +265,7 @@ export default class extends Component {
     const codeProps = {
       ...this.state.propsState,
       ...(
-        Object
-          .keys(this.props.exampleProps)
-          .filter(prop => this.parsedComponent.props[prop].type.name === 'func')
+        functionExampleProps
           .reduce((acc, key) => {
             acc[key] = this.props.exampleProps[key];
             return acc;
