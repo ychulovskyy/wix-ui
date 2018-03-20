@@ -237,6 +237,7 @@ export default class extends Component {
   render() {
     const component = this.props.component;
     const componentPropsState = {
+    const componentProps = {
       ...this.state.propsState,
       ...(
         Object
@@ -271,7 +272,7 @@ export default class extends Component {
     };
 
     if (!this.props.isInteractive) {
-      return React.createElement(component, componentPropsState);
+      return React.createElement(component, componentProps);
     }
 
     return (
@@ -282,7 +283,7 @@ export default class extends Component {
               {...{
                 key,
                 label: key,
-                value: componentPropsState[key],
+                value: componentProps[key],
                 onChange: value => this.setProp(key, value),
                 children: this.getPropControlComponent(key, prop.type)
               }}
@@ -296,7 +297,7 @@ export default class extends Component {
           onToggleRtl={isRtl => this.setState({isRtl})}
           onToggleBackground={isDarkBackground => this.setState({isDarkBackground})}
           >
-          {React.createElement(component, componentPropsState)}
+          {React.createElement(component, componentProps)}
         </Preview>
 
         <Code source={this.componentToString(React.createElement(component, codeProps))}/>
