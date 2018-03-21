@@ -7,6 +7,17 @@ import {CSSTransition} from 'react-transition-group';
 import {buildChildrenObject, createComponentThatRendersItsChildren, ElementProps} from '../../utils';
 import {oneOf, oneOfType, element, Requireable} from 'prop-types';
 
+const isTestEnv = process.env.NODE_ENV === 'test';
+if (isTestEnv) {
+  if (!document.createRange) {
+    document.createRange = () => ({
+      setStart: () => null,
+      setEnd: () => null,
+      commonAncestorContainer: document.documentElement.querySelector('body')
+    } as any);
+  }
+}
+
 export type Placement = PopperJS.Placement;
 export type AppendTo = PopperJS.Boundary | Element;
 export const AppendToPropType = oneOfType([
@@ -51,7 +62,7 @@ export type PopoverType = React.SFC<PopoverProps> & {
 };
 
 const getArrowShift = (shift: number | undefined, direction: string) => {
-  if (!shift) {
+  if (!shift && !isTestEnv) {
     return {};
   }
 
@@ -66,6 +77,10 @@ const createModifiers = ({moveBy, appendToParent, appendTo}) => {
       offset: `${moveBy ? moveBy.y : 0}px, ${moveBy ? moveBy.x : 0}px`
     }
   };
+
+  if (isTestEnv) {
+    modifiers.computeStyle = {enabled: false};
+  }
 
   const target = appendToParent ? null : appendTo  || null;
   if (target) {
