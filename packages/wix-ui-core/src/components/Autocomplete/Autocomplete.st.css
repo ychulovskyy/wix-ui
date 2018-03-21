@@ -20,7 +20,7 @@
   -st-extends: Divider;
 }
 
-.root::input::input {
+.root::inputComponent::nativeInput {
   padding-right: 16px;
 }
 
