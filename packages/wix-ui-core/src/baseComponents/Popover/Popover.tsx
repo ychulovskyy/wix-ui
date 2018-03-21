@@ -7,6 +7,7 @@ import {CSSTransition} from 'react-transition-group';
 import {buildChildrenObject, createComponentThatRendersItsChildren, ElementProps} from '../../utils';
 import {oneOf, oneOfType, element, Requireable} from 'prop-types';
 
+// This is here and not in the test setup because we don't want consumers to need to run it as well
 const isTestEnv = process.env.NODE_ENV === 'test';
 if (isTestEnv) {
   if (!document.createRange) {
