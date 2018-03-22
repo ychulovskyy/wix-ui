@@ -5,7 +5,6 @@ import style from './Input.st.css';
 export interface InputProps {
   className?: string;
   error?: boolean;
-  errorMessage?: string;
   prefix?: JSX.Element;
   suffix?: JSX.Element;
 
@@ -40,8 +39,6 @@ export class Input extends React.Component<InputProps, InputState> {
     className: PropTypes.string,
     /** Error state */
     error: PropTypes.bool,
-    /** Error Message */
-    errorMessage: PropTypes.string,
     /** Prefix */
     prefix: PropTypes.node,
     /** Suffix */
