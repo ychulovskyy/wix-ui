@@ -57,6 +57,7 @@
     "eyes.it": "latest",
     "gh-pages-auto-release": "latest",
     "haste-preset-yoshi": "latest",
+    "identity-obj-proxy": "^3.0.0",
     "import-path": "latest",
     "prop-types": "^15.6.0",
     "protractor": "^5.3.0",
@@ -80,7 +81,7 @@
       "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "moduleNameMapper": {
-      "\\.(st.css|scss)$": "wix-ui-test-utils/stylable-proxy"
+      "\\.(scss)$": "identity-obj-proxy"
     },
     "setupTestFrameworkScriptFile": "wix-ui-test-utils/jest-setup",
     "setupFiles": [
