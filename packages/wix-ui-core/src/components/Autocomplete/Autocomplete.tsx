@@ -38,8 +38,10 @@ export interface AutocompleteProps {
   value?: string;
   /** Is in error state */
   error?: boolean;
-  /** Arrow Icon */
-  ArrowIcon?: JSX.Element;
+  /** Prefix */
+  prefix?: JSX.Element;
+  /** Suffix */
+  suffix?: JSX.Element;
 }
 
 export interface AutocompleteState {
@@ -77,8 +79,10 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
     value: string,
     /** Is in error state */
     error: bool,
-    /** Arrow Icon */
-    ArrowIcon: node
+    /** Prefix */
+    prefix: node,
+    /** Suffix */
+    suffix: node,
   };
 
   static createOption = OptionFactory.create;
@@ -128,7 +132,7 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
 
   _createInputProps() {
     const {inputValue} = this.state;
-    const {autoFocus, disabled, onBlur, onFocus, placeholder, error, ArrowIcon} = this.props;
+    const {autoFocus, disabled, onBlur, onFocus, placeholder, error, prefix, suffix} = this.props;
     return {
       value: inputValue,
       onChange: this._onInputChange,
@@ -138,7 +142,8 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
       onFocus,
       placeholder,
       error,
-      suffix: ArrowIcon
+      suffix,
+      prefix
     };
   }
 
