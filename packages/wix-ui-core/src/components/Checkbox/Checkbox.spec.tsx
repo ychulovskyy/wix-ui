@@ -63,7 +63,7 @@ describe('Checkbox', () => {
     it('displays the given custom tick icon when checked', () => {
       const checkbox = createDriver(
         <Checkbox
-          tickIcon={tickSVG}
+          checkedIcon={tickSVG}
           checked
         />
       );
