@@ -114,7 +114,7 @@ export class Input extends React.Component<InputProps, InputState> {
       <div
         {...style(
           'root',
-          {disabled, error, focus},
+          {disabled, error: error && !disabled, focus},
           this.props
         )}
       >

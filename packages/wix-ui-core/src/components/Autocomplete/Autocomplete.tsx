@@ -157,12 +157,12 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
   }
 
   render() {
-    const {options, initialSelectedId, fixedHeader, fixedFooter, onManualInput, disabled, error} = this.props;
+    const {options, initialSelectedId, fixedHeader, fixedFooter, onManualInput} = this.props;
     const inputProps = this._createInputProps();
 
     return (
       <InputWithOptions
-        {...style('root', {disabled, error}, this.props)}
+        {...style('root', {}, this.props)}
         onSelect={this._onSelect}
         initialSelectedIds={initialSelectedId || initialSelectedId === 0 ? [initialSelectedId] : null}
         onInitialSelectedOptionsSet={this._onInitialSelectedOptionsSet}

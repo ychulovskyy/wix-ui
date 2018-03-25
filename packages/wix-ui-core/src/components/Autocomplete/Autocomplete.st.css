@@ -13,7 +13,6 @@
 
 .root {
   -st-extends: InputWithOptions;
-  -st-states: disabled, error;
 }
 
 .divider {
