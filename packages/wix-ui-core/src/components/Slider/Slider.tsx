@@ -415,7 +415,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
 
     return (
       <div {...pStyle('root', {
-          layout: vertical ? 'vertical' : 'horizontal',
+          orientation: vertical ? 'vertical' : 'horizontal',
           dir,
           tickMarksPosition,
           disabled,
