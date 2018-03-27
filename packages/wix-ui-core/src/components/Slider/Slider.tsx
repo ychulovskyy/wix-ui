@@ -24,6 +24,7 @@ export interface SliderProps {
   thumbShape?: 'circle' | 'square' | 'rectangle' | 'bar';
   disabled?: boolean;
   dir?: string;
+  previewState?: 'hover';
 }
 
 export interface SliderState {
@@ -75,6 +76,8 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     disabled: bool,
     /** Determines whether values go from right to left in a horizontal position */
     dir: oneOf(['rtl', 'ltr']),
+    /** Denotes the current preview state of the component */
+    previewState: oneOf(['hover']),
   };
 
   static defaultProps = {
@@ -324,6 +327,10 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   }
 
   shouldShowTooltip() {
+    if (this.props.previewState === 'hover' && this.props.tooltipVisibility !== 'none') {
+      return true;
+    }
+
     switch (this.props.tooltipVisibility) {
         case 'always':
           return true;
