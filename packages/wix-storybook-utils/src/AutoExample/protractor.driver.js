@@ -24,6 +24,10 @@ module.exports = {
           rule: value => typeof value === 'string' && !isNaN(Date.parse(value)),
           parser: value => new Date(value)
         },
+        {
+          rule: value => typeof value === 'string',
+          parser: value => value
+        },
         { // default
           rule: () => true,
           parser: value => JSON.parse(value)
