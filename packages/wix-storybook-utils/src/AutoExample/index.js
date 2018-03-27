@@ -21,6 +21,9 @@ const stripQuotes = string => {
   return quoted ? quoted[1] : string;
 };
 
+const matchFuncProp = typeName =>
+  typeName === 'func' || typeName.match(/event/);
+
 /**
   * Create a playground for some component, which is suitable for storybook. Given raw `source`, component reference
   * and, optionally, `componentProps`,`AutoExample` will render:
@@ -170,15 +173,26 @@ export default class extends Component {
   mapControllableProps = fn => {
     return Object
       .keys(this.parsedComponent.props)
-      .filter(key => Object.keys(this.controllableComponentGetters).includes(this.parsedComponent.props[key].type.name))
+      .filter(key => {
+        const typeName = this.parsedComponent.props[key].type.name;
+
+        return [
+          Object.keys(this.propControllers).includes(typeName),
+          matchFuncProp(typeName)
+        ].some(i => i);
+      })
       .map(key => fn(this.parsedComponent.props[key], key));
   };
 
   setProp = (key, value) =>
     this.setState({propsState: {...this.state.propsState, [key]: value}});
 
+  nodePropController = ({propKey}) =>
+    this.props.exampleProps[propKey] ?
+      <NodesList values={this.props.exampleProps[propKey]}/> :
+      <Input/>;
 
-  controllableComponentGetters = {
+  propControllers = {
     string: () => <Input/>,
     number: () => <Input/>,
     bool: () => <Toggle/>,
@@ -186,10 +200,8 @@ export default class extends Component {
     enum: ({type}) =>
       <List values={type.value.map(({value}) => stripQuotes(value))}/>,
 
-    node: ({propKey}) =>
-      this.props.exampleProps[propKey] ?
-        <NodesList values={this.props.exampleProps[propKey]}/> :
-        <Input/>,
+    ReactNode: this.nodePropController,
+    node: this.nodePropController,
 
     func: ({propKey}) => {
       let classNames = styles.example;
@@ -215,12 +227,23 @@ export default class extends Component {
     }
   }
 
-  getPropControlComponent = (propKey, type) => {
-    return (this.controllableComponentGetters[type.name] || (() => null))({propKey, type});
-  }
+  getPropControlComponent = (propKey, type) =>
+    [
+      {
+        rule: matchFuncProp(type.name),
+        controller: this.propControllers.func
+      },
+
+      // default
+      {
+        rule: true,
+        controller: this.propControllers[type.name] || (() => null)
+      }
+    ].find(({rule}) => rule).controller({propKey, type})
 
   componentToString = component =>
     jsxToString(component, {
+      displayName: this.parsedComponent.displayName,
       useFunctionCode: true,
       functionNameOnly: false,
       shortBooleanSyntax: true,
@@ -230,16 +253,21 @@ export default class extends Component {
           {}
         )
       }
-    })
+    });
 
   render() {
     const component = this.props.component;
-    const componentPropsState = {
+
+    const functionExampleProps = Object.keys(this.props.exampleProps).filter(
+      prop =>
+        this.parsedComponent.props[prop] &&
+        matchFuncProp(this.parsedComponent.props[prop].type.name)
+    );
+
+    const componentProps = {
       ...this.state.propsState,
       ...(
-        Object
-          .keys(this.props.exampleProps)
-          .filter(prop => this.parsedComponent.props[prop].type.name === 'func')
+        functionExampleProps
           .reduce((acc, prop) => {
             acc[prop] = (...rest) => {
               if (this.state.propsState[prop]) {
@@ -258,9 +286,7 @@ export default class extends Component {
     const codeProps = {
       ...this.state.propsState,
       ...(
-        Object
-          .keys(this.props.exampleProps)
-          .filter(prop => this.parsedComponent.props[prop].type.name === 'func')
+        functionExampleProps
           .reduce((acc, key) => {
             acc[key] = this.props.exampleProps[key];
             return acc;
@@ -269,7 +295,7 @@ export default class extends Component {
     };
 
     if (!this.props.isInteractive) {
-      return React.createElement(component, componentPropsState);
+      return React.createElement(component, componentProps);
     }
 
     return (
@@ -280,7 +306,7 @@ export default class extends Component {
               {...{
                 key,
                 label: key,
-                value: componentPropsState[key],
+                value: componentProps[key],
                 onChange: value => this.setProp(key, value),
                 children: this.getPropControlComponent(key, prop.type)
               }}
@@ -294,7 +320,7 @@ export default class extends Component {
           onToggleRtl={isRtl => this.setState({isRtl})}
           onToggleBackground={isDarkBackground => this.setState({isDarkBackground})}
           >
-          {React.createElement(component, componentPropsState)}
+          {React.createElement(component, componentProps)}
         </Preview>
 
         <Code source={this.componentToString(React.createElement(component, codeProps))}/>

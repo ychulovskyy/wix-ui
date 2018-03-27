@@ -120,7 +120,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
       option.isSelectable && option.value ? OptionFactory.createHighlighted(option, inputProps.value) : option);
   }
 
-  _onSelect(option: Option) {
+  _onSelect(option: Option | null) {
     const {onSelect, onManualInput, inputProps} = this.props;
     if (option) {
       onSelect(option);
@@ -177,10 +177,11 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
         closeOnSelect={closeOnSelect}
         forceContentElementVisibility={forceContentElementVisibility}>
         <Input
+          data-hook="input"
           {...inputProps}
           onKeyDown={this._onKeyDown}
           onFocus={this._onFocus}
-          className={style.input}
+          className={style.inputComponent}
         />
       </Dropdown>
     );
