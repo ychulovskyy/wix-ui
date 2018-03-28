@@ -30,7 +30,7 @@ export interface CheckboxProps {
   required?: boolean;
   indeterminate?: boolean;
   autoFocus?: boolean;
-  ['aria-controls']?: string[];
+  ['aria-controls']?: string;
 }
 
 export interface CheckboxState {
@@ -75,7 +75,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     /** Whether the checkbox should be auto focused */
     autoFocus: bool,
     /** An string array of ARIA controls to be placed on the native checkbox */
-    ['aria-controls']: array
+    ['aria-controls']: string
   };
 
   public static defaultProps: Partial<CheckboxProps> = {
