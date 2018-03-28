@@ -37,9 +37,9 @@ export interface AutocompleteProps {
   /** Is in error state */
   error?: boolean;
   /** Prefix */
-  prefix?: JSX.Element;
+  prefix?: React.ReactNode;
   /** Suffix */
-  suffix?: JSX.Element;
+  suffix?: React.ReactNode;
 }
 
 export interface AutocompleteState {
