@@ -12,6 +12,7 @@
 .root {
   -st-states: hovered, disabled, selectable, selected;
   cursor: pointer;
+  background-color: value(disabledBackgroundColor);
 }
 
 .root:hovered {
@@ -20,7 +21,6 @@
 
 .root:disabled {
   cursor: default;
-  background-color: value(disabledBackgroundColor);
 }
 
 .root:selected {

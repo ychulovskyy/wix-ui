@@ -1,16 +1,6 @@
 :vars {
-  /** Background color of the content */
-  contentBackgroundColor: white;
-  /** Border width of the content */
-  contentBorderWidth: 1px;
-  /** Border style of the content */
-  contentBorderStyle: solid;
   /** Border color of the content */
   contentBorderColor: black;
-  /** Border radius of the content */
-  contentBorderRadius: initial;
-  /** Content padding for the content */
-  contentPadding: initial;
   /** Size of the arrow of the content */
   contentArrowSize: 5px;
 }
@@ -31,12 +21,7 @@
 .popoverAnimation-exit.popoverAnimation-exit-active {}
 
 .popoverContent {
-  background-color: value(contentBackgroundColor);
-  border-width: value(contentBorderWidth);
-  border-style: value(contentBorderStyle);
   border-color: value(contentBorderColor);
-  border-radius: value(contentBorderRadius);
-  padding: value(contentPadding);
 }
 
 .arrow {
