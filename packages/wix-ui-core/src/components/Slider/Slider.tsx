@@ -22,6 +22,7 @@ export interface SliderProps {
   tooltipSuffix?: string;
   trackSize?: number;
   thumbShape?: 'circle' | 'square' | 'rectangle' | 'bar';
+  tickMarksShape?: 'line' | 'dot';
   disabled?: boolean;
   dir?: string;
   previewState?: string;
@@ -72,6 +73,8 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     trackSize: number,
     /** The shape of the thumb */
     thumbShape: oneOf(['circle', 'square', 'rectangle', 'bar']),
+    /** The shape of the tick marks */
+    tickMarksShape: oneOf(['line', 'dot']),
     /** Determines whether the slider is disabled or not */
     disabled: bool,
     /** Determines whether values go from right to left in a horizontal position */
@@ -93,6 +96,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     tooltipPrefix: '',
     tooltipSuffix: '',
     tickMarksPosition: 'default',
+    tickMarksShape: 'line',
     dir: 'ltr'
   };
 
@@ -401,6 +405,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
         onFocus,
         onBlur,
         tickMarksPosition,
+        tickMarksShape,
         thumbShape,
         orientation
     } = this.props;
@@ -469,6 +474,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
           thumbSize={mainThumbSize}
           vertical={vertical}
           trackSize={vertical ? trackRect.height - mainThumbSize : trackRect.width - crossThumbSize}
+          tickMarksShape={tickMarksShape}
           onTickClick={this.moveThumbByMouse}
         />)}
       </div>
