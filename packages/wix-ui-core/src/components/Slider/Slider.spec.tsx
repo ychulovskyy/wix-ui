@@ -206,6 +206,19 @@ describe('Slider', () => {
     sinon.assert.calledWith(onChange, 3);
   });
 
+  it('should change the value when clicking the slider, given vertical orientation', () => {
+    const onChange = sinon.spy();
+
+    const driver = render({
+      step: 1,
+      orientation: 'vertical',
+      onChange
+    });
+
+    driver.clickSlider(3);
+    sinon.assert.calledWith(onChange, 3);
+  });
+
   it('should change the value when clicking the slider, given rtl', () => {
     const onChange = sinon.spy();
 

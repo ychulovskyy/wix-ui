@@ -24,7 +24,7 @@ export interface SliderProps {
   thumbShape?: 'circle' | 'square' | 'rectangle' | 'bar';
   disabled?: boolean;
   dir?: string;
-  previewState?: 'hover';
+  previewState?: string;
 }
 
 export interface SliderState {
@@ -77,7 +77,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     /** Determines whether values go from right to left in a horizontal position */
     dir: oneOf(['rtl', 'ltr']),
     /** Denotes the current preview state of the component */
-    previewState: oneOf(['hover']),
+    previewState: string
   };
 
   static defaultProps = {
@@ -163,7 +163,8 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   getSliderSize() {
     const rect = this.inner ? this.inner.getBoundingClientRect() : {width: 0, height: 0};
     const isVertical = this.isVertical();
-    return isVertical ? rect.width : rect.height;
+    const val = isVertical ? rect.width : rect.height;
+    return Math.min(val, Math.min(rect.width, rect.height));
   }
 
   getThumbSize() {
