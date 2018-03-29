@@ -26,7 +26,7 @@ const options = [
   onChange={event => null}
   onFocus={event => null}
   placeholder={'This is a placeholder'}
-  error={false}
+  error={false | 'Error message'}
   prefix={null}
   suffix={null}
 />
