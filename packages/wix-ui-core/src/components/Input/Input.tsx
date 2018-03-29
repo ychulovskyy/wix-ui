@@ -4,7 +4,7 @@ import style from './Input.st.css';
 
 export interface InputProps {
   className?: string;
-  error?: boolean;
+  error?: boolean | string;
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
 
@@ -42,8 +42,8 @@ export class Input extends React.Component<InputProps, InputState> {
   static propTypes = {
     /** Wrapper class name */
     className: PropTypes.string,
-    /** Error state */
-    error: PropTypes.bool,
+    /** Error state / Error message */
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     /** Prefix */
     prefix: PropTypes.node,
     /** Suffix */
@@ -114,7 +114,7 @@ export class Input extends React.Component<InputProps, InputState> {
       <div
         {...style(
           'root',
-          {disabled, error: error && !disabled, focus},
+          {disabled, error: !!error && !disabled, focus},
           this.props
         )}
       >
