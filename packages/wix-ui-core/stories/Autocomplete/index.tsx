@@ -2,10 +2,9 @@ import * as React from 'react';
 import {Autocomplete} from '../../src/components/Autocomplete';
 import * as AutocompleteSource from '!raw-loader!../../src/components/Autocomplete/Autocomplete.tsx';
 import createStory from '../create-story';
-import {OptionFactory, Option} from '../../src/baseComponents/DropdownOption';
+import {OptionFactory, Option, DividerArgs} from '../../src/baseComponents/DropdownOption';
 import {Divider} from '../../src/components/Divider';
 import {generateOptions} from '../../src/baseComponents/DropdownOption/OptionsExample';
-import {DividerArgs} from '../../src/baseComponents/DropdownOption/OptionFactory';
 import Markdown from 'wix-storybook-utils/Markdown';
 const Readme = require('../../src/components/Autocomplete/README.md');
 
