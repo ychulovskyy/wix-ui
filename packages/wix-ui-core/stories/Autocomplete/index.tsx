@@ -6,6 +6,8 @@ import {OptionFactory, Option} from '../../src/baseComponents/DropdownOption';
 import {Divider} from '../../src/components/Divider';
 import {generateOptions} from '../../src/baseComponents/DropdownOption/OptionsExample';
 import {DividerArgs} from '../../src/baseComponents/DropdownOption/OptionFactory';
+import Markdown from 'wix-storybook-utils/Markdown';
+const Readme = require('../../src/components/Autocomplete/README.md');
 
 export const story = () => createStory({
   category: 'Components',
@@ -26,5 +28,8 @@ export const story = () => createStory({
     onBlur: () => 'Triggered onBlur',
     onFocus: () => 'Triggered onFocus',
     onChange: evt => evt.target.value
-  }
+  },
+  examples: [
+    <Markdown source={Readme}/>
+  ]
 });
