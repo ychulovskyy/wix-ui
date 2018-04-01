@@ -1,5 +1,11 @@
+:vars {
+  tickLineWidth: 1px;
+  tickLineHeight: 10px;
+  tickDotSize: 3px;
+}
+
 .root {
-  -st-states: orientation(enum(vertical, horizontal)), tickMarksPosition(enum(default, middle, across)), dir(enum(ltr, rtl)), showTicks, disabled;
+  -st-states: orientation(enum(vertical, horizontal)), tickMarksPosition(enum(default, middle, across)), tickMarksShape(enum(line, dot)), dir(enum(ltr, rtl)), showTicks, disabled;
   position: relative;
   width: 100%;
   height: 100%;
@@ -65,7 +71,7 @@
 }
 
 .root:showTicks .inner {
-  height: 88.888%;
+  height: calc(100% - 12px);
   width: 100%;
 }
 
@@ -88,7 +94,7 @@
 
 .root:orientation(vertical):showTicks .inner {
   top: 0;
-  width: 88.888%;
+  width: calc(100% - 12px);
   height: 100%;
 }
 
@@ -183,26 +189,25 @@
 }
 
 .tick {
-  -st-states: tickMarksShape(enum(line, dot));
   display: inline-block;
   position: absolute;
   background: #000;
   cursor: pointer;
 }
 
-.root:orientation(horizontal) .tick:tickMarksShape(line) {
-  width: 1px;
-  height: 10px;
+.root:orientation(horizontal):tickMarksShape(line) .tick {
+  width: value(tickLineWidth);
+  height: value(tickLineHeight);
 }
 
-.root:orientation(vertical) .tick:tickMarksShape(line) {
-  height: 1px;
-  width: 10px;
+.root:orientation(vertical):tickMarksShape(line) .tick {
+  height: value(tickLineWidth);
+  width: value(tickLineHeight);
 }
 
-.tick:tickMarksShape(dot) {
-  width: 3px;
-  height: 3px;
+.root:tickMarksShape(dot) .tick {
+  width: value(tickDotSize);
+  height: value(tickDotSize);
   border-radius: 50%;
 }
 
