@@ -354,6 +354,21 @@ describe('Slider', () => {
     sinon.assert.notCalled(onChange);
   });
 
+  it('cannot move thumb, given readonly', () => {
+    const onChange = sinon.spy();
+
+    const driver = render({
+      readOnly: true,
+      onChange
+    });
+
+    driver.focus();
+    driver.arrowRight();
+    driver.clickSlider(3);
+
+    sinon.assert.notCalled(onChange);
+  });
+
   it('should have 3 steps, given stepType = \'count\' and step = 3', () => {
     const onChange = sinon.spy();
 

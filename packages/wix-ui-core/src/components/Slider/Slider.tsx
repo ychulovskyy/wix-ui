@@ -24,6 +24,7 @@ export interface SliderProps {
   thumbShape?: 'circle' | 'square' | 'rectangle' | 'bar';
   tickMarksShape?: 'line' | 'dot';
   disabled?: boolean;
+  readOnly?: boolean;
   dir?: string;
   previewState?: string;
 }
@@ -77,6 +78,8 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     tickMarksShape: oneOf(['line', 'dot']),
     /** Determines whether the slider is disabled or not */
     disabled: bool,
+    /** Determines whether the slider is in read-only mode or not (disabled is temporary, readOnly is permanent) */
+    readOnly: bool,
     /** Determines whether values go from right to left in a horizontal position */
     dir: oneOf(['rtl', 'ltr']),
     /** Denotes the current preview state of the component */
@@ -91,6 +94,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     thumbShape: 'circle',
     orientation: 'horizontal',
     disabled: false,
+    readOnly: false,
     tooltipVisibility: 'hover',
     tooltipPosition: 'default',
     tooltipPrefix: '',
@@ -204,10 +208,10 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   }
 
   handleKeyDown = (ev) => {
-    const {min, max, value, disabled, dir} = this.props;
+    const {min, max, value, disabled, readOnly, dir} = this.props;
     const ltr = dir === 'ltr';
 
-    if (disabled) {
+    if (disabled || readOnly) {
       return;
     }
 
@@ -298,10 +302,10 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   }
 
   moveThumbByMouse = (ev) => {
-    const {min, max, disabled, dir} = this.props;
+    const {min, max, disabled, readOnly dir} = this.props;
     const rtl = this.isRtl();
 
-    if (disabled) {
+    if (disabled || readOnly) {
       return;
     }
 
