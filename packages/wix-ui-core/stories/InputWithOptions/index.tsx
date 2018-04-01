@@ -4,6 +4,8 @@ import {InputWithOptions} from '../../src/baseComponents/InputWithOptions';
 import * as InputWithOptionsSource from '!raw-loader!../../src/baseComponents/InputWithOptions/InputWithOptions.tsx';
 import {Option} from '../../src/baseComponents/DropdownOption';
 import {generateOptions} from '../../src/baseComponents/DropdownOption/OptionsExample';
+import Markdown from 'wix-storybook-utils/Markdown';
+const Readme = require('../../src/baseComponents/InputWithOptions/README.md');
 
 export const story = () => createStory({
   category: 'Base Components',
@@ -22,5 +24,8 @@ export const story = () => createStory({
     initialSelectedIds: [[], [1]],
     onSelect: (option: Option) => option.value,
     onDeselect: (option: Option) => option.value
-  }
+  },
+  examples: [
+    <Markdown source={Readme}/>
+  ]
 });
