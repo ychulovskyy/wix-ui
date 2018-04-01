@@ -6,7 +6,7 @@ const options = [
   OptionFactory.create({id: 1, value: `value1`}),                                  // generates an option with id, value
   OptionFactory.create({id: 2, value: `value2`, isDisabled: true}),                // genrates a disabled option
   OptionFactory.create({id: 3, value: `value3`, isSelectable: false}),             // generates an unselectable option
-  OptionFactory.create({id: 4, value: `value4`, render: value => {value + 's'}}),  // generates an option with a custom render function
+  OptionFactory.create({id: 4, value: `value4`, render: value => value + 's'}),  // generates an option with a custom render function
 
   OptionFactory.createDivider(),                                                   // generates default divider
   OptionFactory.createDivider({className: 'class', value: 'Value'})                // generates a divider with value
