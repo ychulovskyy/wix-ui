@@ -301,6 +301,10 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return this.props.orientation === 'vertical';
   }
 
+  isContinuous() {
+    return !this.props.step;
+  }
+
   moveThumbByMouse = (ev) => {
     const {min, max, disabled, readOnly, dir} = this.props;
     const rtl = this.isRtl();
@@ -421,7 +425,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     const step = this.state.step;
     const trackRect = this.track ? this.track.getBoundingClientRect() : {height: 0, width: 0};
     const thumbPosition: any = this.calcThumbPosition();
-    const showTicks = tickMarksShape !== 'none';
+    const showTicks = !this.isContinuous() && tickMarksShape !== 'none';
     const trackStyle = vertical ? {width: trackSize + '%'} : {height: trackSize + '%'};
     const trackFillPosition = vertical ? {
         bottom: 0,
