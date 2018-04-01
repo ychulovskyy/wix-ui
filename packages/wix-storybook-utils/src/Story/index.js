@@ -124,7 +124,6 @@ function Story(props) {
                   component={actualComponent}
                   source={actualSource}
                   componentProps={componentProps}
-                  codeBlockSource={codeBlockSource}
                   />
 
                 {examples}
