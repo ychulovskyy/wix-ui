@@ -157,13 +157,13 @@ describe('Slider', () => {
     expect(driver.ticks().length).toEqual(5);
   });
 
-  it('should not render the ticks, given tickMarksPosition = none', () => {
+  it('should not render the ticks, given tickMarksShape = none', () => {
     const driver = render({
       min: 1,
       step: 5,
       max: 20,
       value: 3,
-      tickMarksPosition: 'none'
+      tickMarksShape: 'none'
     });
 
     driver.stubTrackBoundingRect({width: 500});

@@ -17,12 +17,12 @@ export interface SliderProps {
   stepType?: 'value' | 'count';
   tooltipPosition?: 'default' | 'across';
   tooltipVisibility?: 'none' | 'always' | 'hover';
-  tickMarksPosition?: 'none' | 'default' | 'middle' | 'across';
+  tickMarksPosition?: 'default' | 'middle' | 'across';
+  tickMarksShape?: 'none' | 'line' | 'dot';
   tooltipPrefix?: string;
   tooltipSuffix?: string;
   trackSize?: number;
   thumbShape?: 'circle' | 'square' | 'rectangle' | 'bar';
-  tickMarksShape?: 'line' | 'dot';
   disabled?: boolean;
   readOnly?: boolean;
   dir?: string;
@@ -65,7 +65,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     /** Determines what triggers the tooltip pop */
     tooltipVisibility: oneOf(['none', 'always', 'hover']),
     /** Determines the tick marks position */
-    tickMarksPosition: oneOf(['none', 'default', 'middle', 'across']),
+    tickMarksPosition: oneOf(['default', 'middle', 'across']),
     /** A prefix for the value inside the tooltip */
     tooltipPrefix: string,
     /** A suffix for the value inside the tooltip */
@@ -75,7 +75,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     /** The shape of the thumb */
     thumbShape: oneOf(['circle', 'square', 'rectangle', 'bar']),
     /** The shape of the tick marks */
-    tickMarksShape: oneOf(['line', 'dot']),
+    tickMarksShape: oneOf(['none', 'line', 'dot']),
     /** Determines whether the slider is disabled or not */
     disabled: bool,
     /** Determines whether the slider is in read-only mode or not (disabled is temporary, readOnly is permanent) */
@@ -421,7 +421,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     const step = this.state.step;
     const trackRect = this.track ? this.track.getBoundingClientRect() : {height: 0, width: 0};
     const thumbPosition: any = this.calcThumbPosition();
-    const showTicks = tickMarksPosition !== 'none';
+    const showTicks = tickMarksShape !== 'none';
     const trackStyle = vertical ? {width: trackSize + '%'} : {height: trackSize + '%'};
     const trackFillPosition = vertical ? {
         bottom: 0,
