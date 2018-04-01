@@ -113,6 +113,7 @@ export default class extends Component {
       */
     componentProps: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     exampleProps: PropTypes.object,
+    codeBlockSource: PropTypes.string,
 
     /**
       * when true, display only component preview without interactive props nor code example
@@ -333,7 +334,8 @@ export default class extends Component {
           {React.createElement(component, componentProps)}
         </Preview>
 
-        <Code source={this.componentToString(React.createElement(component, codeProps))}/>
+        <Code source={this.props.codeBlockSource || this.componentToString(React.createElement(component, codeProps))}/>
+
       </Wrapper>
     );
   }
