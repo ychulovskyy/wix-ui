@@ -302,7 +302,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   }
 
   moveThumbByMouse = (ev) => {
-    const {min, max, disabled, readOnly dir} = this.props;
+    const {min, max, disabled, readOnly, dir} = this.props;
     const rtl = this.isRtl();
 
     if (disabled || readOnly) {
