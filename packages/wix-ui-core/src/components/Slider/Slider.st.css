@@ -2,6 +2,7 @@
   tickLineWidth: 1px;
   tickLineHeight: 10px;
   tickDotSize: 3px;
+  tickMarksGap: 12px;
 }
 
 .root {
@@ -71,12 +72,12 @@
 }
 
 .root:showTicks .inner {
-  height: calc(100% - 12px);
+  height: calc(100% - value(tickMarksGap));
   width: 100%;
 }
 
 .root:showTicks:tickMarksPosition(across) .inner {
-  top: 11.112%;
+  top: value(tickMarksGap);
 }
 
 .root:showTicks:tickMarksPosition(middle) .inner {
@@ -94,12 +95,12 @@
 
 .root:orientation(vertical):showTicks .inner {
   top: 0;
-  width: calc(100% - 12px);
+  width: calc(100% - value(tickMarksGap));
   height: 100%;
 }
 
 .root:orientation(vertical):showTicks:tickMarksPosition(across) .inner {
-  left: 11.112%;
+  left: value(tickMarksGap);
 }
 
 .root:orientation(vertical):showTicks:tickMarksPosition(middle) .inner {
