@@ -22,7 +22,7 @@ const stripQuotes = string => {
 };
 
 const matchFuncProp = typeName =>
-  typeName === 'func' || typeName.match(/event/);
+  typeName === 'func' || typeName.match(/event/) || typeName.match(/\) => void$/);
 
 const ensureRegexp = a =>
   a instanceof RegExp ? a : new RegExp(a);
@@ -184,16 +184,6 @@ export default class extends Component {
 
   propControllers = [
     {
-      types: ['bool', 'Boolean'],
-      controller: () => <Toggle/>
-    },
-
-    {
-      types: ['string', 'number', /ReactText/],
-      controller: () => <Input/>
-    },
-
-    {
       types: ['func', /event/, /\) => void$/],
 
       controller: ({propKey}) => {
@@ -208,6 +198,19 @@ export default class extends Component {
           return <div className={classNames}>{this.state.funcValues[propKey] || 'Interaction preview'}</div>;
         }
       }
+    },
+
+    {
+      types: ['bool', 'Boolean'],
+      controller: () => <Toggle/>
+    },
+
+    {
+      types: ['string', 'number', /ReactText/],
+      controller: ({propKey}) =>
+        this.props.exampleProps[propKey] ?
+          <NodesList values={this.props.exampleProps[propKey]}/> :
+          <Input/>
     },
 
     {
