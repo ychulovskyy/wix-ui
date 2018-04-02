@@ -10,6 +10,7 @@ export const labelDriverFactory = ({element, eventTrigger}) => {
     getForAttribute: () => element.getAttribute('for'),
     /** click the label */
     click: () => eventTrigger.click(element),
-    arrowDown: () => eventTrigger.keyDown(element, {key: 'ArrowDown'}),
+    /** send key down on the label */
+    keyDown: key => eventTrigger.keyDown(element, {key})
   };
 };

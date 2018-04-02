@@ -89,7 +89,7 @@ describe('LabelWithOptions', () => {
 
     beforeEach(() => {
       driver = createDriver(createLabelWithOptions({options}));
-      driver.arrowDown();
+      driver.keyDown('ArrowDown');
     });
 
     it('should open dropdown if closed', () => {

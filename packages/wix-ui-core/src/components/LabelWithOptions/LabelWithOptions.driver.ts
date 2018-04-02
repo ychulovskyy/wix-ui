@@ -6,6 +6,7 @@ import styles from './LabelWithOptions.st.css';
 export const labelWithOptionsDriverFactory = (args) => {
   const dropdownDriver = dropdownDriverFactory(args);
   const labelElement = args.element.querySelector('[data-hook="label"]');
+  const suffixElement = args.element.querySelector('[data-hook="suffix"]');
   const domUtils = new StylableDOMUtil(styles, labelElement);
 
   const labelDriver = labelDriverFactory({
@@ -15,7 +16,7 @@ export const labelWithOptionsDriverFactory = (args) => {
 
   return Object.assign({}, dropdownDriver, labelDriver, {
     clickLabel: labelDriver.click,
-    getSuffix: () => args.element.querySelector('[data-hook="suffix"]'),
+    getSuffix: () => suffixElement,
     isRequired: () => domUtils.hasStyleState(labelElement, 'required'),
     isInvalid: () => domUtils.hasStyleState(labelElement, 'invalid'),
     isDisabled: () => domUtils.hasStyleState(labelElement, 'disabled')
