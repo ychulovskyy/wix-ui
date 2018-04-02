@@ -30,7 +30,7 @@ export interface LabelWithOptionsProps {
   /** if set to true an error will be rendered when no options are selected */
   required?: boolean;
   /** Suffix */
-  renderSuffix?: (isInvalid: boolean) => React.ReactNode;
+  renderSuffix?: (isError: boolean) => React.ReactNode;
 }
 
 export interface LabelWithOptionsState {
