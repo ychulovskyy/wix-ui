@@ -15,9 +15,9 @@ export interface SliderProps {
   orientation?: 'horizontal' | 'vertical';
   step?: number;
   stepType?: 'value' | 'count';
-  tooltipPosition?: 'default' | 'across';
+  tooltipPosition?: 'normal' | 'across';
   tooltipVisibility?: 'none' | 'always' | 'hover';
-  tickMarksPosition?: 'default' | 'middle' | 'across';
+  tickMarksPosition?: 'normal' | 'middle' | 'across';
   tickMarksShape?: 'none' | 'line' | 'dot';
   tooltipPrefix?: string;
   tooltipSuffix?: string;
@@ -61,11 +61,11 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     /** If stepType = 'value', 'step' determines the value of each slider step. If stepType = 'count', 'step' determines the total number of jumps */
     stepType: oneOf(['value', 'count']),
     /** Determines the tooltip position */
-    tooltipPosition: oneOf(['default', 'across']),
+    tooltipPosition: oneOf(['normal', 'across']),
     /** Determines what triggers the tooltip pop */
     tooltipVisibility: oneOf(['none', 'always', 'hover']),
     /** Determines the tick marks position */
-    tickMarksPosition: oneOf(['default', 'middle', 'across']),
+    tickMarksPosition: oneOf(['normal', 'middle', 'across']),
     /** A prefix for the value inside the tooltip */
     tooltipPrefix: string,
     /** A suffix for the value inside the tooltip */
@@ -96,10 +96,10 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     disabled: false,
     readOnly: false,
     tooltipVisibility: 'hover',
-    tooltipPosition: 'default',
+    tooltipPosition: 'normal',
     tooltipPrefix: '',
     tooltipSuffix: '',
-    tickMarksPosition: 'default',
+    tickMarksPosition: 'normal',
     tickMarksShape: 'line',
     dir: 'ltr'
   };

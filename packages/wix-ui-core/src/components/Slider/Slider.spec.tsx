@@ -89,7 +89,7 @@ describe('Slider', () => {
     expect(driver.tooltip()).toBeTruthy();
   });
 
-  it('shows tooltip by default, given tooltipVisibility=always', () => {
+  it('shows tooltip by normal, given tooltipVisibility=always', () => {
     const driver = render({tooltipVisibility: 'always'});
 
     expect(driver.tooltip()).toBeTruthy();
