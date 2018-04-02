@@ -148,7 +148,7 @@ export class LabelWithOptions extends React.PureComponent<LabelWithOptionsProps,
         onSelect={this._onSelect}
         onDeselect={this._onDeselect}
         disabled={disabled}>
-        <div>
+        <div className={style.selection}>
           <Label
             className={style.label}
             data-hook="label">
