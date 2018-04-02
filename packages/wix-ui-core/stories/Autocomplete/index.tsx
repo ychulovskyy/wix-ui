@@ -1,11 +1,8 @@
-import * as React from 'react';
 import {Autocomplete} from '../../src/components/Autocomplete';
 import * as AutocompleteSource from '!raw-loader!../../src/components/Autocomplete/Autocomplete.tsx';
 import createStory from '../create-story';
-import {OptionFactory, Option, DividerArgs} from '../../src/baseComponents/DropdownOption';
-import {Divider} from '../../src/components/Divider';
+import {Option, DividerArgs} from '../../src/baseComponents/DropdownOption';
 import {generateOptions} from '../../src/baseComponents/DropdownOption/OptionsExample';
-import Markdown from 'wix-storybook-utils/Markdown';
 const CodeExample = require('../../src/components/Autocomplete/CodeExample.md');
 
 export const story = () => createStory({
