@@ -15,10 +15,9 @@ export const labelWithOptionsDriverFactory = (args) => {
   });
 
   return Object.assign({}, dropdownDriver, labelDriver, {
-    clickLabel: labelDriver.click,
     getSuffix: () => suffixElement,
-    isRequired: () => domUtils.hasStyleState(labelElement, 'required'),
-    isInvalid: () => domUtils.hasStyleState(labelElement, 'invalid'),
-    isDisabled: () => domUtils.hasStyleState(labelElement, 'disabled')
+    isRequired: () => domUtils.hasStyleState(args.element, 'required'),
+    isError: () => domUtils.hasStyleState(args.element, 'error'),
+    isDisabled: () => domUtils.hasStyleState(args.element, 'disabled')
   });
 };

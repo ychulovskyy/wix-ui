@@ -24,12 +24,14 @@ describe('LabelWithOptions', () => {
   });
 
   it('should display dropdown when open', () => {
-    const driver = createDriver(createLabelWithOptions({options, forceContentElementVisibility: true}));
+    const driver = createDriver(createLabelWithOptions({options}));
+    driver.click();
     expect(driver.isContentElementExists()).toBeTruthy();
   });
 
   it('should pass options to dropdown', () => {
-    const driver = createDriver(createLabelWithOptions({options, forceContentElementVisibility: true}));
+    const driver = createDriver(createLabelWithOptions({options}));
+    driver.click();
     expect(driver.getOptionsCount()).toEqual(options.length);
   });
 
@@ -59,7 +61,7 @@ describe('LabelWithOptions', () => {
 
     beforeEach(() => {
       driver = createDriver(createLabelWithOptions({options}));
-      driver.clickLabel();
+      driver.click();
     });
 
     it('should open dropdown', () => {
@@ -75,7 +77,7 @@ describe('LabelWithOptions', () => {
     });
 
     it('should not allow opening dropdown', () => {
-      driver.clickLabel();
+      driver.click();
       expect(driver.isContentElementExists()).toBeFalsy();
     });
 
@@ -112,11 +114,8 @@ describe('LabelWithOptions', () => {
 
     it('should call onSelect', () => {
       const onSelect = jest.fn();
-      const driver = createDriver(createLabelWithOptions({
-        options,
-        onSelect,
-        forceContentElementVisibility: true,
-      }));
+      const driver = createDriver(createLabelWithOptions({options, onSelect}));
+      driver.click();
       driver.optionAt(0).click();
       expect(onSelect).toHaveBeenCalledWith(options[0]);
     });
@@ -137,12 +136,8 @@ describe('LabelWithOptions', () => {
 
     it('should call onDeselect', () => {
       const onDeselect = jest.fn();
-      const driver = createDriver(createLabelWithOptions({
-        options,
-        onDeselect,
-        initialSelectedIds: [0],
-        forceContentElementVisibility: true,
-      }));
+      const driver = createDriver(createLabelWithOptions({options, onDeselect, initialSelectedIds: [0]}));
+      driver.click();
       driver.optionAt(0).click();
       expect(onDeselect).toHaveBeenCalledWith(options[0]);
     });
@@ -162,28 +157,22 @@ describe('LabelWithOptions', () => {
       expect(driver.isRequired()).toBeTruthy();
     });
 
-    it('should not be invalid', () => {
-      expect(driver.isInvalid()).toBeFalsy();
+    it('should not be error', () => {
+      expect(driver.isError()).toBeFalsy();
     });
   });
 
   describe('when invalid', () => {
     let driver;
     beforeEach(() => {
-      driver = createDriver(createLabelWithOptions({
-        options,
-        required: true,
-        initialSelectedIds: [0, 1],
-        forceContentElementVisibility:
-          true,
-      }))
-      ;
+      driver = createDriver(createLabelWithOptions({options, required: true, initialSelectedIds: [0, 1]}));
+      driver.click();
       driver.optionAt(0).click();
       driver.optionAt(1).click();
     });
 
-    it('should apply invalid style', () => {
-      expect(driver.isInvalid()).toBeTruthy();
+    it('should apply error style', () => {
+      expect(driver.isError()).toBeTruthy();
     });
 
     it('should render suffix with error', () => {
