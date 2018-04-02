@@ -2,10 +2,13 @@ import * as React from 'react';
 import style from './LabelWithOptions.st.css';
 import {arrayOf, bool, number, func, oneOfType, string, node, Requireable} from 'prop-types';
 import {Dropdown} from '../../baseComponents/Dropdown';
-import {Option, optionPropType} from '../../baseComponents/DropdownOption';
+import {Option, optionPropType, OptionFactory} from '../../baseComponents/DropdownOption';
 import {Label} from '../Label';
 import {CLICK} from '../../baseComponents/Dropdown/constants';
 import {Placement} from '../../baseComponents/Popover';
+
+const createDivider = (value = null) =>
+  OptionFactory.createDivider({className: style.divider, value});
 
 export interface LabelWithOptionsProps {
   /** The dropdown options array */
@@ -39,6 +42,7 @@ export interface LabelWithOptionsState {
  * LabelWithOptions
  */
 export class LabelWithOptions extends React.PureComponent<LabelWithOptionsProps, LabelWithOptionsState> {
+  static displayName = 'LabelWithOptions';
   static propTypes = {
     /** The dropdown options array */
     options: arrayOf(optionPropType).isRequired,
@@ -62,14 +66,15 @@ export class LabelWithOptions extends React.PureComponent<LabelWithOptionsProps,
     renderSuffix: func
   };
 
-  static displayName = 'LabelWithOptions';
-
   static defaultProps = {
     initialSelectedIds: [],
     onSelect: () => null,
     onDeselect: () => null,
     renderSuffix: () => null
   };
+
+  static createOption = OptionFactory.create;
+  static createDivider = createDivider;
 
   constructor() {
     super();
@@ -129,10 +134,10 @@ export class LabelWithOptions extends React.PureComponent<LabelWithOptionsProps,
       selectedOptions.map(option => option.value).join(', ') :
       placeholder;
 
-    const error = required && isDirty && selectedOptions.length === 0;
+    const error = !disabled && required && isDirty && selectedOptions.length === 0;
     return (
       <Dropdown
-        {...style('root', {required, error, disabled}, this.props)}
+        {...style('root', {required: required && !disabled, error, disabled}, this.props)}
         multi={true}
         placement="bottom-start"
         initialSelectedIds={initialSelectedIds}

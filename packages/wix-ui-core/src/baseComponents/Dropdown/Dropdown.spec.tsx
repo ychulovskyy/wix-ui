@@ -43,11 +43,11 @@ describe('Dropdown', () => {
       expect(driver.isContentElementExists()).toBeTruthy();
     });
 
-    it('should hide content on another click', async () => {
+    it('should not hide content on another click', async () => {
       const driver = createDriver(createDropdown({options}));
       driver.click();
       driver.click();
-      await eventually(() => expect(driver.isContentElementExists()).toBeFalsy());
+      await eventually(() => expect(driver.isContentElementExists()).toBeTruthy());
     });
 
     it('should show content on hover', async () => {

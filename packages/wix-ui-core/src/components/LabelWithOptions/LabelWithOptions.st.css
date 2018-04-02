@@ -16,3 +16,6 @@
 .label {
   -st-extends: Label;
 }
+
+.divider {
+}

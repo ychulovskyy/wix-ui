@@ -176,16 +176,6 @@ export class DropdownComponent extends React.PureComponent<DropdownProps & Injec
     this.setState(newState, () => callback(option));
   }
 
-  onClick = () => {
-    const {disabled, openTrigger, multi} = this.props;
-    const {isOpen} = this.state;
-
-    if (disabled || openTrigger !== CLICK) {
-      return;
-    }
-    isOpen ? (!multi && this.close()) : this.open();
-  }
-
   render() {
     const {openTrigger, placement, options, children, showArrow, fixedFooter, fixedHeader, disabled, timeout, forceContentElementVisibility} = this.props;
     const {isOpen, selectedIds} = this.state;
@@ -198,7 +188,7 @@ export class DropdownComponent extends React.PureComponent<DropdownProps & Injec
         shown={forceContentElementVisibility || (isOpen && !disabled && hasContent)}
         showArrow={showArrow}
         timeout={timeout}
-        onClick={this.onClick}
+        onClick={!disabled && openTrigger === CLICK ? () => this.open() : undefined}
         onMouseEnter={!disabled && openTrigger === HOVER ? () => this.open() : undefined}
         onKeyDown={!disabled ? this.onKeyDown : undefined}
         onMouseLeave={!disabled && openTrigger === HOVER ? this.close : undefined}>
