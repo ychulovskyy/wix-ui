@@ -34,10 +34,10 @@ export interface InputWithOptionsProps {
   onManualInput?: (value: string) => void;
   /** Should mark the text that matched the filter */
   highlightMatches?: boolean;
-  /** Input prop types */
-  inputProps: InputProps;
   /** If set to true, content element will always be visible, used for preview mode */
   forceContentElementVisibility?: boolean;
+  /** Input prop types */
+  inputProps: InputProps;
 }
 
 /**
@@ -84,10 +84,10 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     onManualInput: func,
     /** Should mark the text that matched the filter */
     highlightMatches: bool,
-    /** Input prop types */
-    inputProps: object.isRequired,
     /** If set to true, content element will always be visible, used for preview mode */
-    forceContentElementVisibility: bool
+    forceContentElementVisibility: bool,
+    /** Input prop types */
+    inputProps: object.isRequired
   };
 
   isEditing: boolean = false;

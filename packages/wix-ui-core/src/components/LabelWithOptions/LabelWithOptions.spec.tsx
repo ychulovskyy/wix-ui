@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
-import {labelWithOptionsDriverFactory} from './labelWithOptions.driver';
+import {labelWithOptionsDriverFactory} from './LabelWithOptions.driver';
 import {LabelWithOptions} from './';
 import {generateOptions} from '../../baseComponents/DropdownOption/OptionsExample';
 
