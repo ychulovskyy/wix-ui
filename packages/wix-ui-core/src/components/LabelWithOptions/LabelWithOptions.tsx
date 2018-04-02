@@ -5,7 +5,6 @@ import {Dropdown} from '../../baseComponents/Dropdown';
 import {Option, optionPropType, OptionFactory} from '../../baseComponents/DropdownOption';
 import {Label} from '../Label';
 import {CLICK} from '../../baseComponents/Dropdown/constants';
-import {Placement} from '../../baseComponents/Popover';
 
 const createDivider = (value = null) =>
   OptionFactory.createDivider({className: style.divider, value});
