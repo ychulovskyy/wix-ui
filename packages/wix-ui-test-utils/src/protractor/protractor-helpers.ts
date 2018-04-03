@@ -31,7 +31,7 @@ export const createStoryUrl = ({kind, story, withExamples = true}: StoryUrlParam
 };
 
 export const scrollToElement = (element: ElementFinder) =>
-  browser.executeScript(element => element.scrollIntoView(), element.getWebElement())
+  browser.executeScript((el: HTMLElement) => el.scrollIntoView(), element.getWebElement());
 
 export const waitForVisibilityOf = (
   elements: Array<ElementFinder> | ElementFinder,
