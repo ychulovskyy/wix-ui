@@ -201,16 +201,16 @@ export default class extends Component {
     },
 
     {
-      types: ['bool', 'Boolean'],
-      controller: () => <Toggle/>
-    },
-
-    {
       types: ['string', 'number', /ReactText/],
       controller: ({propKey}) =>
         this.props.exampleProps[propKey] ?
           <NodesList values={this.props.exampleProps[propKey]}/> :
           <Input/>
+    },
+
+    {
+      types: ['bool', 'Boolean'],
+      controller: () => <Toggle/>
     },
 
     {
