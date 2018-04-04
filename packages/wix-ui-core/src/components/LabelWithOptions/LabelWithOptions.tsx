@@ -150,7 +150,7 @@ export class LabelWithOptions extends React.PureComponent<LabelWithOptionsProps,
         disabled={disabled}>
         <div className={style.selection}>
           <Label
-            className={style.label}
+            className={`${style.label} ${selectedOptions.length ? '' : style.placeholder}`.trim()}
             data-hook="label">
             {labelValue}
           </Label>
