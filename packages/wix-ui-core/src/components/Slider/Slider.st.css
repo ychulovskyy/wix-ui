@@ -166,6 +166,7 @@
 .root:orientation(vertical) .tooltip::after {
   top: 50%;
   margin-top: -5px;
+  transform: translateY(-12%);
 }
 
 .root:orientation(vertical) .tooltip:normalPosition {
