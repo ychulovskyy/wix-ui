@@ -9,18 +9,18 @@ import {TooltipStory} from './Tooltip/custom';
 import {RadioButtonStory} from './RadioButton';
 
 // baseComponents
-require('./InputWithOptions').story();
+require('./InputWithOptions.story');
 
 // components
 require('./AddressInput').story();
 require('./AddressInput/E2E');
-require('./Autocomplete').story();
+require('./Autocomplete.story');
 require('./Badge').story();
 require('./Button.story');
 require('./Input/Input.story');
 require('./IconWithOptions.story');
-require('./LabelWithOptions').story();
 require('./HBox').story();
+require('./LabelWithOptions.story');
 require('./Label').story();
 require('./Slider').story();
 require('./StylableBadge').story();
