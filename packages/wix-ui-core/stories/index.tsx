@@ -29,6 +29,7 @@ require('./TimePicker').story();
 require('./ToggleSwitch/index.story');
 require('./Tooltip').story();
 require('./Video.story');
+require('./VBox').story();
 
 storiesOf('Components', module)
   .add('Text', () => (
