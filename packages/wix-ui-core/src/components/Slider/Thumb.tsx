@@ -4,7 +4,6 @@ import pStyle from './Slider.st.css';
 
 export interface ThumbProps {
   shape: string;
-  thumbPosition: Object;
   thumbSize: Object;
   onMouseEnter: any;
   onMouseLeave: any;
@@ -13,7 +12,6 @@ export interface ThumbProps {
 export class Thumb extends React.Component<ThumbProps> {
   static propTypes = {
     shape: PropTypes.string.isRequired,
-    thumbPosition: PropTypes.object.isRequired,
     thumbSize: PropTypes.object.isRequired,
     onMouseEnter: PropTypes.func.isRequired,
     onMouseLeave: PropTypes.func.isRequired,
@@ -29,7 +27,6 @@ export class Thumb extends React.Component<ThumbProps> {
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         style={{
-        ...this.props.thumbPosition,
         ...thumbSize
         }}
       >

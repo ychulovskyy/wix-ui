@@ -4,6 +4,7 @@ import {createHOC} from '../../createHOC';
 import {Ticks} from './Ticks';
 import {Thumb, getThumbSize} from './Thumb';
 import pStyle from './Slider.st.css';
+import {Tooltip} from '../Tooltip';
 
 export interface SliderProps {
   min?: number;
@@ -384,24 +385,6 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return {[this.getStartPos()]: progressVal, top: 0};
   }
 
-  renderTooltip() {
-    if (!this.shouldShowTooltip()) {
-      return null;
-    }
-
-    const {tooltipPosition} = this.props;
-    const positionClassname = tooltipPosition + 'Position';
-    const clampedValue = Math.floor(10 * this.props.value) / 10;
-
-    return (
-      <div data-hook="tooltip" {...pStyle('tooltip', {
-        [positionClassname]: true
-      })}>
-        {this.props.tooltipPrefix}{clampedValue}{this.props.tooltipSuffix}
-      </div>
-    );
-  }
-
   render() {
     const {
         value,
@@ -463,15 +446,16 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
           >
             <div className={pStyle.trackFill} style={trackFillPosition}/>
           </div>
-          <Thumb
-            shape={thumbShape}
-            thumbPosition={thumbPosition}
-            thumbSize={thumbSize}
-            onMouseEnter={this.handleThumbEnter}
-            onMouseLeave={this.handleThumbLeave}
-          >
-            {this.renderTooltip()}
-          </Thumb>
+          <div style={{position: 'absolute', ...thumbPosition}}>
+              <Tooltip placement='top' content={<div>jalksdj alksdjal sjdalsjd lakjdklajd</div>}>
+                  <Thumb
+                    shape={thumbShape}
+                    thumbSize={thumbSize}
+                    onMouseEnter={this.handleThumbEnter}
+                    onMouseLeave={this.handleThumbLeave}
+                  />
+              </Tooltip>
+          </div>
         </div>
         {showTicks && (
           <Ticks
