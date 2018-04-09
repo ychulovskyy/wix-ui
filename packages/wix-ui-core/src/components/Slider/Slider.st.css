@@ -49,6 +49,7 @@
   border-radius: 8px;
   overflow: hidden;
   border: 2px solid transparent;
+  min-height: 1px;
 }
 
 .inner {
