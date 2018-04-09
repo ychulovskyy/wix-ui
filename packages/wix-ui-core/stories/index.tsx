@@ -19,7 +19,8 @@ require('./Badge').story();
 require('./Button.story');
 require('./Input/Input.story');
 require('./IconWithOptions.story');
-require('./HBox').story();
+require('./HBox/index.story');
+require('./VBox/index.story');
 require('./LabelWithOptions.story');
 require('./Slider.story');
 require('./Label.story');
@@ -29,7 +30,6 @@ require('./TimePicker.story');
 require('./ToggleSwitch/index.story');
 require('./Tooltip/index.story');
 require('./Video.story');
-require('./VBox').story();
 
 storiesOf('Components', module)
   .add('Text', () => (
