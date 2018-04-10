@@ -32,10 +32,7 @@ function componentFactory<TComponent>(Component: React.ReactElement<any>): Compo
   const eventTrigger = reactEventTrigger();
 
   const wrapperDiv = document.createElement('div');
-  let ClonedComponent = Component;
-  if (isReactClassComponent(Component)) {
-    ClonedComponent = React.cloneElement(Component, {ref: (r: TComponent) => componentInstance = r});
-  }
+  const ClonedComponent = React.cloneElement(Component, {ref: (r: TComponent) => componentInstance = r});
   render(<div ref={r => element = r}>{ClonedComponent}</div>, wrapperDiv);
   return {element: element! && element!.childNodes[0] as Element, wrapper: wrapperDiv, component: ClonedComponent, componentInstance, eventTrigger};
 }
