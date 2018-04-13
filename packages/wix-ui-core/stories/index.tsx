@@ -8,6 +8,7 @@ import {TooltipStory} from './Tooltip/custom';
 import {RadioButtonStory} from './RadioButton';
 import EllipsedText from './EllipsedTooltip';
 import Focusable from './Focusable';
+import {PopStory} from './Pop';
 
 const Components = storiesOf('Components', module);
 const HOCs = storiesOf('HOCs', module);
