@@ -61,3 +61,6 @@ export const labelWithOptionsTestkitFactory = protractorTestkitFactoryCreator(la
 
 import {vBoxDriverFactory} from '../components/VBox/VBox.protractor.driver';
 export const vBoxTestkitFactory = protractorTestkitFactoryCreator(vBoxDriverFactory);
+
+import {grouperDriverFactory} from '../baseComponents/Grouper/Grouper.protractor.driver';
+export const grouperTestkitFactory = protractorTestkitFactoryCreator(grouperDriverFactory);

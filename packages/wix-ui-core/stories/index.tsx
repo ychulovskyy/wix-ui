@@ -10,6 +10,7 @@ import {RadioButtonStory} from './RadioButton';
 
 // baseComponents
 import './InputWithOptions.story';
+import './Grouper.story';
 
 // components
 import './AddressInput/index.story';

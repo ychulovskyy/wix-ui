@@ -54,3 +54,7 @@ export const timePickerTestkitFactory = testkitFactoryCreator(timePickerDriverFa
 
 import {labelWithOptionsDriverFactory} from '../components/LabelWithOptions/LabelWithOptions.driver';
 export const labelWithOptionsTestkitFactory = testkitFactoryCreator(labelWithOptionsDriverFactory);
+export {Alignment} from '../baseComponents/Grouper/constants';
+
+import {grouperDriverFactory} from '../baseComponents/Grouper/Grouper.driver';
+export const grouperTestkitFactory = testkitFactoryCreator(grouperDriverFactory);
