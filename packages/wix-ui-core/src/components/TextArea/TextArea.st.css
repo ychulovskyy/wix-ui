@@ -1,0 +1,33 @@
+.root {
+    -st-states: focus, error, disabled;
+}
+
+.textArea {
+}
+
+.hiddenTextArea {
+  -st-extends: textArea;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  white-space: pre-wrap;
+  height: auto;
+  resize: none;
+  padding: 0;
+}
+
+.root:focus .textArea {
+}
+
+.errorMessageContainer {
+}
+
+.errorMessageText {
+}
+
+.underline {
+}
+
+.focusChange {
+}

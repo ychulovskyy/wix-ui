@@ -1,0 +1,99 @@
+:import {
+    -st-from: "./CoreTextArea/TextArea.st.css";
+    -st-default: CoreTextArea;
+}
+
+:import {
+    -st-from: "../../colors.st.css";
+    -st-named: D1, D6, D7, B3, B7, R3;
+}
+
+
+:vars {
+    color: value(D1);
+    colorPlaceholder: value(D6);
+    colorDisabled: value(D6);
+    dividerColor: value(D7);
+    dividerColorOnHover: value(B3);
+}
+
+:import {
+    -st-from: "../../fonts.st.css";
+    -st-named: helvetica-45, helvetica-55, base-font-size;
+}
+
+.root {
+    -st-extends: CoreTextArea;
+    color: value(color);
+    position: relative;
+    width: 100%;
+}
+
+
+.root::underline {
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: value(dividerColor);
+}
+
+.root:focus::textArea {
+    margin: 0 0 6px 0;
+    overflow-y: auto
+}
+
+.root:hover::underline {
+    border-color: value(dividerColorOnHover);
+}
+
+.root:focus::underline {
+    border-color: value(dividerColorOnHover);
+    border-bottom-width: 2px;
+}
+
+.root:disabled::underline {
+    border-color: value(dividerColor);
+    color: value(colorDisabled);
+}
+
+.root::focusChange {
+    transition: height ease-out 0.2s;
+}
+
+.root::textArea {
+    margin: 0 0 7px 0;
+    width: 100%;
+    border: 0;
+    outline: none;
+    resize: none;
+    word-wrap: break-word;
+    box-sizing: content-box;
+    font-family: value(helvetica-45);
+    font-size: value(base-font-size);
+    line-height: 1.5;
+    overflow-y: hidden;
+}
+
+.root::textArea::selection {
+    background: value(B7);
+}
+
+.root::errorMessageContainer {
+    margin-top: 10px;
+}
+
+/* Placeholder color */
+.root::textArea::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: value(colorPlaceholder);
+}
+
+.root::textArea::-moz-placeholder { /* Firefox 18- */
+    color: value(colorPlaceholder);
+}
+
+.root::textArea::-moz-placeholder { /* Firefox 19+ */
+    color: value(colorPlaceholder);
+}
+
+.root::textArea::-ms-input-placeholder { /* IE 10+ */
+    color: value(colorPlaceholder);
+}

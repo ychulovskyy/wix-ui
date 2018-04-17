@@ -25,6 +25,7 @@ import './Slider.story';
 import './Label.story';
 import './StylableBadge.story';
 import './StylableText.story';
+import './TextArea.story';
 import './TimePicker.story';
 import './ToggleSwitch/index.story';
 import './Tooltip/index.story';
