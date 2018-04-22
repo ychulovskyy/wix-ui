@@ -21,9 +21,20 @@ export function enzymeTestkitFactoryCreator<T extends BaseDriver> (driverFactory
   };
 }
 
-export function isEnzymeTestkitExists<T extends BaseDriver> (Element: React.ReactElement<any>, testkitFactory: (obj: WrapperData) => T, mount: MountFunctionType, options = {withoutDataHook: false}) {
-  const dataHook = options.withoutDataHook ? '' : 'myDataHook';
-  const elementToRender = React.cloneElement(Element, {dataHook, 'data-hook': dataHook});
+export function isEnzymeTestkitExists<T extends BaseDriver> (
+  Element: React.ReactElement<any>,
+  testkitFactory: (obj: WrapperData) => T,
+  mount: MountFunctionType,
+  options?: {
+    withoutDataHook?: boolean,
+    dataHookPropName?: string
+  } ) {
+
+  const withoutDataHook = (options && options.withoutDataHook) || false;
+  const dataHookPropName = (options && options.dataHookPropName);
+  const dataHook = withoutDataHook ? '' : 'myDataHook';
+  const extraProps = dataHookPropName ? {[dataHookPropName]: dataHook} : {dataHook, 'data-hook': dataHook};
+  const elementToRender = React.cloneElement(Element , extraProps);
   const wrapper = mount(elementToRender);
   const testkit = testkitFactory({wrapper, dataHook});
   return testkit.exists();
