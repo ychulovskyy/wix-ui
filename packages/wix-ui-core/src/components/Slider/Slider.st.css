@@ -37,7 +37,8 @@
   white-space: nowrap;
 }
 
-.tooltip::after {
+.tooltip::after,
+.tooltip::before {
   content: ' ';
   position: absolute;
   margin-left: -8px;
@@ -149,7 +150,8 @@
   transform: translate(-50%, -100%);
 }
 
-.root:orientation(horizontal) .tooltip:normalPosition::after {
+.root:orientation(horizontal) .tooltip:normalPosition::after,
+.root:orientation(horizontal) .tooltip:normalPosition::before {
   border-color: #363636 transparent transparent transparent;
   top: 100%; /* At the bottom of the tooltip */
   left: 50%;
@@ -160,7 +162,8 @@
   transform: translate(-50%, 100%);
 }
 
-.root:orientation(horizontal) .tooltip:acrossPosition::after {
+.root:orientation(horizontal) .tooltip:acrossPosition::after,
+.root:orientation(horizontal) .tooltip:acrossPosition::before {
   border-color: transparent transparent #363636 transparent;
   bottom: 100%; /* At the bottom of the tooltip */
   left: 50%;
@@ -170,7 +173,8 @@
   top: 50%;
 }
 
-.root:orientation(vertical) .tooltip::after {
+.root:orientation(vertical) .tooltip::after,
+.root:orientation(vertical) .tooltip::before {
   top: 50%;
   margin-top: -5px;
   transform: translateY(-12%);
@@ -181,7 +185,8 @@
   transform: translate(-100%, -50%);
 }
 
-.root:orientation(vertical) .tooltip:normalPosition::after {
+.root:orientation(vertical) .tooltip:normalPosition::after,
+.root:orientation(vertical) .tooltip:normalPosition::before {
   left: 100%;
   margin-left: 0;
   border-color: transparent transparent transparent #363636;
@@ -192,7 +197,8 @@
   transform: translate(100%, -50%);
 }
 
-.root:orientation(vertical) .tooltip:acrossPosition::after {
+.root:orientation(vertical) .tooltip:acrossPosition::after,
+.root:orientation(vertical) .tooltip:acrossPosition::before {
   right: 100%;
   border-color: transparent #363636 transparent transparent;
 }
