@@ -40,14 +40,38 @@ export function isEnzymeTestkitExists<T extends BaseDriver> (
   Element: React.ReactElement<any>,
   testkitFactory: (obj: WrapperData) => T,
   mount: MountFunctionType,
-  options?: Options ) {
+  options: Options = {}) {
+    return isEnzymeTestkitExistsInternal({Element, testkitFactory, mount, ...options});
+}
 
-  const withoutDataHook = (options && options.withoutDataHook) || false;
-  const dataHookPropName = (options && options.dataHookPropName);
+/**
+ * This internal function is only in order to allow separate defaults to each options.
+ */
+function isEnzymeTestkitExistsInternal<T extends BaseDriver> (
+  {
+    Element,
+    testkitFactory,
+    mount,
+    withoutDataHook = false,
+    dataHookPropName
+  }: FlatOptions<T>) {
+
   const dataHook = withoutDataHook ? '' : 'myDataHook';
   const extraProps = dataHookPropName ? {[dataHookPropName]: dataHook} : {dataHook, 'data-hook': dataHook};
   const elementToRender = React.cloneElement(Element , extraProps);
   const wrapper = mount(elementToRender);
   const testkit = testkitFactory({wrapper, dataHook});
   return testkit.exists();
+}
+
+interface FlatOptions<T extends BaseDriver> {
+  Element: React.ReactElement<any>;
+  testkitFactory: (obj: WrapperData) => T;
+  mount: MountFunctionType;
+  withoutDataHook?: boolean;
+  /** The dataHookPropName exists in order to support legacy CamelCase `dataHook`
+   *  which is used in Wix-Style-React, while the current prop name used in
+   * `wix-ui-core` is snake-case `data-hook`.
+   * */
+  dataHookPropName?: 'data-hook' | 'dataHook';
 }
