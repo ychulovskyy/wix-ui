@@ -122,7 +122,8 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   //measurements
   componentDidUpdate(prevProps, prevState) {
     if (this.hasSomePropsChanged(prevProps, this.props, [
-      'orientation', 'step', 'width', 'height', 'tickMarksPosition', 'thumbShape'
+      'orientation', 'step', 'width', 'height', 'tickMarksPosition', 'thumbShape',
+      'tickMarksShape'
     ])) {
       this.forceUpdate();
     }
