@@ -21,14 +21,26 @@ export function enzymeTestkitFactoryCreator<T extends BaseDriver> (driverFactory
   };
 }
 
+export interface Options {
+  withoutDataHook?: boolean;
+  /** The dataHookPropName exists in order to support legacy CamelCase `dataHook`
+   *  which is used in Wix-Style-React, while the current prop name used in
+   * `wix-ui-core` is snake-case `data-hook`.
+   * */
+  dataHookPropName?: 'data-hook' | 'dataHook';
+}
+
+/**
+ * Checks if the given Element accepts a data hook, and that the testkit factory finds the component's root element using that data hook.
+ *
+ * This method supports both new snake-case and legacy camelCase data hook prop name (e.g `data-hook` and `dataHook`).
+ * The default is to check by both prop name options.
+ */
 export function isEnzymeTestkitExists<T extends BaseDriver> (
   Element: React.ReactElement<any>,
   testkitFactory: (obj: WrapperData) => T,
   mount: MountFunctionType,
-  options?: {
-    withoutDataHook?: boolean,
-    dataHookPropName?: string
-  } ) {
+  options?: Options ) {
 
   const withoutDataHook = (options && options.withoutDataHook) || false;
   const dataHookPropName = (options && options.dataHookPropName);
