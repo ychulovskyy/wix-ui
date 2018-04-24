@@ -1,5 +1,9 @@
 import {protractorTestkitFactoryCreator} from 'wix-ui-test-utils/protractor';
 
+import {buttonDriverFactory, ButtonDriver} from '../components/Button/Button.protractor.driver';
+export const buttonTestkitFactory = protractorTestkitFactoryCreator(buttonDriverFactory);
+export {ButtonDriver};
+
 //JSS
 import {popoverDriverFactory, PopoverDriver} from '../baseComponents/Popover/Popover.protractor.driver';
 export const popoverTestkitFactory = protractorTestkitFactoryCreator(popoverDriverFactory);
