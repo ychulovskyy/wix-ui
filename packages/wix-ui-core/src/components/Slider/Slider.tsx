@@ -122,7 +122,8 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   //measurements
   componentDidUpdate(prevProps, prevState) {
     if (this.hasSomePropsChanged(prevProps, this.props, [
-      'orientation', 'step', 'width', 'height', 'tickMarksPosition', 'thumbShape'
+      'orientation', 'step', 'width', 'height', 'tickMarksPosition', 'thumbShape',
+      'tickMarksShape'
     ])) {
       this.forceUpdate();
     }
@@ -351,13 +352,15 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     const thumbSize = this.getThumbSizeMainAxis();
     const {value, min, max} = this.props;
     const pct = (value - min) / (max - min);
-    return `calc(${pct} *(100% - ${thumbSize}px))`;
+    const clampedPct = this.clamp(pct, 0, 1);
+    return `calc(${clampedPct} *(100% - ${thumbSize}px))`;
   }
 
   calcTrackFillPosition() {
     const {value, min, max} = this.props;
     const pct = (value - min) / (max - min);
-    return pct * 100 + '%';
+    const clampedPct = this.clamp(pct, 0, 1);
+    return clampedPct * 100 + '%';
   }
 
   calcThumbCrossPosition() {
