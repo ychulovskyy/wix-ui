@@ -8,6 +8,7 @@
   tickLineHeight: 10px;
   tickDotSize: 3px;
   tickMarksGap: 12px;
+  tooltipGap: 8px;
 }
 
 .root {
@@ -170,8 +171,20 @@
 }
 
 .root:orientation(horizontal) .tooltip:normalPosition {
-  top: -7px;
+  top: calc(-7px - value(tooltipGap));
   transform: translate(-50%, -100%);
+}
+.root:orientation(horizontal) .tooltip:acrossPosition {
+  bottom: calc(-7px - value(tooltipGap));
+  transform: translate(-50%, 100%);
+}
+.root:orientation(vertical) .tooltip:normalPosition {
+  left: calc(-7px - value(tooltipGap));
+  transform: translate(-100%, -50%);
+}
+.root:orientation(vertical) .tooltip:acrossPosition {
+  right: calc(-7px - value(tooltipGap));
+  transform: translate(100%, -50%);
 }
 
 .root:orientation(horizontal) .tooltip:normalPosition::after,
@@ -179,11 +192,6 @@
   border-color: #363636 transparent transparent transparent;
   top: 100%; /* At the bottom of the tooltip */
   left: 50%;
-}
-
-.root:orientation(horizontal) .tooltip:acrossPosition {
-  bottom: -7px;
-  transform: translate(-50%, 100%);
 }
 
 .root:orientation(horizontal) .tooltip:acrossPosition::after,
@@ -204,21 +212,11 @@
   transform: translateY(-12%);
 }
 
-.root:orientation(vertical) .tooltip:normalPosition {
-  left: -7px;
-  transform: translate(-100%, -50%);
-}
-
 .root:orientation(vertical) .tooltip:normalPosition::after,
 .root:orientation(vertical) .tooltip:normalPosition::before {
   left: 100%;
   margin-left: 0;
   border-color: transparent transparent transparent #363636;
-}
-
-.root:orientation(vertical) .tooltip:acrossPosition {
-  right: -7px;
-  transform: translate(100%, -50%);
 }
 
 .root:orientation(vertical) .tooltip:acrossPosition::after,
