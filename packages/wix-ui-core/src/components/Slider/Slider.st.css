@@ -83,19 +83,33 @@
   width: 100%;
 }
 
-.root:showTicks:tickMarksShape(line):tickMarksPosition(normal) .inner {
+.root:orientation(horizontal):showTicks:tickMarksShape(line):tickMarksPosition(normal) .inner {
   height: calc(100% - value(tickLineHeight) - value(tickMarksGap));
 }
-.root:showTicks:tickMarksShape(dot):tickMarksPosition(normal) .inner {
+.root:orientation(horizontal):showTicks:tickMarksShape(dot):tickMarksPosition(normal) .inner {
   height: calc(100% - value(tickDotSize) - value(tickMarksGap));
 }
-.root:showTicks:tickMarksShape(line):tickMarksPosition(across) .inner {
+.root:orientation(horizontal):showTicks:tickMarksShape(line):tickMarksPosition(across) .inner {
   top: calc(value(tickLineHeight) + value(tickMarksGap));
   height: calc(100% - value(tickLineHeight) - value(tickMarksGap));
 }
-.root:showTicks:tickMarksShape(dot):tickMarksPosition(across) .inner {
+.root:orientation(horizontal):showTicks:tickMarksShape(dot):tickMarksPosition(across) .inner {
   top: calc(value(tickDotSize) + value(tickMarksGap));
   height: calc(100% - value(tickDotSize) - value(tickMarksGap));
+}
+.root:orientation(vertical):showTicks:tickMarksShape(line):tickMarksPosition(normal) .inner {
+  width: calc(100% - value(tickLineHeight) - value(tickMarksGap));
+}
+.root:orientation(vertical):showTicks:tickMarksShape(dot):tickMarksPosition(normal) .inner {
+  width: calc(100% - value(tickDotSize) - value(tickMarksGap));
+}
+.root:orientation(vertical):showTicks:tickMarksShape(line):tickMarksPosition(across) .inner {
+  left: calc(value(tickLineHeight) + value(tickMarksGap));
+  width: calc(100% - value(tickLineHeight) - value(tickMarksGap));
+}
+.root:orientation(vertical):showTicks:tickMarksShape(dot):tickMarksPosition(across) .inner {
+  left: calc(value(tickDotSize) + value(tickMarksGap));
+  width: calc(100% - value(tickDotSize) - value(tickMarksGap));
 }
 
 .root:showTicks:tickMarksPosition(middle) .inner {
