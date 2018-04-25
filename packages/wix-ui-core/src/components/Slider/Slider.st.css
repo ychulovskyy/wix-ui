@@ -80,12 +80,22 @@
 }
 
 .root:showTicks .inner {
-  height: calc(100% - value(tickMarksGap));
   width: 100%;
 }
 
-.root:showTicks:tickMarksPosition(across) .inner {
-  top: value(tickMarksGap);
+.root:showTicks:tickMarksShape(line):tickMarksPosition(normal) .inner {
+  height: calc(100% - value(tickLineHeight) - value(tickMarksGap));
+}
+.root:showTicks:tickMarksShape(dot):tickMarksPosition(normal) .inner {
+  height: calc(100% - value(tickDotSize) - value(tickMarksGap));
+}
+.root:showTicks:tickMarksShape(line):tickMarksPosition(across) .inner {
+  top: calc(value(tickLineHeight) + value(tickMarksGap));
+  height: calc(100% - value(tickLineHeight) - value(tickMarksGap));
+}
+.root:showTicks:tickMarksShape(dot):tickMarksPosition(across) .inner {
+  top: calc(value(tickDotSize) + value(tickMarksGap));
+  height: calc(100% - value(tickDotSize) - value(tickMarksGap));
 }
 
 .root:showTicks:tickMarksPosition(middle) .inner {
