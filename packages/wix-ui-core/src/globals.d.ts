@@ -1,3 +1,5 @@
+/// <reference path="./stylable.d.ts" />
+
 declare module '*.st.css' {
   const stylesheet: RuntimeStylesheet;
   export default stylesheet;
