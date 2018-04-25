@@ -458,6 +458,20 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
           >
             <div className={pStyle.trackFill} style={trackFillPosition}/>
           </div>
+
+          {showTicks && (
+            <Ticks
+              pStyle={pStyle}
+              step={step}
+              min={min}
+              max={max}
+              thumbSize={mainThumbSize}
+              vertical={vertical}
+              trackSize={vertical ? trackRect.height - mainThumbSize : trackRect.width - crossThumbSize}
+              tickMarksShape={tickMarksShape}
+              onTickClick={this.moveThumbByMouse}
+            />)}
+
           <Thumb
             shape={thumbShape}
             thumbPosition={thumbPosition}
@@ -468,18 +482,6 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
             {this.renderTooltip()}
           </Thumb>
         </div>
-        {showTicks && (
-          <Ticks
-            pStyle={pStyle}
-            step={step}
-            min={min}
-            max={max}
-            thumbSize={mainThumbSize}
-            vertical={vertical}
-            trackSize={vertical ? trackRect.height - mainThumbSize : trackRect.width - crossThumbSize}
-            tickMarksShape={tickMarksShape}
-            onTickClick={this.moveThumbByMouse}
-          />)}
       </div>
     );
   }
