@@ -5,7 +5,7 @@ import {BaseProps} from '../../types/BaseProps';
 
 export interface ButtonProps extends BaseProps, React.ButtonHTMLAttributes<any> {
   /** Type of the button - submit / button / reset */
-  type?: 'submit'| 'button'| 'reset';
+  type?: 'submit' | 'button' | 'reset';
 }
 
 /**
@@ -15,9 +15,7 @@ export const Button: React.SFC<ButtonProps> = props => {
   const {disabled} = props;
 
   return (
-    <button {...style('root', {disabled}, props)}
-      {...props}
-    />
+    <button {...props} {...style('root', {disabled}, props)}/>
   );
 };
 
