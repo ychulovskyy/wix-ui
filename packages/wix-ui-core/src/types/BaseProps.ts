@@ -1,5 +1,3 @@
-import '../../stylable';
-
 /**
  * Base props for any core component
  */
