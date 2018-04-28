@@ -5,7 +5,7 @@ export const buttonTestkitFactory = protractorTestkitFactoryCreator(buttonDriver
 export {ButtonDriver};
 
 //JSS
-import {popoverDriverFactory, PopoverDriver} from '../baseComponents/Popover/Popover.protractor.driver';
+import {popoverDriverFactory, PopoverDriver} from '../components/Popover/Popover.protractor.driver';
 export const popoverTestkitFactory = protractorTestkitFactoryCreator(popoverDriverFactory);
 export {PopoverDriver};
 
