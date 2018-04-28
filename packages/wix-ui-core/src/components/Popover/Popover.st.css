@@ -30,11 +30,6 @@
   display: inline-block;
 }
 
-.trigger {
-  /*Needed in case when popover is calculated relatively to the body*/
-  display: inline-block;
-}
-
 .popoverAnimation {}
 
 .popoverAnimation-enter {}

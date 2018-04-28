@@ -285,8 +285,7 @@ export class Popover extends React.Component<PopoverType, PopoverState> {
         onClick={onClick}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}>
-        <Target onKeyDown={onKeyDown} data-hook="popover-element" className={style.trigger}
-                innerRef={r => this.targetRef = r}>
+        <Target onKeyDown={onKeyDown} data-hook="popover-element" innerRef={r => this.targetRef = r}>
           {childrenObject.Element}
         </Target>
         {shouldRenderPopper && this.renderPopperContent(childrenObject)}
