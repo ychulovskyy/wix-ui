@@ -18,7 +18,7 @@ import {
 import * as classNames from 'classnames';
 import isElement = require('lodash/isElement');
 
-import {oneOf, oneOfType, element, Requireable, string, bool, func, number, shape} from 'prop-types';
+import {oneOf, oneOfType, any, Requireable, string, bool, func, number, shape} from 'prop-types';
 
 // This is here and not in the test setup because we don't want consumers to need to run it as well
 const isTestEnv = process.env.NODE_ENV === 'test';
@@ -36,9 +36,10 @@ export type Placement = PopperJS.Placement;
 export type AppendTo = PopperJS.Boundary | Element;
 export const AppendToPropType = oneOfType([
   oneOf(['scrollParent', 'viewport', 'window']),
-  element
+  any
 ]);
-const placementsType = oneOf(['auto-start',
+
+export const PlacementsType = oneOf(['auto-start',
   'auto',
   'auto-end',
   'top-start',
@@ -161,7 +162,7 @@ export class Popover extends React.Component<PopoverType, PopoverState> {
   static propTypes = {
     className: string,
     /** The location to display the content */
-    placement: placementsType,
+    placement: PlacementsType,
     /** Is the content shown or not */
     shown: bool,
     /** onClick on the component */
