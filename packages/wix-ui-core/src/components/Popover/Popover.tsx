@@ -17,7 +17,8 @@ import {
 
 import * as classNames from 'classnames';
 import isElement = require('lodash/isElement');
-import {oneOf, oneOfType, element, Requireable} from 'prop-types';
+
+import {oneOf, oneOfType, element, Requireable, string, bool, func, number, shape} from 'prop-types';
 
 // This is here and not in the test setup because we don't want consumers to need to run it as well
 const isTestEnv = process.env.NODE_ENV === 'test';
@@ -37,6 +38,21 @@ export const AppendToPropType = oneOfType([
   oneOf(['scrollParent', 'viewport', 'window']),
   element
 ]);
+const placementsType = oneOf(['auto-start',
+  'auto',
+  'auto-end',
+  'top-start',
+  'top',
+  'top-end',
+  'right-start',
+  'right',
+  'right-end',
+  'bottom-end',
+  'bottom',
+  'bottom-start',
+  'left-end',
+  'left',
+  'left-start']);
 
 export interface PopoverProps {
   className?: string;
@@ -54,7 +70,7 @@ export interface PopoverProps {
   onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
   /** Show show arrow from the content */
   showArrow?: boolean;
-  /** Moves poppover relative to the parent */
+  /** Moves popover relative to the parent */
   moveBy?: { x: number, y: number };
   /** Fade Delay */
   hideDelay?: number;
@@ -141,6 +157,36 @@ export class Popover extends React.Component<PopoverType, PopoverState> {
       isMounted: false
     };
   }
+
+  static propTypes = {
+    className: string,
+    /** The location to display the content */
+    placement: placementsType,
+    /** Is the content shown or not */
+    shown: bool,
+    /** onClick on the component */
+    onClick: func,
+    /** onMouseEnter on the component */
+    onMouseEnter: func,
+    /** onMouseLeave on the component */
+    onMouseLeave: func,
+    /** onKeyDown on the target component */
+    onKeyDown: func,
+    /** Show show arrow from the content */
+    showArrow: bool,
+    /** Moves popover relative to the parent */
+    moveBy: shape({x: number, y: number}),
+    /** Fade Delay */
+    hideDelay: number,
+    /** Show Delay */
+    showDelay: number,
+    /** Moves arrow by amount */
+    moveArrowTo: number,
+    /** Enables calculations in relation to a dom element */
+    appendTo: AppendToPropType,
+    /** Animation timer */
+    timeout: number
+  };
 
   getPopperContentStructure(childrenObject) {
     const {appendTo, placement, showArrow, moveArrowTo} = this.props;
