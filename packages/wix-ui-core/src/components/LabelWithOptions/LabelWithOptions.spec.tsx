@@ -197,6 +197,37 @@ describe('LabelWithOptions', () => {
     });
   });
 
+  describe('checkbox', () => {
+    it('displays a checkbox when given the prop', () => {
+      const driver = createDriver(<LabelWithOptions checkbox options={generateOptions()} />);
+
+      driver.click();
+      expect(driver.checkboxDriverAt(0).exists()).toBe(true);
+    });
+
+    it('does not display a checkbox next to a non selectable item', () => {
+      const driver = createDriver(<LabelWithOptions checkbox options={[{id: 'fake', value: 'bla', isSelectable: false, isDisabled: false, render: () => <span>bla</span>}]} />);
+
+      driver.click();
+      expect(driver.checkboxDriverAt(0).exists()).toBe(false);
+    });
+
+    it('marks the checkbox as checked when an option is selected', () => {
+      const driver = createDriver(<LabelWithOptions checkbox multi options={generateOptions()} />);
+
+      driver.click();
+      driver.optionAt(0).click();
+      expect(driver.checkboxDriverAt(0).isChecked()).toBe(true);
+    });
+
+    it('marks the checkbox as disabled if the option is disabled', () => {
+      const driver = createDriver(<LabelWithOptions checkbox options={[{id: 'test', value: 'test', isSelectable: true, isDisabled: true, render: () => <span>test</span>}]} />);
+
+      driver.click();
+      expect(driver.checkboxDriverAt(0).isDisabled()).toBe(true);
+    });
+  });
+
   describe('testkit', () => {
     it('should exist', () => {
       expect(isTestkitExists(<LabelWithOptions options={[]}/>, labelWithOptionsTestkitFactory)).toBe(true);
