@@ -80,7 +80,7 @@ describe('Link', () => {
           onFocus={onFocusSpy}
           onBlur={onBlurSpy}
           onKeyDown={onKeyDownSpy}
-          >
+        >
           hello
         </Link>
       );
