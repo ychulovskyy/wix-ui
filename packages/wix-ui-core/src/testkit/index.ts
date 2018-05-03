@@ -44,8 +44,14 @@ export const stylableTextTestkitFactory = testkitFactoryCreator<TextDriver>(
 );
 export { TextDriver };
 
-import { buttonDriverFactory } from "../components/Button/Button.driver";
-export const buttonTestkitFactory = testkitFactoryCreator(buttonDriverFactory);
+import {
+  buttonDriverFactory,
+  ButtonDriver
+} from "../components/Button/Button.driver";
+export const buttonTestkitFactory = testkitFactoryCreator<ButtonDriver>(
+  buttonDriverFactory
+);
+export { ButtonDriver };
 
 import {
   badgeDriverFactory as stylableBadgeDriverFactory,

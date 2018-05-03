@@ -54,10 +54,14 @@ export const stylableTextTestkitFactory = enzymeTestkitFactoryCreator<
 >(stylableTextDriverFactory);
 export { TextDriver };
 
-import { buttonDriverFactory } from "../components/Button/Button.driver";
-export const buttonTestkitFactory = enzymeTestkitFactoryCreator(
+import {
+  buttonDriverFactory,
+  ButtonDriver
+} from "../components/Button/Button.driver";
+export const buttonTestkitFactory = enzymeTestkitFactoryCreator<ButtonDriver>(
   buttonDriverFactory
 );
+export { ButtonDriver };
 
 import {
   badgeDriverFactory as stylableBadgeDriverFactory,
