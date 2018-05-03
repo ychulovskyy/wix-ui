@@ -26,8 +26,9 @@ export const checkboxTestkitFactory = enzymeTestkitFactoryCreator(checkboxDriver
 import {toggleSwitchDriverFactory} from '../components/ToggleSwitch/ToggleSwitch.driver';
 export const toggleSwitchTestkitFactory = enzymeTestkitFactoryCreator(toggleSwitchDriverFactory);
 
-import {textDriverFactory as stylableTextDriverFactory} from '../components/StylableText/Text.driver';
-export const stylableTextTestkitFactory = enzymeTestkitFactoryCreator(stylableTextDriverFactory);
+import {textDriverFactory as stylableTextDriverFactory, TextDriver} from '../components/StylableText/Text.driver';
+export const stylableTextTestkitFactory = enzymeTestkitFactoryCreator<TextDriver>(stylableTextDriverFactory);
+export {TextDriver};
 
 import {buttonDriverFactory} from '../components/Button/Button.driver';
 export const buttonTestkitFactory = enzymeTestkitFactoryCreator(buttonDriverFactory);
@@ -56,8 +57,9 @@ export const timePickerTestkitFactory = enzymeTestkitFactoryCreator(timePickerDr
 import {labelWithOptionsDriverFactory} from '../components/LabelWithOptions/LabelWithOptions.driver';
 export const labelWithOptionsTestkitFactory = enzymeTestkitFactoryCreator(labelWithOptionsDriverFactory);
 
-import {thumbnailDriverFactory} from '../components/Thumbnail/Thumbnail.driver';
-export const thumbnailTestkitFactory = enzymeTestkitFactoryCreator(thumbnailDriverFactory);
+import {thumbnailDriverFactory, ThumbnailDriver} from '../components/Thumbnail/Thumbnail.driver';
+export const thumbnailTestkitFactory = enzymeTestkitFactoryCreator<ThumbnailDriver>(thumbnailDriverFactory);
+export {ThumbnailDriver};
 
 import {popoverDriverFactory} from '../components/Popover/Popover.driver';
 export const popoverTestkitFactory = enzymeTestkitFactoryCreator(popoverDriverFactory);
