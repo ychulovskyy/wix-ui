@@ -12,9 +12,9 @@ export interface BaseDriver {
 
 export interface ComponentFactory {
   element: Element | undefined;
-  wrapper: HTMLElement | ReactWrapper;
+  wrapper?: HTMLElement | ReactWrapper;
   component?: React.ReactElement<any>;
-  eventTrigger: typeof Simulate;
+  eventTrigger?: typeof Simulate;
 }
 
 function componentFactory(Component: React.ReactElement<any>): ComponentFactory {
