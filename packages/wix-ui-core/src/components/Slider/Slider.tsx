@@ -1,3 +1,4 @@
+import {throttle, omit} from 'lodash';
 import * as React from 'react';
 import {number, func, oneOf, bool, string, object} from 'prop-types';
 import {Ticks} from './Ticks';
@@ -100,6 +101,8 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     dir: 'ltr'
   };
 
+  updateLayout;
+
   constructor(props) {
     super(props);
 
@@ -109,6 +112,10 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
       mouseDown: false,
       thumbHover: false,
     };
+
+    this.updateLayout = throttle(() => {
+      this.forceUpdate();
+    }, 1000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -120,12 +127,12 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
 
   //need to force update after DOM changes, as some layouts are based upon DOM
   //measurements
-  componentDidUpdate(prevProps, prevState) {
-    if (this.hasSomePropsChanged(prevProps, this.props, [
-      'orientation', 'step', 'width', 'height', 'tickMarksPosition', 'thumbShape',
-      'tickMarksShape'
-    ])) {
-      this.forceUpdate();
+  componentDidUpdate(prevProps) {
+    if (!this.isShallowEqual(
+      omit(prevProps, 'value', 'onChange', 'onBlur', 'onFocus'),
+      omit(this.props, 'value', 'onChange', 'onBlur', 'onFocus')
+    )) {
+      this.updateLayout();
     }
   }
 
@@ -143,16 +150,22 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return step;
   }
 
-  hasSomePropsChanged(prevProps, currProps, propsList) {
-    for (let i = 0; i < propsList.length; i++) {
-      let p = propsList[i];
-
-      if (prevProps[p] !== currProps[p]) {
-        return true;
+  isShallowEqual(v, o) {
+    for (const key in v) {
+      if (!(key in o) || v[key] !== o[key]) {
+        console.log('ooooo', key);
+        return false;
       }
     }
 
-    return false;
+    for (const key in o) {
+      if (!(key in v) || v[key] !== o[key]) {
+        console.log('ooooo', key);
+        return false;
+      }
+    }
+
+    return true;
   }
 
   componentDidMount() {
@@ -187,12 +200,12 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   }
 
   setInnerNode = (inner) => {
-    !this.inner && this.forceUpdate();
+    !this.inner && this.updateLayout();
     this.inner = inner;
   }
 
   setTrackNode = (track) => {
-    !this.track && this.forceUpdate();
+    !this.track && this.updateLayout();
     this.track = track;
   }
 
@@ -279,7 +292,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
 
   handleThumbEnter = () => {
     this.setState({thumbHover: true});
-    this.forceUpdate();
+    this.updateLayout();
   }
 
   handleThumbLeave = () => {
