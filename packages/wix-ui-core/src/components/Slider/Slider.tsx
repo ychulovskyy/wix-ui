@@ -1,4 +1,4 @@
-import {throttle, omit} from 'lodash';
+import {omit} from 'lodash';
 import * as React from 'react';
 import {number, func, oneOf, bool, string, object} from 'prop-types';
 import {Ticks} from './Ticks';
@@ -126,12 +126,12 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
       innerRect: {width: 0, height: 0}
     };
 
-    this.updateLayout = throttle(() => {
+    this.updateLayout = () => {
       this.setState({
         trackRect: this.track ? this.track.getBoundingClientRect() : this.state.trackRect,
         innerRect: this.inner ? this.inner.getBoundingClientRect() : this.state.innerRect
       });
-    }, 1000);
+    };
   }
 
   componentWillReceiveProps(nextProps) {
