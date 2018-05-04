@@ -28,11 +28,22 @@ export interface SliderProps {
   dir?: string;
 }
 
+export interface Rect {
+  left?: number;
+  right?: number;
+  top?: number;
+  bottom?: number;
+  width?: number;
+  height?: number;
+}
+
 export interface SliderState {
   dragging: boolean;
   mouseDown: boolean;
   thumbHover: boolean;
   step: number;
+  innerRect: Rect;
+  trackRect: Rect;
 }
 
 export class Slider extends React.PureComponent<SliderProps, SliderState> {
@@ -111,10 +122,15 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
       dragging: false,
       mouseDown: false,
       thumbHover: false,
+      trackRect: {width: 0, height: 0},
+      innerRect: {width: 0, height: 0}
     };
 
     this.updateLayout = throttle(() => {
-      this.forceUpdate();
+      this.setState({
+        trackRect: this.track ? this.track.getBoundingClientRect() : this.state.trackRect,
+        innerRect: this.inner ? this.inner.getBoundingClientRect() : this.state.innerRect
+      });
     }, 1000);
   }
 
@@ -177,7 +193,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   }
 
   getSliderSize() {
-    const rect = this.inner ? this.inner.getBoundingClientRect() : {width: 0, height: 0};
+    const rect = this.state.innerRect;
     const isVertical = this.isVertical();
     const val = isVertical ? rect.width : rect.height;
     return Math.min(val, Math.min(rect.width, rect.height));
@@ -325,7 +341,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     const step = this.state.step;
     const thumbSize = this.getThumbSizeMainAxis();
     const totalSteps = Math.ceil((max - min) / step);
-    const rect = this.track.getBoundingClientRect();
+    const rect = this.state.trackRect;
 
     let value, pxStep, sliderPos;
 
@@ -430,7 +446,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     const crossThumbSize = this.getThumbSizeCrossAxis();
     const mainThumbSize = this.getThumbSizeMainAxis();
     const step = this.state.step;
-    const trackRect = this.track ? this.track.getBoundingClientRect() : {height: 0, width: 0};
+    const trackRect = this.state.trackRect;
     const thumbPosition: any = this.calcThumbPosition();
     const showTicks = !this.isContinuous() && tickMarksShape !== 'none';
     const trackStyle = vertical ? {width: trackSize + '%'} : {height: trackSize + '%'};
