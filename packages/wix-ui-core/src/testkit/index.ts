@@ -25,8 +25,9 @@ export const checkboxTestkitFactory = testkitFactoryCreator(checkboxDriverFactor
 import {toggleSwitchDriverFactory} from '../components/ToggleSwitch/ToggleSwitch.driver';
 export const toggleSwitchTestkitFactory = testkitFactoryCreator(toggleSwitchDriverFactory);
 
-import {textDriverFactory as stylableTextDriverFactory} from '../components/StylableText/Text.driver';
-export const stylableTextTestkitFactory = testkitFactoryCreator(stylableTextDriverFactory);
+import {textDriverFactory as stylableTextDriverFactory, TextDriver} from '../components/StylableText/Text.driver';
+export const stylableTextTestkitFactory = testkitFactoryCreator<TextDriver>(stylableTextDriverFactory);
+export {TextDriver};
 
 import {buttonDriverFactory} from '../components/Button/Button.driver';
 export const buttonTestkitFactory = testkitFactoryCreator(buttonDriverFactory);
@@ -55,5 +56,12 @@ export const timePickerTestkitFactory = testkitFactoryCreator(timePickerDriverFa
 import {labelWithOptionsDriverFactory} from '../components/LabelWithOptions/LabelWithOptions.driver';
 export const labelWithOptionsTestkitFactory = testkitFactoryCreator(labelWithOptionsDriverFactory);
 
-import {thumbnailDriverFactory} from '../components/Thumbnail/Thumbnail.driver';
-export const thumbnailTestkitFactory = testkitFactoryCreator(thumbnailDriverFactory);
+import {thumbnailDriverFactory, ThumbnailDriver} from '../components/Thumbnail/Thumbnail.driver';
+export const thumbnailTestkitFactory = testkitFactoryCreator<ThumbnailDriver>(thumbnailDriverFactory);
+export {ThumbnailDriver};
+
+import {popoverDriverFactory} from '../components/Popover/Popover.driver';
+export const popoverTestkitFactory = testkitFactoryCreator(popoverDriverFactory);
+
+import {linkDriverFactory} from '../components/Link/Link.driver';
+export const linkTestkitFactory = testkitFactoryCreator(linkDriverFactory);

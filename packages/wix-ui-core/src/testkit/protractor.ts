@@ -5,7 +5,7 @@ export const buttonTestkitFactory = protractorTestkitFactoryCreator(buttonDriver
 export {ButtonDriver};
 
 //JSS
-import {popoverDriverFactory, PopoverDriver} from '../baseComponents/Popover/Popover.protractor.driver';
+import {popoverDriverFactory, PopoverDriver} from '../components/Popover/Popover.protractor.driver';
 export const popoverTestkitFactory = protractorTestkitFactoryCreator(popoverDriverFactory);
 export {PopoverDriver};
 
@@ -39,7 +39,7 @@ export {CheckboxDriver};
 
 //Stylable
 import {textDriverFactory, TextDriver} from '../components/StylableText/Text.protractor.driver';
-export const textTestkitFactory = protractorTestkitFactoryCreator(textDriverFactory);
+export const textTestkitFactory = protractorTestkitFactoryCreator<TextDriver>(textDriverFactory);
 export {TextDriver};
 
 import {radioButtonDriverFactory, RadioButtonDriver} from '../components/RadioButton/RadioButton.protractor.driver';
@@ -87,5 +87,9 @@ export const vBoxTestkitFactory = protractorTestkitFactoryCreator(vBoxDriverFact
 export {VBoxDriver};
 
 import {thumbnailDriverFactory, ThumbnailDriver} from '../components/Thumbnail/Thumbnail.protractor.driver';
-export const thumbnailTestkitFactory = protractorTestkitFactoryCreator(thumbnailDriverFactory);
+export const thumbnailTestkitFactory = protractorTestkitFactoryCreator<ThumbnailDriver>(thumbnailDriverFactory);
 export {ThumbnailDriver};
+
+import {linkDriverFactory, LinkDriver} from '../components/Link/Link.protractor.driver';
+export const linkTestkitFactory = protractorTestkitFactoryCreator(linkDriverFactory);
+export {LinkDriver};

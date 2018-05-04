@@ -231,7 +231,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     this.setState({mouseDown: false, dragging: false});
   }
 
-  handleKeyDown = (ev) => {
+  handleKeyDown = ev => {
     const {min, max, value, disabled, readOnly, dir} = this.props;
     const ltr = dir === 'ltr';
 
@@ -329,7 +329,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return !this.props.step;
   }
 
-  moveThumbByMouse = (ev) => {
+  moveThumbByMouse = ev => {
     const {min, max, disabled, readOnly, dir} = this.props;
     const rtl = this.isRtl();
 
@@ -417,9 +417,10 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     const clampedValue = Math.floor(10 * this.props.value) / 10;
 
     return (
-      <div data-hook="tooltip" {...pStyle('tooltip', {
-        [positionClassname]: true
-      })}>
+      <div 
+        data-hook="tooltip" 
+        {...pStyle('tooltip', {[positionClassname]: true})}
+      >
         {this.props.tooltipPrefix}{clampedValue}{this.props.tooltipSuffix}
       </div>
     );
@@ -458,14 +459,15 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     };
 
     return (
-      <div {...pStyle('root', {
+      <div 
+        {...pStyle('root', {
           orientation: vertical ? 'vertical' : 'horizontal',
           dir,
           tickMarksPosition,
           tickMarksShape,
           disabled,
           showTicks
-      }, this.props)}
+        }, this.props)}
         onMouseDown={this.handleMouseDown}
         data-value={value}
         data-min={min}
@@ -476,9 +478,10 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
         onKeyDown={this.handleKeyDown}
         onFocus={onFocus}
         onBlur={onBlur}
-    >
+      >
         <div ref={this.setInnerNode} className={pStyle.inner}>
-          <div data-hook="track"
+          <div 
+            data-hook="track"
             ref={this.setTrackNode}
             className={pStyle.track}
             onClick={this.moveThumbByMouse}
