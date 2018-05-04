@@ -213,12 +213,12 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return this.isVertical() ? size.width : size.height;
   }
 
-  setInnerNode = (inner) => {
+  setInnerNode = inner => {
     !this.inner && this.updateLayout();
     this.inner = inner;
   }
 
-  setTrackNode = (track) => {
+  setTrackNode = track => {
     !this.track && this.updateLayout();
     this.track = track;
   }
