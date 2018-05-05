@@ -1,9 +1,9 @@
-import {omit} from 'lodash';
 import * as React from 'react';
 import {number, func, oneOf, bool, string, object} from 'prop-types';
 import {Ticks} from './Ticks';
 import {Thumb, getThumbSize} from './Thumb';
 import pStyle from './Slider.st.css';
+const omit = require('lodash/omit');
 
 export interface SliderProps {
   min?: number;
