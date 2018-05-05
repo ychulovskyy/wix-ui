@@ -1,9 +1,9 @@
+import {omit} from 'lodash';
 import * as React from 'react';
 import {number, func, oneOf, bool, string, object} from 'prop-types';
 import {Ticks} from './Ticks';
 import {Thumb, getThumbSize} from './Thumb';
 import pStyle from './Slider.st.css';
-const omit = require('lodash/omit');
 
 export interface SliderProps {
   min?: number;
@@ -49,7 +49,7 @@ export interface SliderState {
 export class Slider extends React.PureComponent<SliderProps, SliderState> {
   inner: HTMLDivElement;
   track: HTMLDivElement;
-  ContinuousStepPx = 10;
+  ContinuousStep = 0.1;
 
   static propTypes: Object = {
     /** The minimum value of the slider */
@@ -118,7 +118,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     super(props);
 
     this.state = {
-      step: this.calcStepValue(props.min, props.max, props.stepType, props.step, 0),
+      step: this.calcStepValue(props.min, props.max, props.stepType, props.step),
       dragging: false,
       mouseDown: false,
       thumbHover: false,
@@ -137,7 +137,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   componentWillReceiveProps(nextProps) {
     this.setState({
       step: this.calcStepValue(nextProps.min, nextProps.max, nextProps.stepType,
-        nextProps.step, this.getSliderSize())
+        nextProps.step)
     });
   }
 
@@ -156,26 +156,14 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return this.props.dir === 'rtl' ? 'right' : 'left';
   }
 
-  calcContinuousStepValue(min, max, size) {
-    const totalSteps = size / this.ContinuousStepPx;
-    const stepValue = (max - min) / totalSteps;
-    return stepValue;
-  }
+  calcStepValue(min, max, stepType, step) {
+    step = step || this.ContinuousStep;
 
-  calcDiscreteStepValue(min, max, stepType, step) {
-    if (stepType === 'value') {
-      return step;
+    if (stepType === 'count') {
+      return (max - min) / step;
     }
 
-    return (max - min) / step;
-  }
-
-  calcStepValue(min, max, stepType, step, size) {
-    if (!step) { //continuous
-      return this.calcContinuousStepValue(min, max, size);
-    }
-
-    return this.calcDiscreteStepValue(min, max, stepType, step);
+    return step;
   }
 
   isShallowEqual(v, o) {
