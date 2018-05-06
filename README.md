@@ -1,7 +1,11 @@
 # wix-ui
 > Wix's React component library
 
-> Storybook: [here](https://wix.github.io/wix-ui)
+## Documentation
+Project documentation can be found here
+- [wix-ui-core](http://wix-wix-ui-core.surge.sh)
+- [wix-ui-icons-common](http://wix-wix-ui-icons-common.surge.sh)
+
 
 ## Getting started
 ```
