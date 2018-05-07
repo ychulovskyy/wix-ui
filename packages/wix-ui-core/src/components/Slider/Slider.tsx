@@ -50,6 +50,7 @@ export interface SliderState {
 export class Slider extends React.PureComponent<SliderProps, SliderState> {
   inner: HTMLDivElement;
   track: HTMLDivElement;
+  tooltip: HTMLDivElement;
   ContinuousStep = 0.1;
 
   static propTypes: Object = {
@@ -425,6 +426,24 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return clampedValue;
   }
 
+  calcTooltipOffset() {
+    if (this.tooltip) {
+      const tooltipRect = this.tooltip.getBoundingClientRect();
+
+      if (!this.isVertical()) {
+        if (tooltipRect.left < this.state.innerRect.left) {
+          return this.state.innerRect.left - tooltipRect.left;
+        } else if (tooltipRect.right > this.state.innerRect.right) {
+          return this.state.innerRect.right - tooltipRect.right;
+        }
+      } else {
+        //aaa
+      }
+    }
+
+    return 0;
+  }
+
   renderTooltip() {
     if (!this.shouldShowTooltip()) {
       return null;
@@ -433,11 +452,15 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     const {tooltipPosition} = this.props;
     const positionClassname = tooltipPosition + 'Position';
     const clampedValue = this.floorValue(this.props.value);
+    const offset = this.calcTooltipOffset();
+    console.log('zzzzz', offset);
 
     return (
-      <div 
+      <div
+        ref={node => this.tooltip = node}
         data-hook="tooltip" 
         {...pStyle('tooltip', {[positionClassname]: true})}
+        style={{transform: `translate(calc(-50% + ${offset}px), -100%)`}}
       >
         {this.props.tooltipPrefix}{clampedValue}{this.props.tooltipSuffix}
       </div>

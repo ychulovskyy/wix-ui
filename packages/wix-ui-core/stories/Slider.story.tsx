@@ -8,7 +8,7 @@ const SliderStory = ({children, ...rest}) => (
       width: rest.orientation === 'vertical' ? 80 : '100%'
     }}
   >
-    <Slider {...rest}/>
+    <Slider {...rest} tooltipVisibility='always' tooltipPrefix='lalalalalalalala'/>
   </div>
 );
 
