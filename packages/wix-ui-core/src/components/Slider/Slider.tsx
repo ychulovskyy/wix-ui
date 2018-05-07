@@ -4,6 +4,7 @@ import {Ticks} from './Ticks';
 import {Thumb, getThumbSize} from './Thumb';
 import pStyle from './Slider.st.css';
 const omit = require('lodash/omit');
+const noop = require('lodash/noop')
 
 export interface SliderProps {
   min?: number;
@@ -112,33 +113,38 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     dir: 'ltr'
   };
 
-  updateLayout;
-
   constructor(props) {
     super(props);
 
     this.state = {
-      step: this.calcStepValue(props.min, props.max, props.stepType, props.step),
+      step: 1,
       dragging: false,
       mouseDown: false,
       thumbHover: false,
       trackRect: {width: 0, height: 0},
       innerRect: {width: 0, height: 0}
     };
-
-    this.updateLayout = () => {
-      this.setState({
-        trackRect: this.track ? this.track.getBoundingClientRect() : this.state.trackRect,
-        innerRect: this.inner ? this.inner.getBoundingClientRect() : this.state.innerRect
-      });
-    };
   }
 
-  componentWillReceiveProps(nextProps) {
+  updateLayout() {
     this.setState({
-      step: this.calcStepValue(nextProps.min, nextProps.max, nextProps.stepType,
-        nextProps.step)
+      trackRect: this.track ? this.track.getBoundingClientRect() : this.state.trackRect,
+      innerRect: this.inner ? this.inner.getBoundingClientRect() : this.state.innerRect
+    }, () => {
+      this.setState({
+        step: this.calcStepValue(this.props.min, this.props.max, this.props.step, this.props.stepType, this.getSliderLength())
+      });
     });
+  }
+
+  componentDidMount() {
+    document.addEventListener('mouseup', this.handleMouseUp);
+    document.addEventListener('mousemove', this.handleMouseMove);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mouseup', this.handleMouseUp);
+    document.removeEventListener('mousemove', this.handleMouseMove);
   }
 
   //need to force update after DOM changes, as some layouts are based upon DOM
@@ -156,14 +162,27 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return this.props.dir === 'rtl' ? 'right' : 'left';
   }
 
-  calcStepValue(min, max, stepType, step) {
-    step = step || this.ContinuousStep;
-
+  calcDiscreteStepValue(min, max, step, stepType) {
     if (stepType === 'count') {
       return (max - min) / step;
     }
 
     return step;
+  }
+
+  calcContinuousStepValue(min, max, sliderSize) {
+    const stepPx = 5;
+    const totalSteps = Math.floor(sliderSize / stepPx);
+    const stepValue = (max - min) / totalSteps;
+    return this.floorValue(stepValue, 2);
+  }
+
+  calcStepValue(min, max, step, stepType, sliderSize) {
+    if (step > 0) {
+      return this.calcDiscreteStepValue(min, max, step, stepType);
+    }
+
+    return this.calcContinuousStepValue(min, max, sliderSize);
   }
 
   isShallowEqual(v, o) {
@@ -182,21 +201,15 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return true;
   }
 
-  componentDidMount() {
-    document.addEventListener('mouseup', this.handleMouseUp);
-    document.addEventListener('mousemove', this.handleMouseMove);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mouseup', this.handleMouseUp);
-    document.removeEventListener('mousemove', this.handleMouseMove);
-  }
-
   getSliderSize() {
     const rect = this.state.innerRect;
     const isVertical = this.isVertical();
     const val = isVertical ? rect.width : rect.height;
     return Math.min(val, Math.min(rect.width, rect.height));
+  }
+
+  getSliderLength() {
+    return this.isVertical() ? this.state.trackRect.height : this.state.trackRect.width;
   }
 
   getThumbSize() {
@@ -297,7 +310,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   }
 
   handleChange(value) {
-    value = this.clamp(value, this.props.min, this.props.max);
+    value = this.floorValue(this.clamp(value, this.props.min, this.props.max), 2);
 
     if (value !== this.props.value) {
       this.props.onChange(value);
@@ -407,6 +420,11 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return {[this.getStartPos()]: progressVal, top: 0};
   }
 
+  floorValue(value, precision = 1) {
+    const clampedValue = Math.floor(Math.pow(10, precision) * value) / Math.pow(10, precision);
+    return clampedValue;
+  }
+
   renderTooltip() {
     if (!this.shouldShowTooltip()) {
       return null;
@@ -414,7 +432,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
 
     const {tooltipPosition} = this.props;
     const positionClassname = tooltipPosition + 'Position';
-    const clampedValue = Math.floor(10 * this.props.value) / 10;
+    const clampedValue = this.floorValue(this.props.value);
 
     return (
       <div 
