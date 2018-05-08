@@ -48,6 +48,7 @@ export interface SliderState {
 }
 
 export class Slider extends React.PureComponent<SliderProps, SliderState> {
+  root: HTMLDivElement;
   inner: HTMLDivElement;
   track: HTMLDivElement;
   ContinuousStep = 0.1;
@@ -156,6 +157,14 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     )) {
       this.updateLayout();
     }
+  }
+
+  focus() {
+    this.root.focus();
+  }
+
+  blur() {
+    this.root.blur();
   }
 
   getStartPos() {
@@ -496,6 +505,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
         onKeyDown={this.handleKeyDown}
         onFocus={onFocus}
         onBlur={onBlur}
+        ref={root => this.root = root}
       >
         <div ref={this.setInnerNode} className={pStyle.inner}>
           <div 
