@@ -11,8 +11,8 @@ export interface SliderProps {
   max?: number;
   value?: number;
   onChange?: (x: any) => void;
-  onBlur?: (x: any) => void;
-  onFocus?: (x: any) => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
   orientation?: 'horizontal' | 'vertical';
   step?: number;
   stepType?: 'value' | 'count';
@@ -111,7 +111,9 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     tooltipSuffix: '',
     tickMarksPosition: 'normal',
     tickMarksShape: 'line',
-    dir: 'ltr'
+    dir: 'ltr',
+    onFocus: noop,
+    onBlur: noop
   };
 
   constructor(props) {
@@ -161,10 +163,12 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
 
   focus() {
     this.root.focus();
+    this.props.onFocus();
   }
 
   blur() {
     this.root.blur();
+    this.props.onBlur();
   }
 
   getStartPos() {

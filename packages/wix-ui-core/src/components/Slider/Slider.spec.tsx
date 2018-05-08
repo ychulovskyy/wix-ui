@@ -5,6 +5,7 @@ import {Slider} from './index';
 import * as sinon from 'sinon';
 import {mount} from 'enzyme';
 import {Simulate} from 'react-dom/test-utils';
+import {findDOMNode} from 'react-dom';
 import * as eventually from 'wix-eventually';
 
 describe('Slider', () => {
@@ -474,6 +475,29 @@ describe('Slider', () => {
     driver.focus();
 
     sinon.assert.called(onFocus);
+  });
+
+  it('should focus', () => {
+    const onFocus = sinon.spy();
+
+    const wrapper = mount(<Slider onFocus={onFocus}/>);
+
+    (wrapper.instance() as any).focus();
+
+    expect(wrapper.getDOMNode()).toEqual(document.activeElement);
+    sinon.assert.called(onFocus);
+  });
+
+  it('should blur', () => {
+    const onBlur = sinon.spy();
+
+    const wrapper = mount(<Slider onBlur={onBlur}/>);
+
+    (wrapper.instance() as any).focus();
+    (wrapper.instance() as any).blur();
+
+    expect(wrapper.getDOMNode()).not.toEqual(document.activeElement);
+    sinon.assert.called(onBlur);
   });
 
   it('should propagate onBlur when slider is blurred', () => {
