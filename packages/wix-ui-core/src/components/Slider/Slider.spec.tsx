@@ -5,7 +5,6 @@ import {Slider} from './index';
 import * as sinon from 'sinon';
 import {mount} from 'enzyme';
 import {Simulate} from 'react-dom/test-utils';
-import {findDOMNode} from 'react-dom';
 import * as eventually from 'wix-eventually';
 
 describe('Slider', () => {
