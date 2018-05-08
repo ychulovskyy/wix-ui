@@ -484,7 +484,7 @@ describe('Slider', () => {
 
     (wrapper.instance() as any).focus();
 
-    expect(wrapper.getDOMNode()).toEqual(document.activeElement);
+    expect(document.activeElement).toEqual(wrapper.getDOMNode());
     sinon.assert.called(onFocus);
   });
 
@@ -496,7 +496,7 @@ describe('Slider', () => {
     (wrapper.instance() as any).focus();
     (wrapper.instance() as any).blur();
 
-    expect(wrapper.getDOMNode()).not.toEqual(document.activeElement);
+    expect(document.activeElement).not.toEqual(wrapper.getDOMNode());
     sinon.assert.called(onBlur);
   });
 
