@@ -1,0 +1,1040 @@
+.Pagination1798074702--root .Pagination1798074702--button-common-mixin {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.Pagination1798074702--root {
+    -st-states: error;
+    display: inline-flex;
+    user-select: none;
+}
+
+.Pagination1798074702--root .Pagination1798074702--navButton {
+    display: inline-flex;
+    flex-shrink: 0;
+    -st-states: disabled;
+}
+
+.Pagination1798074702--root .Pagination1798074702--navButton:not(.Pagination1798074702--disabled) {
+    cursor: pointer;
+}
+
+.Pagination1798074702--root .Pagination1798074702--navButtonFirst {  order: 1;  }
+.Pagination1798074702--root .Pagination1798074702--navButtonPrevious {  order: 2;  }
+.Pagination1798074702--root .Pagination1798074702--navButtonNext {  order: 4;  }
+.Pagination1798074702--root .Pagination1798074702--navButtonLast {  order: 5;  }
+
+.Pagination1798074702--root .Pagination1798074702--pageStrip {
+    order: 3;
+    overflow-x: hidden;
+}
+
+.Pagination1798074702--root .Pagination1798074702--pageStripInner {
+    display: flex;
+}
+
+.Pagination1798074702--root .Pagination1798074702--pageStripTemplate {
+    height: 0;
+    overflow: hidden;
+}
+
+.Pagination1798074702--root .Pagination1798074702--pageButton {
+    display: inline-flex;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.Pagination1798074702--root .Pagination1798074702--currentPage {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.Pagination1798074702--root .Pagination1798074702--gap {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.Pagination1798074702--root .Pagination1798074702--pageForm {
+    display: flex;
+    order: 3;
+}
+
+.Pagination1798074702--root .Pagination1798074702--pageInput {}
+.Pagination1798074702--root .Pagination1798074702--totalPages {}
+.Pagination1798074702--root .Pagination1798074702--slash {}
+
+.paginationstorytheme4096997265--root .paginationstorytheme4096997265--button-common-mixin {
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    padding: 5px;
+    min-width: 20px;
+    min-height: 20px;
+    font: 12px/1 Arial, sans-serif;
+    text-decoration: none;
+}
+
+.paginationstorytheme4096997265--root.Pagination1798074702--root {
+    -st-extends: Pagination;
+    color: #455A64;
+    background-color: #ECEFF1;
+
+}
+
+.paginationstorytheme4096997265--root.Pagination1798074702--root .Pagination1798074702--navButton {
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    padding: 5px;
+    min-width: 20px;
+    min-height: 20px;
+    font: 12px/1 Arial, sans-serif;
+    text-decoration: none;
+    background-color: #CFD8DC;
+}
+
+.paginationstorytheme4096997265--root.Pagination1798074702--root .Pagination1798074702--navButton.Pagination1798074702--disabled {
+    color: #B0BEC5;
+    background-color: transparent;
+}
+
+.paginationstorytheme4096997265--root.Pagination1798074702--root .Pagination1798074702--pageStripInner {
+    justify-content: center;
+}
+
+.paginationstorytheme4096997265--root.Pagination1798074702--root .Pagination1798074702--pageButton {
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    padding: 5px;
+    min-width: 20px;
+    min-height: 20px;
+    font: 12px/1 Arial, sans-serif;
+    text-decoration: none;
+    background-color: #B0BEC5;
+}
+
+.paginationstorytheme4096997265--root.Pagination1798074702--root .Pagination1798074702--currentPage {
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    padding: 5px;
+    min-width: 20px;
+    min-height: 20px;
+    font: 12px/1 Arial, sans-serif;
+    text-decoration: none;
+    background-color: #455A64;
+    color: #CFD8DC;
+}
+
+.paginationstorytheme4096997265--root.Pagination1798074702--root .Pagination1798074702--gap {
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    padding: 5px;
+    min-width: 20px;
+    min-height: 20px;
+    font: 12px/1 Arial, sans-serif;
+    text-decoration: none;
+    background-color: #CFD8DC;
+}
+
+.paginationstorytheme4096997265--root.Pagination1798074702--root .Pagination1798074702--pageForm {
+    margin: 5px;
+    align-items: center;
+}
+
+.paginationstorytheme4096997265--root.Pagination1798074702--root .Pagination1798074702--pageInput {
+    box-sizing: border-box;
+    height: 30px;
+    text-align: center;
+    font: 12px/1 Arial, sans-serif;
+    color: inherit;
+}
+
+.paginationstorytheme4096997265--root.Pagination1798074702--root[data-pagination1798074702-error] .Pagination1798074702--pageInput {
+    border-color: #f44336;
+}
+
+.Divider4108346001--root {
+  -st-states: vertical, customDivider;
+}
+
+.Divider4108346001--root[data-divider4108346001-customdivider] {
+  reset: all;
+}
+
+.Divider4108346001--root:not([data-divider4108346001-customdivider]) {
+  height: 1px;
+  background-color: black;
+  opacity: initial;
+  margin-top: initial;
+  margin-bottom: initial;
+}
+
+.Divider4108346001--root[data-divider4108346001-vertical] {
+  height: auto;
+  width: 1px;
+}
+
+.Checkbox3876321046--root {
+    -st-states: checked, disabled, indeterminate, readonly, focus, focus-visible, error;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.Checkbox3876321046--root[data-checkbox3876321046-disabled] {
+    pointer-events: none;
+}
+
+.Checkbox3876321046--root .Checkbox3876321046--box {}
+
+.Checkbox3876321046--root .Checkbox3876321046--nativeCheckbox {
+    margin: 0;
+    position: absolute;
+    cursor: inherit;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.Checkbox3876321046--root .Checkbox3876321046--childContainer {
+    display: inline;
+}
+
+.CheckboxStyle261032101--root.Checkbox3876321046--root {
+  -st-extends: Checkbox;
+}
+
+.CheckboxStyle261032101--root.Checkbox3876321046--root .Checkbox3876321046--box {
+    display: inline-flex;
+    width: 1rem;
+    height: 1rem;
+    align-items: center;
+    justify-content: center;
+    vertical-align: bottom;
+    background-color: #fff;
+    border: 1px solid #c8c8c8;
+}
+
+.CheckboxStyle261032101--root.Checkbox3876321046--root[data-checkbox3876321046-checked] .Checkbox3876321046--box,.CheckboxStyle261032101--root.Checkbox3876321046--root[data-checkbox3876321046-indeterminate] .Checkbox3876321046--box {
+    color: #fff;
+    background-color: #4a90e2;
+}
+
+.CheckboxStyle261032101--root.Checkbox3876321046--root[data-checkbox3876321046-disabled] .Checkbox3876321046--box {
+    background-color: #f1f1f1;
+}
+
+.CheckboxStyle261032101--root.Checkbox3876321046--root[data-checkbox3876321046-focus-visible] .Checkbox3876321046--box {
+    outline: 4px solid rgba(92, 180, 255, 0.5);
+}
+
+.CheckboxStyle261032101--root.Checkbox3876321046--root[data-checkbox3876321046-focus] .Checkbox3876321046--box {
+    border: 1px solid red;
+}
+
+.CheckboxStyle261032101--root.Checkbox3876321046--root .Checkbox3876321046--box > svg {
+    display: block;
+    width: 60%;
+    height: 60%;
+    fill: currentColor;
+}
+
+.Popover3002307663--root {
+}
+
+.Popover3002307663--root.Popover3002307663--manager {
+  /*popper sets tooltip in absolute position according to this container*/
+  position: relative;
+  /*popper adds an extra div that needs to be measured without stretching*/
+  display: inline-block;
+}
+
+.Popover3002307663--root .Popover3002307663--popoverAnimation {}
+
+.Popover3002307663--root .Popover3002307663--popoverAnimation-enter {}
+
+.Popover3002307663--root .Popover3002307663--popoverAnimation-enter.Popover3002307663--popoverAnimation-enter-active {}
+
+.Popover3002307663--root .Popover3002307663--popoverAnimation-exit {}
+
+.Popover3002307663--root .Popover3002307663--popoverAnimation-exit.Popover3002307663--popoverAnimation-exit-active {}
+
+.Popover3002307663--root .Popover3002307663--popoverContent {
+  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  border-radius: initial;
+  padding: initial;
+}
+
+.Popover3002307663--root .Popover3002307663--arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: 5px;
+}
+
+.Popover3002307663--root .Popover3002307663--popover {
+  z-index: 1000;
+}
+
+.Popover3002307663--root .Popover3002307663--popover[data-placement*="right"].Popover3002307663--withArrow {
+  padding-left: 5px;
+}
+
+.Popover3002307663--root .Popover3002307663--popover[data-placement*="right"].Popover3002307663--withArrow .Popover3002307663--arrow {
+  border-width: 5px 5px 5px 0;
+  left: -5px;
+  margin-left: 5px;
+  margin-right: 0;
+  border-color: transparent black transparent transparent;
+}
+
+.Popover3002307663--root .Popover3002307663--popover[data-placement*="left"].Popover3002307663--withArrow {
+  padding-right: 5px;
+}
+
+.Popover3002307663--root .Popover3002307663--popover[data-placement*="left"].Popover3002307663--withArrow .Popover3002307663--arrow {
+  border-width: 5px 0 5px 5px;
+  right: -5px;
+  margin-left: 0;
+  margin-right: 5px;
+  border-color: transparent transparent transparent black;
+}
+
+.Popover3002307663--root .Popover3002307663--popover[data-placement*="bottom"].Popover3002307663--withArrow {
+  padding-top: 5px;
+}
+
+.Popover3002307663--root .Popover3002307663--popover[data-placement*="bottom"].Popover3002307663--withArrow .Popover3002307663--arrow {
+  border-width: 0 5px 5px 5px;
+  top: -5px;
+  margin-top: 5px;
+  margin-bottom: 0;
+  border-color: transparent transparent black transparent;
+}
+
+.Popover3002307663--root .Popover3002307663--popover[data-placement*="top"].Popover3002307663--withArrow {
+  padding-bottom: 5px;
+}
+
+.Popover3002307663--root .Popover3002307663--popover[data-placement*="top"].Popover3002307663--withArrow .Popover3002307663--arrow {
+  border-width: 5px 5px 0 5px;
+  bottom: -5px;
+  margin-top: 0;
+  margin-bottom: 5px;
+  border-color: black transparent transparent transparent;
+}
+
+.Tooltip2290157207--root.Popover3002307663--root {
+  -st-extends: Popover;
+}
+
+.RadioButton3076576572--root {
+  display: inline-block;
+  -st-states: disabled, checked, focused;
+}
+
+.RadioButton3076576572--root .RadioButton3076576572--icon {
+  cursor: pointer;
+  height: auto;
+}
+
+.RadioButton3076576572--root .RadioButton3076576572--label {}
+
+.RadioButton3076576572--root[data-radiobutton3076576572-checked] .RadioButton3076576572--icon,.RadioButton3076576572--root:hover .RadioButton3076576572--icon {}
+
+.RadioButton3076576572--root[data-radiobutton3076576572-disabled] {
+  filter: grayscale(75%);
+  opacity: 0.7;
+}
+
+.RadioButton3076576572--root .RadioButton3076576572--hiddenRadio {
+  position: absolute;
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+}
+
+.DropdownOption3078194345--root {
+  -st-states: hovered, disabled, selectable, selected;
+  cursor: pointer;
+}
+
+.DropdownOption3078194345--root[data-dropdownoption3078194345-hovered] {
+  background-color: lightgrey;
+}
+
+.DropdownOption3078194345--root[data-dropdownoption3078194345-disabled] {
+  cursor: default;
+  background-color: white;
+}
+
+.DropdownOption3078194345--root[data-dropdownoption3078194345-selected] {
+  background-color: grey;
+}
+
+.DropdownOption3078194345--root[data-dropdownoption3078194345-selected][data-dropdownoption3078194345-hovered] {
+  background-color: dimgrey;
+}
+
+.DropdownOption3078194345--root:not([data-dropdownoption3078194345-selectable]) {
+  cursor: default;
+}
+
+.DropdownOption3078194345--root .DropdownOption3078194345--highlight {
+  background-color: transparent;
+  font-weight: bold;
+}
+
+.DropdownContent3101824671--root {
+  outline: 0;
+}
+
+.DropdownContent3101824671--root .DropdownContent3101824671--optionsContainer {
+  outline: 0;
+  overflow: auto;
+  max-height: 260px;
+  position: relative;
+}
+
+.DropdownContent3101824671--root .DropdownContent3101824671--dropdownOption.DropdownOption3078194345--root {
+  -st-extends: DropdownOption;
+}
+
+.Dropdown3661727501--root.Popover3002307663--root {
+  -st-extends: Popover;
+}
+
+.Dropdown3661727501--root.Popover3002307663--root .Popover3002307663--popover {
+  min-width: 100%;
+}
+
+.Dropdown3661727501--root .Dropdown3661727501--dropdownContent.DropdownContent3101824671--root {
+  -st-extends: DropdownContent;
+}
+
+.Input2637158475--root {
+  -st-states: disabled, error, focus;
+  position: relative;
+}
+
+.Input2637158475--root .Input2637158475--nativeInput {}
+
+.InputWithOptions2936469820--root.Dropdown3661727501--root {
+  -st-extends: Dropdown;
+}
+
+.InputWithOptions2936469820--root .InputWithOptions2936469820--inputComponent.Input2637158475--root {
+  -st-extends: Input;
+}
+.AddressInput935592392--root.InputWithOptions2936469820--root {
+    -st-extends: InputWithOptions;
+}
+
+.AddressInput935592392--root .AddressInput935592392--option {
+    display: flex;
+}
+
+.AddressInput935592392--root .AddressInput935592392--iconWrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+}
+
+.AddressInput935592392--root .AddressInput935592392--icon {
+
+}
+
+.AddressInput935592392--root .AddressInput935592392--optionContent {
+    flex: 1;
+}
+
+.Autocomplete3685831803--root.InputWithOptions2936469820--root {
+  -st-extends: InputWithOptions;
+  -st-states: disabled;
+}
+
+.Autocomplete3685831803--root .Autocomplete3685831803--divider.Divider4108346001--root {
+  -st-extends: Divider;
+}
+
+.Button703810807--root {
+    -st-states: disabled;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    outline: none;
+}
+
+.IconWithOptions2299962843--root.Dropdown3661727501--root {
+  -st-extends: Dropdown;
+}
+
+.HBox3628890122--root {
+    -st-states: verticalAlignment(enum(bottom, center, top));
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+}
+
+.HBox3628890122--root[data-hbox3628890122-verticalalignment="bottom"] {
+    align-items: flex-end;
+}
+
+.HBox3628890122--root[data-hbox3628890122-verticalalignment="center"] {
+    align-items: center;
+}
+
+.HBox3628890122--root[data-hbox3628890122-verticalalignment="top"] {
+    align-items: flex-start;
+}
+
+
+.style1177583104--root.HBox3628890122--root {
+  -st-extends: HBox;
+  border: solid green 2px;
+  height: 100px;
+}
+
+.VBox1235269414--root {
+    -st-states: horizontalAlignment(enum(left, center, right));
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.VBox1235269414--root[data-vbox1235269414-horizontalalignment="left"] {
+    align-items: flex-start;
+}
+
+.VBox1235269414--root[data-vbox1235269414-horizontalalignment="center"] {
+    align-items: center;
+}
+
+.VBox1235269414--root[data-vbox1235269414-horizontalalignment="right"] {
+    align-items: flex-end;
+}
+
+.style4009008943--root.VBox1235269414--root {
+  -st-extends: VBox;
+  border: solid green 2px;
+  width: 100px;
+}
+
+.Label911027845--root {
+    -st-states: ellipsis, disabled;
+}
+
+.Label911027845--root[data-label911027845-ellipsis] {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.LabelWithOptions2208745859--root.Dropdown3661727501--root {
+  -st-extends: Dropdown;
+  -st-states: required, error, disabled, checkbox;
+}
+
+.LabelWithOptions2208745859--root.Dropdown3661727501--root[data-labelwithoptions2208745859-checkbox] .DropdownOption3078194345--root[data-dropdownoption3078194345-selected] {
+  background-color: white; 
+}
+.LabelWithOptions2208745859--root .LabelWithOptions2208745859--selection {
+
+}
+
+.LabelWithOptions2208745859--root .LabelWithOptions2208745859--label.Label911027845--root {
+  -st-extends: Label;
+}
+
+.LabelWithOptions2208745859--root .LabelWithOptions2208745859--divider.Divider4108346001--root {
+  -st-extends: Divider;
+}
+
+.LabelWithOptions2208745859--root .LabelWithOptions2208745859--placeholder {
+}
+
+.LabelWithOptions2208745859--root .LabelWithOptions2208745859--optionCotainer {
+  display: flex;
+}
+
+.LabelWithOptions2208745859--root .LabelWithOptions2208745859--checkbox.Checkbox3876321046--root {
+  -st-extends: Checkbox;
+  width: 1em;
+  height: 1em;
+  border: 1px solid black;
+}
+
+.LabelWithOptions2208745859--root .LabelWithOptions2208745859--checkbox.Checkbox3876321046--root[data-checkbox3876321046-checked] {
+  background: blue;
+}
+.Slider736006295--root {
+  -st-states: orientation(enum(vertical, horizontal)), tickMarksPosition(enum(normal, middle, across)), tickMarksShape(enum(line, dot)), dir(enum(ltr, rtl)), showTicks, disabled;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  outline: none !important;
+}
+
+.Slider736006295--root * {
+  box-sizing: border-box;
+}
+
+.Slider736006295--root .Slider736006295--tooltip {
+  -st-states: normalPosition, acrossPosition;
+  position: absolute;
+  background: #363636;
+  color: #fff;
+  padding: 4px 12px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+  border-radius: 3px;
+  left: 50%;
+  white-space: nowrap;
+}
+
+.Slider736006295--root .Slider736006295--tooltip::after,.Slider736006295--root .Slider736006295--tooltip::before {
+  content: ' ';
+  position: absolute;
+  margin-left: -8px;
+  border-width: 8px;
+  border-style: solid;
+}
+
+.Slider736006295--root .Slider736006295--track {
+  z-index: 0;
+  width: 100%;
+  height: 25%;
+  position: relative;
+  cursor: pointer;
+  background: #dadada;
+  opacity: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  min-height: 1px;
+}
+
+.Slider736006295--root .Slider736006295--inner {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.Slider736006295--root .Slider736006295--trackFill {
+  position: absolute;
+  background: linear-gradient(to right, #4992e3, #70bff3);
+  height: 100%;
+  width: 100%;
+}
+
+.Slider736006295--root[data-slider736006295-dir="rtl"] .Slider736006295--trackFill {
+  right: 0;
+}
+
+.Slider736006295--root[data-slider736006295-showticks] .Slider736006295--inner {
+  width: 100%;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="horizontal"][data-slider736006295-showticks][data-slider736006295-tickmarksshape="line"][data-slider736006295-tickmarksposition="normal"] .Slider736006295--inner {
+  height: calc(100% - 10px - 12px);
+}
+.Slider736006295--root[data-slider736006295-orientation="horizontal"][data-slider736006295-showticks][data-slider736006295-tickmarksshape="dot"][data-slider736006295-tickmarksposition="normal"] .Slider736006295--inner {
+  height: calc(100% - 3px - 12px);
+}
+.Slider736006295--root[data-slider736006295-orientation="horizontal"][data-slider736006295-showticks][data-slider736006295-tickmarksshape="line"][data-slider736006295-tickmarksposition="across"] .Slider736006295--inner {
+  top: 22px;
+  height: calc(100% - 10px - 12px);
+}
+.Slider736006295--root[data-slider736006295-orientation="horizontal"][data-slider736006295-showticks][data-slider736006295-tickmarksshape="dot"][data-slider736006295-tickmarksposition="across"] .Slider736006295--inner {
+  top: 15px;
+  height: calc(100% - 3px - 12px);
+}
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-showticks][data-slider736006295-tickmarksshape="line"][data-slider736006295-tickmarksposition="normal"] .Slider736006295--inner {
+  width: calc(100% - 10px - 12px);
+}
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-showticks][data-slider736006295-tickmarksshape="dot"][data-slider736006295-tickmarksposition="normal"] .Slider736006295--inner {
+  width: calc(100% - 3px - 12px);
+}
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-showticks][data-slider736006295-tickmarksshape="line"][data-slider736006295-tickmarksposition="across"] .Slider736006295--inner {
+  left: 22px;
+  width: calc(100% - 10px - 12px);
+}
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-showticks][data-slider736006295-tickmarksshape="dot"][data-slider736006295-tickmarksposition="across"] .Slider736006295--inner {
+  left: 15px;
+  width: calc(100% - 3px - 12px);
+}
+
+.Slider736006295--root[data-slider736006295-showticks][data-slider736006295-tickmarksposition="middle"] .Slider736006295--inner {
+  height: 100%;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"] .Slider736006295--track {
+  width: 25%;
+  height: 100%;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"] .Slider736006295--trackFill {
+  background: linear-gradient(to top, #4992e3, #70bff3);
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-showticks] .Slider736006295--inner {
+  top: 0;
+  width: calc(100% - 12px);
+  height: 100%;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-showticks][data-slider736006295-tickmarksposition="across"] .Slider736006295--inner {
+  left: 12px;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-showticks][data-slider736006295-tickmarksposition="middle"] .Slider736006295--inner {
+  width: 100%;
+}
+
+.Slider736006295--root .Slider736006295--thumb {
+  z-index: 2;
+  position: absolute;
+  cursor: pointer;
+}
+
+.Slider736006295--root .Slider736006295--thumbShape {
+  -st-states: shapeType(enum(circle, square, rectangle, bar));
+  width: 100%;
+  height: 100%;
+  background: green;
+  border: 2px solid blue;
+}
+
+.Slider736006295--root .Slider736006295--thumbShape[data-slider736006295-shapetype="circle"] {
+  border-radius: 50%;
+}
+
+.Slider736006295--root .Slider736006295--thumbShape[data-slider736006295-shapetype="square"] {
+  border-radius: 7px;
+}
+
+.Slider736006295--root .Slider736006295--thumbShape[data-slider736006295-shapetype="rectangle"] {
+  border-radius: 37px;
+}
+
+.Slider736006295--root .Slider736006295--thumbShape[data-slider736006295-shapetype="bar"] {
+  border-radius: 7px;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="horizontal"] .Slider736006295--tooltip[data-slider736006295-normalposition] {
+  top: -15px;
+  transform: translate(-50%, -100%);
+}
+.Slider736006295--root[data-slider736006295-orientation="horizontal"] .Slider736006295--tooltip[data-slider736006295-acrossposition] {
+  bottom: -15px;
+  transform: translate(-50%, 100%);
+}
+.Slider736006295--root[data-slider736006295-orientation="vertical"] .Slider736006295--tooltip[data-slider736006295-normalposition] {
+  left: -15px;
+  transform: translate(-100%, -50%);
+}
+.Slider736006295--root[data-slider736006295-orientation="vertical"] .Slider736006295--tooltip[data-slider736006295-acrossposition] {
+  right: -15px;
+  transform: translate(100%, -50%);
+}
+
+.Slider736006295--root[data-slider736006295-orientation="horizontal"] .Slider736006295--tooltip[data-slider736006295-normalposition]::after,.Slider736006295--root[data-slider736006295-orientation="horizontal"] .Slider736006295--tooltip[data-slider736006295-normalposition]::before {
+  border-color: #363636 transparent transparent transparent;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="horizontal"] .Slider736006295--tooltip[data-slider736006295-acrossposition]::after,.Slider736006295--root[data-slider736006295-orientation="horizontal"] .Slider736006295--tooltip[data-slider736006295-acrossposition]::before {
+  border-color: transparent transparent #363636 transparent;
+  bottom: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"] .Slider736006295--tooltip {
+  top: 50%;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"] .Slider736006295--tooltip::after,.Slider736006295--root[data-slider736006295-orientation="vertical"] .Slider736006295--tooltip::before {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"] .Slider736006295--tooltip[data-slider736006295-normalposition]::after,.Slider736006295--root[data-slider736006295-orientation="vertical"] .Slider736006295--tooltip[data-slider736006295-normalposition]::before {
+  left: 100%;
+  margin-left: 0;
+  border-color: transparent transparent transparent #363636;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"] .Slider736006295--tooltip[data-slider736006295-acrossposition]::after,.Slider736006295--root[data-slider736006295-orientation="vertical"] .Slider736006295--tooltip[data-slider736006295-acrossposition]::before {
+  right: 100%;
+  border-color: transparent #363636 transparent transparent;
+}
+
+.Slider736006295--root .Slider736006295--tick {
+  display: inline-block;
+  position: absolute;
+  background: #000;
+  cursor: pointer;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="horizontal"][data-slider736006295-tickmarksshape="line"] .Slider736006295--tick {
+  width: 1px;
+  height: 10px;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-tickmarksshape="line"] .Slider736006295--tick {
+  height: 1px;
+  width: 10px;
+}
+
+.Slider736006295--root[data-slider736006295-tickmarksshape="dot"] .Slider736006295--tick {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="horizontal"][data-slider736006295-tickmarksshape="dot"] .Slider736006295--tick {
+  transform: translateX(-1.5px);
+}
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-tickmarksshape="dot"] .Slider736006295--tick {
+  transform: translateY(1.5px);
+}
+
+.Slider736006295--root[data-slider736006295-orientation="horizontal"][data-slider736006295-tickmarksposition="normal"] .Slider736006295--tick {
+  bottom: 0;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-tickmarksposition="normal"] .Slider736006295--tick {
+  right: 0;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="horizontal"][data-slider736006295-tickmarksposition="middle"] .Slider736006295--tick {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-tickmarksposition="middle"] .Slider736006295--tick {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.Slider736006295--root[data-slider736006295-orientation="horizontal"][data-slider736006295-tickmarksposition="across"] .Slider736006295--tick {
+  top: 0;
+}
+
+.Slider736006295--root[data-slider736006295-orientation="vertical"][data-slider736006295-tickmarksposition="across"] .Slider736006295--tick {
+  left: 0;
+}
+
+.Link2702563638--root {
+  cursor: pointer;
+}
+
+.Badge3998828087--root {
+    cursor: default;
+}
+
+.Text2679189682--root {
+    -st-states: ellipsis;
+}
+
+/* ellipsis state */
+.Text2679189682--root[data-text2679189682-ellipsis] {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.ToggleSwitch1483916408--root {
+  /* Info on focus-visible: https://drafts.csswg.org/selectors-4/#the-focus-visible-pseudo */
+  -st-states: checked, disabled, focus, focus-visible;
+  display: inline-flex;
+  position: relative;
+}
+
+/* We're relying on the input to handle mouse events, that's why we need it to cover the entire component */
+.ToggleSwitch1483916408--root .ToggleSwitch1483916408--input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  cursor: inherit;
+}
+
+.ToggleSwitch1483916408--root .ToggleSwitch1483916408--track {}
+
+.ToggleSwitch1483916408--root .ToggleSwitch1483916408--knob {}
+
+.ToggleSwitch1483916408--root .ToggleSwitch1483916408--knobIcon {}
+
+.style2407075459--root.ToggleSwitch1483916408--root {
+  -st-extends: ToggleSwitch;
+  -st-extends: ToggleSwitch;
+  -st-extends: ToggleSwitch;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 24px;
+  box-sizing: border-box;
+  -st-extends: ToggleSwitch;
+}
+.style2407075459--root.ToggleSwitch1483916408--root .ToggleSwitch1483916408--track {
+  background-color: currentColor;
+}
+.style2407075459--root.ToggleSwitch1483916408--root .ToggleSwitch1483916408--knob {
+  background-color: white;
+}
+.style2407075459--root.ToggleSwitch1483916408--root .ToggleSwitch1483916408--knobIcon {
+  fill: currentColor;
+}
+.style2407075459--root.ToggleSwitch1483916408--root {
+  color: #999;
+}
+.style2407075459--root.ToggleSwitch1483916408--root:hover {
+  color: #999;
+}
+.style2407075459--root.ToggleSwitch1483916408--root[data-toggleswitch1483916408-checked] {
+  color: #999;
+}
+.style2407075459--root.ToggleSwitch1483916408--root[data-toggleswitch1483916408-checked]:hover {
+  color: #999;
+}
+.style2407075459--root.ToggleSwitch1483916408--root[data-toggleswitch1483916408-disabled],
+.style2407075459--root.ToggleSwitch1483916408--root[data-toggleswitch1483916408-disabled]:hover,
+.style2407075459--root.ToggleSwitch1483916408--root[data-toggleswitch1483916408-disabled][data-toggleswitch1483916408-checked],
+.style2407075459--root.ToggleSwitch1483916408--root[data-toggleswitch1483916408-disabled][data-toggleswitch1483916408-checked]:hover {
+  color: #999;
+}
+.style2407075459--root.ToggleSwitch1483916408--root .ToggleSwitch1483916408--track {
+  box-sizing: border-box;
+  width: 48px;
+  height: 24px;
+  border-radius: 12px;
+}
+.style2407075459--root.ToggleSwitch1483916408--root .ToggleSwitch1483916408--knob {
+  position: absolute;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transform: translateX(-12px);
+
+  /* Workaround for Firefox, which doesn't center absolutely positioned flex items */
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.style2407075459--root.ToggleSwitch1483916408--root .ToggleSwitch1483916408--knobIcon {
+  width: 10px;
+  height: 10px;
+}
+.style2407075459--root.ToggleSwitch1483916408--root .ToggleSwitch1483916408--knobIcon > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.style2407075459--root.ToggleSwitch1483916408--root[data-toggleswitch1483916408-checked] .ToggleSwitch1483916408--knob, 
+[dir="rtl"] .style2407075459--root.ToggleSwitch1483916408--root .ToggleSwitch1483916408--knob {
+  transform: translateX(12px);
+}
+[dir="rtl"] .style2407075459--root.ToggleSwitch1483916408--root[data-toggleswitch1483916408-checked] .ToggleSwitch1483916408--knob {
+  transform: translateX(-12px);
+}
+.style2407075459--root.ToggleSwitch1483916408--root:not([data-toggleswitch1483916408-disabled]) {
+  cursor: pointer;
+}
+.style2407075459--root.ToggleSwitch1483916408--root .ToggleSwitch1483916408--track {
+  transition: all 300ms ease;
+}
+.style2407075459--root.ToggleSwitch1483916408--root .ToggleSwitch1483916408--knob {
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.6);
+  transition: all 300ms ease;
+}
+
+.Video3691294991--root {
+    position: relative;
+}
+
+.Video3691294991--root .Video3691294991--playerContainer {
+    position: relative;
+}
+
+.Video3691294991--root .Video3691294991--cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #000 50% 50% no-repeat;
+    background-size: cover;
+    cursor: pointer;
+}
+
+.Video3691294991--root .Video3691294991--overlay {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+.Video3691294991--root .Video3691294991--title {
+    margin: 0 15px 15px;
+    text-align: center;
+}
+
+.Thumbnail976601754--root {
+  -st-states: selected, disabled;
+  position: relative;
+  border: 1px solid grey;
+}
+
+.Thumbnail976601754--root:not([data-thumbnail976601754-selected]) .Thumbnail976601754--selectedIcon {
+  display: none;
+}
+
+.Thumbnail976601754--root .Thumbnail976601754--selectedIcon {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+
+[dir="rtl"] .Thumbnail976601754--selectedIcon {
+  left: -10px;
+  right: unset;
+}
+
+.Thumbnail976601754--root[data-thumbnail976601754-disabled] {
+  cursor: default;
+}
