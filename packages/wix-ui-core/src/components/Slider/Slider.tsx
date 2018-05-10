@@ -42,6 +42,7 @@ export interface SliderState {
   dragging: boolean;
   mouseDown: boolean;
   thumbHover: boolean;
+  inKeyPress: boolean;
   step: number;
   innerRect: Rect;
   trackRect: Rect;
@@ -124,6 +125,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
       dragging: false,
       mouseDown: false,
       thumbHover: false,
+      inKeyPress: false,
       trackRect: {width: 0, height: 0},
       innerRect: {width: 0, height: 0}
     };
@@ -253,6 +255,11 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     this.updateLayout();
   }
 
+  handleBlur = () => {
+    this.setState({inKeyPress: false});
+    this.props.onBlur();
+  }
+
   handleMouseDown = () => {
     this.setState({mouseDown: true});
   }
@@ -312,6 +319,9 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
 
     if (typeof nextValue !== 'undefined') {
       this.handleChange(nextValue);
+      this.setState({
+        inKeyPress: true
+      });
       ev.preventDefault();
     }
   }
@@ -406,7 +416,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
           return false;
         default:
         case 'hover':
-          return this.state.dragging || this.state.thumbHover;
+          return this.state.dragging || this.state.thumbHover || this.state.inKeyPress;
     }
   }
 
@@ -475,7 +485,6 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
         disabled,
         dir,
         onFocus,
-        onBlur,
         tickMarksPosition,
         tickMarksShape,
         thumbShape,
@@ -512,7 +521,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
         onTouchStart={this.handleMouseDown}
         onKeyDown={this.handleKeyDown}
         onFocus={onFocus}
-        onBlur={onBlur}
+        onBlur={this.handleBlur}
         data-value={value}
         data-min={min}
         data-max={max}

@@ -71,6 +71,23 @@ describe('Slider', () => {
     expect(driver.thumbTooltipValue()).toEqual('3');
   });
 
+  it('should show tooltip when pressing keys', () => {
+    const driver = render({ value: 3 });
+
+    driver.arrowRight();
+
+    expect(driver.thumbTooltipValue()).toEqual('3');
+  });
+
+  it('should hide the tooltip upon blur, given key pressed', () => {
+    const driver = render({ value: 3 });
+
+    driver.arrowRight();
+    driver.blur();
+
+    expect(driver.thumbTooltipValue()).toBeFalsy();
+  });
+
   it('does not show tooltip, given tooltipVisibility=none', () => {
     const driver = render({tooltipVisibility: 'none'});
 
