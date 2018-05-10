@@ -34,7 +34,6 @@
   font-size: 14px;
   line-height: 1.5;
   border-radius: 3px;
-  left: 50%;
   white-space: nowrap;
 }
 
@@ -172,14 +171,17 @@
 }
 
 .root:orientation(horizontal) .tooltip:normalPosition {
+  left: 50%;
   top: calc(-7px - value(tooltipGap));
   transform: translate(-50%, -100%);
 }
 .root:orientation(horizontal) .tooltip:acrossPosition {
+  left: 50%;
   bottom: calc(-7px - value(tooltipGap));
   transform: translate(-50%, 100%);
 }
 .root:orientation(vertical) .tooltip:normalPosition {
+  left: 50%;
   left: calc(-7px - value(tooltipGap));
   transform: translate(-100%, -50%);
 }
