@@ -143,11 +143,15 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   componentDidMount() {
     document.addEventListener('mouseup', this.handleMouseUp);
     document.addEventListener('mousemove', this.handleMouseMove);
+    document.addEventListener('touchend', this.handleMouseUp);
+    document.addEventListener('touchmove', this.handleMouseMove, {passive: false});
   }
 
   componentWillUnmount() {
     document.removeEventListener('mouseup', this.handleMouseUp);
     document.removeEventListener('mousemove', this.handleMouseMove);
+    document.removeEventListener('touchend', this.handleMouseUp);
+    document.removeEventListener('touchmove', this.handleMouseMove);
   }
 
   //need to force update after DOM changes, as some layouts are based upon DOM
@@ -356,6 +360,11 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   }
 
   moveThumbByMouse = ev => {
+    if (ev.touches) {
+      ev.preventDefault();
+      ev = ev.touches[0];
+    }
+
     const {min, max, disabled, readOnly, dir} = this.props;
     const rtl = this.isRtl();
 
@@ -500,15 +509,16 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
           showTicks
         }, this.props)}
         onMouseDown={this.handleMouseDown}
+        onTouchStart={this.handleMouseDown}
+        onKeyDown={this.handleKeyDown}
+        onFocus={onFocus}
+        onBlur={onBlur}
         data-value={value}
         data-min={min}
         data-max={max}
         data-orientation={orientation}
         data-dir={dir}
         tabIndex={0}
-        onKeyDown={this.handleKeyDown}
-        onFocus={onFocus}
-        onBlur={onBlur}
         ref={root => this.root = root}
       >
         <div ref={this.setInnerNode} className={pStyle.inner}>
