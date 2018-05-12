@@ -32,7 +32,7 @@
     "yoshi-start": "yoshi start --no-test",
     "storybook-start": "npm run storybook",
     "start": "run-p yoshi-start storybook-start",
-    "release": "yoshi release && teamcity-surge-autorelease",
+    "release": "yoshi release && teamcity-surge-autorelease --dist=storybook-static",
     "storybook": "start-storybook -p 6006",
     "import-path": "node scripts/import-path.js",
     "transpile-mixins": "babel src/mixins -d dist/src/mixins",
