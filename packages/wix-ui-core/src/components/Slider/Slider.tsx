@@ -42,6 +42,7 @@ export interface SliderState {
   dragging: boolean;
   mouseDown: boolean;
   thumbHover: boolean;
+  inKeyPress: boolean;
   step: number;
   innerRect: Rect;
   trackRect: Rect;
@@ -124,6 +125,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
       dragging: false,
       mouseDown: false,
       thumbHover: false,
+      inKeyPress: false,
       trackRect: {width: 0, height: 0},
       innerRect: {width: 0, height: 0}
     };
@@ -143,11 +145,15 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   componentDidMount() {
     document.addEventListener('mouseup', this.handleMouseUp);
     document.addEventListener('mousemove', this.handleMouseMove);
+    document.addEventListener('touchend', this.handleMouseUp);
+    document.addEventListener('touchmove', this.handleMouseMove, {passive: false});
   }
 
   componentWillUnmount() {
     document.removeEventListener('mouseup', this.handleMouseUp);
     document.removeEventListener('mousemove', this.handleMouseMove);
+    document.removeEventListener('touchend', this.handleMouseUp);
+    document.removeEventListener('touchmove', this.handleMouseMove);
   }
 
   //need to force update after DOM changes, as some layouts are based upon DOM
@@ -249,6 +255,11 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     this.updateLayout();
   }
 
+  handleBlur = () => {
+    this.setState({inKeyPress: false});
+    this.props.onBlur();
+  }
+
   handleMouseDown = () => {
     this.setState({mouseDown: true});
   }
@@ -308,6 +319,9 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
 
     if (typeof nextValue !== 'undefined') {
       this.handleChange(nextValue);
+      this.setState({
+        inKeyPress: true
+      });
       ev.preventDefault();
     }
   }
@@ -356,6 +370,11 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
   }
 
   moveThumbByMouse = ev => {
+    if (ev.touches) {
+      ev.preventDefault();
+      ev = ev.touches[0];
+    }
+
     const {min, max, disabled, readOnly, dir} = this.props;
     const rtl = this.isRtl();
 
@@ -397,7 +416,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
           return false;
         default:
         case 'hover':
-          return this.state.dragging || this.state.thumbHover;
+          return this.state.dragging || this.state.thumbHover || this.state.inKeyPress;
     }
   }
 
@@ -466,7 +485,6 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
         disabled,
         dir,
         onFocus,
-        onBlur,
         tickMarksPosition,
         tickMarksShape,
         thumbShape,
@@ -500,15 +518,16 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
           showTicks
         }, this.props)}
         onMouseDown={this.handleMouseDown}
+        onTouchStart={this.handleMouseDown}
+        onKeyDown={this.handleKeyDown}
+        onFocus={onFocus}
+        onBlur={this.handleBlur}
         data-value={value}
         data-min={min}
         data-max={max}
         data-orientation={orientation}
         data-dir={dir}
         tabIndex={0}
-        onKeyDown={this.handleKeyDown}
-        onFocus={onFocus}
-        onBlur={onBlur}
         ref={root => this.root = root}
       >
         <div ref={this.setInnerNode} className={pStyle.inner}>
