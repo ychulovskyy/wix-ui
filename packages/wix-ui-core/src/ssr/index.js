@@ -1,4 +1,3 @@
-// require('stylable-integration/require');
 const {attachHook} = require('stylable-integration/require-hook');
 attachHook({});
 // const {start} = require('../../dist/src/ssr/server');

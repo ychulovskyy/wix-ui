@@ -6,7 +6,7 @@ export const baseURL = `http://localhost:3100`;
 let server;
 
 
-describe('React application', () => {
+describe('SSR', () => {
   beforeEach(async () => {
     server = await start(3100);
     browser.get(baseURL);
@@ -16,7 +16,7 @@ describe('React application', () => {
     await browser.close();
   });
 
-  fit('should display yyyyyyyyy', async () => {
-    waitForVisibilityOf(browser.$('div'), 'Cannot find Input');
+  it('should display components', async () => {
+    waitForVisibilityOf(browser.$('div'), 'There is a problem with SSR');
   });
 });

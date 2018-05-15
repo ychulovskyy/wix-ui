@@ -8,7 +8,6 @@ function isReactComponent(value: any): value is React.ComponentType<any> {
   }
 
 export function test() {
-// describe('SSR compatibility', () => {
     const libExportNames = Object.keys(Components);
 
     libExportNames.forEach(exportName => {
@@ -23,11 +22,6 @@ export function test() {
             catch(e) {
                 throw new Error('Fail');
             }
-            
-            
-            // it(`<${exportName} /> renders on Node.js using React's server side rendering`, () => {
-            //     expect(() => renderToString(<div>{document.getElementsByTagName('input') ? 'bla' : 'bloo'}</div>)).not.toThrow();
-            // });
         }
     });
 }
