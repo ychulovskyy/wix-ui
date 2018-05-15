@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {dividerDriverFactory} from './Divider.driver';
+import {dividerDriverFactory} from './Divider.driver.ts';
 import {createDriverFactory} from 'wix-ui-test-utils/driver-factory';
-import {Divider} from './';
+import {Divider} from './index.ts';
 
 describe('Divider', () => {
 
