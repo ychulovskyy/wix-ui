@@ -16,7 +16,6 @@ export function test() {
         if (isReactComponent(ExportValue)) {
             console.log(`<${exportName} /> renders on Node.js using React's server side rendering`)
             try {
-                // renderToString(<div>{document.getElementsByTagName('input') ? 'bla' : 'bloo'}</div>)
                 renderToString(<ExportValue/>)
             }
             catch(e) {
