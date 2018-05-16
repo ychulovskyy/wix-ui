@@ -27,7 +27,12 @@ export interface SliderProps {
   disabled?: boolean;
   readOnly?: boolean;
   dir?: string;
-  style?: any;
+  style?: Style;
+}
+
+export interface Style {
+  width?: number;
+  height?: number;
 }
 
 export interface Rect {
