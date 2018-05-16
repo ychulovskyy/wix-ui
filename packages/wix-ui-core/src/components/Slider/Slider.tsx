@@ -27,6 +27,12 @@ export interface SliderProps {
   disabled?: boolean;
   readOnly?: boolean;
   dir?: string;
+  style?: Style;
+}
+
+export interface Style {
+  width?: number;
+  height?: number;
 }
 
 export interface Rect {
@@ -114,11 +120,17 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     tickMarksShape: 'line',
     dir: 'ltr',
     onFocus: noop,
-    onBlur: noop
+    onBlur: noop,
+    style: {
+      width: 0,
+      height: 0
+    }
   };
 
   constructor(props) {
     super(props);
+
+    const {width, height} = this.props.style;
 
     this.state = {
       step: 1,
@@ -126,8 +138,8 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
       mouseDown: false,
       thumbHover: false,
       inKeyPress: false,
-      trackRect: {width: 0, height: 0},
-      innerRect: {width: 0, height: 0}
+      trackRect: {width, height},
+      innerRect: {width, height}
     };
   }
 
