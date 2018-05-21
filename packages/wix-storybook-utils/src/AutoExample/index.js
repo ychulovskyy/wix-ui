@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './styles.scss';
 import componentParser from '../AutoDocs/parser';
+import NO_VALUE_TYPE from './no-value-type';
 
 import {
   Wrapper,
@@ -12,8 +13,7 @@ import {
   Code,
   Toggle,
   Input,
-  List,
-  NodesList
+  List
 } from '../FormComponents';
 
 const stripQuotes = string => {
@@ -22,7 +22,11 @@ const stripQuotes = string => {
 };
 
 const matchFuncProp = typeName =>
-  typeName === 'func' || typeName.match(/event/) || typeName.match(/\) => void$/);
+  [
+    /^func/,
+    /event/,
+    /\) => void$/
+  ].some(needle => typeName.match(needle));
 
 const ensureRegexp = a =>
   a instanceof RegExp ? a : new RegExp(a);
@@ -178,14 +182,15 @@ export default class extends Component {
       ) :
       props;
 
-
-  mapControllableProps = fn =>
-    Object
-      .keys(this.parsedComponent.props)
-      .map(key => fn(this.parsedComponent.props[key], key));
-
-  setProp = (key, value) =>
-    this.setState({propsState: {...this.state.propsState, [key]: value}});
+  setProp = (key, value) => {
+    if (value === NO_VALUE_TYPE) {
+      // eslint-disable-next-line no-unused-vars
+      const {[key]: deletedKey, ...propsState} = this.state.propsState;
+      this.setState({propsState});
+    } else {
+      this.setState({propsState: {...this.state.propsState, [key]: value}});
+    }
+  }
 
   propControllers = [
     {
@@ -200,39 +205,18 @@ export default class extends Component {
         }
 
         if (this.props.exampleProps[propKey]) {
-          return <div className={classNames}>{this.state.funcValues[propKey] || 'Interaction preview'}</div>;
+          return (
+            <div className={classNames}>
+              {this.state.funcValues[propKey] || 'Interaction preview'}
+            </div>
+          );
         }
       }
     },
 
     {
-      types: ['string', 'number', /ReactText/],
-      controller: ({propKey}) =>
-        this.props.exampleProps[propKey] ?
-          <NodesList values={this.props.exampleProps[propKey]}/> :
-          <Input/>
-    },
-
-    {
       types: ['bool', 'Boolean'],
       controller: () => <Toggle/>
-    },
-
-    {
-      types: ['union'],
-
-      controller: ({propKey}) =>
-        this.props.exampleProps[propKey] ?
-          <NodesList values={this.props.exampleProps[propKey]}/> :
-          <Input/>
-    },
-
-    {
-      types: ['node', 'ReactNode'],
-      controller: ({propKey}) =>
-        this.props.exampleProps[propKey] ?
-          <NodesList values={this.props.exampleProps[propKey]}/> :
-          <Input/>
     },
 
     {
@@ -242,27 +226,27 @@ export default class extends Component {
     },
 
     {
-      types: ['arrayOf'],
-      controller: ({propKey}) => {
-        if (this.props.exampleProps[propKey]) {
-          return <NodesList values={this.props.exampleProps[propKey]}/>;
-        }
-      }
+      types: ['string', 'number', /ReactText/, 'arrayOf', 'union', 'node', 'ReactNode'],
+      controller: () => <Input/>
     }
   ]
 
   getPropControlComponent = (propKey, type) => {
-    const pretender =
-      this.propControllers.find(({types}) =>
+    if (!matchFuncProp(type.name) && this.props.exampleProps[propKey]) {
+      return <List values={this.props.exampleProps[propKey]}/>;
+    }
+
+    const propControllerCandidate = this.propControllers
+      .find(({types}) =>
         types.some(t => ensureRegexp(t).test(type.name))
       );
 
-    return pretender ? pretender.controller({propKey, type}) : null;
+    return propControllerCandidate && propControllerCandidate.controller ?
+      propControllerCandidate.controller({propKey, type}) :
+      <Input/>;
   }
 
   render() {
-    const component = this.props.component;
-
     const functionExampleProps = Object.keys(this.props.exampleProps).filter(
       prop =>
         this.parsedComponent.props[prop] &&
@@ -300,22 +284,25 @@ export default class extends Component {
     };
 
     if (!this.props.isInteractive) {
-      return React.createElement(component, componentProps);
+      return React.createElement(this.props.component, componentProps);
     }
 
     return (
       <Wrapper dataHook="auto-example">
         <Options>
-          { this.mapControllableProps((prop, key) =>
-            <Option
-              {...{
-                key,
-                label: key,
-                value: componentProps[key],
-                onChange: value => this.setProp(key, value),
-                children: this.getPropControlComponent(key, prop.type)
-              }}
-              />
+          { Object
+              .entries(this.parsedComponent.props)
+              .map(([key, prop]) =>
+                <Option
+                  key={key}
+                  {...{
+                    label: key,
+                    value: componentProps[key],
+                    defaultValue: this.props.componentProps[key],
+                    onChange: value => this.setProp(key, value),
+                    children: this.getPropControlComponent(key, prop.type)
+                  }}
+                  />
           ) }
         </Options>
 
@@ -324,12 +311,12 @@ export default class extends Component {
           isDarkBackground={this.state.isDarkBackground}
           onToggleRtl={isRtl => this.setState({isRtl})}
           onToggleBackground={isDarkBackground => this.setState({isDarkBackground})}
-          children={React.createElement(component, componentProps)}
+          children={React.createElement(this.props.component, componentProps)}
           />
 
         <Code
           dataHook="metadata-codeblock"
-          component={React.createElement(component, codeProps)}
+          component={React.createElement(this.props.component, codeProps)}
           displayName={this.parsedComponent.displayName}
           />
       </Wrapper>
