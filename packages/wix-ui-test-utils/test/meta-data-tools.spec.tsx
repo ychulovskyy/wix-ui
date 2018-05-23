@@ -23,13 +23,22 @@ describe('MetaData Tools', () => {
     MetaDataTools.clean();
   });
 
+  it('returns an already existing metadata', () => {
+    const myCompMetaData = MetaDataTools.describe(TestComp);
+    myCompMetaData.addSim(testSim);
+    expect(myCompMetaData.simulations[1]).toEqual(testSim);
+
+    const mySecondCompMetaData = MetaDataTools.describe(TestComp);
+    expect(mySecondCompMetaData.simulations[1]).toEqual(testSim);
+  });
+
   describe('The Describe method', () => {
     it('adds a new component\'s metadata to the registry, and returns its meta data', () => {
       const myCompMetaData = MetaDataTools.describe(TestComp);
       expect(myCompMetaData).toBeInstanceOf(MetaData);
     });
 
-    it('returns metadata with an empty simulation', () => {
+    it('returns metadata with an empty simulation by default', () => {
       const myCompMetaData = MetaDataTools.describe(TestComp);
       expect(myCompMetaData.simulations[0]).toEqual({});
     });
@@ -41,14 +50,5 @@ describe('MetaData Tools', () => {
       myCompMetaData.addSim(testSim);
       expect(myCompMetaData.simulations[1]).toEqual(testSim);
     });
-  });
-
-  it('returns an already existing metadata', () => {
-    const myCompMetaData = MetaDataTools.describe(TestComp);
-    myCompMetaData.addSim(testSim);
-    expect(myCompMetaData.simulations[1]).toEqual(testSim);
-
-    const mySecondCompMetaData = MetaDataTools.describe(TestComp);
-    expect(mySecondCompMetaData.simulations[1]).toEqual(testSim);
   });
 });
