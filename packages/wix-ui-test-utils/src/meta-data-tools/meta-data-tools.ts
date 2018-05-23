@@ -11,7 +11,7 @@ export class MetaData implements MetaDataDefinition {
 }
 
 const MetaDataTools: MetaDataToolsDefinition = {
-  metaData: new WeakMap(),
+  metaData: new Map(),
   describe (comp) {
     if (!this.metaData.has(comp)) {
       this.metaData.set(comp, new MetaData());
@@ -20,7 +20,7 @@ const MetaDataTools: MetaDataToolsDefinition = {
     return this.metaData.get(comp)!;
   },
   clean () {
-    this.metaData = new WeakMap();
+    this.metaData = new Map();
   }
 };
 
