@@ -1,7 +1,5 @@
 {
   "extends": [
-    "tslint-config-wix",
-    "tslint-react",
-    "tslint-config-prettier"
+    "tslint-config-wix"
   ]
 }
