@@ -1,8 +1,8 @@
-import {ComponentClass} from 'react';
+import * as React from 'react';
 
 export interface MetaDataToolsDefinition {
-  metaData: Map<ComponentClass<any>, MetaDataDefinition>;
-  describe: (comp: ComponentClass<any>) => MetaDataDefinition;
+  metaData: Map<typeof React.Component | React.StatelessComponent<any>, MetaDataDefinition>;
+  describe: (comp: typeof React.Component | React.StatelessComponent<any>) => MetaDataDefinition;
   clean: () => void;
 }
 

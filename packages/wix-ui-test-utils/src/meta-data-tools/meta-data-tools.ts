@@ -1,5 +1,4 @@
 /* tslint:disable:no-invalid-this */
-import {ComponentClass} from 'react';
 import {MetaDataToolsDefinition, MetaDataDefinition, Simulation} from './types';
 
 export class MetaData implements MetaDataDefinition {

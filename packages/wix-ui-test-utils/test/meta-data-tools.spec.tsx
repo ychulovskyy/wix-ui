@@ -6,11 +6,9 @@ interface TestProps {
   text: string;
 }
 
-class TestComp extends React.Component<TestProps, {}> {
-  render () {
-    return <h1>Hey {this.props.text} person</h1>;
-  }
-}
+const TestComp: React.SFC<TestProps> = props => {
+  return <h1>Hey {props.text} person</h1>;
+};
 
 const testSim: {props: TestProps} = {
   props: {
