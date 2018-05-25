@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import CloseIcon from 'wix-ui-icons-common/system/Close';
 import InputWithOptions from 'wix-style-react/InputWithOptions';
 import {default as WixRadioGroup} from 'wix-style-react/RadioGroup';
 import Button from 'wix-style-react/Button';
@@ -32,9 +33,8 @@ export default class List extends React.Component {
   }
 
   createOptions = () =>
-    (this.props.defaultValue ? [this.props.defaultValue] : [])
-      .concat(this.props.values)
-      .map((option, id) => ({
+    this.props.values
+      .map((option = {}, id) => ({
         id: option.id || id,
 
         // `value` is used in InputWithOptions as displayed value in dropdown
@@ -65,7 +65,7 @@ export default class List extends React.Component {
     <span
       onClick={this.clearValue}
       style={{color: '#3899ec', cursor: 'pointer'}}
-      children="&times;"
+      children={<CloseIcon size="7px"/>}
       />;
 
   clearButton =
@@ -120,11 +120,11 @@ export default class List extends React.Component {
           value={this.state.currentValue.id}
           onChange={id => this.onOptionChange({id})}
           >
-          {this.state.options.map(({id, realValue}) =>
+          {this.state.options.map(({id, value}) =>
             <WixRadioGroup.Radio
               key={id}
               value={id}
-              children={typeof realValue === 'function' ? React.createElement(realValue) : realValue}
+              children={value}
               />
           )}
         </WixRadioGroup>
