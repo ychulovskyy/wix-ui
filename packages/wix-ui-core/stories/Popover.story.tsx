@@ -9,9 +9,11 @@ export default {
   componentPath: '../src/components/Popover/Popover.tsx',
   componentProps: {
     'data-hook': 'storybook-popover',
-    children: [<Popover.Element key="1">element</Popover.Element>, <Popover.Content key="2">Content</Popover.Content>],
-    appendTo: 'window', //null, 'scrollParent', 'viewport'
-    // shown: true,
+    children: [
+      <Popover.Element key="1">element</Popover.Element>,
+      <Popover.Content key="2">Content</Popover.Content>
+    ],
+    appendTo: null, // window, null, 'scrollParent', 'viewport'
     showArrow: true,
     timeout: 150
   }

@@ -23,7 +23,7 @@ const stripQuotes = string => {
 
 const matchFuncProp = typeName =>
   [
-    /^func/,
+    /^func/i,
     /event/,
     /\) => void$/
   ].some(needle => typeName.match(needle));
