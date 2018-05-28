@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import {Container, Row, Col} from 'wix-style-react/Grid';
 import {default as WixInput} from 'wix-style-react/Input';
 import ToggleSwitch from 'wix-style-react/ToggleSwitch';
-import Text from 'wix-style-react/Text';
+import Heading from 'wix-style-react/Heading';
 
 import Markdown from '../Markdown';
 import ComponentSource from '../ComponentSource';
@@ -28,7 +28,7 @@ Wrapper.propTypes = {
 const Options = ({children}) =>
   <Col span={6}>
     <div className={styles.title}>
-      <Text appearance="H2">Props</Text>
+      <Heading appearance="H2">Props</Heading>
     </div>
 
     {children}
@@ -71,7 +71,7 @@ Option.propTypes = {
 const Preview = ({children, isRtl, onToggleRtl, isDarkBackground, onToggleBackground}) =>
   <Col span={6}>
     <div className={styles.title}>
-      <Text appearance="H2">Preview</Text>
+      <Heading appearance="H2">Preview</Heading>
 
       <div className={styles.previewControls}>
         <div className={styles.previewControl}>
@@ -149,7 +149,7 @@ Input.propTypes = {
 const Code = ({component, displayName}) =>
   <Col span={12}>
     <div className={styles.title}>
-      <Text appearance="H2">Code</Text>
+      <Heading appearance="H2">Code</Heading>
     </div>
 
     <ComponentSource {...{component, displayName}}/>
