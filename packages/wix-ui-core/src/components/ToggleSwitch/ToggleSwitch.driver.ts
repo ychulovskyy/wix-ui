@@ -2,7 +2,7 @@ import {StylableDOMUtil} from 'stylable/test-utils';
 import style from './ToggleSwitch.st.css';
 
 export const toggleSwitchDriverFactory = ({element, eventTrigger}) => {
-  const checkbox = element.querySelector('input');
+  const checkbox = element && element.querySelector('input');
   const stylableDOMUtil = new StylableDOMUtil(style);
 
   return {
