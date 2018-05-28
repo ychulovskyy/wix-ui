@@ -78,7 +78,7 @@ const Preview = ({children, isRtl, onToggleRtl, isDarkBackground, onToggleBackgr
           Imitate RTL:&nbsp;
 
           <ToggleSwitch
-            size="x-small"
+            size="small"
             checked={isRtl}
             onChange={e => onToggleRtl(e.target.checked)}
             />
@@ -88,7 +88,7 @@ const Preview = ({children, isRtl, onToggleRtl, isDarkBackground, onToggleBackgr
           Dark Background:&nbsp;
 
           <ToggleSwitch
-            size="x-small"
+            size="small"
             checked={isDarkBackground}
             onChange={e => onToggleBackground(e.target.checked)}
             />
@@ -123,7 +123,7 @@ Preview.propTypes = {
 
 const Toggle = ({value, onChange, ...props}) =>
   <ToggleSwitch
-    size="small"
+    size="medium"
     checked={value}
     onChange={({target: {checked}}) => onChange(checked)}
     {...props}
