@@ -32,16 +32,19 @@ export default class List extends React.Component {
 
   createOptions = values =>
     values
-      .map((option = {}, id) => ({
-        id: option.id || id,
+      .map((option, id) => {
+        option = option || {};
+        return {
+          id: option.id || id,
 
-        // `value` is used in InputWithOptions as displayed value in dropdown
-        // however, it's possible `value` is complex react component. instead of
-        // displaying that component, we save it in `realValue` and
-        // show `value` as some string representation of component instead
-        value: option.label || (option.type && option.type.name) || '' + option,
-        realValue: isUndefined(option.value) ? option : option.value
-      }));
+          // `value` is used in InputWithOptions as displayed value in dropdown
+          // however, it's possible `value` is complex react component. instead of
+          // displaying that component, we save it in `realValue` and
+          // show `value` as some string representation of component instead
+          value: option.label || (option.type && option.type.name) || '' + option,
+          realValue: isUndefined(option.value) ? option : option.value
+        };
+      });
 
 
   getFilteredOptions = () =>
