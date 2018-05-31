@@ -11,7 +11,6 @@ export interface InputProps {
   // Props passed down to the native input, add more as needed.
   // We cannot simply extend React.InputHTMLAttributes
   // because types of property 'prefix' are incompatible.
-
   autoComplete?: 'on' | 'off';
   autoFocus?: boolean;
   disabled?: boolean;
@@ -33,6 +32,8 @@ export interface InputProps {
   tabIndex?: number;
   type?: string;
   value?: string;
+  id?: string;
+  name?: string;
 }
 
 export interface InputState {
@@ -70,7 +71,9 @@ export class Input extends React.Component<InputProps, InputState> {
     required: PropTypes.bool,
     tabIndex: PropTypes.number,
     type: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.string,
+    id: PropTypes.string,
+    name: PropTypes.string
   };
 
   static defaultProps: InputProps = {
@@ -110,7 +113,9 @@ export class Input extends React.Component<InputProps, InputState> {
       type,
       value,
       suffix,
-      maxLength
+      maxLength,
+      id,
+      name
     } = this.props;
 
     return (
@@ -146,6 +151,8 @@ export class Input extends React.Component<InputProps, InputState> {
           tabIndex={tabIndex}
           type={type}
           value={value}
+          id={id}
+          name={name}
         />
         {suffix}
       </div>
