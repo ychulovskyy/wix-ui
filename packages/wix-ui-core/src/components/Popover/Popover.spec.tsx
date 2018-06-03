@@ -116,14 +116,14 @@ describe('Popover', () => {
 
       it('should attach styles to content parent when initially open', () => {
         const {wrapper} = mountPopover({shown: true});
-        expect(getExpectedContentParent().className).toBe(styles.root);
+        expect(getExpectedContentParent().classList).toContain(styles.root);
         wrapper.unmount();
       });
 
       it('should remove styles from content parent when closed', () => {
         const {wrapper} = mountPopover({shown: true});
         wrapper.setProps({shown: false});
-        expect(getExpectedContentParent().className).not.toBe(styles.root);
+        expect(getExpectedContentParent().classList).not.toContain(styles.root);
         wrapper.unmount();
       });
 
