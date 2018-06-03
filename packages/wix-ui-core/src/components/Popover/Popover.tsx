@@ -126,7 +126,7 @@ const createModifiers = ({moveBy, appendTo}) => {
   return modifiers;
 };
 
-const getAppendedNode = ({appendTo, targetRef}) => {
+function getAppendToNode({appendTo, targetRef}) {
   let appendToNode;
   if (appendTo === 'window' || appendTo === 'viewport') {
     appendToNode = document.body;
@@ -150,8 +150,9 @@ export class Popover extends React.Component<PopoverType, PopoverState> {
   static Content = createComponentThatRendersItsChildren('Popover.Content');
 
   targetRef: HTMLElement = null;
-  appendToNode: HTMLElement = null;
+  portalNode: HTMLElement = null;
   stylesObj: { [key: string]: string } = null;
+  appendToNode: HTMLElement = null;
 
   constructor(props: PopoverProps) {
     super(props);
@@ -163,33 +164,19 @@ export class Popover extends React.Component<PopoverType, PopoverState> {
 
   static propTypes = {
     className: string,
-    /** The location to display the content */
     placement: PlacementsType,
-    /** Is the content shown or not */
     shown: bool,
-    /** onClick on the component */
     onClick: func,
-    /** onMouseEnter on the component */
     onMouseEnter: func,
-    /** onMouseLeave on the component */
     onMouseLeave: func,
-    /** onKeyDown on the target component */
     onKeyDown: func,
-    /** Show show arrow from the content */
     showArrow: bool,
-    /** Moves popover relative to the parent */
     moveBy: shape({x: number, y: number}),
-    /** Fade Delay */
     hideDelay: number,
-    /** Show Delay */
     showDelay: number,
-    /** Moves arrow by amount */
     moveArrowTo: number,
-    /** Enables calculations in relation to a dom element */
     appendTo: AppendToPropType,
-    /** Animation timer */
     timeout: number,
-    /** Inline styles */
     style: object
   };
 
@@ -223,14 +210,14 @@ export class Popover extends React.Component<PopoverType, PopoverState> {
     return this.wrapWithAnimations(popper);
   }
 
-  applyStylesToAppendedNode(props) {
-    const {shown} = props;
-    const shouldAnimate = shouldAnimatePopover(props);
+  applyStylesToPortaledNode() {
+    const {shown} = this.props;
+    const shouldAnimate = shouldAnimatePopover(this.props);
 
     if (shouldAnimate || shown) {
-      attachStylesToNode(this.appendToNode, this.stylesObj);
+      attachStylesToNode(this.portalNode, this.stylesObj);
     } else {
-      detachStylesFromNode(this.appendToNode, this.stylesObj);
+      detachStylesFromNode(this.portalNode, this.stylesObj);
     }
   }
 
@@ -243,7 +230,7 @@ export class Popover extends React.Component<PopoverType, PopoverState> {
         timeout={Number(timeout)}
         unmountOnExit
         classNames={style.popoverAnimation}
-        onExited={() => detachStylesFromNode(this.appendToNode, this.stylesObj)}
+        onExited={() => detachStylesFromNode(this.portalNode, this.stylesObj)}
       >
         {popper}
       </CSSTransition>
@@ -255,8 +242,8 @@ export class Popover extends React.Component<PopoverType, PopoverState> {
     const popper = this.getPopperContentStructure(childrenObject);
 
     return (
-      this.appendToNode ? (
-        <Portal node={this.appendToNode}>
+      this.portalNode ? (
+        <Portal node={this.portalNode}>
           {popper}
         </Portal> 
       ) :
@@ -264,18 +251,31 @@ export class Popover extends React.Component<PopoverType, PopoverState> {
     );
   }
 
-  handlePortaledPopoverNode(props) {
-    const {appendTo} = props;
-    this.appendToNode = getAppendedNode({appendTo, targetRef: this.targetRef});
+  componentDidMount() {
+    this.initAppendToNode();
+    this.setState({isMounted: true});
+  }
+
+  initAppendToNode() {
+    const {appendTo} = this.props;
+    this.appendToNode = getAppendToNode({appendTo, targetRef: this.targetRef});
     if (this.appendToNode) {
-      this.stylesObj = style('root', {}, props);
-      this.applyStylesToAppendedNode(props);
+      this.portalNode = document.createElement('div');
+      this.appendToNode.appendChild(this.portalNode);
+      // Why do we do this here ?(in componentDidMount and not ONLY in render? or when we actually attachStylesToNode)
+      this.stylesObj = style('root', {}, this.props);
+      // TODO: remove this, it is called in render
+      this.applyStylesToPortaledNode();
     }
   }
 
-  componentDidMount() {
-    this.handlePortaledPopoverNode(this.props);
-    this.setState({isMounted: true});
+  componentWillUnmount() {
+    if (this.portalNode) {
+      // FIXME: What if component is updated with a different appendTo? It is a far-fetched use-case,
+      // but we would need to remove the portaled node, and created another one.
+      this.appendToNode.removeChild(this.portalNode);
+    }
+    this.portalNode = null;
   }
 
   render() {
@@ -286,8 +286,8 @@ export class Popover extends React.Component<PopoverType, PopoverState> {
     const shouldAnimate = shouldAnimatePopover(this.props);
     const shouldRenderPopper = isMounted && (shouldAnimate || shown);
 
-    if (this.appendToNode) {
-      this.applyStylesToAppendedNode(this.props);
+    if (this.portalNode) {
+      this.applyStylesToPortaledNode();
     }
 
     return (
