@@ -36,4 +36,4 @@ import './ToggleSwitch/index.story';
 import './Tooltip/index.story';
 Components.add('Tooltip Custom', () => <TooltipStory/>);
 import './Video.story';
-
+import './ProgressBar.story';
