@@ -5,8 +5,9 @@ export interface LinearProgressBarProps {
   value: number;
   error?: boolean;
   showProgressIndication?: boolean;
+  errorIcon?: any;
+  successIcon?: any;
 }
-
 
 const resolveIndicationElement = (props: LinearProgressBarProps) => {
   if (!props.showProgressIndication) {
@@ -14,25 +15,38 @@ const resolveIndicationElement = (props: LinearProgressBarProps) => {
   }
 
   if (props.error) {
-    return <div data-hook="failure-icon" />;
+    return props.errorIcon && <div data-hook="error-icon" />;
   }
 
   if (props.value === 100) {
-    return <div data-hook="success-icon" />;
+    return props.successIcon && <div data-hook="success-icon" />;
   }
 
   return <div data-hook="progress-percentages">{`${props.value}%`}</div>
 }
 
+const resolveBarSection = (value: number) => {
+  const progressWidth = { width: `${value}%` };
+  return (
+    <div className={style.barContainer}>
+      <div data-hook="progressbar-background" className={style.barBackground} />
+      <div data-hook="progressbar-foreground" style={progressWidth} className={style.barForeground} />
+    </div>
+  )
+}
+
 export const LinearProgressBar = (props: LinearProgressBarProps) => {
-  const progressWidth = { width: `${props.value}%` };
 
   return (
     <div {...style('root', { error: props.error }, props)} >
-      <div className={style.linearProgressBarContainer}>
-        <div data-hook="progressbar-background" className={style.linearProgressBarBackground} />
-        <div data-hook="progressbar-foreground" style={progressWidth} className={style.linearProgressBarForeground} />
+
+      <div className={style.barSection}>
+        {resolveBarSection(props.value)}
+      </div>
+
+      <div className={style.progressIndicationSection}>
         {resolveIndicationElement(props)}
       </div>
+
     </div>);
 }

@@ -11,7 +11,6 @@ export default {
 
   componentProps: setState => ({
     'data-hook': 'progress-bar',
-    value: 10,
-    error: true
+    value: 10
   }),
 }

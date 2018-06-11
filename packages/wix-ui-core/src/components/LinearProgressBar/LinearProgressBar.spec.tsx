@@ -39,9 +39,9 @@ describe('ProgressBar', () => {
       expect(driver.isPercentagesProgressDisplayed()).toBe(false);
     })
 
-    it('should not show failure icon while in progress', () => {
+    it('should not show error icon while in progress', () => {
       const driver = createDriver(<LinearProgressBar {...{...defaultProps, error: true}} />);
-      expect(driver.isFailureIconDisplayed()).toBe(false);
+      expect(driver.isErrorIconDisplayed()).toBe(false);
     })
 
     describe('when with progress indication', () => {
@@ -53,13 +53,23 @@ describe('ProgressBar', () => {
       });
       
       it('should show success icon when reaching 100%', () => {
-          driver = createDriver(<LinearProgressBar {...{...props, value:100}} />);
+          driver = createDriver(<LinearProgressBar {...{...props, value:100, successIcon: {}}} />);
           expect(driver.isSuccessIconDisplayed()).toBe(true);
       })
 
-      it('should show error icon on failure', () => {
-        driver = createDriver(<LinearProgressBar {...{...props, error:true}} />);
-        expect(driver.isFailureIconDisplayed()).toBe(true);
+      it('should not show success icon when reaching 100%', () => {
+          driver = createDriver(<LinearProgressBar {...{...props, value:100, successIcon: false}} />);
+          expect(driver.isSuccessIconDisplayed()).toBe(false);
+      })
+
+      it('should show error icon on failure ', () => {
+        driver = createDriver(<LinearProgressBar {...{...props, error:true, errorIcon: {}}} />);
+        expect(driver.isErrorIconDisplayed()).toBe(true);
+      })
+
+      it('should now show error icon on failure when icon not provided', () => {
+        driver = createDriver(<LinearProgressBar {...{...props, error:true, errorIcon: null}} />);
+        expect(driver.isErrorIconDisplayed()).toBe(false);
       })
 
       it('should show percentages value while in progress', () => {

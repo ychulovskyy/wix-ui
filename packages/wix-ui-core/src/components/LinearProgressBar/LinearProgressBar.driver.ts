@@ -9,7 +9,7 @@ export const linearProgressBarDriverFactory = ({element}) => {
         getBackgroundColor: () => getProgressBarBackgroundStyle().background,
         getForegroundColor: () => getProgressBarForeGroundStyle().background,
         isSuccessIconDisplayed: () => !!getElement('success-icon'),
-        isFailureIconDisplayed: () => !!getElement('failure-icon'),
+        isErrorIconDisplayed: () => !!getElement('error-icon'),
         isPercentagesProgressDisplayed: () => !!getElement('progress-percentages'),
         getPercentagesProgressText: () => getElement('progress-percentages').innerHTML,
     }

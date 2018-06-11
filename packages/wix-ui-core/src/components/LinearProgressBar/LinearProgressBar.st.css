@@ -2,12 +2,18 @@
   -st-states: error;
 }
 
-.linearProgressBarContainer {
+.barSection {
+}
+
+.progressIndicationSection {
+}
+
+.barContainer {
   width: 100%;
   position: relative;
 }
 
-.linearProgressBarBackground {
+.barBackground {
   position: absolute;
   background: rgb(227, 228, 227);
   border-radius: 2px;
@@ -15,17 +21,17 @@
   height: 4px;
 }
 
-.linearProgressBarForeground {
+.barForeground {
   border-radius: 2px;
   height: 4px;
   position: absolute;
   background: rgb(0, 0, 0);
 }
 
-.root:error::linearProgressBarForeground {
+.root:error::barForeground {
   background: rgb(223, 61, 61);
 }
 
-.root:error::linearProgressBarBackground {
+.root:error::barBackground {
   background: rgb(231, 182, 182);
 }
