@@ -53,17 +53,17 @@ describe('ProgressBar', () => {
       });
       
       it('should show success icon when reaching 100%', () => {
-          driver = createDriver(<LinearProgressBar {...{...props, value:100, successIcon: {}}} />);
+          driver = createDriver(<LinearProgressBar {...{...props, value:100, successIcon: <div/>}} />);
           expect(driver.isSuccessIconDisplayed()).toBe(true);
       })
 
-      it('should not show success icon when reaching 100%', () => {
-          driver = createDriver(<LinearProgressBar {...{...props, value:100, successIcon: false}} />);
+      it('should not show success icon when reaching 100% and icon not provided', () => {
+          driver = createDriver(<LinearProgressBar {...{...props, value:100}} />);
           expect(driver.isSuccessIconDisplayed()).toBe(false);
       })
 
       it('should show error icon on failure ', () => {
-        driver = createDriver(<LinearProgressBar {...{...props, error:true, errorIcon: {}}} />);
+        driver = createDriver(<LinearProgressBar {...{...props, error:true, errorIcon: <div/>}} />);
         expect(driver.isErrorIconDisplayed()).toBe(true);
       })
 

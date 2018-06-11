@@ -1,11 +1,35 @@
 .root {
-  -st-states: error;
+  -st-states: error, showProgressIndication;
+  width: 100%;
+  height: 22px;
+}
+
+.centered {
+  /* position: absolute; */
+  display: inline-block;
+  /* top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); */
 }
 
 .barSection {
+  display: inline-block;
+  width: 100%;
 }
 
 .progressIndicationSection {
+  position: relative;
+  height: 100%;
+  display: none;
+}
+
+.root:showProgressIndication::barSection {
+  width: 92%;
+}
+
+.root:showProgressIndication::progressIndicationSection {
+  display: inline-block;
+  width: 8%;
 }
 
 .barContainer {
@@ -13,18 +37,20 @@
   position: relative;
 }
 
-.barBackground {
-  position: absolute;
-  background: rgb(227, 228, 227);
+.barBackground, .barForeground{
+  top: 50%;
+  transform: translateY(-50%);
   border-radius: 2px;
-  width: 100%;
   height: 4px;
+  position: absolute;
+}
+
+.barBackground {
+  width: 100%;
+  background: rgb(227, 228, 227);
 }
 
 .barForeground {
-  border-radius: 2px;
-  height: 4px;
-  position: absolute;
   background: rgb(0, 0, 0);
 }
 

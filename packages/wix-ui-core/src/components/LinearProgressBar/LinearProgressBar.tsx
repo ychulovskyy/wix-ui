@@ -5,24 +5,23 @@ export interface LinearProgressBarProps {
   value: number;
   error?: boolean;
   showProgressIndication?: boolean;
-  errorIcon?: any;
-  successIcon?: any;
+  errorIcon?: JSX.Element;
+  successIcon?: JSX.Element;
 }
 
 const resolveIndicationElement = (props: LinearProgressBarProps) => {
-  if (!props.showProgressIndication) {
-    return null;
-  }
+  const centered = (dataHook: string, children: JSX.Element) => 
+    <div data-hook={dataHook} className={style.centered}>{children}</div>;
 
   if (props.error) {
-    return props.errorIcon && <div data-hook="error-icon" />;
+    return props.errorIcon && centered('error-icon', props.errorIcon);
   }
 
   if (props.value === 100) {
-    return props.successIcon && <div data-hook="success-icon" />;
+    return props.successIcon && centered('success-icon', props.successIcon);
   }
 
-  return <div data-hook="progress-percentages">{`${props.value}%`}</div>
+  return centered('progress-percentages', <span>{`${props.value}%`}</span>);
 }
 
 const resolveBarSection = (value: number) => {
@@ -38,15 +37,15 @@ const resolveBarSection = (value: number) => {
 export const LinearProgressBar = (props: LinearProgressBarProps) => {
 
   return (
-    <div {...style('root', { error: props.error }, props)} >
+    <div {...style('root', { error: props.error, showProgressIndication: props.showProgressIndication}, props)} >
 
       <div className={style.barSection}>
         {resolveBarSection(props.value)}
       </div>
 
-      <div className={style.progressIndicationSection}>
+      {props.showProgressIndication && <div className={style.progressIndicationSection}>
         {resolveIndicationElement(props)}
-      </div>
+      </div>}
 
     </div>);
 }

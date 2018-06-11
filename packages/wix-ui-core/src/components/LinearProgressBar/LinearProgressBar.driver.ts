@@ -11,7 +11,7 @@ export const linearProgressBarDriverFactory = ({element}) => {
         isSuccessIconDisplayed: () => !!getElement('success-icon'),
         isErrorIconDisplayed: () => !!getElement('error-icon'),
         isPercentagesProgressDisplayed: () => !!getElement('progress-percentages'),
-        getPercentagesProgressText: () => getElement('progress-percentages').innerHTML,
+        getPercentagesProgressText: () => getElement('progress-percentages').querySelector('span').innerHTML,
     }
 
     return driver;
