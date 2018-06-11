@@ -10,18 +10,18 @@ export interface LinearProgressBarProps {
 }
 
 const resolveIndicationElement = (props: LinearProgressBarProps) => {
-  const centered = (dataHook: string, children: JSX.Element) => 
-    <div data-hook={dataHook} className={style.centered}>{children}</div>;
+  const wrapped = (dataHook: string, children: JSX.Element) => 
+    <div data-hook={dataHook}>{children}</div>;
 
   if (props.error) {
-    return props.errorIcon && centered('error-icon', props.errorIcon);
+    return props.errorIcon && wrapped('error-icon', props.errorIcon);
   }
 
   if (props.value === 100) {
-    return props.successIcon && centered('success-icon', props.successIcon);
+    return props.successIcon && wrapped('success-icon', props.successIcon);
   }
 
-  return centered('progress-percentages', <span>{`${props.value}%`}</span>);
+  return wrapped('progress-percentages', <span>{`${props.value}%`}</span>);
 }
 
 const resolveBarSection = (value: number) => {
