@@ -3,15 +3,15 @@ import style from './ProgressBar.st.css';
 
 export interface ProgressBarProps {
   value: number;
-  error: boolean;
+  error?: boolean;
 }
 
 const LinearProgressBar = (props: ProgressBarProps) => {
   const progressWidth = { width: `${props.value}%` };
   return (
     <div className={style.linearProgressBarContainer}>
-      <div className={style.linearProgressBarBackground} />
-      <div style={progressWidth} className={style.linearProgressBarValue} />
+      <div data-hook="progressbar-background" className={style.linearProgressBarBackground} />
+      <div data-hook="progressbar-foreground" style={progressWidth} className={style.linearProgressBarForeground} />
     </div>
   )
 };

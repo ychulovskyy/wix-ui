@@ -19,6 +19,11 @@ export const tooltipTestkitFactory = enzymeTestkitFactoryCreator(
   tooltipDriverFactory
 );
 
+import { progressBarDriverFactory } from "../components/ProgressBar/ProgressBar.driver";
+export const progressBarTestkitFactory = enzymeTestkitFactoryCreator(
+  progressBarDriverFactory
+);
+
 import { paginationDriverFactory } from "../components/Pagination/Pagination.driver";
 export const paginationTestkitFactory = enzymeTestkitFactoryCreator(
   paginationDriverFactory
