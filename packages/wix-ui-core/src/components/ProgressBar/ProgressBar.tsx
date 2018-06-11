@@ -6,6 +6,18 @@ export interface ProgressBarProps {
   error: boolean;
 }
 
-export const ProgressBar = (props: ProgressBarProps) =>  (
-  <div { ...style('root', {error: props.error}, props) } data-hook={'storybook-progress-bar'} >{props.value}</div>
+const LinearProgressBar = (props: ProgressBarProps) => {
+  const progressWidth = { width: `${props.value}%` };
+  return (
+    <div className={style.linearProgressBarContainer}>
+      <div className={style.linearProgressBarBackground} />
+      <div style={progressWidth} className={style.linearProgressBarValue} />
+    </div>
+  )
+};
+
+export const ProgressBar = (props: ProgressBarProps) => (
+  <div {...style('root', { error: props.error }, props)} >
+    <LinearProgressBar {...props} />
+  </div>
 );

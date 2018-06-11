@@ -2,6 +2,26 @@
   -st-states: error;
 }
 
-.root:error {
+.linearProgressBarContainer {
+  width: 100%;
+  position: relative;
+}
+
+.linearProgressBarBackground {
+  position: absolute;
+  background: lightgreen;
+  border-radius: 2px;
+  width: 100%;
+  height: 4px;
+}
+
+.root:error::linearProgressBarBackground {
   background: red;
+}
+
+.linearProgressBarValue {
+  border-radius: 2px;
+  height: 4px;
+  position: absolute;
+  background: black;
 }
