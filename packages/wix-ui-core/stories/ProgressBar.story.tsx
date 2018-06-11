@@ -1,13 +1,13 @@
 import * as React from 'react';
-import {ProgressBar} from '../src/components/ProgressBar';
-import { ProgressBarProps } from '../src/components/ProgressBar/ProgressBar';
+import {LinearProgressBar} from '../src/components/LinearProgressBar';
+import { LinearProgressBarProps } from '../src/components/LinearProgressBar/LinearProgressBar';
 
 export default {
   category: 'Components',
-  name: 'ProgressBar',
-  storyName: 'ProgressBar',
-  component: ProgressBar,
-  componentPath: '../src/components/ProgressBar',
+  name: 'LinearProgressBar',
+  storyName: 'LinearProgressBar',
+  component: LinearProgressBar,
+  componentPath: '../src/components/LinearProgressBar',
 
   componentProps: setState => ({
     'data-hook': 'progress-bar',
