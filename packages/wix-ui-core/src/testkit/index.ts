@@ -42,6 +42,15 @@ export const buttonTestkitFactory = testkitFactoryCreator<ButtonDriver>(
 export { ButtonDriver };
 
 import {
+  linearProgressBarDriverFactory,
+  LinearProgressBarDriver
+} from "../components/LinearProgressBar/LinearProgressBar.driver";
+export const linearProgressBarTestkitFactory = testkitFactoryCreator<LinearProgressBarDriver>(
+  linearProgressBarDriverFactory
+);
+export { LinearProgressBarDriver };
+
+import {
   badgeDriverFactory as stylableBadgeDriverFactory,
   BadgeDriver as StylableBadgeDriver
 } from "../components/StylableBadge/Badge.driver";
