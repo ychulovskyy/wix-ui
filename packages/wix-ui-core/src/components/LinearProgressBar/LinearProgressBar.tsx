@@ -41,7 +41,7 @@ export const LinearProgressBar = (props: LinearProgressBarProps) => {
 
       {renderBarSection(props.value)}  
 
-      {props.showProgressIndication && <div className={style.progressIndicationSection}>
+      {props.showProgressIndication && <div data-hook="progress-indicator" className={style.progressIndicationSection}>
         {resolveIndicationElement(props)}
       </div>}
 

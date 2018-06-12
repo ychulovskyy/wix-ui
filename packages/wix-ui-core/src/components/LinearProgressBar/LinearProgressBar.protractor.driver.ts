@@ -1,17 +1,30 @@
 import {BaseDriver, DriverFactory} from './../../common/BaseDriver.protractor';
-import { promise } from 'protractor';
+import { promise, ElementFinder } from 'protractor';
 
 export interface LinearProgressBarDriver extends BaseDriver {
-  /** returns true if the root element is present */
+  /** Returns true if the root element is present */
   exists: () => promise.Promise<boolean>;
+  /** Get the foreground bar width */
+  getForegroundBarWidth: () => promise.Promise<number>;
+  /** Get the background bar width */
+  getBackgroundBarWidth: () => promise.Promise<number>;
+  /** Returns true if the indication element is displayed */
+  isProgressIndicationDisplayed: () => promise.Promise<boolean>;
 }
 
 export const linearProgressBarDriverFactory: DriverFactory<LinearProgressBarDriver> = element => {
   
-  const progressBar = element.$('[data-hook="progressbar-foreground"]');
+  const findByDataHook = dataHook => element.$(`[data-hook="${dataHook}"]`);
+  const foregroundBar = findByDataHook('progressbar-foreground');
+  const backgroundBar = findByDataHook('progressbar-background');
+  const getElementWidth = (e: ElementFinder) => e.getSize().then((size => size.width));
+  const progressIndication = () => findByDataHook('progress-indicator');
 
   return {
     element: () => element,
-    exists: () => element.isPresent()
+    exists: () => element.isPresent(),
+    getForegroundBarWidth: () => getElementWidth(foregroundBar),
+    getBackgroundBarWidth: () => getElementWidth(backgroundBar),
+    isProgressIndicationDisplayed: () => progressIndication().isPresent()
   };
 };
