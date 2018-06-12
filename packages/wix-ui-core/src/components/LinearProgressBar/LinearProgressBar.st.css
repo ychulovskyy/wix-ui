@@ -1,12 +1,9 @@
 .root {
   -st-states: error, showProgressIndication;
   width: 100%;
-  height: 22px;
-}
-
-.barSection {
-  display: inline-block;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  min-height: 22px;
 }
 
 .progressIndicationSection {
@@ -15,19 +12,15 @@
   display: none;
 }
 
-.barSection, .progressIndicationSection {
+.progressIndicationSection {
   float: left;
-}
-
-.root:showProgressIndication::barSection {
-  width: 92%;
 }
 
 .root:showProgressIndication::progressIndicationSection {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 8%;
+  padding-left: 18px;
 }
 
 .barContainer {
@@ -35,7 +28,11 @@
   position: relative;
 }
 
-.barSection, .barContainer {
+.barContainer {
+  height: 100%;
+}
+
+.root:showProgressIndication {
   height: 100%;
 }
 

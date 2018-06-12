@@ -24,7 +24,7 @@ const resolveIndicationElement = (props: LinearProgressBarProps) => {
   return wrapped('progress-percentages', <span>{`${props.value}%`}</span>);
 }
 
-const resolveBarSection = (value: number) => {
+const renderBarSection = (value: number) => {
   const progressWidth = { width: `${value}%` };
   return (
     <div className={style.barContainer}>
@@ -39,9 +39,7 @@ export const LinearProgressBar = (props: LinearProgressBarProps) => {
   return (
     <div {...style('root', { error: props.error, showProgressIndication: props.showProgressIndication}, props)} >
 
-      <div className={style.barSection}>
-        {resolveBarSection(props.value)}
-      </div>
+      {renderBarSection(props.value)}  
 
       {props.showProgressIndication && <div className={style.progressIndicationSection}>
         {resolveIndicationElement(props)}
