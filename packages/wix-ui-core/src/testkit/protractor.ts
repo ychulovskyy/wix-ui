@@ -37,6 +37,10 @@ import {checkboxDriverFactory, CheckboxDriver} from '../components/Checkbox/Chec
 export const checkboxTestkitFactory = protractorTestkitFactoryCreator(checkboxDriverFactory);
 export {CheckboxDriver};
 
+import {linearProgressBarDriverFactory, LinearProgressBarDriver} from '../components/LinearProgressBar/LinearProgressBar.protractor.driver';
+export const linearProgressBarTestkitFactory = protractorTestkitFactoryCreator(linearProgressBarDriverFactory);
+export {LinearProgressBarDriver};
+
 //Stylable
 import {radioButtonDriverFactory, RadioButtonDriver} from '../components/RadioButton/RadioButton.protractor.driver';
 export const radioButtonTestkitFactory = protractorTestkitFactoryCreator(radioButtonDriverFactory);

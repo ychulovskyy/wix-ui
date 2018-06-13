@@ -24,6 +24,7 @@ import './Input/Input.story';
 import './IconWithOptions.story';
 import './Label.story';
 import './LabelWithOptions.story';
+import './LinearProgressBar/index.story';
 import './Link.story';
 Components.add('Pagination', () => <PaginationStory/>);
 import './Popover.story';
@@ -36,4 +37,3 @@ import './ToggleSwitch/index.story';
 import './Tooltip/index.story';
 Components.add('Tooltip Custom', () => <TooltipStory/>);
 import './Video.story';
-
