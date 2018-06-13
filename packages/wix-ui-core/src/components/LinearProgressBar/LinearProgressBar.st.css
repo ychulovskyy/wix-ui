@@ -1,22 +1,14 @@
 .root {
-  -st-states: error, showProgressIndication;
+  -st-states: error;
   width: 100%;
   display: flex;
   align-items: center;
-  min-height: 22px;
 }
 
 .progressIndicationSection {
   position: relative;
   height: 100%;
-  display: none;
-}
-
-.progressIndicationSection {
   float: left;
-}
-
-.root:showProgressIndication::progressIndicationSection {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,37 +18,15 @@
 .barContainer {
   width: 100%;
   position: relative;
-}
-
-.barContainer {
-  height: 100%;
-}
-
-.root:showProgressIndication {
   height: 100%;
 }
 
 .barBackground, .barForeground{
   top: 50%;
   transform: translateY(-50%);
-  border-radius: 2px;
-  height: 4px;
   position: absolute;
 }
 
 .barBackground {
   width: 100%;
-  background: rgb(227, 228, 227);
-}
-
-.barForeground {
-  background: rgb(0, 0, 0);
-}
-
-.root:error::barForeground {
-  background: rgb(223, 61, 61);
-}
-
-.root:error::barBackground {
-  background: rgb(231, 182, 182);
 }

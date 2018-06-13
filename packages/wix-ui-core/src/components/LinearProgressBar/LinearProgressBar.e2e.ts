@@ -4,7 +4,7 @@ import {getStoryUrl, waitForVisibilityOf} from 'wix-ui-test-utils/protractor';
 import {linearProgressBarTestkitFactory, LinearProgressBarDriver} from '../../testkit/protractor';
 import {Key} from 'selenium-webdriver';
 import * as autoExampleDriver from 'wix-storybook-utils/AutoExampleDriver';
-import { LinearProgressBarProps } from './LinearProgressBar';
+import {LinearProgressBarProps} from './LinearProgressBar';
 
 describe('LinearProgresBar', () => {
   const storyUrl = getStoryUrl('Components', 'LinearProgressBar');
@@ -55,9 +55,9 @@ describe('LinearProgresBar', () => {
     expect(actualProgress).toBe(expectedProgress);
   });
 
-  eyes.it('should show progress indicator', async () => {
+  eyes.it('should show progress indicator percentages', async () => {
     const props: LinearProgressBarProps = {showProgressIndication: true, value: 10};
     await autoExampleDriver.setProps(props);
-    expect(await driver.isProgressIndicationDisplayed()).toBe(true);
+    expect(await driver.progressIndicationValue()).toBe('10%');
   });
 });
