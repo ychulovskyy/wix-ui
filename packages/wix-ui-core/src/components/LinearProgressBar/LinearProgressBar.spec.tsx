@@ -1,4 +1,4 @@
-import * as React from 'React'
+import * as React from 'react'
 import { linearProgressBarDriverFactory } from './LinearProgressBar.driver'
 import { ReactDOMTestContainer } from '../../../test/dom-test-container';
 import { LinearProgressBar } from './';
