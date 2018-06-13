@@ -33,6 +33,28 @@ describe('LinearProgresBar', () => {
     expect(actualProgress).toBe(expectedProgress);
   });
 
+  eyes.it('should show empty progress as value less than 0', async () => {
+    const expectedProgress = 0;
+    const valueLessThan0 = -1;
+
+    await autoExampleDriver.setProps({value: valueLessThan0});
+    const foregroundBarWidth = await driver.getForegroundBarWidth();
+
+    expect(foregroundBarWidth).toBe(0);
+  });
+
+  eyes.it('should show exactly full progress as value greater than 100', async () => {
+    const expectedProgress = 100;
+    const valueGreaterThan100 = 101;
+
+    await autoExampleDriver.setProps({value: valueGreaterThan100});
+    const foregroundBarWidth = await driver.getForegroundBarWidth();
+    const backgroundBarWidth = await driver.getBackgroundBarWidth();
+    const actualProgress = Math.round((foregroundBarWidth/backgroundBarWidth) * 100);
+
+    expect(actualProgress).toBe(expectedProgress);
+  });
+
   eyes.it('should show progress indicator', async () => {
     const props: LinearProgressBarProps = {showProgressIndication: true, value: 10};
     await autoExampleDriver.setProps(props);

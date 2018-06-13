@@ -26,12 +26,6 @@ describe('ProgressBar', () => {
     expect(driver.getWidth()).toBe(`${defaultProps.value}%`);
   })
 
-  it('should show progress colors with no failure', () => {
-    const driver = createDriver(<LinearProgressBar {...defaultProps} />);
-    expect(driver.getForegroundColor()).toBe('rgb(0, 0, 0)');
-    expect(driver.getBackgroundColor()).toBe('rgb(227, 228, 227)');
-  })
-
   it('should not show success icon when reaching 100%', () => {
     const driver = createDriver(<LinearProgressBar {...{ ...defaultProps, value: 100 }} />);
     expect(driver.isSuccessIconDisplayed()).toBe(false);
@@ -60,40 +54,45 @@ describe('ProgressBar', () => {
       expect(driver.isSuccessIconDisplayed()).toBe(true);
     })
 
-    it('should not show success icon when reaching 100% and icon not provided', () => {
-      driver = createDriver(<LinearProgressBar {...{ ...props, value: 100 }} />);
-      expect(driver.isSuccessIconDisplayed()).toBe(false);
+    it('should show success icon when reaching 100% and value passed as string', () => {
+      driver = createDriver(<LinearProgressBar {...{ ...props, value: '100' as any, successIcon: <div /> }} />);
+      expect(driver.isSuccessIconDisplayed()).toBe(true);
     })
 
-    it('should show error icon on failure ', () => {
+    it('should show percentages value when reaching 100% and success icon not provided', () => {
+      driver = createDriver(<LinearProgressBar {...{ ...props, value: 100 }} />);
+      expect(driver.getValue()).toBe('100%');
+    })
+
+    it('should show error icon on failure', () => {
       driver = createDriver(<LinearProgressBar {...{ ...props, error: true, errorIcon: <div /> }} />);
       expect(driver.isErrorIconDisplayed()).toBe(true);
     })
 
-    it('should now show error icon on failure when icon not provided', () => {
-      driver = createDriver(<LinearProgressBar {...{ ...props, error: true, errorIcon: null }} />);
+    it('should show percentages value when error icon not provided', () => {
+      driver = createDriver(<LinearProgressBar {...{ ...props, value: 33, error: true, errorIcon: null }} />);
       expect(driver.isErrorIconDisplayed()).toBe(false);
+      expect(driver.getValue()).toBe('33%');
     })
 
     it('should show percentages value while in progress', () => {
       driver = createDriver(<LinearProgressBar {...{ ...props, value: 50 }} />);
-      expect(driver.getPercentagesProgressText()).toBe('50%');
+      expect(driver.getValue()).toBe('50%');
+    })
+
+    it('should show percentages value of 0 when passing value lesser than 0', () => {
+      driver = createDriver(<LinearProgressBar {...{ ...props, value: -1 }} />);
+      expect(driver.getValue()).toBe('0%');
+    })
+
+    it('should show value in percentages rounded down', () => {
+      const floatValue = 3.9;
+      const floatValueRoundDown = Math.floor(floatValue);
+
+      driver = createDriver(<LinearProgressBar {...{ ...props, value: floatValue }} />);
+      expect(driver.getValue()).toBe(`${floatValueRoundDown}%`);
     })
   });
-
-  describe('when error occures', () => {
-    let driver;
-
-    beforeEach(() => {
-      const props = { ...defaultProps, error: true };
-      driver = createDriver(<LinearProgressBar {...props} />);
-    })
-
-    it('should show failure colors', () => {
-      expect(driver.getForegroundColor()).toBe('rgb(223, 61, 61)');
-      expect(driver.getBackgroundColor()).toBe('rgb(231, 182, 182)');
-    })
-  })
 
   runTestkitExistsSuite({
     Element: <LinearProgressBar value={0} />,

@@ -9,19 +9,22 @@ export interface LinearProgressBarProps {
   successIcon?: JSX.Element;
 }
 
+const FULL_PROGRESS = 100;
+const NO_PROGRESS = 0;
+
 const resolveIndicationElement = (props: LinearProgressBarProps) => {
   const wrapped = (dataHook: string, children: JSX.Element) => 
     <div data-hook={dataHook}>{children}</div>;
 
-  if (props.error) {
-    return props.errorIcon && wrapped('error-icon', props.errorIcon);
+  if (props.error && props.errorIcon) {
+    return wrapped('error-icon', props.errorIcon);
   }
 
-  if (props.value === 100) {
-    return props.successIcon && wrapped('success-icon', props.successIcon);
+  if (props.value === FULL_PROGRESS && props.successIcon) {
+    return wrapped('success-icon', props.successIcon);
   }
 
-  return wrapped('progress-percentages', <span>{`${props.value}%`}</span>);
+  return wrapped('progress-percentages', <span className={style.value} >{`${props.value}%`}</span>);
 }
 
 const renderBarSection = (value: number) => {
@@ -34,10 +37,26 @@ const renderBarSection = (value: number) => {
   )
 }
 
-export const LinearProgressBar = (props: LinearProgressBarProps) => {
+const validateProgressValue = (props: LinearProgressBarProps) => {
+  const value = parseInt(props.value as any);
+  
+  if (props.value >= FULL_PROGRESS) {
+    return {...{}, ...props, value: FULL_PROGRESS};
+  }
+
+  if (props.value < 0) {
+    return {...{}, ...props, value: NO_PROGRESS};
+  }
+
+  return {...{}, ...props, value};
+}
+
+export const LinearProgressBar = (_props: LinearProgressBarProps) => {
+  const {error, showProgressIndication} = _props;
+  const props = validateProgressValue(_props);
 
   return (
-    <div {...style('root', { error: props.error, showProgressIndication: props.showProgressIndication}, props)} >
+    <div {...style('root', {error, showProgressIndication}, props)} >
 
       {renderBarSection(props.value)}  
 
