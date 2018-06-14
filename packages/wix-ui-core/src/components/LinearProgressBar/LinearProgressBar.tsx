@@ -19,7 +19,7 @@ const NO_PROGRESS = 0;
 
 const resolveIndicationElement = (props: LinearProgressBarProps) => {
   const wrapped = (dataHook: string, children: JSX.Element) => 
-    <div data-hook={dataHook}>{children}</div>;
+    <div data-hook={dataHook} className={style.indicationContainer} >{children}</div>;
 
   if (props.error && props.errorIcon) {
     return wrapped('error-icon', props.errorIcon);
@@ -56,17 +56,18 @@ const normalizeProps = (props: LinearProgressBarProps) => {
   return {...props, value};
 }
 
-export const LinearProgressBar = (_props: LinearProgressBarProps) => {
-  const {error, showProgressIndication} = _props;
-  const props = normalizeProps(_props);
+export const LinearProgressBar = (props: LinearProgressBarProps) => {
+  const {error, showProgressIndication} = props;
+  const _props = normalizeProps(props);
+  const success = _props.value === FULL_PROGRESS;
 
   return (
-    <div {...style('root', {error}, props)} >
+    <div {...style('root', {error, success}, _props)} >
 
-      {renderBarSection(props.value)} 
+      {renderBarSection(_props.value)} 
 
-      {props.showProgressIndication && <div data-hook="progress-indicator" className={style.progressIndicationSection}>
-        {resolveIndicationElement(props)}
+      {_props.showProgressIndication && <div data-hook="progress-indicator" className={style.progressIndicationSection}>
+        {resolveIndicationElement(_props)}
       </div>}
 
     </div>);
