@@ -1,1 +1,1 @@
-export {LinearProgressBar} from './LinearProgressBar';
+export {LinearProgressBar, LinearProgressBarProps} from './LinearProgressBar';
