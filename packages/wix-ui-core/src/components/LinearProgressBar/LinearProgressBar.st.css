@@ -1,5 +1,5 @@
 .root {
-  -st-states: error;
+  -st-states: error, success;
   width: 100%;
   display: flex;
   align-items: center;
@@ -30,3 +30,5 @@
 .barBackground {
   width: 100%;
 }
+
+.indicationContainer {}
