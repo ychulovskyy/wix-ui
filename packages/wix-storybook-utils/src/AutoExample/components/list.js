@@ -30,7 +30,7 @@ export default class List extends React.Component {
     };
   }
 
-  createOptions = values =>
+  createOptions = (values = []) =>
     values
       .map((option, id) => {
         option = option || {};

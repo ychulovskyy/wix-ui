@@ -200,8 +200,18 @@ export default class extends Component {
   ]
 
   getPropControlComponent = (propKey, type = {}) => {
-    if (!matchFuncProp(type.name) && this.props.exampleProps[propKey]) {
-      return <List values={this.props.exampleProps[propKey]}/>;
+    const exampleProp = this.props.exampleProps[propKey];
+
+    if (type.name && !matchFuncProp(type.name) && exampleProp) {
+      return <List values={exampleProp}/>;
+    }
+
+    // adhoc solution for function prop that doesn't exist in parsed props (due
+    // to some misconfiguration) although does exist in exampleProps.
+    // in that case treat prop as a regular function prop and show interactive
+    // example
+    if (typeof exampleProp === 'function') {
+      type.name = 'function';
     }
 
     const propControllerCandidate = this.propControllers
