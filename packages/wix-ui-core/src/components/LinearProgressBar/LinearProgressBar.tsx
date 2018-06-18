@@ -1,9 +1,10 @@
 import * as React from 'react';
+import {bool, element, oneOfType, number, string} from 'prop-types';
 import style from './LinearProgressBar.st.css';
 
 export interface LinearProgressBarProps {
   /** represent the progress state in percentages (0 - no progress, 100 - progress completed) */
-  value: number;
+  value?: number | string;
   /** should be true if had failure during the progress */
   error?: boolean;
   /** when set to true, an indication of the progress state will be presented along side the progress bar */
@@ -18,7 +19,7 @@ const FULL_PROGRESS = 100;
 const NO_PROGRESS = 0;
 
 const resolveIndicationElement = (props: LinearProgressBarProps) => {
-  const wrapped = (dataHook: string, children: JSX.Element) => 
+  const wrapped = (dataHook: string, children: JSX.Element) =>
     <div data-hook={dataHook} className={style.indicationContainer} >{children}</div>;
 
   if (props.error && props.errorIcon) {
@@ -32,7 +33,7 @@ const resolveIndicationElement = (props: LinearProgressBarProps) => {
   return wrapped('progress-percentages', <span className={style.value} >{`${props.value}%`}</span>);
 }
 
-const renderBarSection = (value: number) => {
+const renderBarSection = (value: number | string) => {
   const progressWidth = { width: `${value}%` };
   return (
     <div className={style.barContainer}>
@@ -44,7 +45,7 @@ const renderBarSection = (value: number) => {
 
 const normalizeProps = (props: LinearProgressBarProps) => {
   const value = parseInt(props.value as any);
-  
+
   if (props.value >= FULL_PROGRESS) {
     return {...props, value: FULL_PROGRESS};
   }
@@ -56,7 +57,7 @@ const normalizeProps = (props: LinearProgressBarProps) => {
   return {...props, value};
 }
 
-export const LinearProgressBar = (props: LinearProgressBarProps) => {
+export const LinearProgressBar: React.SFC<LinearProgressBarProps> = (props: LinearProgressBarProps) => {
   const {error, showProgressIndication} = props;
   const _props = normalizeProps(props);
   const success = _props.value === FULL_PROGRESS;
@@ -64,11 +65,23 @@ export const LinearProgressBar = (props: LinearProgressBarProps) => {
   return (
     <div {...style('root', {error, success}, _props)} >
 
-      {renderBarSection(_props.value)} 
+      {renderBarSection(_props.value)}
 
       {showProgressIndication && <div data-hook="progress-indicator" className={style.progressIndicationSection}>
         {resolveIndicationElement(_props)}
       </div>}
 
     </div>);
+}
+
+LinearProgressBar.propTypes = {
+  value: oneOfType([number, string]),
+  error: bool,
+  showProgressIndication: bool,
+  errorIcon: element,
+  successIcon: element,
+}
+
+LinearProgressBar.defaultProps = {
+  value: 0,
 }
