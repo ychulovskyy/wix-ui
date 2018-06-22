@@ -178,22 +178,6 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     return CONTINUOUS_STEP;
   }
 
-  isShallowEqual(v, o) {
-    for (const key in v) {
-      if (!(key in o) || v[key] !== o[key]) {
-        return false;
-      }
-    }
-
-    for (const key in o) {
-      if (!(key in v) || v[key] !== o[key]) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
   getSliderSize() {
     const {width, height} = this.props.style;
     const isVertical = this.isVertical();
@@ -440,15 +424,15 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     const clampedValue = this.floorValue(this.props.value);
 
     return (
-      <div 
-        data-hook="tooltip" 
+      <div
+        data-hook="tooltip"
         {...pStyle('tooltip', {[positionClassname]: true})}
       >
         {this.props.tooltipPrefix}{clampedValue}{this.props.tooltipSuffix}
       </div>
     );
   }
-    
+
   ticksShown() {
     return !this.isContinuous() && this.props.tickMarksShape !== 'none';
   }
@@ -532,7 +516,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
     };
 
     return (
-      <div 
+      <div
         {...pStyle('root', {
           orientation: vertical ? 'vertical' : 'horizontal',
           dir,
@@ -555,7 +539,7 @@ export class Slider extends React.PureComponent<SliderProps, SliderState> {
         ref={root => this.root = root}
       >
         <div className={pStyle.inner} style={this.getInnerDims()}>
-          <div 
+          <div
             data-hook="track"
             ref={this.setTrackNode}
             className={pStyle.track}
