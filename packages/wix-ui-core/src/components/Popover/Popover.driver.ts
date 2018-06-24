@@ -12,9 +12,6 @@ export const popoverDriverFactory = ({element, eventTrigger}) => ({
   mouseEnter: () => eventTrigger.mouseEnter(element),
   mouseLeave: () => eventTrigger.mouseLeave(element),
   click: () => eventTrigger.click(element),
-  getArrowOffset: () => {
-    const {top, left, right, bottom} = (getArrowElement(element) as HTMLElement).style;
-    return {top, left, right, bottom};
-  },
+  
   inlineStyles: () => element.style
 });
