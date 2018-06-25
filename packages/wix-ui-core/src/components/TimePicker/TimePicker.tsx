@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {bool, func, object, string, node, oneOf} from 'prop-types';
+import {bool, func, string, node, oneOf} from 'prop-types';
 const omit = require('lodash/omit');
 import {Tickers} from './Tickers';
 import {Input, InputProps} from '../Input';
@@ -15,7 +15,7 @@ import {
   isValidTime
 } from './utils';
 
-export interface TimePickerProps {
+export type TimePickerProps = Pick<InputProps, 'width' | 'disabled'> & {
   /**
    *  Callback function when user changes the value of the component.
    *  Will be called only with valid values (this component is semi-controlled)
@@ -39,6 +39,9 @@ export interface TimePickerProps {
 
   /** What to display for the down ticker. Will only be shown if tickerUpIcon is also provided */
   tickerDownIcon?: React.ReactNode;
+
+  /** Is it an error state */
+  error?: boolean;
 }
 
 export interface TimePickerState {
