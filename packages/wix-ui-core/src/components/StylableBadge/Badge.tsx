@@ -12,6 +12,7 @@ import { Requireable } from 'prop-types';
 import {Label} from './../Label';
 import {Tooltip} from './../Tooltip';
 import {isShallowEqual} from './../../utils/isShallowEqual.tsx';
+import {isEllipsisActive} from './../../utils/isEllipsisActive.tsx';
 import style from './Badge.st.css';
 
 export interface BadgeProps {
@@ -34,7 +35,7 @@ export class Badge extends React.Component<BadgeProps, BadgeState> {
     children: any,
 
     /** className to place on the root of the rendered element */
-    className: any,
+    className: string,
 
     /** When a maximum width is set and the badge content did not fit, a tooltip will become visible */
     maxWidth: oneOfType([number, string]),
@@ -45,24 +46,18 @@ export class Badge extends React.Component<BadgeProps, BadgeState> {
   }
 
   componentDidMount() {
-    this.setState({isEllipsisActive: this.isEllipsisActive()});
+    this.updateEllipsesState();
   }
 
   componentDidUpdate(prevProps) {
     // if props changed, then we want to re-check node for ellipsis state
     // and we can not do such check in render, because we want to check already rendered node
     if (!isShallowEqual(prevProps, this.props)) {
-      this.setState({isEllipsisActive: this.isEllipsisActive()});
+      this.updateEllipsesState();
     }
   }
 
-  isEllipsisActive = () => {
-    const node = ReactDOM.findDOMNode(this) as HTMLElement;
-    if (!node) {
-      return false;
-    }
-    return node.offsetWidth < node.scrollWidth;
-  }
+  updateEllipsesState = () => this.setState({isEllipsisActive: isEllipsisActive(ReactDOM.findDOMNode(this) as HTMLElement)});
 
   render() {
     if (!this.state.isEllipsisActive) {
