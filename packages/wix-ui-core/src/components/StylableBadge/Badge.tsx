@@ -62,25 +62,23 @@ export class Badge extends React.Component<BadgeProps, BadgeState> {
   render() {
     if (!this.state.isEllipsisActive) {
       return (
-        <Label
+        <span
           {...style('root', {}, this.props)}
-          ellipsis
-          maxWidth={this.props.maxWidth}
+          style={{ maxWidth: this.props.maxWidth }}
         >
           {this.props.children}
-        </Label>
+        </span>
       );
     }
 
     return (
       <Tooltip content={this.props.children}>
-        <Label
+        <span
           {...style('root', {}, this.props)}
-          ellipsis
-          maxWidth={this.props.maxWidth}
+          style={{maxWidth: this.props.maxWidth}}
         >
           {this.props.children}
-        </Label>
+        </span>
       </Tooltip>
     )
   }
