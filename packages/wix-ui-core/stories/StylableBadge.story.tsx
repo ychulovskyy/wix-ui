@@ -9,6 +9,6 @@ export default {
   componentProps: {
     children: 'I\'m a Badge!',
     'data-hook': 'storybook-badge',
-    maxWidth: '50px'
+    maxWidth: '120px'
   }
 };

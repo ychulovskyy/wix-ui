@@ -41,6 +41,8 @@ export class Badge extends React.Component<BadgeProps, BadgeState> {
     maxWidth: oneOfType([number, string]),
   }
 
+  private badgeNode: Node;
+
   state = {
     isEllipsisActive: false
   }
@@ -57,24 +59,16 @@ export class Badge extends React.Component<BadgeProps, BadgeState> {
     }
   }
 
-  updateEllipsesState = () => this.setState({isEllipsisActive: isEllipsisActive(ReactDOM.findDOMNode(this) as HTMLElement)});
+  setBadgeNode = node => this.badgeNode = node;
+
+  updateEllipsesState = () => this.setState({isEllipsisActive: isEllipsisActive(this.badgeNode)});
 
   render() {
-    if (!this.state.isEllipsisActive) {
-      return (
-        <span
-          {...style('root', {}, this.props)}
-          style={{ maxWidth: this.props.maxWidth }}
-        >
-          {this.props.children}
-        </span>
-      );
-    }
-
     return (
-      <Tooltip content={this.props.children}>
+      <Tooltip content={this.props.children} visible={this.state.isEllipsisActive}>
         <span
           {...style('root', {}, this.props)}
+          ref={this.setBadgeNode}
           style={{maxWidth: this.props.maxWidth}}
         >
           {this.props.children}
