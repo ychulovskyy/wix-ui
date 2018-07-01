@@ -1,17 +1,23 @@
 import {PopoverDriverPrivate} from './Popover.driver.private';
+import {BaseDriver, DriverArgs} from '../../common/BaseDriver';
+ 
+export class PopoverDriver extends BaseDriver {
+  private readonly p: PopoverDriverPrivate;
 
-export const popoverDriverFactory = ({element, eventTrigger}) => {
-  const p = new PopoverDriverPrivate({element, eventTrigger});
-  
-  return {
-    exists: () => !!element,
-    getTargetElement: p.getTargetElement,
-    getContentElement: p.getContentElement,
-    isTargetElementExists: p.isTargetElementExists,
-    isContentElementExists: p.isContentElementExists,   
-    mouseEnter: () => eventTrigger.mouseEnter(element),
-    mouseLeave: () => eventTrigger.mouseLeave(element),
-    click: () => eventTrigger.click(element),
-    inlineStyles: () => element.style,
+  constructor(driverArgs: DriverArgs) {
+    super(driverArgs);
+    this.p = new PopoverDriverPrivate(driverArgs);
   }
+
+  getTargetElement = () => this.p.getTargetElement();
+  getContentElement = () => this.p.getContentElement();
+  isTargetElementExists = () => this.p.isTargetElementExists();
+  isContentElementExists = () => this.p.isContentElementExists();   
+  inlineStyles = () => this.element.style
+}
+
+export const popoverDriverFactory = (driverArgs: DriverArgs) => {
+  return {
+    ...new PopoverDriver(driverArgs)
+  };
 };

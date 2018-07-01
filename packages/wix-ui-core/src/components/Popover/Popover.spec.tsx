@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {queryHook} from 'wix-ui-test-utils/dom';
+import * as eventually from 'wix-eventually';
+import {runBaseDriverTests} from '../../common/BaseDriver.tests';
 import {Popover, PopoverProps} from './';
 import {popoverDriverFactory} from './Popover.driver';
 import {PopoverDriverPrivate} from './Popover.driver.private';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
-import * as eventually from 'wix-eventually';
 import styles from './Popover.st.css';
 
 const popoverWithProps = (props: PopoverProps) => (
@@ -190,5 +191,16 @@ describe('Popover', () => {
       const privateDriver = createDriver();
       expect(privateDriver.getPortalElement().parentElement).toBe(container.node.firstChild);
     });
+  });
+
+  describe('public driver', () => {
+    const createElement = () => {
+        container.render(popoverWithProps({
+          placement: 'bottom',
+          shown: false
+        }));
+        return container.componentNode;
+    }
+    runBaseDriverTests(createElement);
   });
 });

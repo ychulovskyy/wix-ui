@@ -2,7 +2,7 @@ import { Simulate } from 'react-dom/test-utils';
 
 export interface DriverArgs {
   element: HTMLElement;
-  eventTrigger: typeof Simulate;
+  eventTrigger?: typeof Simulate;
 }
 
 export class BaseDriver {
