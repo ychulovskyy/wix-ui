@@ -3,7 +3,7 @@ import {Simulate} from 'react-dom/test-utils';
 import {queryHook} from 'wix-ui-test-utils/dom';
 import {Popover, PopoverProps} from './';
 import {popoverDriverFactory} from './Popover.driver';
-import {popoverPrivateDriverFactory} from './Popover.driver.private';
+import {PopoverDriverPrivate} from './Popover.driver.private';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import * as eventually from 'wix-eventually';
 import styles from './Popover.st.css';
@@ -22,10 +22,9 @@ const popoverWithProps = (props: PopoverProps) => (
 describe('Popover', () => {
   const container = new ReactDOMTestContainer().destroyAfterEachTest();
 
-  const createDriver = ()=> popoverPrivateDriverFactory(
+  const createDriver = ()=> new PopoverDriverPrivate(
     {
-      element: container.componentNode, 
-      eventTrigger: Simulate
+      element: container.componentNode
     }
   );
 

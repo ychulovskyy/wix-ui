@@ -1,7 +1,7 @@
-import {popoverPrivateDriverFactory} from './Popover.driver.private';
+import {PopoverDriverPrivate} from './Popover.driver.private';
 
 export const popoverDriverFactory = ({element, eventTrigger}) => {
-  const p = popoverPrivateDriverFactory({element, eventTrigger});
+  const p = new PopoverDriverPrivate({element, eventTrigger});
   
   return {
     exists: () => !!element,
