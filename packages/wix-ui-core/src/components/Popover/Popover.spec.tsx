@@ -216,6 +216,14 @@ describe('Popover', () => {
       ...props
     }));
 
+    it('PopoverDriver class sanity', async () => {
+      render();  
+      const driver = new PopoverDriver({
+        element: container.componentNode
+      });
+      expect(driver.getTargetElement()).toBeDefined();
+    });
+
     it('getTargetElement', async () => {
       render();  
       const driver = createPublicDriver();
