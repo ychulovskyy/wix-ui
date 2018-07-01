@@ -1,17 +1,17 @@
-const queryDocumentOrElement = (element, query) => ((element && element.querySelectorAll(query)[0]) || document && document.querySelector(query));
-const getTargetElement = (element: Element | undefined) => element && element.querySelectorAll('[data-hook="popover-element"]')[0];
-const getContentElement = (element: Element | undefined) => queryDocumentOrElement(element, '[data-hook="popover-content"]');
-const getArrowElement = (element: Element | undefined) => element && element.querySelectorAll('[data-hook="popover-arrow"]')[0];
+import {popoverPrivateDriverFactory} from './Popover.driver.private';
 
-export const popoverDriverFactory = ({element, eventTrigger}) => ({
-  exists: () => !!element,
-  getTargetElement: () => getTargetElement(element),
-  getContentElement: () => getContentElement(element),
-  isTargetElementExists: () => !!getTargetElement(element),
-  isContentElementExists: () => !!getContentElement(element),
-  mouseEnter: () => eventTrigger.mouseEnter(element),
-  mouseLeave: () => eventTrigger.mouseLeave(element),
-  click: () => eventTrigger.click(element),
+export const popoverDriverFactory = ({element, eventTrigger}) => {
+  const p = popoverPrivateDriverFactory({element, eventTrigger});
   
-  inlineStyles: () => element.style
-});
+  return {
+    exists: () => !!element,
+    getTargetElement: p.getTargetElement,
+    getContentElement: p.getContentElement,
+    isTargetElementExists: p.isTargetElementExists,
+    isContentElementExists: p.isContentElementExists,   
+    mouseEnter: () => eventTrigger.mouseEnter(element),
+    mouseLeave: () => eventTrigger.mouseLeave(element),
+    click: () => eventTrigger.click(element),
+    inlineStyles: () => element.style,
+  }
+};

@@ -22,14 +22,7 @@ const popoverWithProps = (props: PopoverProps) => (
 describe('Popover', () => {
   const container = new ReactDOMTestContainer().destroyAfterEachTest();
 
-  const createDriver = ()=> popoverDriverFactory(
-    {
-      element: container.componentNode, 
-      eventTrigger: Simulate
-    }
-  );
-
-  const createPrivateDriver = ()=> popoverPrivateDriverFactory(
+  const createDriver = ()=> popoverPrivateDriverFactory(
     {
       element: container.componentNode, 
       eventTrigger: Simulate
@@ -83,7 +76,7 @@ describe('Popover', () => {
         showArrow: true,
         moveArrowTo: 10
       }));
-      const driver = createPrivateDriver();
+      const driver = createDriver();
       expect(driver.getArrowOffset().left).toBe('10px');
     });
   });
@@ -138,7 +131,7 @@ describe('Popover', () => {
       }));
 
       const driver = createDriver();
-      const privateDriver = createPrivateDriver();
+      const privateDriver = createDriver();
       expect(driver.getContentElement().parentElement).toBe(privateDriver.getPortalElement());
       expect(privateDriver.getPortalElement().parentElement).toBe(portalContainer.node);
       expect(privateDriver.getPortalElement().classList).toContain(styles.root);
@@ -152,7 +145,7 @@ describe('Popover', () => {
       }));
 
       const driver = createDriver();
-      const privateDriver = createPrivateDriver();
+      const privateDriver = createDriver();
       expect(driver.isContentElementExists()).toBeFalsy();
       expect(privateDriver.getPortalElement().parentElement).toBe(portalContainer.node);
       expect(privateDriver.getPortalElement().classList).not.toContain(styles.root);
@@ -165,7 +158,7 @@ describe('Popover', () => {
         appendTo: portalContainer.node
       }));
 
-      const privateDriver = createPrivateDriver();
+      const privateDriver = createDriver();
       expect(privateDriver.getPortalElement()).toBeTruthy();
       container.unmount();
       expect(privateDriver.getPortalElement()).toBeNull();
@@ -178,7 +171,7 @@ describe('Popover', () => {
         appendTo: 'window'
       }));
 
-      const privateDriver = createPrivateDriver();
+      const privateDriver = createDriver();
       expect(privateDriver.getPortalElement().parentElement).toBe(document.body);
     });
 
@@ -195,7 +188,7 @@ describe('Popover', () => {
         </div>
       );
       
-      const privateDriver = createPrivateDriver();
+      const privateDriver = createDriver();
       expect(privateDriver.getPortalElement().parentElement).toBe(container.node.firstChild);
     });
   });
