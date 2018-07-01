@@ -4,7 +4,7 @@ import {queryHook} from 'wix-ui-test-utils/dom';
 import * as eventually from 'wix-eventually';
 import {runBaseDriverTests} from '../../common/BaseDriver.tests';
 import {Popover, PopoverProps} from './';
-import {popoverDriverFactory} from './Popover.driver';
+import {popoverDriverFactory, PopoverDriver} from './Popover.driver';
 import {PopoverDriverPrivate} from './Popover.driver.private';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import styles from './Popover.st.css';
@@ -201,6 +201,56 @@ describe('Popover', () => {
         }));
         return container.componentNode;
     }
+
     runBaseDriverTests(createElement);
+
+    const createPublicDriver = ()=> popoverDriverFactory(
+      {
+        element: container.componentNode
+      }
+    );
+
+    const render = (props?:Partial<PopoverProps>) => container.render(popoverWithProps({
+      placement: 'bottom',
+      shown: false,
+      ...props
+    }));
+
+    it('getTargetElement', async () => {
+      render();  
+      const driver = createPublicDriver();
+      expect(driver.getTargetElement()).toBeDefined();
+    });
+
+    it('getContentElement', async () => {
+      render();  
+      const driver = createPublicDriver();
+      expect(driver.getContentElement()).toBeDefined();
+    });
+
+    it('isTargetElementExists', async () => {
+      render();  
+      const driver = createPublicDriver();
+      expect(driver.isTargetElementExists()).toBeTruthy();
+    });
+
+    it('isContentElementExists', async () => {
+      render({shown:true});  
+      const driver = createPublicDriver();
+      expect(driver.isContentElementExists()).toBeTruthy();
+    });
+
+    it('isTargetElementExists', async () => {
+      render();  
+      const driver = createPublicDriver();
+      expect(driver.inlineStyles()).toBeTruthy();
+    });
+
+    it('inlineStyles', async () => {
+      const style = {backgroundColor: 'green'};
+      render({style});  
+      const driver = createPublicDriver();
+      expect(driver.inlineStyles()['background-color']).toBe('green')
+    });
   });
 });
