@@ -1,2 +1,4 @@
 export {TimePicker, TimePickerProps} from './TimePicker';
-export {AmPmOptions} from './constants';
+import * as TimePickerConstants from './constants';
+import * as TimePickerUtils from './utils';
+export {TimePickerConstants, TimePickerUtils};
