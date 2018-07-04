@@ -14,16 +14,5 @@ export function runBaseDriverTests(createElement: ()=> HTMLElement) {
       expect(driver.exists()).toBeTruthy();
     });
 
-    it('mouseEnter', () => {
-      expect(driver.mouseEnter).toBeDefined();
-    });
-
-    it('mouseLeave', () => {
-      expect(driver.mouseLeave).toBeDefined();
-    });
-
-    it('click', () => {
-      expect(driver.click).toBeDefined();
-    });
   });
 }

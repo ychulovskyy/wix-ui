@@ -260,5 +260,20 @@ describe('Popover', () => {
       const driver = createPublicDriver();
       expect(driver.inlineStyles()['background-color']).toBe('green')
     });
+
+    it('mouseEnter', () => {
+      const driver = createPublicDriver();
+      expect(driver.mouseEnter).toBeDefined();
+    });
+
+    it('mouseLeave', () => {
+      const driver = createPublicDriver();
+      expect(driver.mouseLeave).toBeDefined();
+    });
+
+    it('click', () => {
+      const driver = createPublicDriver();
+      expect(driver.click).toBeDefined();
+    });
   });
 });

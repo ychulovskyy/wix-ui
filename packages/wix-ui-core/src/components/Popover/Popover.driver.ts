@@ -1,29 +1,28 @@
-import {PopoverDriverPrivate} from './Popover.driver.private';
-import {BaseDriver, DriverArgs} from '../../common/BaseDriver';
-
-const PRIVATE_DRIVER = Symbol('private driver');
+import { queryHook } from 'wix-ui-test-utils/dom';
+import {BaseDriver, DriverBuilderParams} from '../../common/BaseDriver';
 
 export class PopoverDriver extends BaseDriver {
 
-  private readonly [PRIVATE_DRIVER]: PopoverDriverPrivate;
-
-  constructor(driverArgs: DriverArgs) {
+  constructor(driverArgs: DriverBuilderParams) {
     super(driverArgs);
-    this[PRIVATE_DRIVER] = new PopoverDriverPrivate(driverArgs);
   }
 
-  get p() {
-    return this[PRIVATE_DRIVER];
+  private byHook(dataHook: string) {
+    return queryHook<HTMLElement>(this.element, dataHook) || queryHook<HTMLElement>(document, dataHook) ;
   }
 
-  getTargetElement = () => this.p.getTargetElement();
-  getContentElement = () => this.p.getContentElement();
-  isTargetElementExists = () => this.p.isTargetElementExists();
-  isContentElementExists = () => this.p.isContentElementExists();
+  getTargetElement = () =>  this.byHook('popover-element');
+  getContentElement = () =>  this.byHook('popover-content');
+  isTargetElementExists = () =>  !!this.getTargetElement();
+  isContentElementExists = () =>  !!this.getContentElement();
+  
   inlineStyles = () => this.element.style;
+  mouseEnter = () =>  this.eventTrigger.mouseEnter(this.element);
+  mouseLeave = () =>  this.eventTrigger.mouseLeave(this.element);
+  click = () => this.eventTrigger.click(this.element);
 }
 
-export const popoverDriverFactory = (driverArgs: DriverArgs) => {
+export const popoverDriverFactory = (driverArgs: DriverBuilderParams) => {
   return {
     ...new PopoverDriver(driverArgs)
   };

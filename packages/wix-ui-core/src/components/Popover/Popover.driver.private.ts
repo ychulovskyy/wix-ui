@@ -1,26 +1,34 @@
-import { BaseDriver , DriverArgs} from './../../common/BaseDriver';
+import { queryHook } from 'wix-ui-test-utils/dom';
+import { Simulate } from 'react-dom/test-utils';
 
-const queryDocumentOrElement = (element, query) => ((element && element.querySelectorAll(query)[0]) || document && document.querySelector(query));
-const getTargetElement = (element: Element | undefined) => element && element.querySelectorAll('[data-hook="popover-element"]')[0];
-const getContentElement = (element: Element | undefined) => queryDocumentOrElement(element, '[data-hook="popover-content"]');
-const getArrowElement = (element: Element | undefined) => queryDocumentOrElement(element, '[data-hook="popover-arrow"]');
-const getPortalElement = (element: Element | undefined) => queryDocumentOrElement(element, '[data-hook="popover-portal"]');
+export class PopoverDriverPrivate {
+  element: HTMLElement;
+  eventTrigger?: typeof Simulate
 
-export class PopoverDriverPrivate extends BaseDriver {
-
-  constructor(driverArgs: DriverArgs) {
-    super(driverArgs)
+  constructor({element, eventTrigger = Simulate}:
+    {element: HTMLElement, eventTrigger?: typeof Simulate}) {
+    this.element = element;
+    this.eventTrigger = eventTrigger;
   }
 
-  getTargetElement = () =>  getTargetElement(this.element);
-  getContentElement = () =>  getContentElement(this.element);
-  isTargetElementExists = () =>  !!getTargetElement(this.element);
-  isContentElementExists = () =>  !!getContentElement(this.element);
+  /* Since Popover.Content can render outside the component's root, let's query
+   * the entire document with the assumption that we don't render more than one
+   * popover at a time.
+   */
+  private byHook(dataHook: string) {
+    return queryHook<HTMLElement>(document, dataHook);
+  }
+
+  getTargetElement = () =>  this.byHook('popover-element');
+  getContentElement = () =>  this.byHook('popover-content');
+  isTargetElementExists = () =>  !!this.getTargetElement();
+  isContentElementExists = () =>  !!this.getContentElement();
   inlineStyles = () =>  this.element.style;
   getArrowOffset = () => {
-    const {top, left, right, bottom} = (getArrowElement(this.element) as HTMLElement).style;
+    const {top, left, right, bottom} = (this.byHook('popover-arrow') as HTMLElement).style;
     return {top, left, right, bottom};
   }
-  getPortalElement = () =>  getPortalElement(this.element);
-
+  getPortalElement = () =>  this.byHook('popover-portal');
+  mouseEnter = () =>  this.eventTrigger.mouseEnter(this.element);
+  mouseLeave = () =>  this.eventTrigger.mouseLeave(this.element);
 };
