@@ -31,7 +31,7 @@ const children = [
   {label: 'Default example',
     value:
     [
-      <Popover.Element key="1">element</Popover.Element>,
+      <Popover.Element key="1">This is the Popover.Element</Popover.Element>,
       <Popover.Content key="2">Content</Popover.Content>
     ]
   },
@@ -59,7 +59,8 @@ export default {
     appendTo: null,
     showArrow: true,
     timeout: 150,
-    shown: false
+    shown: false,
+    placement: 'top'
   },
 
   exampleProps: {
@@ -70,6 +71,24 @@ export default {
       {label: 'scrollParent', value: 'scrollParent'},
       {label: 'viewport', value: 'viewport'},
       {label: 'null', value: null},
+    ],
+
+    placement: [
+      'auto-start',
+      'auto',
+      'auto-end',
+      'top-start',
+      'top',
+      'top-end',
+      'right-start',
+      'right',
+      'right-end',
+      'bottom-end',
+      'bottom',
+      'bottom-start',
+      'left-end',
+      'left',
+      'left-start'
     ]
   },
 
