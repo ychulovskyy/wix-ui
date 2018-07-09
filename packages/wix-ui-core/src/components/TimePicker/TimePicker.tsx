@@ -22,6 +22,12 @@ export type TimePickerProps = Pick<InputProps, 'disabled'> & {
    */
   onChange?: (value: string) => void;
 
+  /** Standard input onFocus callback */
+  onFocus?: () => void;
+
+  /** Standard input onBlur callback */
+  onBlur?: () => void;
+
   /** Use native (input type = 'time') interaction */
   useNativeInteraction?: boolean;
 
@@ -74,6 +80,9 @@ export class TimePicker extends React.PureComponent<TimePickerProps, TimePickerS
   /** To keep track of where to increment / decrement externally (ticker) */
   _lastFocusedField: FIELD;
 
+  /** Reference to the input component */
+  _inputRef: Input;
+
   static defaultProps = {
     onChange         : () => null,
     useNativeInteraction : false,
@@ -89,6 +98,12 @@ export class TimePicker extends React.PureComponent<TimePickerProps, TimePickerS
      *  Will be called only with valid values (this component is semi-controlled)
      */
     onChange: func,
+
+    /** Standard input onFocus callback */
+    onFocus: func,
+
+    /** Standard input onBlur callback */
+    onBlur: func,
 
     /** Use native (input type = 'time') interaction */
     useNativeInteraction: bool,
@@ -122,6 +137,7 @@ export class TimePicker extends React.PureComponent<TimePickerProps, TimePickerS
     this._hasStartedTyping       = false;
     this._mouseDown              = false;
     this._lastFocusedField       = FIELD.BEFORE;
+    this._inputRef               = null;
 
     this._highlightField = this._highlightField.bind(this);
     this._onMouseDown    = this._onMouseDown.bind(this);
@@ -201,13 +217,17 @@ export class TimePicker extends React.PureComponent<TimePickerProps, TimePickerS
       value = `${leftpad(nHour)}:${leftpad(nMinute)}`;
       this.setState({value}, () => { if (value !== this.props.value) { onChange(value); } });
     }
+
+    this.props.onBlur && this.props.onBlur();
   }
 
   _onFocus(e) {
-    if (!this._shouldHighlightOnFocus) { return; }
-    const elem = e.target;
-    this._highlightField(elem, FIELD.HOUR);
-    this._hasStartedTyping = false;
+    if (this._shouldHighlightOnFocus) {
+      const elem = e.target;
+      this._highlightField(elem, FIELD.HOUR);
+      this._hasStartedTyping = false;
+    }
+    this.props.onFocus && this.props.onFocus();
   }
 
   _onKeyDown(e) {
@@ -368,6 +388,14 @@ export class TimePicker extends React.PureComponent<TimePickerProps, TimePickerS
     if (isValidTime(value)) { onChange(value); }
   }
 
+  focus() {
+    this._inputRef.focus();
+  }
+
+  blur() {
+    this._inputRef.blur();
+  }
+
   render() {
     const {useNativeInteraction, useAmPm, tickerUpIcon, tickerDownIcon, ...rest} = this.props;
     const passThroughProps = omit(rest, [
@@ -408,6 +436,7 @@ export class TimePicker extends React.PureComponent<TimePickerProps, TimePickerS
       <Input
         {...passThroughProps}
         {...style('root', {}, this.props)}
+        ref         = {ref => this._inputRef = ref}
         type        = "text"
         value       = {value}
         suffix      = {tickers}
