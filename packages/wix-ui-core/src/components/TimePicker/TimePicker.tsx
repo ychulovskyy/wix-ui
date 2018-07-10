@@ -48,6 +48,9 @@ export type TimePickerProps = Pick<InputProps, 'disabled'> & {
 
   /** Is it an error state */
   error?: boolean;
+
+  /** custom width of component. Goes into inline style so any css distance value allowed */
+  style?: React.CSSProperties;
 }
 
 export interface TimePickerState {
@@ -397,7 +400,15 @@ export class TimePicker extends React.PureComponent<TimePickerProps, TimePickerS
   }
 
   render() {
-    const {useNativeInteraction, useAmPm, tickerUpIcon, tickerDownIcon, ...rest} = this.props;
+    const {
+      useNativeInteraction,
+      useAmPm,
+      tickerUpIcon,
+      tickerDownIcon,
+      style: inlineStyle,
+      ...rest
+    } = this.props;
+
     const passThroughProps = omit(rest, [
       'onChange',
       'step',
@@ -448,6 +459,7 @@ export class TimePicker extends React.PureComponent<TimePickerProps, TimePickerS
         onMouseMove = {this._onMouseMove}
         onClick     = {this._onClick}
         onDragStart = {e => e.stopPropagation()}
+        style       = {inlineStyle}
       />
     );
   }
