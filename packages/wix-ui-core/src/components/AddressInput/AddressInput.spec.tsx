@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Simulate} from 'react-dom/test-utils';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {addressInputDriverFactory} from './AddressInput.driver';
 import {AddressInput, Handler} from './AddressInput';
@@ -247,6 +248,37 @@ describe('AddressInput', () => {
                 ]
             }]);
         }, {interval: 5});
+    });
+
+    describe('State management', () => {
+        it('Should update input value as user types, even if value is set', () => {
+            init({value: '1 Ibn Gabirol st.'});
+            driver.setValue('n');
+            expect(driver.getValue()).toBe('n');
+        });
+        
+        it('Should update input value upon value prop change', () => {
+            const wrapper = mount(
+                <AddressInput
+                    Client={GoogleMapsClientStub}
+                    apiKey="a"
+                    lang="en"
+                    onSelect={() => null}
+                    value="123 Ibn Gabirol st."
+                />
+            );
+            
+            const addressInputDriver = addressInputDriverFactory({element: wrapper.getDOMNode(), eventTrigger: Simulate});
+            addressInputDriver.setValue('n');
+            expect(addressInputDriver.getValue()).toBe('n');
+            const newValue = '321 Ibn Gabirol st.';
+            wrapper.setProps({value: newValue});
+            expect(addressInputDriver.getValue()).toBe(newValue);
+            addressInputDriver.setValue('n');
+            expect(addressInputDriver.getValue()).toBe('n');
+            wrapper.setProps({value: newValue});
+            expect(addressInputDriver.getValue()).toBe('n');
+        });
     });
 
     describe('Fallback to manual', () => {
