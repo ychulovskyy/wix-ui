@@ -1,6 +1,8 @@
+/* tslint:disable-next-line no-console*/
 const originConsoleError = console.error;
 let errors: any[] = [];
 
+/* tslint:disable-next-line no-console*/
 console.error = (...args: any[]) => {
   errors.push(args);
   originConsoleError.apply(console, args);
