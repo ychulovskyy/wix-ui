@@ -5,6 +5,10 @@ import {TimePicker} from './index';
 import {FIELD, AmPmOptions, AmPmStrings} from './constants';
 import {convertToAmPm} from './utils';
 import {timePickerDriverFactory} from './TimePicker.driver';
+import {StylableDOMUtil} from 'stylable/test-utils';
+import style from './TimePicker.st.css';
+
+const stylableUtil = new StylableDOMUtil(style);
 
 describe('TimePicker', () => {
   const createDriver =
@@ -183,9 +187,9 @@ describe('TimePicker', () => {
 
   describe('style prop', () => {
     it('should set inline style on input', () => {
-      const style = {width: '123px'};
-      const driver = createDriver(<TimePicker style={style}/>);
-      expect(driver.getInlineStyle()).toEqual(expect.objectContaining(style));
+      const inlineStyle = {width: '123px'};
+      const driver = createDriver(<TimePicker style={inlineStyle}/>);
+      expect(driver.getInlineStyle()).toEqual(expect.objectContaining(inlineStyle));
     });
   });
 
@@ -233,4 +237,14 @@ describe('TimePicker', () => {
       expect(driver.getValue()).toEqual('--:59');
     });
   });
+
+  it('should support focus state', () => {
+    const driver = createDriver(<TimePicker/>);
+    expect(stylableUtil.hasStyleState(driver.element(), 'focus')).toBeFalsy();
+    driver.focus();
+    expect(stylableUtil.hasStyleState(driver.element(), 'focus')).toBeTruthy();
+    driver.blur();
+    expect(stylableUtil.hasStyleState(driver.element(), 'focus')).toBeFalsy();
+  });
+
 });
