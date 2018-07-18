@@ -1,5 +1,7 @@
 import React from 'react';
-import Testkit from './index.testkit';
+import Testkit from './testkit';
+
+import Option from '../AutoExample/components/option';
 
 const testkit = new Testkit();
 
@@ -68,6 +70,22 @@ describe('StoryPage', () => {
 
       expect(testkit.get.readme()).toMatch(/<well hello there\/>/);
       expect(testkit.get.import()).toMatch(/well hello there/);
+    });
+  });
+
+  describe('`hiddenProps`', () => {
+    it('should filter props from interactive list', () => {
+      testkit.when.created({
+        metadata: {
+          props: {
+            hiddenProp: {type: {name: 'string'}},
+            visibleProp: {type: {name: 'string'}}
+          }
+        },
+        hiddenProps: ['hiddenProp']
+      });
+
+      expect(testkit.get.autoExample().find(Option).length).toEqual(1);
     });
   });
 
