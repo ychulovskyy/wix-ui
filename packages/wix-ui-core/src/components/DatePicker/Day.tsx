@@ -1,4 +1,5 @@
 import * as React from 'react';
+import style from './Day.st.css';
 import {noop} from '../../utils';
 const uniqueId = require('lodash/uniqueId');
 
