@@ -9,6 +9,7 @@ import {RadioButtonStory} from './RadioButton';
 import EllipsedText from './EllipsedTooltip';
 
 const Components = storiesOf('Components', module);
+const Hocs = storiesOf('HOCS', module);
 
 // baseComponents
 import './InputWithOptions.story';
@@ -40,4 +41,4 @@ import './ToggleSwitch/index.story';
 import './Tooltip/index.story';
 Components.add('Tooltip Custom', () => <TooltipStory/>);
 import './Video.story';
-Components.add('EllipsedText', () => <EllipsedText/>);
+Hocs.add('EllipsedTooltip', () => <EllipsedText/>);
