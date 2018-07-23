@@ -56,7 +56,7 @@ class EllipsedTooltip extends React.Component<EllipsedTooltipProps, EllipsedTool
       {
         ...style('root', {}, {...this.props.component.props}),
         style: {whiteSpace: 'nowrap'},
-        forwardedref: n => this.textNode = n
+        forwardedRef: n => this.textNode = n
       }
     );
   }
