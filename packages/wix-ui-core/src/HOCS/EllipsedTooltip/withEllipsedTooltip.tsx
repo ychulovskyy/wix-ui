@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import {node, bool} from 'prop-types';
 import * as shallowequal from 'shallowequal';
 import {Tooltip} from 'wix-ui-core/Tooltip';
@@ -43,9 +44,18 @@ class EllipsedTooltip extends React.Component<EllipsedTooltipProps, EllipsedTool
   }
 
   _updateEllipsisState = () => {
+    this.setTextNodeRef();
     this.setState({
       isEllipsisActive: this.textNode && this.textNode.offsetWidth < this.textNode.scrollWidth
     });
+  };
+
+  setTextNodeRef = (linkToDom?: any) => {
+    if (this.state.isEllipsisActive && linkToDom) {
+      this.textNode = linkToDom;
+    } else {
+      this.textNode = ReactDOM.findDOMNode(this) as HTMLElement;
+    }
   };
 
   _renderText() {
@@ -56,7 +66,6 @@ class EllipsedTooltip extends React.Component<EllipsedTooltipProps, EllipsedTool
       {
         ...style('root', {}, {...this.props.component.props}),
         style: {whiteSpace: 'nowrap'},
-        forwardedRef: n => this.textNode = n
       }
     );
   }
@@ -70,7 +79,7 @@ class EllipsedTooltip extends React.Component<EllipsedTooltipProps, EllipsedTool
       <Tooltip
         {...style('root')}
         appendTo="scrollParent"
-        content={<div className={style.tooltipContent}>{this.props.component.props.children}</div>}
+        content={<div className={style.tooltipContent} ref={this.setTextNodeRef}>{this.props.component.props.children}</div>}
         showArrow
       >
         {this._renderText()}
