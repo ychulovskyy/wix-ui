@@ -4,7 +4,7 @@ import {DayDriver} from './Day.driver';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {Day} from './Day';
 
-describe('Date Picker Day Component', () => {
+describe('Day Component', () => {
     const container = new ReactDOMTestContainer().unmountAfterEachTest();
 
     const render = async (jsx) => {
@@ -31,15 +31,23 @@ describe('Date Picker Day Component', () => {
         expect(onClick).toHaveBeenCalledWith(expect.objectContaining({value: 'gg123456'}));
     });
 
-    it('reflects if the day is current day', async () => {
+    it('displays if the day is current day', async () => {
         const day = await render (<Day value={'gg123456'} label={5} isCurrent/>);
         expect(day.isCurrent).toBe(true);
     });
 
-    it('reflects if the day was hovered', async () => {
+    it('displays if the day was hovered', async () => {
         const day = await render (<Day value={'gg123456'} label={5} />);
         Simulate.mouseEnter(day.rootElement);
 
         expect(day.isHovered).toBe(true);
     });
+
+    it('displays if the day is a selected day', async () => {
+        const day = await render (<Day value={'gg123456'} label={5} isSelected/>);
+
+        expect(day.isSelected).toBe(true);
+    });
+
+
 })

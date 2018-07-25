@@ -19,6 +19,7 @@ import './Autocomplete.story';
 import './Button.story';
 Components.add('Checkbox', () => <CheckboxStory/>);
 import './CircularProgressBar/index.story';
+import './DatePicker/index.story';
 Components.add('Divider', () => <DividerStory/>);
 Components.add('GoogleMapsIframeClient', () => <GoogleMapsIframeClientStory/>);
 import './Input/Input.story';

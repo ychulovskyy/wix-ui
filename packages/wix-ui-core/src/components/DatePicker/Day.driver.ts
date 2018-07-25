@@ -27,4 +27,7 @@ export class DayDriver {
     return stylableDOMUtil.hasStyleState(this.root, 'isHovered');
   }
 
+  get isSelected(): boolean{
+    return stylableDOMUtil.hasStyleState(this.root, 'isSelected');
+  }
 };
