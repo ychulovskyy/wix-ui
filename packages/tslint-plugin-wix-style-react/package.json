@@ -34,5 +34,8 @@
     "testMatch": [
       "**/**/*.spec.(ts|tsx)"
     ]
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }
