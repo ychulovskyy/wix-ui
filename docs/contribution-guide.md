@@ -56,15 +56,17 @@ before creating a new component please consider the option of just creating a ne
 
 it's faster, and cheaper on your runtime
 
-### APIs
+### Component Logic
+**component.tsx**
 
 All component APIs must be strongly typed, with `any` not accepted. it might be harder to write, but its much easier to use.
 
 All components will also define react-prop-types. In order to support our friends that still use vanilla JS.
 
-### Component st.css
+### Component Style API
 
-#### A Style API
+**Component.st.css**
+
 Component st.css files define the components style API.
 
 a component importing the following stylable file:
@@ -149,17 +151,21 @@ export const day = (props:{date:number})=>{
 
 Exposing states allows richer style variants for each component.
 
-### Component spec.tsx
+### Component Tests
+
+**component.spec.tsx**
 
 Each component must have its full functionality covered in unit tests.
 
 these tests run in the browser. in order to support unit tests for components that measure dom elements.
 
-### Component driver.ts
+### Component Driver
+
+**component.driver.ts**
 
 All component drivers in this library should be built on top of [Unidriver](https://github.com/wix-incubator/unidriver), this makes them fit well in E2E and Unit test scenarios
 
-The component driver is a tool for the component end user. and should be built with this thought in mind.
+The component driver is a tool for the component end user. and should be built with that thought in mind.
 
 For instance, when testing an application containing a drop down, all the API a developer needs is `setSelectedIdx`. this API method should click the dropdown open, find the provided item by index, and click it. 
 
@@ -178,11 +184,13 @@ const DropDownDriver = (container: UniDriver) => {
 
 By providing a single method which causes a chain of actions, rather than separate `open()` and `clickIdx()` methods, we reduce development efforts when testing applications that contain the component.
 
-the component tests must provide full test coverage for the component driver as well.
+the component tests must provide full test coverage for the component driver.
 
 ### Component meta.ts
 
 Component meta files add metadata to the component. this metadata is consumed by various tools from the auto-tools repo.
+
+this allows us to run some sanity tests for all components, create a documentation site and create a good dev environment.
 
 
 the meta file should provide prop simulations for the component.
@@ -204,8 +212,6 @@ Registry.getComponentMetadata(Button)
 
 ```
 
-this allows us to run some sanity tests for all components, create a documentation site and create a good dev environment.
-
 
 the meta files should also provide state simulations, used in snapshooting tool.
 this allows us to make sure no style variant of the component has changed from a change in the component.
@@ -220,7 +226,7 @@ Registry.getComponentMetadata(DropDown)
       return {open:true}
   })
   .addStateSim("focusedItem",(props)=>{
-      // in this use case the state simulations is derived from the props.
+      // in this use case the state simulation is derived from the props.
       // if the method returns undefined, the simulation will not be tested with these props
       if(props.items && props.items.length){
           return {
@@ -233,3 +239,73 @@ Registry.getComponentMetadata(DropDown)
 ```
 
 
+## Contributing Component Style Variants.
+
+Style variants define a look for a specific component.
+
+becuse our themes are used in many different environemts the writing guidelines differ between themes.
+
+
+
+
+### ADI and Backoffice
+
+
+all styles should be indexed according to the respective design system.
+
+
+style variants should be created ( sometimes many in a single file ) in a folder with the component name, under the respective theme.
+
+i.e:
+
+**themes/adi/button/button.st.css**
+```css
+:import{
+    -st-from:'../../../components/button/buttons.st.css';
+    -st-defualt:Button
+}
+
+.largeBtn{
+    -st-extends: Button;
+    color:red;
+    <!- exact stylable sytax TBD -->
+    -meta-indexing:5.2;
+}
+```
+
+all styles should be exported for easy use from a the respective theme file.
+
+
+**themes/adi/theme.st.css**
+```css
+:import{
+    -st-from:'./button/button.st.css';
+    -st-named:largeButton, smallButton;
+}
+
+.largeBtn{}
+
+.smallButton{}
+```
+
+
+### studio
+
+style variants should be created ( one in a file ) in a folder with the component name, under the studio folder.
+
+all variants should be exported as "main"
+
+i.e:
+
+**themes/studio/button/button-3d.st.css**
+```css
+:import{
+    -st-from:'../../../components/button/buttons.st.css';
+    -st-defualt:Button
+}
+
+.main{
+    -st-extends: Button;
+    color:red;
+}
+```
