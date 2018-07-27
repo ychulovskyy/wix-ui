@@ -30,8 +30,8 @@ hljs.registerLanguage(
 );
 
 hljs.registerLanguage(
-  'shell',
-  require('highlight.js/lib/languages/shell.js')
+  'bash',
+  require('highlight.js/lib/languages/bash.js')
 );
 
 export default class Markdown extends Component {
