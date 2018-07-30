@@ -95,7 +95,7 @@ when working on a component, its always good to create a style variant of it for
 
 Unlike normal component properties, which result in runtime costs, CSS APIs have very little runtime cost.
 
-you should always open up the API as much as possible
+you should always open up the API as much as possible, Put special attention to clear naming of CSS classes since these form the component's style API. Later changes in these could result in major version update.
 
 ##### Expose all meaningfull nodes
 
@@ -185,6 +185,7 @@ const DropDownDriver = (container: UniDriver) => {
 By providing a single method which causes a chain of actions, rather than separate `open()` and `clickIdx()` methods, we reduce development efforts when testing applications that contain the component.
 
 the component tests must provide full test coverage for the component driver.
+With that in mind, avoid implementing "test helpers" in the driver since the driver is to be consumed externally and its API should remain constant and minimal.
 
 ### Component meta.ts
 
