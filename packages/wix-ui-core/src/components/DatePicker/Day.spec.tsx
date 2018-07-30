@@ -14,11 +14,13 @@ describe('Day Component', () => {
     
     it('exists', async () => {
         const day = await render(<Day value={'gg123456'} label={0}/>);
+        
         expect(day.elementExists).toBe(true);
     });
 
     it('displays a given text(label)', async () => {
         const day = await render (<Day value={'gg123456'} label='15' />);
+        
         expect(day.elementLabel).toBe('15');
     });
 
@@ -33,6 +35,7 @@ describe('Day Component', () => {
 
     it('displays if the day is current day', async () => {
         const day = await render (<Day value={'gg123456'} label={5} isCurrent/>);
+        
         expect(day.isCurrent).toBe(true);
     });
 
@@ -48,6 +51,4 @@ describe('Day Component', () => {
 
         expect(day.isSelected).toBe(true);
     });
-
-
 })

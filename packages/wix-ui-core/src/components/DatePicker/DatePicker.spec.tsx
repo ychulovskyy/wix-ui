@@ -50,8 +50,19 @@ describe('Date Picker Component', () => {
 
     it('displays one of the days as selected ', async () => {
         const selectedDay = 12;
-        const datePicker = await render(<DatePicker selectedDay={selectedDay}/>);
+        const datePicker = await render(<DatePicker selectedDay={String(selectedDay)}/>);
         const day = datePicker.getDay(selectedDay -1);
         expect(day.isSelected).toBe(true);
+    });
+
+    it('displays a change in selected day selection', async () => {
+        const previousSelectedDay = 12;
+        const onChange = jest.fn();
+        const datePicker = await render(<DatePicker selectedDay={String(previousSelectedDay)} onChange={onChange} />);
+        Simulate.click(datePicker.getDay(25).rootElement)
+
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenCalledWith(expect.objectContaining({value: 26}));
+        // expect(datePicker.getDay(25).isSelected).toBe(true)
     });
 })
