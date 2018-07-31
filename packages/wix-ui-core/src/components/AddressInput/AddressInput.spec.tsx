@@ -537,6 +537,12 @@ describe('AddressInput', () => {
             const style = {backgroundColor: 'green'};
             init({style});
             expect(driver.inlineStyles()['background-color']).toBe('green')
+        });
+
+        it('Should pass ID prop', () => {
+            const id = 'my-address-input-id';
+            init({id});
+            expect(driver.getElementId()).toBe(id);
         })
     });
 
