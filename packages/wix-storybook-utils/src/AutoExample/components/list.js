@@ -9,6 +9,7 @@ import Button from 'wix-style-react/Button';
 import NO_VALUE_TYPE from '../../AutoExample/no-value-type';
 
 const isUndefined = a => typeof a === 'undefined';
+const isFunction = a => typeof a === 'function';
 
 export default class List extends React.Component {
   static propTypes = {
@@ -22,11 +23,16 @@ export default class List extends React.Component {
   constructor(props) {
     super(props);
 
+    const options = this.createOptions(props.values || []);
+    const currentValue = options.find(option => option.realValue === props.value) || {};
+
     this.state = {
-      currentValue: {},
-      currentFilter: props.defaultValue || '',
+      currentValue,
+      currentFilter: isFunction(props.defaultValue) ?
+        currentValue.value :
+        props.defaultValue || '',
       isFiltering: false,
-      options: this.createOptions(props.values || [])
+      options
     };
   }
 
@@ -81,7 +87,7 @@ export default class List extends React.Component {
 
   getSelectedId = () => {
     const selectedOption = this.state.options.find(option => option.id === this.state.currentValue.id) || {};
-    return selectedOption.id || 0;
+    return selectedOption.id;
   }
 
   onOptionChange = ({id}) => {
