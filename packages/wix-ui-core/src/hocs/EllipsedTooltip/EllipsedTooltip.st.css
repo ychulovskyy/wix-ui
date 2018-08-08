@@ -6,4 +6,9 @@
 .root {
   -st-extends: Tooltip;
   display: inline;
+  overflow: hidden;
+}
+
+.root::popoverElement {
+  max-width: 100%;
 }
