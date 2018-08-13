@@ -236,9 +236,9 @@ describe('Dropdown', () => {
           });
 
           expect(driver.isContentElementExists()).toBeFalsy();
-          wrapper.instance().getInstance().open();
+          (wrapper.instance() as any).getInstance().open();
           expect(driver.isContentElementExists()).toBeTruthy();
-          wrapper.instance().getInstance().close();
+          (wrapper.instance() as any).getInstance().close();
           expect(driver.isContentElementExists()).toBeFalsy();
       });
   });

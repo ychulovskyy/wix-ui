@@ -101,9 +101,9 @@ describe('InputWithOptions', () => {
       });
 
       expect(driver.isContentElementExists()).toBeFalsy();
-      wrapper.instance().open();
+      (wrapper.instance() as any).open();
       expect(driver.isContentElementExists()).toBeTruthy();
-      wrapper.instance().close();
+      (wrapper.instance() as any).close();
       expect(driver.isContentElementExists()).toBeFalsy();
   });
 });

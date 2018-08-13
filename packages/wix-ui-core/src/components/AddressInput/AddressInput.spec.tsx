@@ -528,7 +528,7 @@ describe('AddressInput', () => {
             addressInputDriver.click();
             addressInputDriver.setValue('n');
             await waitForCond(() => addressInputDriver.isContentElementExists());
-            wrapper.instance().close();
+            (wrapper.instance() as any).close();
             await waitForCond(() => !addressInputDriver.isContentElementExists());
             expect(addressInputDriver.isContentElementExists()).toBeFalsy();
         });
