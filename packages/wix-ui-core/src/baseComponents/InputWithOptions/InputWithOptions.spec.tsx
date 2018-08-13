@@ -4,6 +4,8 @@ import {inputWithOptionsDriverFactory} from './InputWithOptions.driver';
 import {InputWithOptions} from './';
 import {generateOptions} from '../DropdownOption/OptionsExample';
 import * as waitForCond from 'wait-for-cond';
+import {mount} from 'enzyme';
+import {Simulate} from 'react-dom/test-utils';
 
 describe('InputWithOptions', () => {
   const createDriver =
@@ -88,5 +90,20 @@ describe('InputWithOptions', () => {
     await waitForCond.assertHold(() => {
       expect(driver.isContentElementExists()).toBeFalsy();
     }, 10);
+  });
+
+  it('Should support open() and close() methods', () => {
+      const wrapper = mount(createInputWithOptions({options}));
+
+      const driver = inputWithOptionsDriverFactory({
+          element: wrapper.children().at(0).getDOMNode(),
+          eventTrigger: Simulate
+      });
+
+      expect(driver.isContentElementExists()).toBeFalsy();
+      wrapper.instance().open();
+      expect(driver.isContentElementExists()).toBeTruthy();
+      wrapper.instance().close();
+      expect(driver.isContentElementExists()).toBeFalsy();
   });
 });
