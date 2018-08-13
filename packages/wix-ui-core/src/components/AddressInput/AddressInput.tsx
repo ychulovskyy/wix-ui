@@ -117,6 +117,7 @@ function createAutocompleteRequest(input: string, props: AddressInputProps) {
 export class AddressInput extends React.PureComponent<AddressInputProps, AddressInputState> {
     static displayName = 'AddressInput';
     inputRef;
+    inputWithOptionsRef;
 
     static propTypes = {
         /** Maps client, should implement autocomplete, geocode and placeDetails methods */
@@ -225,6 +226,10 @@ export class AddressInput extends React.PureComponent<AddressInputProps, Address
 
     blur() {
         this.inputRef.blur();
+    }
+
+    close() {
+        this.inputWithOptionsRef.close();
     }
 
     async _getAddressOptions(input: string) {
@@ -372,6 +377,7 @@ export class AddressInput extends React.PureComponent<AddressInputProps, Address
             style={inlineStyles}
             fixedFooter={hasOptions && fixedFooter}
             id={id}
+            ref={ref => this.inputWithOptionsRef = ref}
           />
         );
     }

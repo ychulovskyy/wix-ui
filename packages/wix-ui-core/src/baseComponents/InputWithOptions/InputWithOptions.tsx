@@ -48,6 +48,7 @@ export interface InputWithOptionsProps {
  * InputWithOptions
  */
 export class InputWithOptions extends React.PureComponent<InputWithOptionsProps> {
+  dropDownRef;
   static displayName = 'InputWithOptions';
   static defaultProps = {
     openTrigger: 'click',
@@ -99,6 +100,15 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
   };
 
   isEditing: boolean = false;
+
+  open() {
+    // Using getInstance() is here because closeOutside HOC
+    this.dropDownRef.getInstance().open();
+  }
+
+  close() {
+    this.dropDownRef.getInstance().close();
+  }
 
   _filterOptions(): Array<Option> {
     const {highlightMatches, inputProps, options} = this.props;
@@ -180,6 +190,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
         forceContentElementVisibility={forceContentElementVisibility}
         style={inlineStyles}
         id={id}
+        ref={ref => this.dropDownRef = ref}
       >
         <Input
           data-hook="input"

@@ -214,4 +214,32 @@ describe('Dropdown', () => {
       expect(driver.isContentElementExists()).toBeTruthy();
     });
   });
+
+  describe('Programatically open and close dropdown', () => {
+      it('Should support open() and close() methods', () => {
+        const wrapper = mount(
+            <Dropdown
+              onSelect={() => null}
+              initialSelectedIds={[]}
+              onDeselect={() => null}
+              onInitialSelectedOptionsSet={() => null}
+              placement="top"
+              openTrigger={CLICK}
+              options={options}
+            >
+              <span>Dropdown</span>
+            </Dropdown>);
+
+          const driver = dropdownDriverFactory({
+            element: wrapper.children().at(0).getDOMNode(),
+            eventTrigger: Simulate
+          });
+
+          expect(driver.isContentElementExists()).toBeFalsy();
+          (wrapper.instance() as any).getInstance().open();
+          expect(driver.isContentElementExists()).toBeTruthy();
+          (wrapper.instance() as any).getInstance().close();
+          expect(driver.isContentElementExists()).toBeFalsy();
+      });
+  });
 });

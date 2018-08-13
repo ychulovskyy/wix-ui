@@ -13,6 +13,7 @@ import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
 import {mount} from 'enzyme';
 import {addressInputTestkitFactory} from '../../testkit';
 import {addressInputTestkitFactory as enzymeAddressInputTestkitFactory} from '../../testkit/enzyme';
+import {InputDriver} from "../Input/Input.private.driver";
 
 describe('AddressInput', () => {
     const container = new ReactDOMTestContainer().unmountAfterEachTest();
@@ -508,6 +509,28 @@ describe('AddressInput', () => {
             expect(document.activeElement).toBe(input);
             instance.blur();
             expect(document.activeElement).not.toBe(input);
+        });
+
+        it('Should have a close() method', async () => {
+            GoogleMapsClientStub.setAddresses([helper.ADDRESS_1, helper.ADDRESS_2]);
+            GoogleMapsClientStub.setGeocode(helper.GEOCODE_1);
+
+            const wrapper = mount(
+                <AddressInput
+                    Client={GoogleMapsClientStub}
+                    apiKey="a"
+                    lang="en"
+                    onSelect={() => null}
+                />
+                , {attachTo: container.node});
+
+            const addressInputDriver = addressInputDriverFactory({element: wrapper.getDOMNode(), eventTrigger: Simulate});
+            addressInputDriver.click();
+            addressInputDriver.setValue('n');
+            await waitForCond(() => addressInputDriver.isContentElementExists());
+            (wrapper.instance() as any).close();
+            await waitForCond(() => !addressInputDriver.isContentElementExists());
+            expect(addressInputDriver.isContentElementExists()).toBeFalsy();
         });
 
         it('Should clear suggestions on blur', async () => {
