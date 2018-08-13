@@ -1,23 +1,20 @@
-import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import * as React from 'react';
 import style from './Input.st.css';
+const omit = require('lodash/omit');
 
-export interface InputProps {
+const ommitedInputProps = ['style', 'error'];
+type OmittedInputProps = 'value' | 'prefix'
+export type AriaAutoCompleteType = 'list' | 'none' | 'both';
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, OmittedInputProps> {
   className?: string;
   error?: string | boolean;
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
-
-  // Props passed down to the native input, add more as needed.
-  // We cannot simply extend React.InputHTMLAttributes
-  // because types of property 'prefix' are incompatible.
-  autoComplete?: 'on' | 'off';
-  autoFocus?: boolean;
-  disabled?: boolean;
-  maxLength?: number;
-  onBlur?: React.FocusEventHandler<HTMLElement>;
+  value?: string;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  onFocus?: React.FocusEventHandler<HTMLElement>;
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
   onClick?: React.EventHandler<React.MouseEvent<HTMLInputElement>>;
   onMouseDown?: React.EventHandler<React.MouseEvent<HTMLInputElement>>;
   onMouseUp?: React.EventHandler<React.MouseEvent<HTMLInputElement>>;
@@ -26,15 +23,7 @@ export interface InputProps {
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
   onKeyPress?: React.KeyboardEventHandler<HTMLInputElement>;
   onKeyUp?: React.KeyboardEventHandler<HTMLInputElement>;
-  placeholder?: string;
-  readOnly?: boolean;
-  required?: boolean;
-  tabIndex?: number;
-  type?: string;
-  value?: string;
-  id?: string;
-  name?: string;
-  style?: React.CSSProperties;
+  'aria-autocomplete'?: AriaAutoCompleteType
 }
 
 export interface InputState {
@@ -94,32 +83,12 @@ export class Input extends React.Component<InputProps, InputState> {
   private input: HTMLInputElement;
 
   render() {
-    const {focus} = this.state;
+    const { focus } = this.state;
     const {
       error,
       disabled,
       prefix,
-      autoComplete,
-      autoFocus,
-      onChange,
-      onClick,
-      onMouseDown,
-      onMouseUp,
-      onMouseMove,
-      onDragStart,
-      onKeyDown,
-      onKeyPress,
-      onKeyUp,
-      placeholder,
-      readOnly,
-      tabIndex,
-      required,
-      type,
-      value,
       suffix,
-      maxLength,
-      id,
-      name,
       style: inlineStyle
     } = this.props;
 
@@ -127,38 +96,18 @@ export class Input extends React.Component<InputProps, InputState> {
       <div
         {...style(
           'root',
-          {disabled, error: !!error && !disabled, focus},
+          { disabled, error: !!error && !disabled, focus },
           this.props
         )}
         style={inlineStyle}
       >
         {prefix}
         <input
+          {...omit(this.props, ommitedInputProps)}
           ref={input => this.input = input}
-          autoComplete={autoComplete}
-          autoFocus={autoFocus}
-          disabled={disabled}
           className={style.nativeInput}
-          maxLength={maxLength}
           onBlur={this.handleBlur}
-          onChange={onChange}
           onFocus={this.handleFocus}
-          onClick={onClick}
-          onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
-          onMouseMove={onMouseMove}
-          onDragStart={onDragStart}
-          onKeyDown={onKeyDown}
-          onKeyPress={onKeyPress}
-          onKeyUp={onKeyUp}
-          placeholder={placeholder}
-          readOnly={readOnly}
-          required={required}
-          tabIndex={tabIndex}
-          type={type}
-          value={value}
-          id={id}
-          name={name}
         />
         {suffix}
       </div>
@@ -172,13 +121,13 @@ export class Input extends React.Component<InputProps, InputState> {
   getSelectionEnd() { return this.input.selectionEnd; }
   setSelectionRange(start: number, end: number) { this.input.setSelectionRange(start, end); }
 
-  private handleFocus: React.FocusEventHandler<HTMLElement> = event => {
-    this.setState({focus: true});
+  private handleFocus: React.FocusEventHandler<HTMLInputElement> = event => {
+    this.setState({ focus: true });
     this.props.onFocus(event);
   }
 
-  private handleBlur: React.FocusEventHandler<HTMLElement> = event => {
-    this.setState({focus: false});
+  private handleBlur: React.FocusEventHandler<HTMLInputElement> = event => {
+    this.setState({ focus: false });
     this.props.onBlur(event);
   }
 }

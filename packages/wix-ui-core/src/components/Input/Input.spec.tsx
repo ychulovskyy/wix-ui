@@ -44,6 +44,9 @@ describe('Input', () => {
         readOnly
         required
         tabIndex={1}
+        aria-hidden
+        aria-autocomplete="both"
+        role='input'
         type="password"
         value="hunter2"
       />
@@ -53,6 +56,9 @@ describe('Input', () => {
     expect(input.disabled).toBe(true);
     expect(input.maxLength).toBe(10);
     expect(input.placeholder).toBe('placeholder');
+    expect(input.getAttribute('aria-hidden')).toBe('true');
+    expect(input.getAttribute('aria-autocomplete')).toBe('both');
+    expect(input.getAttribute('role')).toBe('input');
     expect(input.readOnly).toBe(true);
     expect(input.required).toBe(true);
     expect(input.tabIndex).toBe(1);

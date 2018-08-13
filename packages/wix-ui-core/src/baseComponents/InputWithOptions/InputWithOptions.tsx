@@ -37,7 +37,7 @@ export interface InputWithOptionsProps {
   /** If set to true, content element will always be visible, used for preview mode */
   forceContentElementVisibility?: boolean;
   /** Input prop types */
-  inputProps: InputProps;
+  inputProps?: InputProps;
   /** Inline styles */
   style?: object;
   /** Id */
@@ -100,14 +100,6 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
 
   isEditing: boolean = false;
 
-  constructor(props: InputWithOptionsProps) {
-    super(props);
-
-    this._onFocus = this._onFocus.bind(this);
-    this._onSelect = this._onSelect.bind(this);
-    this._onKeyDown = this._onKeyDown.bind(this);
-  }
-
   _filterOptions(): Array<Option> {
     const {highlightMatches, inputProps, options} = this.props;
     if (!inputProps.value || !this.isEditing) {
@@ -128,7 +120,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
       option.isSelectable && option.value ? OptionFactory.createHighlighted(option, inputProps.value) : option);
   }
 
-  _onSelect(option: Option | null) {
+  _onSelect = (option: Option | null) => {
     this.isEditing = false;
     const {onSelect, onManualInput, inputProps} = this.props;
     if (option) {
@@ -138,7 +130,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     }
   }
 
-  _onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+  _onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (!event.key.startsWith('Arrow')) {
       this.isEditing = true;
     }
@@ -147,16 +139,15 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     onKeyDown && onKeyDown(event);
   }
 
-  _onFocus(event) {
+  _onFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     this.isEditing = false;
     const {onFocus} = this.props.inputProps;
     onFocus && onFocus(event);
   }
 
-  render () {
+  render() {
     const {
       placement,
-      options,
       openTrigger,
       initialSelectedIds,
       onInitialSelectedOptionsSet,
@@ -177,7 +168,6 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
         openTrigger={openTrigger}
         disabled={inputProps.disabled}
         onSelect={this._onSelect}
-        showArrow={false}
         fixedFooter={fixedFooter}
         fixedHeader={fixedHeader}
         onDeselect={onDeselect}
@@ -186,6 +176,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
         options={this._filterOptions()}
         timeout={timeout}
         multi={multi}
+        role='combobox'
         forceContentElementVisibility={forceContentElementVisibility}
         style={inlineStyles}
         id={id}
