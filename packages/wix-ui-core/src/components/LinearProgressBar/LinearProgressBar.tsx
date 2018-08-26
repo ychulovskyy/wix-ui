@@ -13,6 +13,8 @@ export interface LinearProgressBarProps {
   errorIcon?: JSX.Element;
   /** an indication icon (any react component) that will be presented when 'showProgressIndication' are set to true and 'value' is 100 */
   successIcon?: JSX.Element;
+  /** classname */
+  className?: string;
 }
 
 const FULL_PROGRESS = 100;

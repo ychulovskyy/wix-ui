@@ -8,7 +8,7 @@ import {arrayOf} from 'prop-types';
 
 export {ExternalNavStepProps} from './NavStep';
 
-export interface NavStepperProps {
+export interface NavStepperProps extends ExternalNavStepProps {
     activeStep: number;
     onStepClick?: (stepIndex: number, e: any) => void
 }

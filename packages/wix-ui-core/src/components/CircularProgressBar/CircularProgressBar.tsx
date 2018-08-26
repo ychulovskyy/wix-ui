@@ -18,6 +18,8 @@ export interface CircularProgressBarProps {
   successIcon?: JSX.Element;
   /** circle size in pixels */
   size?: number | string;
+  /** classname */
+  className?: string;
 }
 
 const FULL_PROGRESS = 100;
