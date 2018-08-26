@@ -8,6 +8,7 @@ autocompleteMetadata
   .addSim({
     title: 'Simulation with default props',
     props: {
-      options: []
+      options: [],
+      inputProps: {"aria-label": 'Start typing to see options'}
     }
   });

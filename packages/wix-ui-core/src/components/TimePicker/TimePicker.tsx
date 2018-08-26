@@ -15,13 +15,13 @@ import {
   isValidTime
 } from './utils';
 
-export type TimePickerProps = Pick<InputProps, 'disabled' | 'readOnly'> & {
+export type TimePickerProps = Pick<InputProps, 'disabled' | 'readOnly' | 'aria-label'> & {
   /**
    *  Callback function when user changes the value of the component.
    *  Will be called only with valid values (this component is semi-controlled)
    */
   onChange?: (value: string) => void;
-
+  
   /** Standard input onFocus callback */
   onFocus?: React.FocusEventHandler<HTMLElement>;
 
