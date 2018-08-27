@@ -22,6 +22,7 @@ export interface ToggleSwitchProps {
   checkedIcon?: React.ReactNode;
   uncheckedIcon?: React.ReactNode;
   'aria-label'?: string;
+  className?: string;
 }
 
 export interface ToggleSwitchState {

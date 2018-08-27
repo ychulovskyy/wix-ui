@@ -8,8 +8,10 @@ tooltipMetadata
   .addSim({
     title: 'Simulation with default props',
     props: {
+      placement: "auto",
       disableOnClickOutside: noop,
       enableOnClickOutside: noop,
+      content: <span> This is my tooltip</span>,
       children: [<div key="1" />]
     }
   });

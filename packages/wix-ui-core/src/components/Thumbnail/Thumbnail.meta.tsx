@@ -7,7 +7,7 @@ thumbnailMetadata
   .addSim({
     title: 'Simulation with default props',
     props: {
-      children: <div />
+      children: <div>hello</div>
     }
   });
   

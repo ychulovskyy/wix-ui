@@ -5,5 +5,7 @@ const sliderMetadata = Registry.getComponentMetadata(Slider);
 sliderMetadata
   .addSim({
     title: 'sliderSim',
-    props: {}
+    props: {
+      style: {height: 80, width: 400}
+    }
   });

@@ -8,6 +8,9 @@ timePickerMetadata
   .addSim({
     title: 'Simulation with default props',
     props: {
+      tickerUpIcon: '+',
+      tickerDownIcon: '-',
+      step: 1,
       'aria-label': 'Pick a time'
     }
   });
