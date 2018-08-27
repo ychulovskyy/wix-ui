@@ -6,6 +6,7 @@ import {MapsClient} from './types';
 export class GoogleMapsIframeClient implements MapsClient {
   _iframesManager = new IframesManager();
   _promisesMap = new Map();
+  _useClientId = false;
 
   constructor() {
     window.addEventListener('message', this.handleMessage, false);
@@ -19,13 +20,22 @@ export class GoogleMapsIframeClient implements MapsClient {
     }
   }
 
-  autocomplete(apiKey: string, lang: string, request: string) {
-    let requestIframe;
-    if (this._iframesManager.hasIframe(apiKey, lang)) {
-      requestIframe = this._iframesManager.getIframe(apiKey, lang);
-    } else {
-      requestIframe = this._iframesManager.addIframe(apiKey, lang);
-    }
+  useClientId() {
+    this._useClientId = true;
+  }
+
+  getOrAddIframe(key: string, lang: string) {
+      if (this._iframesManager.hasIframe(key, lang)) {
+          return this._iframesManager.getIframe(key, lang);
+      } else if (this._useClientId) {
+          return this._iframesManager.addIframe({lang, clientId: key});
+      } else {
+          return this._iframesManager.addIframe({lang, apiKey: key});
+      }
+  }
+
+  autocomplete(key: string, lang: string, request: string) {
+    const requestIframe = this.getOrAddIframe(key, lang);
 
     const requestId = generateID();
     const requestPromise = new Promise<object[] | any>((resolve, reject) => {
@@ -36,13 +46,8 @@ export class GoogleMapsIframeClient implements MapsClient {
     return requestPromise;
   }
 
-  geocode(apiKey: string, lang: string, request: string) {
-    let requestIframe;
-    if (this._iframesManager.hasIframe(apiKey, lang)) {
-      requestIframe = this._iframesManager.getIframe(apiKey, lang);
-    } else {
-      requestIframe = this._iframesManager.addIframe(apiKey, lang);
-    }
+  geocode(key: string, lang: string, request: string) {
+    const requestIframe = this.getOrAddIframe(key, lang);
 
     const requestId = generateID();
     const requestPromise = new Promise<object[] | any>((resolve, reject) => {
@@ -53,13 +58,8 @@ export class GoogleMapsIframeClient implements MapsClient {
     return requestPromise;
   }
 
-  placeDetails(apiKey: string, lang: string, request: string) {
-    let requestIframe;
-    if (this._iframesManager.hasIframe(apiKey, lang)) {
-      requestIframe = this._iframesManager.getIframe(apiKey, lang);
-    } else {
-      requestIframe = this._iframesManager.addIframe(apiKey, lang);
-    }
+  placeDetails(key: string, lang: string, request: string) {
+    const requestIframe = this.getOrAddIframe(key, lang);
 
     const requestId = generateID();
     const requestPromise = new Promise<object[] | any>((resolve, reject) => {

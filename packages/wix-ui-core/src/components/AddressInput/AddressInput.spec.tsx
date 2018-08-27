@@ -13,7 +13,6 @@ import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
 import {mount} from 'enzyme';
 import {addressInputTestkitFactory} from '../../testkit';
 import {addressInputTestkitFactory as enzymeAddressInputTestkitFactory} from '../../testkit/enzyme';
-import {InputDriver} from "../Input/Input.private.driver";
 
 describe('AddressInput', () => {
     const container = new ReactDOMTestContainer().unmountAfterEachTest();
@@ -22,10 +21,6 @@ describe('AddressInput', () => {
     let driver, onSelectSpy;
 
     const init = ({handler, ...rest}: any = {}) => {
-        GoogleMapsClientStub.reset();
-        (GoogleMapsClientStub.prototype.autocomplete as any).mockClear();
-        (GoogleMapsClientStub.prototype.geocode as any).mockClear();
-        (GoogleMapsClientStub.prototype.placeDetails as any).mockClear();
         onSelectSpy = jest.fn();
         driver = createDriver(
         <AddressInput
@@ -43,6 +38,15 @@ describe('AddressInput', () => {
         jest.spyOn(GoogleMapsClientStub.prototype, 'autocomplete');
         jest.spyOn(GoogleMapsClientStub.prototype, 'geocode');
         jest.spyOn(GoogleMapsClientStub.prototype, 'placeDetails');
+        jest.spyOn(GoogleMapsClientStub.prototype, 'useClientId');
+    });
+
+    beforeEach(() => {
+        GoogleMapsClientStub.reset();
+        (GoogleMapsClientStub.prototype.autocomplete as any).mockClear();
+        (GoogleMapsClientStub.prototype.geocode as any).mockClear();
+        (GoogleMapsClientStub.prototype.placeDetails as any).mockClear();
+        (GoogleMapsClientStub.prototype.useClientId as any).mockClear();
     });
 
     it('Should instantiate client', () => {
@@ -51,10 +55,28 @@ describe('AddressInput', () => {
         expect(Client.mock.instances.length).toBe(1);
     });
 
+    it('Should call useClientId on client', () => {
+        const Client = jest.fn() as any;
+        createDriver(<AddressInput clientId="client-id" lang="en" Client={GoogleMapsClientStub} onSelect={() => null}/>);
+        expect(GoogleMapsClientStub.prototype.useClientId).toHaveBeenCalled();
+    });
+
+    it('Should not call useClientId on client when the useClientId prop is not supplied', () => {
+        const Client = jest.fn() as any;
+        createDriver(<AddressInput apiKey="api-key" lang="en" Client={GoogleMapsClientStub} onSelect={() => null}/>);
+        expect(GoogleMapsClientStub.prototype.useClientId).not.toHaveBeenCalled();
+    });
+
     it('Should call MapsClient.autocomplete upon typing', () => {
         init();
         driver.setValue('n');
         expect(GoogleMapsClientStub.prototype.autocomplete).toHaveBeenCalledWith(helper.API_KEY, 'en', {input: 'n'});
+    });
+
+    it('Should call MapsClient.autocomplete with clientId upon typing', () => {
+        init({clientId: 'client-id'});
+        driver.setValue('n');
+        expect(GoogleMapsClientStub.prototype.autocomplete).toHaveBeenCalledWith('client-id', 'en', {input: 'n'});
     });
 
     it('Should throttle calls to MapsClient.autocomplete', async () => {
@@ -169,6 +191,28 @@ describe('AddressInput', () => {
          }, {interval: 5});
     });
 
+    it('Should issue a geocode request with clientId once an option is chosen', async () => {
+        init({clientId: 'client-id'});
+        GoogleMapsClientStub.setAddresses([helper.ADDRESS_1, helper.ADDRESS_2]);
+        GoogleMapsClientStub.setGeocode(helper.GEOCODE_2);
+
+        driver.click();
+        driver.setValue('n');
+
+        await waitForCond(() => driver.isContentElementExists());
+
+        driver.optionAt(1).click();
+
+        expect(GoogleMapsClientStub.prototype.geocode).toHaveBeenCalledWith('client-id', 'en', {placeId: helper.ADDRESS_2.place_id});
+        return eventually(() => {
+            expect(onSelectSpy).toHaveBeenCalledWith({
+                originValue: helper.ADDRESS_DESC_2,
+                googleResult: helper.GEOCODE_2,
+                address: helper.INTERNAL_ADDRESS_GEOCODE_2
+            });
+         }, {interval: 5});
+    });
+
     it('Should append region to geocode request if countryCode prop is set', async () => {
         init({countryCode: 'IL'});
         GoogleMapsClientStub.setAddresses([helper.ADDRESS_1]);
@@ -217,6 +261,27 @@ describe('AddressInput', () => {
 
         driver.optionAt(1).click();
         expect(GoogleMapsClientStub.prototype.placeDetails).toHaveBeenCalledWith(helper.API_KEY, 'en', {placeId: helper.ADDRESS_2.place_id});
+        return eventually(() => {
+            expect(onSelectSpy).toHaveBeenCalledWith({
+                originValue: helper.ADDRESS_DESC_2,
+                googleResult: helper.PLACE_DETAILS_2,
+                address: helper.INTERNAL_ADDRESS_PLACE_DETAILS_2
+            });
+         }, {interval: 5});
+    });
+
+    it('Should issue a placeDetails request with client ID once an option is chosen', async () => {
+        init({handler: Handler.places, clientId: 'client-id'});
+        GoogleMapsClientStub.setAddresses([helper.ADDRESS_1, helper.ADDRESS_2]);
+        GoogleMapsClientStub.setPlaceDetails(helper.PLACE_DETAILS_2);
+
+        driver.click();
+        driver.setValue('n');
+
+        await waitForCond(() => driver.isContentElementExists());
+
+        driver.optionAt(1).click();
+        expect(GoogleMapsClientStub.prototype.placeDetails).toHaveBeenCalledWith('client-id', 'en', {placeId: helper.ADDRESS_2.place_id});
         return eventually(() => {
             expect(onSelectSpy).toHaveBeenCalledWith({
                 originValue: helper.ADDRESS_DESC_2,

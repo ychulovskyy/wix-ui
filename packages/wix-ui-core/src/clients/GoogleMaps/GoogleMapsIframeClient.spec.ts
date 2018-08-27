@@ -16,6 +16,12 @@ describe('GoogleMapsIframeClient', () => {
   const mockApiKey = 'a';
   const mockLang = 'en';
 
+  afterEach(() => {
+      iframeManagerPrototype.hasIframe.mockReset();
+      iframeManagerPrototype.getIframe.mockReset();
+      iframeManagerPrototype.addIframe.mockReset();
+  });
+
   it('should return a resolved promise once the status sent by iframesManager is OK', async () => {
     iframeManagerPrototype.hasIframe.mockImplementationOnce(() => true);
     iframeManagerPrototype.getIframe.mockImplementationOnce(() => ({
@@ -239,5 +245,40 @@ describe('GoogleMapsIframeClient', () => {
     expect(requestArg.requestId).toBeDefined();
     expect(requestArg.request).toBe(address);
     expect(targetOrigin).toBe('*');
+  });
+
+  ['autocomplete', 'geocode', 'placeDetails'].forEach(method => {
+    it(`should create iframe with apiKey (${method})`, () => {
+      const postMessageMock = jest.fn();
+
+      iframeManagerPrototype.hasIframe.mockImplementationOnce(() => false);
+      iframeManagerPrototype.addIframe.mockImplementationOnce(() => ({
+        postMessage: postMessageMock
+      }));
+
+      client = new GoogleMapsIframeClient();
+
+      client[method](mockApiKey, mockLang);
+
+      expect(iframeManagerPrototype.addIframe).toHaveBeenCalledTimes(1);
+      expect(iframeManagerPrototype.addIframe).toHaveBeenCalledWith({ apiKey: 'a', lang: 'en' });
+    });
+
+    it(`should create iframe with clientId instead of apiKey (${method})`, () => {
+      const postMessageMock = jest.fn();
+
+      iframeManagerPrototype.hasIframe.mockImplementationOnce(() => false);
+      iframeManagerPrototype.addIframe.mockImplementationOnce(() => ({
+        postMessage: postMessageMock
+      }));
+
+      client = new GoogleMapsIframeClient();
+      client.useClientId();
+
+      client[method](mockApiKey, mockLang);
+
+      expect(iframeManagerPrototype.addIframe).toHaveBeenCalledTimes(1);
+      expect(iframeManagerPrototype.addIframe).toHaveBeenCalledWith({ clientId: 'a', lang: 'en' });
+    });
   });
 });
