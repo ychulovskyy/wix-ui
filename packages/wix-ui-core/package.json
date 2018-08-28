@@ -80,6 +80,7 @@
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-16": "^1.0.5",
     "eyes.it": "latest",
+    "flush-promises": "^1.0.0",
     "gh-pages-auto-release": "latest",
     "identity-obj-proxy": "^3.0.0",
     "import-path": "latest",
