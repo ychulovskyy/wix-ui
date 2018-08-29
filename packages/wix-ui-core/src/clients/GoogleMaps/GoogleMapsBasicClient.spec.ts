@@ -60,9 +60,8 @@ describe('GoogleMapsBasicClient', () => {
       client.loadScript(CLIENT_ID, LANG);
 
       const firstCall = appendChildSpy.mock.calls[0][0];
-      expect(firstCall.src).toBe(
-        `//maps.googleapis.com/maps/api/js?libraries=places&client=${CLIENT_ID}&callback=initMap&language=${LANG}`,
-      );
+      const expected = `//maps.googleapis.com/maps/api/js?libraries=places&client=${CLIENT_ID}&callback=initMap&language=${LANG}`;
+      expect(firstCall.src.indexOf(expected)).not.toBe(-1);
     });
 
     it('should not append google maps api script tag in cased it is already loaded', () => {
