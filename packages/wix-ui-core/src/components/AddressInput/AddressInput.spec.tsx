@@ -13,6 +13,7 @@ import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
 import {mount} from 'enzyme';
 import {addressInputTestkitFactory} from '../../testkit';
 import {addressInputTestkitFactory as enzymeAddressInputTestkitFactory} from '../../testkit/enzyme';
+import {AddressInputPrivateDriver} from "./AddressInput.private.driver";
 
 describe('AddressInput', () => {
     const container = new ReactDOMTestContainer().unmountAfterEachTest();
@@ -688,6 +689,61 @@ describe('AddressInput', () => {
             init({fixedFooter: <div data-hook="fixed-footer"/>});
             driver.click();
             expect(driver.isContentElementExists()).toBeFalsy();
+        });
+    });
+
+    describe('AddressInput integration tests', () => {
+        class Wrapper extends React.Component<any, any> {
+            constructor(props) {
+                super(props);
+                this.state = {value: ''};
+            }
+
+            handleOnSelect = e => {
+                const {address} = e;
+                this.setState({value: address.formatted});
+                this.props.onSelect && this.props.onSelect(e);
+            };
+
+            render() {
+                return (
+                    <div>
+                        <AddressInput
+                            value={this.state.value}
+                            Client={GoogleMapsClientStub}
+                            onSelect={this.handleOnSelect}
+                            apiKey="a"
+                            lang="en"
+                            data-hook="address-input"
+                        />
+                    </div>
+                );
+            }
+        }
+
+        const reactContainer = new ReactDOMTestContainer().unmountAfterEachTest();
+        const onSelectWrapperSpy = jest.fn();
+        beforeEach(() => {
+            onSelectWrapperSpy.mockReset();
+        });
+
+        describe('Controlled component behavior', () => {
+            it('Should get value from parent component', async () => {
+                GoogleMapsClientStub.setAddresses([helper.ADDRESS_1, helper.ADDRESS_2]);
+                GoogleMapsClientStub.setGeocode(helper.GEOCODE_1);
+
+                await reactContainer.render(<Wrapper onSelect={onSelectWrapperSpy}/>);
+                const privateDriver = new AddressInputPrivateDriver(reactContainer.node);
+                privateDriver.type('n');
+                await privateDriver.waitForContentElement();
+                privateDriver.selectOption(0);
+                await privateDriver.waitForValue(helper.ADDRESS_1.description);
+                privateDriver.type('n');
+                await privateDriver.waitForContentElement();
+                privateDriver.selectOption(0);
+                await privateDriver.waitForValue(helper.ADDRESS_1.description);
+                expect(onSelectWrapperSpy).toHaveBeenCalledTimes(2);
+            });
         });
     });
 
