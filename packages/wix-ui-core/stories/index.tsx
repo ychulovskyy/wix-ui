@@ -8,7 +8,6 @@ import {TooltipStory} from './Tooltip/custom';
 import {RadioButtonStory} from './RadioButton';
 import EllipsedText from './EllipsedTooltip';
 import Focusable from './Focusable';
-import {PopStory} from './Pop';
 
 const Components = storiesOf('Components', module);
 const HOCs = storiesOf('HOCs', module);
@@ -42,3 +41,4 @@ Components.add('Tooltip Custom', () => <TooltipStory/>);
 import './Video.story';
 HOCs.add('EllipsedTooltip', EllipsedText);
 HOCs.add('Focusable', Focusable);
+import './Pop.story';
