@@ -42,5 +42,5 @@ export default {
 
   hiddenProps: ['propNotVisibleInStorybook'],
 
-  examples: [ExampleShowcase]
+  examples: ExampleShowcase
 };

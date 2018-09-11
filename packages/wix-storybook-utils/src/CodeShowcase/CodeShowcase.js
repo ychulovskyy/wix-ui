@@ -14,16 +14,16 @@ export default class CodeShowcase extends React.Component {
     inverted: bool
   };
   static defaultProps = {
-    title: 'Example'
+    title: 'Example',
+    inverted: false
   };
-
   render() {
-    const {title, children, code} = this.props;
+    const {title, children, code, inverted} = this.props;
     return (
       <div className={style.root}>
         <h3 className={style.title}>{title}</h3>
         <div className={style.content}>
-          <div className={style.show}>{children}</div>
+          <div {...style('show', {inverted}, this.props)}>{children}</div>
           <Markdown className={style.markdown} source={toCodeBlock(code)}/>
         </div>
       </div>
