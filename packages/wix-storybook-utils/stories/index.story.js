@@ -1,5 +1,18 @@
 import React from 'react';
 import Component from './component';
+import CodeShowcase from '../src/CodeShowcase/CodeShowcase';
+
+const showcase = `<button className={button.one}>one</button>
+<button className={button.two}>two</button>
+<button className={button.three}>three</button>`;
+
+const ExampleShowcase = (
+  <CodeShowcase title="CodeShowcase" code={showcase}>
+    <button style={{marginRight: '5px'}}>one</button>
+    <button style={{marginRight: '5px'}}>two</button>
+    <button style={{marginRight: '5px'}}>three</button>
+  </CodeShowcase>
+);
 
 export default {
   category: 'Components',
@@ -29,7 +42,5 @@ export default {
 
   hiddenProps: ['propNotVisibleInStorybook'],
 
-  examples: (
-    <div>This is my examples free content space </div>
-  )
+  examples: [ExampleShowcase]
 };
