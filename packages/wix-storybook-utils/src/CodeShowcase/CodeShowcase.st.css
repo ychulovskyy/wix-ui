@@ -9,7 +9,6 @@
 }
 
 .content {
-   -st-states: inverted;
   display: flex;
   align-items: stretch;
   line-height: 1.45;
