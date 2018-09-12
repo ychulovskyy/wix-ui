@@ -14,25 +14,13 @@ hljs.registerLanguage(
   require('highlight.js/lib/languages/typescript.js')
 );
 
-hljs.registerLanguage(
-  'css',
-  require('highlight.js/lib/languages/css.js')
-);
+hljs.registerLanguage('css', require('highlight.js/lib/languages/css.js'));
 
-hljs.registerLanguage(
-  'scss',
-  require('highlight.js/lib/languages/scss.js')
-);
+hljs.registerLanguage('scss', require('highlight.js/lib/languages/scss.js'));
 
-hljs.registerLanguage(
-  'xml',
-  require('highlight.js/lib/languages/xml.js')
-);
+hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml.js'));
 
-hljs.registerLanguage(
-  'bash',
-  require('highlight.js/lib/languages/bash.js')
-);
+hljs.registerLanguage('bash', require('highlight.js/lib/languages/bash.js'));
 
 hljs.registerLanguage(
   'markdown',
@@ -46,7 +34,8 @@ hljs.registerLanguage(
 
 export default class Markdown extends Component {
   static propTypes = {
-    source: PropTypes.string
+    source: PropTypes.string,
+    className: PropTypes.string
   };
 
   render() {
@@ -59,9 +48,11 @@ export default class Markdown extends Component {
         return hljs.highlight(lang, code).value;
       }
     };
-
-    return !shouldHideForE2E ? (<div className="markdown-body">
-      <Remarkable source={this.props.source} options={options}/>
-    </div>) : null;
+    const {source, className} = this.props;
+    return !shouldHideForE2E ? (
+      <div className={className || 'markdown-body'}>
+        <Remarkable source={source} options={options}/>
+      </div>
+    ) : null;
   }
 }
