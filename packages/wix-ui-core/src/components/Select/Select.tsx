@@ -53,7 +53,7 @@ export class Select extends React.PureComponent<SelectProps> {
       <div>
         <div ref={ref => (this.toggleRef = ref)} children={toggleComponent} />
 
-        <div ref={ref => (this.menuRef = ref)}>
+        <div ref={ref => (this.menuRef = ref)} className={style.menu}>
           <div {...downshift.getMenuProps()}>
             {downshift.isOpen &&
               filteredChildren.map((child, key) => {

@@ -33,6 +33,8 @@ export default {
         ))}
       </Select>
 
+      <hr/>
+
       <Select
         toggle={({getInputProps, openMenu}) => (
           <Input {...getInputProps()} onFocus={openMenu} />
