@@ -28,7 +28,7 @@ Before adding a new icon, please consult with your relevant UX. Not from Wix? Pl
 
 ### Guidelines
 * SVG icons will be transformed into their monochrome version and be stripped from redundant data they should be as lean as possible and should contain only `path`s and `shape`s.
-* Make sure to remove `def`, `mask` `stroke`, `fill`, `transform`, `mirror`, `border thickness` and any other similar attributes that doesn't make the component flat.
+* Make sure to remove `def`, `mask` `stroke`, `fill`, `transform`, `mirror`, `border thickness` and any other similar attributes that doesn't make the component flat. https://jakearchibald.github.io/svgomg/ can be used for SVG optimization.
 * the `id` attribute should be removed as well.
 * Make sure SVGs are correctly exported from Illustrator/Sketch/Figma, meaning they should merge all layers into one, and apply the masks, which will result in an SVG with a single path.
 * Use a descriptive name since it'll be used as the React component name.
