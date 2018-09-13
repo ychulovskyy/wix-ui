@@ -167,6 +167,7 @@ export class Video extends React.PureComponent<VideoProps, VideoState> {
     this.player = create({
       src,
       autoPlay: !!playing,
+      playInline: true,
       muted,
       size: {
         width,
