@@ -15,9 +15,8 @@ export const createDriver = (Component: React.ReactElement<VideoProps>) => {
 
   const wrapper = mount(ClonedComponent);
   const rootDOMNode = wrapper.getDOMNode() as HTMLElement;
-  const companyLogoNode = rootDOMNode.querySelector('[data-hook="company-logo"]');
-  const containerNode = rootDOMNode.querySelector('[data-hook="player-container"]') as HTMLElement;
-
+  const companyLogoNode = rootDOMNode.querySelector('[data-playable-hook="logo-container"] > * > *');
+  const containerNode = rootDOMNode.querySelector('[data-playable-hook="player-container"]') as HTMLElement;
   return {
     hasCover: () => wrapper.find('[data-hook="cover"]').length === 1,
     getRootDOMNode: () => rootDOMNode,
@@ -26,8 +25,8 @@ export const createDriver = (Component: React.ReactElement<VideoProps>) => {
     getWidth: () => containerNode.style.width,
     getHeight: () => containerNode.style.height,
     getLogoSrc: () => companyLogoNode.getAttribute('src'),
-    isAutoPlaying: () => player.getAutoPlay(),
-    isMuted: () => player.getMute(),
+    isAutoPlaying: () => player.getAutoplay(),
+    isMuted: () => player.isMuted,
     setProp: (prop, value) => wrapper.setProps({[prop]: value}),
     clickLogo: () => {
       const event = new MouseEvent('click', {bubbles: true});

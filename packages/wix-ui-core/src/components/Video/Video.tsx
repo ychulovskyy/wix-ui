@@ -1,7 +1,11 @@
 import * as React from 'react';
-import {string, number, func, object, bool, array, node, oneOfType, oneOf, Requireable} from 'prop-types';
-import {create, VIDEO_EVENTS, ENGINE_STATES} from 'playable';
+import {string, number, func, bool, array, node, oneOfType, oneOf} from 'prop-types';
+import {ENGINE_STATES} from 'playable';
+import {Overlay} from './Overlay';
+import {ReactPlayable} from 'react-playable';
 import styles from './Video.st.css';
+
+const noop = () => null;
 
 export interface VideoProps {
   id?: string;
@@ -31,20 +35,13 @@ export interface VideoState {
   hasBeenPlayed: boolean;
 }
 
-const noop = () => null;
-
-const mapPropsToMethods = {
-  src: 'setSrc',
-  width: 'setWidth',
-  height: 'setHeight',
-  title: 'setTitle',
-  fillAllSpace: 'setFillAllSpace',
+const mapPropsToMethods = {  
   loop: 'setLoop',
   logoUrl: 'setLogo',
-  alwaysShowLogo: 'setLogoAlwaysShowFlag',
+  alwaysShowLogo: 'setAlwaysShowLogo',
   onLogoClick: 'setLogoClickCallback',
   volume: 'setVolume',
-  controls: (instance, player, isShow) => {
+  controls: (player, isShow) => {
     // TODO: replace it after playable API update
     if (isShow) {
       player.showPlayControl();
@@ -61,23 +58,25 @@ const mapPropsToMethods = {
     }
   },
   preload: 'setPreload',
-  playing: (instance, player, nextPlaying) => {
-    if (!instance.props.playing && nextPlaying && !instance._isPlaying()) {
+  playing: (player, nextPlaying) => {
+    const isPlaying = !player.isPaused && !player.isEnded;
+    if (nextPlaying && isPlaying) {
       player.play();
     }
-    if (instance.props.playing && !nextPlaying && instance._isPlaying()) {
+    if (!nextPlaying && isPlaying) {
       player.pause();
     }
   },
-  muted: (instance, player, nextMuted) => {
-    if (!instance.props.muted && nextMuted && !player.getMute()) {
-      player.setMute(true);
+  muted: (player, nextMuted) => {
+    if (nextMuted && !player.isMuted) {
+      player.mute();
     }
-    if (instance.props.muted && !nextMuted && player.getMute()) {
-      player.setMute(false);
+    if (!nextMuted && player.isMuted) {
+      player.unmute();
     }
   }
 };
+
 
 export class Video extends React.PureComponent<VideoProps, VideoState> {
   static displayName = 'Video';
@@ -149,76 +148,37 @@ export class Video extends React.PureComponent<VideoProps, VideoState> {
 
   state = {hasBeenPlayed: false};
 
-  componentDidMount() {
-    const {
-      src, playing, muted, width, height, title, fillAllSpace, loop, volume, controls, preload,
-      logoUrl, onLogoClick, alwaysShowLogo, playableRef, onPlay, onPause, onEnd
-    } = this.props;
-    let logo;
+  _onInit = player => {
+    this.player = player;
 
-    if (logoUrl || onLogoClick || alwaysShowLogo) {
-      logo = {
-        src: logoUrl,
-        callback: onLogoClick,
-        showAlways: alwaysShowLogo,
-      };
-    }
+    const {playableRef, playing} = this.props;
 
-    this.player = create({
-      src,
-      autoPlay: !!playing,
-      playInline: true,
-      muted,
-      size: {
-        width,
-        height,
-      },
-      title: {
-        text: title,
-      },
-      controls,
-      preload,
-      logo,
-      fillAllSpace,
-      loop,
-      volume,
-      overlay: false
-    });
+    this._bindEvents();
+    
+    // Not triggering setting properties, that was passed via wrapper
+    this._updatePlayer({}, this.props);
+    this.player.setAutoplay(!!playing);
 
     playableRef(this.player);
-
-    this.player.attachToElement(this.containerRef);
-
-    this.player.on(VIDEO_EVENTS.PLAY_REQUEST_TRIGGERED, () => {
-      this.setState({hasBeenPlayed: true});
-    });
-
-    this.player.on(ENGINE_STATES.PLAYING, () => {
-      this.setState({hasBeenPlayed: true});
-      onPlay();
-    });
-
-    this.player.on(ENGINE_STATES.PAUSED, () => {
-      onPause();
-    });
-
-    this.player.on(ENGINE_STATES.ENDED, () => {
-      this.setState({hasBeenPlayed: false});
-      onEnd();
-    });
-
-    this.player.on(ENGINE_STATES.SRC_SET, () => {
-      this.setState({hasBeenPlayed: false});
-    });
-
-    this.player.on(VIDEO_EVENTS.RESET, () => {
-      this.setState({hasBeenPlayed: false});
-    });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const currentProps = this.props;
+  _bindEvents() {
+    const {onPlay, onPause, onEnd} = this.props;
 
+    this.player.on(ENGINE_STATES.PLAYING, onPlay);
+    this.player.on(ENGINE_STATES.PAUSED, onPause);
+    this.player.on(ENGINE_STATES.ENDED, onEnd);
+  }
+
+  _unbindEvents() {
+    const {onPlay, onPause, onEnd} = this.props;
+
+    this.player.off(ENGINE_STATES.PLAYING, onPlay);
+    this.player.off(ENGINE_STATES.PAUSED, onPause);
+    this.player.off(ENGINE_STATES.ENDED, onEnd);
+  }
+
+  _updatePlayer(currentProps, nextProps) {
     for (let propKey in nextProps) {
       const method = mapPropsToMethods[propKey];
       const isPropChanged = nextProps[propKey] !== currentProps[propKey];
@@ -227,18 +187,18 @@ export class Video extends React.PureComponent<VideoProps, VideoState> {
         if (typeof method === 'string') {
           this.player[method](nextProps[propKey]);
         } else {
-          method(this, this.player, nextProps[propKey]);
+          method(this.player, nextProps[propKey]);
         }
       }
     }
   }
 
-  componentWillUnmount() {
-    this.player.destroy();
+  componentWillReceiveProps(nextProps) {
+    this._updatePlayer(this.props, nextProps);
   }
 
-  _isPlaying(): boolean {
-    return this.player.getCurrentPlaybackState() === ENGINE_STATES.PLAYING;
+  componentWillUnmount() {
+    this._unbindEvents();
   }
 
   _play = (): void => {
@@ -247,9 +207,6 @@ export class Video extends React.PureComponent<VideoProps, VideoState> {
 
   render() {
     const {id, title, poster, playButton} = this.props;
-    const coverStyles = {
-      backgroundImage: poster ? `url(${poster})` : 'none'
-    };
     let {width, height} = this.props;
 
     if (this.props.fillAllSpace) {
@@ -263,24 +220,22 @@ export class Video extends React.PureComponent<VideoProps, VideoState> {
         style={{width, height}}
         {...styles('root', {}, this.props)}
       >
-        <div 
-          ref={el => this.containerRef = el}
-          style={{width, height}} 
-          className={styles.playerContainer}
-        />
-        {!this.state.hasBeenPlayed && poster && (
-          <div
-            className={styles.cover}
-            style={coverStyles}
-            onClick={this._play}
-            data-hook="cover"
-          >
-            <div className={styles.overlay}>
-              {title && <div data-hook="title" title={title} className={styles.title}>{title}</div>}
-              {playButton}
-            </div>
-          </div>
-        )}
+        <ReactPlayable 
+          onInit={this._onInit}
+          width={this.props.width} 
+          height={this.props.height}
+          src={this.props.src}
+          title={this.props.title}
+          fillAllSpace={this.props.fillAllSpace}
+          config={{hideOverlay: true}} 
+        >
+          <Overlay 
+            title={title} 
+            poster={poster} 
+            playButton={playButton} 
+            onPlayClick={this._play} 
+          />
+        </ReactPlayable>
       </div>
     );
   }
