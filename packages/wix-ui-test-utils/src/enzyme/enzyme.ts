@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {reactEventTrigger} from '../react-helpers';
-import {DriverFactory, BaseDriver} from '../driver-factory';
+import {BaseDriver, BaseUniDriver} from '../driver-factory';
 import {MountRendererProps, ReactWrapper} from 'enzyme';
+import {UniDriver, enzymeUniDriver} from 'unidriver';
 
 export interface WrapperData {
   wrapper: ReactWrapper;
@@ -18,6 +19,15 @@ export function enzymeTestkitFactoryCreator<T extends BaseDriver> (driverFactory
     const component = obj.wrapper.findWhere(n => n.length > 0 && typeof n.type() === 'string' && (regexp).test(n.html()));
     const element = component.length > 0 ? component.first().getDOMNode() : undefined;
     return driverFactory({element, wrapper: obj.wrapper, eventTrigger});
+  };
+}
+
+export function enzymeUniTestkitFactoryCreator<T extends BaseUniDriver> (driverFactory: (base: UniDriver) => T) {
+  return (obj: WrapperData) => {
+    const regexp = new RegExp(`^<[^>]+data-hook="${obj.dataHook}"`);
+    const component = obj.wrapper.findWhere(n => n.length > 0 && typeof n.type() === 'string' && (regexp).test(n.html()));
+    const base = enzymeUniDriver({root: obj.wrapper, component});
+    return driverFactory(base);
   };
 }
 
