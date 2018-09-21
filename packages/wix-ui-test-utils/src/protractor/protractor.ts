@@ -1,7 +1,7 @@
 import {$, ElementFinder} from 'protractor';
 import {protractorUniDriver} from './protractor-adapter';
 import {UniDriver} from 'unidriver';
-import {BaseUniDriver} from '../driver-factory/createDriverFactory';
+import {BaseUniDriver} from '../base-driver';
 
 export function protractorTestkitFactoryCreator<T>(
   driverFactory: (e: ElementFinder) => T
