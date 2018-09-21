@@ -1,4 +1,7 @@
-import { testkitFactoryCreator } from "wix-ui-test-utils/vanilla";
+import {
+  testkitFactoryCreator,
+  uniTestkitFactoryCreator
+} from "wix-ui-test-utils/vanilla";
 
 import { inputDriverFactory } from "../components/Input/Input.driver";
 export const inputTestkitFactory = testkitFactoryCreator(inputDriverFactory);
@@ -42,21 +45,30 @@ export const buttonTestkitFactory = testkitFactoryCreator<ButtonDriver>(
 export { ButtonDriver };
 
 import {
+  buttonNextDriverFactory,
+  ButtonNextDriver
+} from "../components/button-next/button-next.driver";
+export const buttonNextTestkitFactory = uniTestkitFactoryCreator<
+  ButtonNextDriver
+>(buttonNextDriverFactory);
+export { ButtonNextDriver };
+
+import {
   linearProgressBarDriverFactory,
   LinearProgressBarDriver
 } from "../components/LinearProgressBar/LinearProgressBar.driver";
-export const linearProgressBarTestkitFactory = testkitFactoryCreator<LinearProgressBarDriver>(
-  linearProgressBarDriverFactory
-);
+export const linearProgressBarTestkitFactory = testkitFactoryCreator<
+  LinearProgressBarDriver
+>(linearProgressBarDriverFactory);
 export { LinearProgressBarDriver };
 
 import {
   circularProgressBarDriverFactory,
   CircularProgressBarDriver
 } from "../components/CircularProgressBar/CircularProgressBar.driver";
-export const circularProgressBarTestkitFactory = testkitFactoryCreator<CircularProgressBarDriver>(
-  circularProgressBarDriverFactory
-);
+export const circularProgressBarTestkitFactory = testkitFactoryCreator<
+  CircularProgressBarDriver
+>(circularProgressBarDriverFactory);
 export { CircularProgressBarDriver };
 
 import {
