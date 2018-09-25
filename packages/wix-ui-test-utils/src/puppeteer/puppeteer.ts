@@ -1,5 +1,5 @@
 import {Page, ElementHandle} from 'puppeteer';
-import {BaseUniDriver} from '../driver-factory/createDriverFactory';
+import {BaseUniDriver} from '../base-driver';
 import {UniDriver} from 'unidriver';
 import {pupUniDriver} from 'unidriver/dist/lib/puppeteer';
 //TODO: change it to import {pupUniDriver} from 'unidriver/puppeteer';
