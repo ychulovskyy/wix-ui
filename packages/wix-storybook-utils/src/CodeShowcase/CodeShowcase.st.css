@@ -15,9 +15,14 @@
 } 
 
 .demoItems {
+  -st-states:inverted;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.demoItems:inverted {
+  background: rgb(190, 200, 200);
 }
 
 .meta {
