@@ -182,7 +182,7 @@ const ImageWithCheckboxRenderItem : React.SFC<SelectableItemProps> = (props) => 
 | focusedValue | string | null | no | id of the focused item |
 | selectionStartValue | string | null | no | id of the item that is used for a anchor node in multiple selection when the *shift* key is pressed |
 | typeAheadValue | string | null | no | the text that is used for the type ahead logic. |
-| disabledValues | string \| Array<string> | null | no | ids of the disabled item/s |
+| disabledValues | string \| Array\<string\> | null | no | ids of the disabled item/s |
 | onChange | (event: ChangeEvent) => void | NOP | no | Triggered when the state of the list is changed. The state of the list consists of selected items, focused item, selection start item, disabled items, type ahead value. These values are provided inside the event structure.
 | multiple | boolean | false | no | Whether the selection list supports single or multiple selections. When true, adds aria-multiselectable='true' to the root element.
 | orientation | enum | Vertical | no | The orientation is used mostly for assistive technologies. Changing to Horizontal will change the behavior of keyboard navigation and add an aria-orientation attribute to the root with the 'horizontal' value |
@@ -201,10 +201,10 @@ const ImageWithCheckboxRenderItem : React.SFC<SelectableItemProps> = (props) => 
 
 | Name | Type | Default | Required | Description |
 | -- | -- | -- | -- | -- |
-| dataSource | any \| Array<any> | null | no | the selectable items data items |
+| dataSource | any \| Array\<any\> | null | no | the selectable items data items |
 | idFunction | (dataItem: any) => string | none | yes | A function that extracts the ID from the data item |
 | typeAheadTextFunction | (dataItem: any) => string | none | yes | A function that extracts the type ahead text from the data item |
-| renderItem | React.SFC<SelectableItemProps> | none | yes | A SFC that used for rendering a data item |
+| renderItem | React.SFC\<SelectableItemProps\> | none | yes | A SFC that used for rendering a data item |
 | tabIndex | number | none | no | The tab index that the SelectableItems component should put on its inner focused item (if such exists). This property will be auto set by the SelectionList component and its value would be the value of the SelectionList component's tabIndex property |
 
 ### SelectableItemProps
