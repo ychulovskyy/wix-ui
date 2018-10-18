@@ -82,7 +82,7 @@ const CountryRenderItem : React.SFC<SelectableItemProps> = (props) => {
 
 ### Complex Usage
 
-<<TODO: Add Image For Example>
+![image](./complex-example.png)
 
 ```js
 export uploadImageButtonId = Symbol('uploadImageButton');
