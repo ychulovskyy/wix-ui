@@ -4,8 +4,8 @@ A component which allows the user to take action by choosing an item or multiple
 
 * [Selection List Package](#selection-list-package)
 * [React Code Examples](#react-code-examples)
- * [Basic Usage](#basic-usage) 
- * [Complex Usage](#complex-usage)
+  * [Basic Usage](#basic-usage) 
+  * [Complex Usage](#complex-usage)
 * [Components Contracts](#components-contracts)
  * [SelectionList](#selectionlist) 
  * [SelectableItems](#selectableitems)
