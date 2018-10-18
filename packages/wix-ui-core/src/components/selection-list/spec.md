@@ -178,7 +178,7 @@ const ImageWithCheckboxRenderItem : React.SFC<SelectableItemProps> = (props) => 
 
 | Name | Type | Default | Required | Description |
 | -- | -- | -- | -- | -- |
-| value | string \| Array<string> \| Symbol \| Array<Symbol> | null | no | id/s of the selected item/s |
+| value | string \| Array\<string\> \| Symbol \| Array\<Symbol\> | null | no | id/s of the selected item/s |
 | focusedValue | string | null | no | id of the focused item |
 | selectionStartValue | string | null | no | id of the item that is used for a anchor node in multiple selection when the *shift* key is pressed |
 | typeAheadValue | string | null | no | the text that is used for the type ahead logic. |
