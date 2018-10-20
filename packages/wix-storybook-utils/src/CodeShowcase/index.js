@@ -47,7 +47,7 @@ class CodeShowcase extends React.Component {
     return (
       <div style={style} {...styleclass('root', {}, {className: theme})}>
         <section {...styleclass('demo', {inverted})}>
-          <List inverted={inverted}>{children}</List>
+          <List>{children}</List>
         </section>
         <section className={styleclass.meta}>
           <a href={link} className={styleclass.title}>
@@ -66,7 +66,7 @@ class CodeShowcase extends React.Component {
             customStyle={customHighlighterStyle}
             language="jsx"
             codeTagProps={{
-              style: {fontFamily: `monospace`}
+              style: {fontFamily: `monospace`, padding: '16px 0'}
             }}
             style={vs}
           >
