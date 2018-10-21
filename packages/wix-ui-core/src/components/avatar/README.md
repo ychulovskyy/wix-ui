@@ -14,11 +14,10 @@ Elements are "container" and content, which could be classified to either "text"
 
 | name | type | defaultValue | isRequired | description |
 | -- | -- | -- | -- | -- |
-| name | string  |  |  | The name of the avatar user. Initials will be generated from the name    |
-| imgProps | string  |  |  | the source url to load image from |
+| name | string  |  | Yes | The name of the avatar user. Initials will be generated from the name    |
+| imgProps | HTMLImageAttributes  |  |  | the source url to load image from |
 | icon | JSX Element |  |  | an SVG icon component  |
 | tabIndex | number | 0 |  | the tabIndex value to put on the root  |
-| disabled | boolean | false |  | If `true`, the component will not be interactive |
 
 
 
@@ -32,7 +31,10 @@ name conversion examples:
 <br/> John Hurley Stanley Kubrik Doe --> JHD
 
 ## Technical Considerations
-The component will fallback to a different content prop in case the image provided didn't load. For this to happen an `onError` handler will be used on the `img` tag. If a user provided an `onError` handler in `imgProps`, it will be called as well
+The component will fallback to a different content prop in case the image provided didn't load. For this to happen an `onError` handler will be used on the `img` tag. If a user provided an `onError` handler in `imgProps`, it will be called as well.<br>
+If imgProps are provided, the `alt` value would be replaced with the `name` prop provided.
+
+
 
 additional behaviors (such as tooltip, dropdown, focus, click, etc.) should be implemented in wrappers. Examples TBD
 
