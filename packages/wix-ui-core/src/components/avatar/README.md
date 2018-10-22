@@ -22,8 +22,7 @@ Elements are "container" and content, which could be classified to either "text"
 
 
 ## General Behavior
-this component will display content based on the props provided. For example, if `imgSrc` is provided (and successfully loaded), it will display an image as content. If more than one type of content prop is provided, it will first attempt to load the image then icon and lastly initials.<br>
-If no fallback exists (or no content prop provided at all) Avatar will still show the container with background styling
+this component will display content based on the props provided. Properties `imgProps`, `icon` and `name` will provide content for displaying image, icon or initials respectively. If more than one type of content prop is provided, it will first attempt to load the image then icon and lastly initials.<br>
 
 name conversion examples: 
 <br/> John Doe --> JD 
@@ -55,7 +54,7 @@ export class ComponentsDemo extends React.Component<{}, {}>{
         return (
             <div {...style('root')}>
                 <Avatar
-                    classnName={style.avatar}
+                    className={style.avatar}
                     name="John Doe"
                     imgProps={{
                         srcset="elva-fairy-320w.jpg 320w, elva-fairy-800w.jpg 800w"
@@ -64,7 +63,6 @@ export class ComponentsDemo extends React.Component<{}, {}>{
                         alt="Elva dressed as a fairy"
                     }}
                     icon={<AvatarIcon/>}
-                    name="John Mystery Doe"
                     />
             </div>
         )
