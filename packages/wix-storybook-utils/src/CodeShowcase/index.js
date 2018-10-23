@@ -14,7 +14,7 @@ import {iconHide} from './components/Hide';
 registerLanguage('jsx', jsx);
 
 const customHighlighterStyle = {
-  padding: '16px 32px',
+  padding: '16px 0',
   border: 'none',
   fontFamily: `"HelveticaNeueW01-45Ligh","sans-serif"`,
   fontSize: '1.2em'
@@ -46,7 +46,7 @@ class CodeShowcase extends React.Component {
     const {show} = this.state;
     return (
       <div style={style} {...styleclass('root', {}, {className: theme})}>
-        <section {...styleclass('demo', {inverted})}>
+        <section className={styleclass.demo}>
           <List inverted={inverted}>{children}</List>
         </section>
         <section className={styleclass.meta}>
