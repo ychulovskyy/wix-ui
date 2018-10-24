@@ -31,30 +31,25 @@
 
 ## Description
 
-Brief component description
-
-> E.g.
-> **Slider** is a component that allows users to input or select value from a range.
-> Sliders are great for adjusting settings that reflect intensity levels (volume, brightness, color saturation).
-
+**Segmented Toggle** is used to provide users with a group of selection options. Recommended use is for a small amount of predefined options.
 
 
 ### Elements
 
-All elements of the component and their interactivity will be described, including a visual representation of it (image or animations).
-
-> e.g.
->
-> ![elements](./assets/elements.png)
-> **Toggle** consists of:  **switch**, **icon**, and **background**. The **switch** moves across the **background** in order to set the value to On/Off, and **icon** indicates the state of the value.
-
+This component consists of **container** which is the root of the component and **option** which holds each of the select-able options
 
 
 ## API
 
 **Props**
+| name     | type                | defaultValue | isRequired | description                                                           |
+|:---------|:--------------------|:-------------|:-----------|:----------------------------------------------------------------------|
+| name     | string              |              | Yes        | The name of the avatar user. Initials will be generated from the name |
+| imgProps | HTMLImageAttributes |              |            | the source url to load image from                                     |
+| icon     | JSX Element         |              |            | an SVG icon component                                                 |
+| tabIndex | number              | 0            |            | the tabIndex value to put on the root                                 |
 
-See [README.md](./README.md) for more info. 
+
 
 **Style**
 
