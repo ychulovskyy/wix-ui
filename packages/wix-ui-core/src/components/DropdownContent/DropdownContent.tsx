@@ -17,6 +17,8 @@ export interface DropdownContentProps {
   fixedHeader?: React.ReactNode;
   /** An element that always appears at the bottom of the options */
   fixedFooter?: React.ReactNode;
+  onHoveredIndexChange?: (index: number) => void;
+  id?: string;
 }
 
 export interface DropdownContentState {
@@ -44,7 +46,7 @@ export class DropdownContent extends React.PureComponent<DropdownContentProps, D
     if (this.state.hoveredIndex !== index) {
       this.setState({
         hoveredIndex: index
-      });
+      }, () => this.props.onHoveredIndexChange && this.props.onHoveredIndexChange(index));
     }
   }
 
@@ -151,6 +153,7 @@ export class DropdownContent extends React.PureComponent<DropdownContentProps, D
                 isSelected={(selectedIds || []).includes(option.id)}
                 onClickHandler={this.isValidOptionForSelection(option) ? () => onOptionClick(option) : undefined}
                 onMouseEnterHandler={this.isValidOptionForSelection(option) ? evt => this.onMouseEnter(evt, index) : undefined}
+                id={this.props.id && `${this.props.id}-option-${index}`}
               />
             ))
           }

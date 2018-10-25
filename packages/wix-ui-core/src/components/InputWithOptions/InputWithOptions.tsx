@@ -48,10 +48,16 @@ export interface InputWithOptionsProps {
   filterPredicate?: (inputValue: string, optionValue: string) => Boolean;
 }
 
+export interface InputWithOptionsState {
+  hoveredIndex: number;
+}
+
+const NOT_HOVERED_INDEX = -1;
+
 /**
  * InputWithOptions
  */
-export class InputWithOptions extends React.PureComponent<InputWithOptionsProps> {
+export class InputWithOptions extends React.PureComponent<InputWithOptionsProps, InputWithOptionsState> {
   dropDownRef;
   static displayName = 'InputWithOptions';
   static defaultProps = {
@@ -108,6 +114,8 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     filterPredicate: func
   };
 
+  state = {hoveredIndex: NOT_HOVERED_INDEX};
+
   isEditing: boolean = false;
 
   open() {
@@ -149,6 +157,14 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     }
   }
 
+  _onHoveredIndexChange = (index: number) => {
+    if (this.state.hoveredIndex !== index) {
+      this.setState({
+        hoveredIndex: index
+      });
+    }
+  }
+
   _onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (!event.key.startsWith('Arrow')) {
       this.isEditing = true;
@@ -162,6 +178,12 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
     this.isEditing = false;
     const {onFocus} = this.props.inputProps;
     onFocus && onFocus(event);
+  }
+
+  _getActiveDescendantId = () => {
+    const id = this.props.id;
+    const hoveredIndex = this.state.hoveredIndex;
+    return id && hoveredIndex >=0 && `${id}-content-option-${hoveredIndex}`;
   }
 
   render() {
@@ -188,6 +210,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
         openTrigger={openTrigger}
         disabled={inputProps.disabled}
         onSelect={this._onSelect}
+        onHoveredIndexChange={this._onHoveredIndexChange}
         fixedFooter={fixedFooter}
         fixedHeader={fixedHeader}
         onDeselect={onDeselect}
@@ -209,6 +232,7 @@ export class InputWithOptions extends React.PureComponent<InputWithOptionsProps>
           onKeyDown={this._onKeyDown}
           onFocus={this._onFocus}
           className={style.inputComponent}
+          aria-activedescendant={this._getActiveDescendantId()}
         />
       </Dropdown>
     );

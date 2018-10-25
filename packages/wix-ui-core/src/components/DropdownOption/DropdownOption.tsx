@@ -9,6 +9,7 @@ export interface DropdownOptionProps {
   isHovered: boolean;
   onClickHandler: React.MouseEventHandler<HTMLDivElement> | undefined;
   onMouseEnterHandler: React.MouseEventHandler<HTMLDivElement> | undefined;
+  id?: string;
 }
 
 export type DropdownOptionType = React.SFC<DropdownOptionProps>;
@@ -28,6 +29,7 @@ export const DropdownOption: DropdownOptionType = (props: DropdownOptionProps) =
       onMouseEnter={onMouseEnterHandler}
       role='option'
       aria-selected={selected}
+      id={props.id}
     >
       {option.render(option.value)}
     </div>

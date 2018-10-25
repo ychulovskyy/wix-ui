@@ -21,6 +21,7 @@ export interface DropdownProps {
   openTrigger: OPEN_TRIGGER_TYPE;
   /** Handler for when an option is selected */
   onSelect: (option: Option | null) => void;
+  onHoveredIndexChange?: (index: number) => void;
   /** Handler for when an option is deselected */
   onDeselect: (option: Option | null) => void;
   /** initial selected option ids */
@@ -235,6 +236,8 @@ export class DropdownComponent extends React.PureComponent<DropdownProps & Injec
             fixedHeader={fixedHeader}
             selectedIds={selectedIds}
             onOptionClick={this.onOptionClick}
+            onHoveredIndexChange={this.props.onHoveredIndexChange}
+            id={this.props.id && `${this.props.id}-content`}
           />
         </Popover.Content>
       </Popover>

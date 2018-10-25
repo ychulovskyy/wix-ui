@@ -39,6 +39,7 @@ export interface AutocompleteProps {
   prefix?: React.ReactNode;
   /** Suffix */
   suffix?: React.ReactNode;
+  id?: string;
   inputProps?: InputProps;
 }
 
@@ -137,7 +138,7 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
   }
 
   render() {
-    const {options, initialSelectedId, fixedHeader, fixedFooter, onManualInput, disabled} = this.props;
+    const {id, options, initialSelectedId, fixedHeader, fixedFooter, onManualInput, disabled} = this.props;
     const inputProps = this._createInputProps();
     return (
       <InputWithOptions
@@ -150,6 +151,7 @@ export class Autocomplete extends React.PureComponent<AutocompleteProps, Autocom
         onManualInput={onManualInput}
         options={options}
         inputProps={inputProps}
+        id={id}
       />
     );
   }
