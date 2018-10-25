@@ -1,25 +1,35 @@
+@import '../mixins.scss';
+
 .wrapper {
   min-width: 894px;
   max-width: 1254px;
+
+  margin-bottom: 20px;
+  border: 1px solid #DFE5EB;
+  border-radius: 3px;
+  overflow: hidden;
 }
 
 .header {
   display: flex;
-  align-items: flex-end;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 1em;
+  align-items: center;
+  border-bottom: 1px solid #DFE5EB;
+  padding: 0 1em;
 
-  & .spacer {
+  .spacer {
     flex: 1;
+  }
+
+  .headerControl {
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    line-height: 0;
   }
 }
 
 .liveExampleWrapper {
   display: flex;
-  margin-bottom: 20px;
-  border: 3px solid #DFE5EB;
-  border-radius: 6px;
-  overflow: hidden;
 
   .editor,
   .preview {
@@ -29,7 +39,7 @@
   }
 
   .editor {
-    border-right: 3px solid #DFE5EB;
+    border-right: 1px solid #DFE5EB;
 
     .editorView {
       padding: 20px;
@@ -153,11 +163,12 @@
   .preview {
     padding: 30px 20px;
     box-shadow: 0 0 10px 2px #e5ebf1 inset;
-    background: linear-gradient(45deg, #eff2f6 25%, transparent 25%, transparent 75%, #eff2f6 75%, #eff2f6 0), linear-gradient(45deg, #eff2f6 25%, transparent 5%, transparent 75%, #eff2f6 75%, #eff2f6 0), #fff;
-    background-position: 0 0, 10px 10px;
-    background-size: 20px 20px;
-    background-clip: border-box;
-    background-origin: padding-box;
+    @include checkerboard(20px, #eff2f6, #fff);
+
+    &.darkPreview {
+      @include checkerboard(20px, #5b7fa4, #486684);
+      box-shadow: 0 0 10px 2px #486684 inset;
+    }
 
     .error {
       position: absolute;

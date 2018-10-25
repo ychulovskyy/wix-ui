@@ -34,7 +34,8 @@ export default class TextButton extends Component {
       background: 'none',
       cursor: 'pointer',
       display: 'flex',
-      lineHeight: 2
+      alignItems: 'center',
+      lineHeight: 0
     };
 
     return (
