@@ -31,7 +31,7 @@
 
 ## Description
 
-**Segmented Toggle** is used to provide users with a group of selection options. Recommended use is for a small amount of predefined options.
+**Segmented Toggle** allows users to choose a single option out of a group. Recommended use is for a small amount of predefined options.
 
 
 ### Elements
@@ -41,13 +41,60 @@ This component consists of **container** which is the root of the component and 
 
 ## API
 
-**Props**
-| name     | type                | defaultValue | isRequired | description                                                           |
-|:---------|:--------------------|:-------------|:-----------|:----------------------------------------------------------------------|
-| name     | string              |              | Yes        | The name of the avatar user. Initials will be generated from the name |
-| imgProps | HTMLImageAttributes |              |            | the source url to load image from                                     |
-| icon     | JSX Element         |              |            | an SVG icon component                                                 |
-| tabIndex | number              | 0            |            | the tabIndex value to put on the root                                 |
+**SegmentedToggle Props**
+| name     | type                                                     | defaultValue | isRequired | description                                                                                 |
+|:---------|:---------------------------------------------------------|:-------------|:-----------|:--------------------------------------------------------------------------------------------|
+| value    | string                                                   |              |            | sets the selected option of the group. should match the `value` prop of one of the children |
+| onChange | (event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change                                                         |
+| tabIndex | number                                                   | 0            |            | the tabIndex value to put on the selected item                                              |
+| disabled | boolean                                                  | false        |            | disables all functionality of the component AND toggles non-functional visual state         |
+| readOnly | boolean                                                  | false        |            | disables all functionality of the component WITHOUT toggling non-functional visual state    |
+| children | Component<ToggleableItem>                                    |              |            | The options to render. Only children which are of type ToggleItem will be rendered          |
+
+**ToggleableItem Props**
+| name     | type      | defaultValue | isRequired | description                                                 |
+|:---------|:----------|:-------------|:-----------|:------------------------------------------------------------|
+| value    | string    |              |            | sets the value of the specific option. Must be unique       |
+| disabled | boolean   | false        |            | makes the component non selectable and toggles visual state |
+| children | ReactNode | false        |            | The content to render.                                      |
+
+
+## React Code Example
+
+```jsx
+import * as React from 'react';
+import { SegmentedToggle } from 'wix-ui-core/SegmentedToggle';
+import { EditSVG, TrashSVG} from './my-icons'
+import style from './style.st.css';
+
+export class ComponentsDemo extends React.Component<{}, {}>{
+    state = {
+        selected: 'item1'
+    }
+
+    onChange = (event:React.ChangeEvent<React.SyntheticEvent>, value: string): null => {
+        this.setState({value})
+    }
+
+    render() {
+        return (
+            <div>
+                <SegmentedToggle
+                    value={this.state.selected}
+                    onChange={this.onChange} 
+                >
+                    <ToggleItem value='item1'>Raw</ToggleItem>
+                    <ToggleItem value='item2'>Blame</ToggleItem>
+                    <ToggleItem value='item3'>History</ToggleItem>
+                    <ToggleItem value='item4' disabled>{EditSVG}</ToggleItem>
+                    <ToggleItem value='item5'>{TrashSVG}</ToggleItem>
+                </SegmentedToggle>
+                   
+            </div>
+        )
+    }
+}
+```
 
 
 
@@ -58,43 +105,33 @@ See [README.md](./README.md) for more info.
 
 
 
-## States (if applicable)
+## **ToggleItem** States
 
 A description of all the internal states of the component, and how they should be shown visually.
 
-| State   | Description                              | Link to design |
-| :------ | :--------------------------------------- | -------------- |
-| Default | Default component appearance             |                |
-| Hover   | User hovered over bar OR handle          |                |
-| …       |                                          |                |
-| Error   | Error state for the component (can be set with :error pseudo-class) |                |
-
-Design [assets](https://zpl.io/2kRTvO)
+| State         | Description                            | Link to design |
+|:--------------|:---------------------------------------|:---------------|
+| default       | Default component appearance           |                |
+| selected      | selected option                        |                |
+| disabled      | disabled option                        |                |
+| hover         | when hovering over option              |                |
+| focus         | the option has focus                   |                |
+| focus-visible | the option has focus and visible focus |                |
+| pressed       | toggles when the option is pressed     |                |
 
 
 
 ## Accessibility
 
-Our components should be accessible according to [WAI-ARIA 1.0](https://www.w3.org/TR/wai-aria/) standards.
-
-We follow these guidelines when [using ARIA](https://www.w3.org/TR/using-aria/#intro).
-
-When using a native `role` for a part of the component, the component will abide to the exact standards of their native counterparts. (For example, if using `role="button"` the element must be able to receive focus and a user must be able to activate the action associated with the element using both the enter (on WIN OS) or return (MAC OS) and the space key.)
-
-> **Note:**
-> Where relevant, the component should have default ARIA properties - for example, the Modal component will have a default `aria-role="dialog"`
-
-In addition, if other best practices regarding the accessibility of a specific component apply, they should be detailed in this document.
-
-
+TBD role, aria-labels 
+roving tabIndex
 
 ##### Keyboard
 
-> Specific cases related to keyboard behavior (if any)
-
+**SegmentedToggle** has a radio group keyboard behavior, meaning after TAB into focus navigation is done via arrow keys. UP or LEFT will SELECT the previous option while DOWN or RIGHT will SELECT next option of the group. TAB will move focus 
 ##### Focus
 
-> Describe focus behavior (e.g. different components can have different focus states)
+**SegmentedToggle** has a radio group focus behavior, meaning focus is put on the selected item. Changing selection causes focus to shift to the new selected item. By default mouse selection causes non visual focus while keyboard selection toggles focus visible visual state.
 
 ##### Reference links
 
@@ -103,19 +140,11 @@ In addition, if other best practices regarding the accessibility of a specific c
 
 
 ### Behavior
-
-A detailed description of the component and its use-cases. This should cover all the different behaviors that the component exhibits, and how its different features should be implemented.
-
-> User can drag handle over slider bar or click on the slider (in desired location) to select the value from the range.
->
-> Changing the value (keyboard) is performed **from current value** to the next expected value. E.g. if min=0, max=10, step=2, value=3.5, then UP arrow key will give us 4 and Down arrow key will give us 2 Value can not exceed the min/max limits. If value is > or < than min/max it is automatically set to corresponding min/max.
->
-> The component follows the external control pattern (value & handle position is defined by the `value` property, and in order for the component to function, it should be bound to a state in the parent component, and the `onChange` handler should be set).
-
+**SegmentedToggle** should be viewed as a replacement to a radio group in all aspects and should mimic its "native" counterpart (meaning a few `<input type="radio" name="..."/>`>) behavior.
 
 
 #### Validation 
-
+toggleItem tabIndex override
 Default validation needs to be addressed, as well as the component behavior when validation is broken.
 
 > E.g. 
@@ -143,8 +172,9 @@ The component may allow a developer to use his own validation patterns where rel
 | --------- | --------------------------- |
 | tab       | moves to next element       |
 | shift+tab | moves to previous element   |
-| esc       | removes focus (if on focus) |
-| enter     |                             |
+| UP / LEFT      | moves selection & focus to previous option |
+| DOWN / RIGHT      | moves selection & focus to next option |
+
 
 **RTL** ( if applicable )
 
