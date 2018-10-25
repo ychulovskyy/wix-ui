@@ -5,6 +5,7 @@ export default class TextButton extends Component {
 
   static propTypes = {
     onClick: PropTypes.func,
+    prefixIcon: PropTypes.node,
     children: PropTypes.node
   };
 
@@ -31,7 +32,9 @@ export default class TextButton extends Component {
       outline: 'none',
       border: 'none',
       background: 'none',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      display: 'flex',
+      lineHeight: 2
     };
 
     return (
@@ -41,6 +44,16 @@ export default class TextButton extends Component {
         onMouseLeave={this.toggleHover}
         onClick={this.props.onClick}
       >
+        {this.props.prefixIcon ? (
+          <div
+            style={{
+              padding: '0 6px 0 0',
+              lineHeight: '0 !important'
+            }}
+          >
+            {this.props.prefixIcon}
+          </div>
+        ) : null}
         {this.props.children}
       </button>
     );
