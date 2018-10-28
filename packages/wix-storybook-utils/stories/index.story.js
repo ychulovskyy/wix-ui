@@ -51,7 +51,7 @@ export default {
       <ExampleShowcase/>
 
       <LiveCodeExample
-        scop={wsrScope}
+        scope={wsrScope}
         title="Live code example" initialCode={`
 /* This is just a big example to test the live editor */
 <div>

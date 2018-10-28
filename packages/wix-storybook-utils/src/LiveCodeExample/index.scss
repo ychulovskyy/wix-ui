@@ -19,6 +19,8 @@
     min-width: auto;
     max-width: 400px;
     margin-right: 20px;
+    border: 0;
+    overflow: unset;
   }
 }
 
@@ -30,6 +32,8 @@
 
   .compact & {
     height: 3em;
+    border: 0;
+    padding: 0;
   }
 
   .spacer {
@@ -51,10 +55,14 @@
 
 .liveExampleWrapper {
   display: flex;
+  margin-bottom: 5px;
 
   // Stack on top when in compact mode
   .compact & {
     flex-direction: column;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0px 0px 0px 4px #F0F4F7;
   }
 
   .editor,
@@ -66,6 +74,10 @@
     // Take all width in compact mode
     .compact & {
       width: 100%;
+
+      border-radius: 6px;
+      box-shadow: 0px 0px 0px 4px #F0F4F7;
+      overflow: hidden;
     }
   }
 
@@ -75,12 +87,16 @@
 
     .compact & {
       border-right: 0;
-      border-bottom: 1px solid #DFE5EB;
+
+      &.opened {
+        margin-bottom: 4px;
+      }
     }
 
     .editorView {
       padding: 20px;
       height: 100%;
+      margin: 0;
       overflow: auto;
       outline: 0;
       font-family: Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace;
@@ -95,7 +111,6 @@
       // https://github.com/PrismJS/prism-themes/blob/master/themes/prism-base16-ateliersulphurpool.light.css
       :global {
         pre[class*="language-"] {
-          padding: 1em;
           margin: .5em 0;
           overflow: auto;
         }
