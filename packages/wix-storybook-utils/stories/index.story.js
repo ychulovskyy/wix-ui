@@ -51,7 +51,7 @@ export default {
       <ExampleShowcase/>
 
       <LiveCodeExample
-        scope={wsrScope}
+        scop={wsrScope}
         title="Live code example" initialCode={`
 /* This is just a big example to test the live editor */
 <div>
@@ -67,45 +67,58 @@ export default {
   <br/>
 
   <Heading>This is a live preview!</Heading>
-  <Heading>This is a live preview!</Heading>
-  <Heading>This is a live preview!</Heading>
-
-  <br/>
-
-  <Card>
-    <Card.Header
-        title="Even Cards!"
-        suffix={
-          <Button
-            onClick={() => alert('Clicked!')}
-            height="small"
-            theme="fullblue"
-            children="New Image"
-            />
-        }
-        />
-
-      <Card.Content>
-        <EmptyState
-          title="You don't have any images yet"
-          subtitle="'member EmptyState?"
-          children={<TextLink>Add image</TextLink>}
-          />
-      </Card.Content>
-    </Card>
-
-  <br/>
-
-  <Tooltip content="Even tooltip works!">
-    <span>Hover me!</span>
-  </Tooltip>
-
-  <br/>
-  <br/>
-
-  <Button>Click me!</Button>
 </div>
       `}/>
+
+      <LiveCodeExample.Row>
+        <LiveCodeExample
+          compact
+          title="Large size"
+          scope={wsrScope}
+          initialCode={`
+<TextField>
+  <Label for="firstName">
+    Label
+  </Label>
+  <Input
+    placeholder="Place holder test goes here"
+    size="large"
+  />
+</TextField>
+          `}
+        />
+        <LiveCodeExample
+          compact
+          title="Medium size"
+          scope={wsrScope}
+          initialCode={`
+<TextField>
+  <Label for="firstName">
+    Label
+  </Label>
+  <Input
+    placeholder="Place holder test goes here"
+  />
+</TextField>
+          `}
+        />
+        <LiveCodeExample
+          compact
+          title="Small size"
+          scope={wsrScope}
+          initialCode={`
+<TextField>
+  <Label for="firstName">
+    Label
+  </Label>
+  <Input
+    placeholder="Place holder test goes here"
+    size="small"
+  />
+</TextField>
+          `}
+        />
+      </LiveCodeExample.Row>
     </div>
   )
 };

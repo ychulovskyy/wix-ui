@@ -1,5 +1,11 @@
 @import '../mixins.scss';
 
+.examplesContainer {
+  display: flex;
+  max-width: 1254px;
+  align-items: baseline;
+}
+
 .wrapper {
   min-width: 894px;
   max-width: 1254px;
@@ -8,6 +14,12 @@
   border: 1px solid #DFE5EB;
   border-radius: 3px;
   overflow: hidden;
+
+  &.compact {
+    min-width: auto;
+    max-width: 400px;
+    margin-right: 20px;
+  }
 }
 
 .header {
@@ -15,6 +27,10 @@
   align-items: center;
   border-bottom: 1px solid #DFE5EB;
   padding: 0 1em;
+
+  .compact & {
+    height: 3em;
+  }
 
   .spacer {
     flex: 1;
@@ -25,29 +41,55 @@
     display: flex;
     align-items: center;
     line-height: 0;
+
+    // Hide toggles on compact mode
+    .compact & {
+      display: none;
+    }
   }
 }
 
 .liveExampleWrapper {
   display: flex;
 
+  // Stack on top when in compact mode
+  .compact & {
+    flex-direction: column;
+  }
+
   .editor,
   .preview {
     box-sizing: border-box;
     width: 50%;
     position: relative;
+
+    // Take all width in compact mode
+    .compact & {
+      width: 100%;
+    }
   }
 
   .editor {
     border-right: 1px solid #DFE5EB;
+    background-color: #F8FAFB;
+
+    .compact & {
+      border-right: 0;
+      border-bottom: 1px solid #DFE5EB;
+    }
 
     .editorView {
       padding: 20px;
-      min-height: 300px;
       height: 100%;
       overflow: auto;
       outline: 0;
       font-family: Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace;
+
+      // Auto height when in compact mode
+      .compact & {
+        min-height: auto;
+        height: auto;
+      }
 
       // Theme extracted from
       // https://github.com/PrismJS/prism-themes/blob/master/themes/prism-base16-ateliersulphurpool.light.css
@@ -162,12 +204,10 @@
 
   .preview {
     padding: 30px 20px;
-    box-shadow: 0 0 10px 2px #e5ebf1 inset;
     @include checkerboard(20px, #eff2f6, #fff);
 
     &.darkPreview {
       @include checkerboard(20px, #5b7fa4, #486684);
-      box-shadow: 0 0 10px 2px #486684 inset;
     }
 
     .error {

@@ -2,34 +2,47 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
 import classnames from 'classnames';
+import {Collapse} from 'react-collapse';
 import styles from './index.scss';
 
 import ToggleSwitch from 'wix-style-react/ToggleSwitch';
 import EmptyTrash from 'wix-ui-icons-common/EmptyTrash';
+import Code from 'wix-ui-icons-common/Code';
 import TextButton from '../TextButton';
+
+const LiveCodeExamplesRow = props => (
+  <div className={styles.examplesContainer} {...props}/>
+);
 
 export default class LiveCodeExample extends Component {
 
   static propTypes = {
     initialCode: PropTypes.string,
     title: PropTypes.string,
-    scope: PropTypes.object
+    scope: PropTypes.object,
+    compact: PropTypes.bool
   };
 
+  static defaultProps = {
+    compact: false
+  };
+
+  static Row = LiveCodeExamplesRow;
+
   resetCode = () => {
-    // We'll need to update the state twice in order to cause react-live to
-    // update the code
     this.setState({
-      code: ''
-    }, () => {
-      this.setState({
-        code: this.props.initialCode
-      });
+      code: this.props.initialCode
     });
   };
 
+  onCodeChange = code => this.setState({code});
+
   onToggleRtl = isRtl => this.setState({isRtl});
   onToggleBackground = isDarkBackground => this.setState({isDarkBackground});
+
+  onToggleCode = () => this.setState(state => ({
+    isEditorOpened: !state.isEditorOpened
+  }));
 
   constructor(props) {
     super(props);
@@ -37,15 +50,21 @@ export default class LiveCodeExample extends Component {
     this.state = {
       code: props.initialCode,
       isRtl: false,
-      isDarkBackground: false
+      isDarkBackground: false,
+      isEditorOpened: !props.compact
     };
   }
 
   render() {
-    const {code, isRtl, isDarkBackground} = this.state;
+    const {compact} = this.props;
+    const {code, isRtl, isDarkBackground, isEditorOpened} = this.state;
 
     return (
-      <div className={styles.wrapper}>
+      <div
+        className={classnames(styles.wrapper, {
+          [styles.compact]: compact
+        })}
+      >
 
         <div className={styles.header}>
           <h2>{this.props.title}</h2>
@@ -72,15 +91,23 @@ export default class LiveCodeExample extends Component {
             />
           </div>
 
-          <TextButton onClick={this.resetCode} prefixIcon={<EmptyTrash/>}>Reset</TextButton>
+          {isEditorOpened && (
+            <TextButton onClick={this.resetCode} prefixIcon={<EmptyTrash/>}>Reset</TextButton>
+          )}
+
+          {compact && (
+            <TextButton onClick={this.onToggleCode} prefixIcon={<Code/>}>
+              {this.state.isEditorOpened ? 'Hide' : 'Show'} code
+            </TextButton>
+          )}
         </div>
 
         <LiveProvider code={code.trim()} scope={this.props.scope} mountStylesheet={false}>
           <div className={styles.liveExampleWrapper}>
 
-            <div className={styles.editor}>
+            <Collapse isOpened={isEditorOpened} className={styles.editor}>
               <LiveEditor className={styles.editorView} onChange={this.onCodeChange}/>
-            </div>
+            </Collapse>
 
             <div
               className={classnames({
