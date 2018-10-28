@@ -49,6 +49,7 @@ This component consists of **container** which is the root of the component and 
 ## API
 
 **SegmentedToggle Props**
+
 | name            | type                                                     | defaultValue | isRequired | description                                                                                 |
 |:----------------|:---------------------------------------------------------|:-------------|:-----------|:--------------------------------------------------------------------------------------------|
 | value           | string                                                   |              |            | sets the selected option of the group. should match the `value` prop of one of the children |
