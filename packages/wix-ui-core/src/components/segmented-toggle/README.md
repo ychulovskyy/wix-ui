@@ -30,7 +30,7 @@ TBD
 component name - segmented control?
 error prop & style????
 callback structure
-
+selection indicator + animation
 
 ## Description
 
@@ -42,35 +42,33 @@ callback structure
 
 ### Elements
 
-This component consists of **container** which is the root of the component and **option** which holds each of the selection options
+This component consists of **container** which is the root of the component and **option** which holds each of the selection options content (children)
 
+![image](./readme-assets/segmented-toggle-elements.png)
 
 ## API
 
 **SegmentedToggle Props**
-| name     | type                                                     | defaultValue | isRequired | description                                                                                 |
-|:---------|:---------------------------------------------------------|:-------------|:-----------|:--------------------------------------------------------------------------------------------|
-| value    | string                                                   |              |            | sets the selected option of the group. should match the `value` prop of one of the children |
-| onChange | (event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change                                                         |
-| disabled | boolean                                                  | false        |            | disables all functionality of the component AND toggles non-functional visual state         |
-| readOnly | boolean                                                  | false        |            | disables all functionality of the component WITHOUT toggling non-functional visual state    |
-| required | boolean                                                  | false        |            | when true, a user cannot submit a form when this component has no selected option    |
-| children | Component<IToggleableOption>                                    |              |            | The options to render.         |
-| aria-labelledby | string                                                  | false        |            | accessibility feature to provide additional description for screen readers     |
-
-
-
+| name            | type                                                     | defaultValue | isRequired | description                                                                                 |
+|:----------------|:---------------------------------------------------------|:-------------|:-----------|:--------------------------------------------------------------------------------------------|
+| value           | string                                                   |              |            | sets the selected option of the group. should match the `value` prop of one of the children |
+| onChange        | (event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change                                                         |
+| disabled        | boolean                                                  | false        |            | disables all functionality of the component AND toggles non-functional visual state         |
+| readOnly        | boolean                                                  | false        |            | disables all functionality of the component WITHOUT toggling non-functional visual state    |
+| required        | boolean                                                  | false        |            | when true, a user cannot submit a form when this component has no selected option           |
+| children        | Component<IToggleableOption>                             |              |            | The options to render.                                                                      |
+| aria-labelledby | string                                                   | false        |            | accessibility feature to provide additional description for screen readers                  |
 
 **IToggleableOption Props**
 Children of the **SegmentedToggle** component are expected to implement this interface in order for the component to function as expected:
 
-| name     | type      | defaultValue | isRequired | description                                                 |
-|:---------|:----------|:-------------|:-----------|:------------------------------------------------------------|
-| value    | string    |    true          |            | sets the value of the specific option. Must be unique       |
-| checked | boolean   | false        |            | indicates that the option should be shown as selected  |
-| disabled | boolean   | false        |            | indicates this option is non selectable and toggles visual state |
-| onChange | (event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change
-| children | ReactNode | false        |            | The content to render.                                      |
+| name     | type                                                     | defaultValue | isRequired | description                                                      |
+|:---------|:---------------------------------------------------------|:-------------|:-----------|:-----------------------------------------------------------------|
+| value    | string                                                   | true         |            | sets the value of the specific option. Must be unique            |
+| checked  | boolean                                                  | false        |            | indicates that the option should be shown as selected            |
+| disabled | boolean                                                  | false        |            | indicates this option is non selectable and toggles visual state |
+| onChange | (event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change                              |
+| children | ReactNode                                                | false        |            | The content to render.                                           |
 
 
 ## React Code Example
@@ -204,13 +202,10 @@ Since **SegmentedToggle** is merely rendering options, most styling is done on t
 
 ## Accessibility
 
-TBD role, aria-labels 
 **SegmentedToggle** role = "radiogroup"
-option role = "radio"
+options role = "radio"
 
 selected option should have `aria-checked=“true”`. all other options should have `aria-checked=“false”.`
-
-roving tabIndex
 
 ##### Keyboard
 
@@ -230,15 +225,9 @@ roving tabIndex
 
 
 #### Validation 
-Default validation needs to be addressed, as well as the component behavior when validation is broken.
-
+Aside from supplying a simplified usage with `<SimpleToggleOption>` this component doesn't validate that children conform to the required interface. This can lead to unexpected behaviors 
 
 #### Edge case handling
-
-| Case                                     | Handling                                 |
-| ---------------------------------------- | ---------------------------------------- |
-| value out of min/max range               | Show error in console and set value to corresponding min/max |
-| value out of step (e.g. min=0 / max=20, step=5, value=7) | Show error in console, handle displays on 7. User can increase value (in this case 7 will change to 10) OR decrease value (7 will change to 5) and after that step will work as expected. |
 
 
 
@@ -246,31 +235,31 @@ Default validation needs to be addressed, as well as the component behavior when
 
 #### Keyboard
 
-| Keys      | Action                      |
-| --------- | --------------------------- |
-| tab       | moves to next element       |
-| shift+tab | moves to previous element   |
-| UP / LEFT      | moves selection & focus to previous option |
-| DOWN / RIGHT      | moves selection & focus to next option |
-| SPACE      | selects focused option (should only be applicable when no option is currently selected) |
+| Keys         | Action                                                                                  |
+|:-------------|:----------------------------------------------------------------------------------------|
+| tab          | moves to next element                                                                   |
+| shift+tab    | moves to previous element                                                               |
+| UP / LEFT    | moves selection & focus to previous option                                              |
+| DOWN / RIGHT | moves selection & focus to next option                                                  |
+| SPACE        | selects focused option (should only be applicable when no option is currently selected) |
 
 
 
 #### Mouse
 
-| Event | Action                | NOTE                     |
-| ----- | --------------------- | ------------------------ |
-| hover | - |  |
-| click | select option         |                          |
+| Event | Action        | NOTE |
+|:------|:--------------|:-----|
+| hover | -             |      |
+| click | select option |      |
 
 
 
 #### **Touch**
 
-| Event | Action              | NOTE                    |
-| ----- | ------------------- | ----------------------- |
-| tap   | select option |  |
-| drag  | -                    |                         |
+| Event | Action        | NOTE |
+|:------|:--------------|:-----|
+| tap   | select option |      |
+| drag  | -             |      |
 
 
 
