@@ -26,7 +26,10 @@
 - [Design](#design)
 
   ​
-
+TBD
+component name - segmented control?
+error prop & style????
+callback structure
 
 
 ## Description
@@ -34,9 +37,12 @@
 **Segmented Toggle** allows users to choose a single option out of a group. Recommended use is for a small amount of predefined options.
 
 
+![image](./readme-assets/example.gif)
+
+
 ### Elements
 
-This component consists of **container** which is the root of the component and **option** which holds each of the select-able options
+This component consists of **container** which is the root of the component and **option** which holds each of the selection options
 
 
 ## API
@@ -46,24 +52,34 @@ This component consists of **container** which is the root of the component and 
 |:---------|:---------------------------------------------------------|:-------------|:-----------|:--------------------------------------------------------------------------------------------|
 | value    | string                                                   |              |            | sets the selected option of the group. should match the `value` prop of one of the children |
 | onChange | (event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change                                                         |
-| tabIndex | number                                                   | 0            |            | the tabIndex value to put on the selected item                                              |
 | disabled | boolean                                                  | false        |            | disables all functionality of the component AND toggles non-functional visual state         |
 | readOnly | boolean                                                  | false        |            | disables all functionality of the component WITHOUT toggling non-functional visual state    |
-| children | Component<ToggleableItem>                                    |              |            | The options to render. Only children which are of type ToggleItem will be rendered          |
+| required | boolean                                                  | false        |            | when true, a user cannot submit a form when this component has no selected option    |
+| children | Component<IToggleableOption>                                    |              |            | The options to render.         |
+| aria-labelledby | string                                                  | false        |            | accessibility feature to provide additional description for screen readers     |
 
-**ToggleableItem Props**
+
+
+
+**IToggleableOption Props**
+Children of the **SegmentedToggle** component are expected to implement this interface in order for the component to function as expected:
+
 | name     | type      | defaultValue | isRequired | description                                                 |
 |:---------|:----------|:-------------|:-----------|:------------------------------------------------------------|
-| value    | string    |              |            | sets the value of the specific option. Must be unique       |
-| disabled | boolean   | false        |            | makes the component non selectable and toggles visual state |
+| value    | string    |    true          |            | sets the value of the specific option. Must be unique       |
+| checked | boolean   | false        |            | indicates that the option should be shown as selected  |
+| disabled | boolean   | false        |            | indicates this option is non selectable and toggles visual state |
+| onChange | (event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change
 | children | ReactNode | false        |            | The content to render.                                      |
 
 
 ## React Code Example
 
+Basic example using exported `<SimpleToggleOption/>`:
+
 ```jsx
 import * as React from 'react';
-import { SegmentedToggle } from 'wix-ui-core/SegmentedToggle';
+import { SegmentedToggle, SimpleToggleOption } from 'wix-ui-core/SegmentedToggle';
 import { EditSVG, TrashSVG} from './my-icons'
 import style from './style.st.css';
 
@@ -83,11 +99,83 @@ export class ComponentsDemo extends React.Component<{}, {}>{
                     value={this.state.selected}
                     onChange={this.onChange} 
                 >
-                    <ToggleItem value='item1'>Raw</ToggleItem>
-                    <ToggleItem value='item2'>Blame</ToggleItem>
-                    <ToggleItem value='item3'>History</ToggleItem>
-                    <ToggleItem value='item4' disabled>{EditSVG}</ToggleItem>
-                    <ToggleItem value='item5'>{TrashSVG}</ToggleItem>
+                    <SimpleToggleOption value='item1'>Raw</SimpleToggleOption>
+                    <SimpleToggleOption value='item2'>Blame</SimpleToggleOption>
+                    <SimpleToggleOption value='item3'>History</SimpleToggleOption>
+                    <SimpleToggleOption value='item4' disabled>{EditSVG}</SimpleToggleOption>
+                    <SimpleToggleOption value='item5'>{TrashSVG}</SimpleToggleOption>
+                </SegmentedToggle>
+                   
+            </div>
+        )
+    }
+}
+```
+Advanced example with custom options:
+
+```jsx
+import * as React from 'react';
+import { SegmentedToggle, IToggleOption } from 'wix-ui-core/SegmentedToggle';
+import style from './style.st.css';
+import optionStyle from './optionStyle.st.css';
+import { OpenSVG, CloseSVG } from './my-icons'
+
+export interface IMyCustomOption extends IToggleOption {
+    icon: React.ReactNode
+    onIconClick: React.EventHandler<React.ClickEvent>
+    label: string
+    onLabelClick: React.EventHandler<React.ClickEvent>
+}
+
+const MyCustomOption = (props: IMyCustomOption): React.JSXElement => {
+    return (
+        <div {...optionStyle('root',{checked: props.checked, disabled: props.disabled}, props)}>
+            <span className={optionStyle.icon} 
+                onClick={e=>{props.onIconClick(props.value, e); props.onChange(props.value, e)}}>
+                    {props.icon}
+            </span>
+            <span className={optionStyle.icon} 
+                onClick={e=>{props.onLabelClick(props.value, e); props.onChange(props.value, e)}}>
+                {props.label}
+            </span>
+        </div>
+    )
+}
+
+export class ComponentsDemo extends React.Component<{}, {selected: string}>{
+    state = {
+        selected: 'open'
+    }
+
+    onChange = (event:React.ChangeEvent<React.SyntheticEvent>, value: string): null => {
+        this.setState({value})
+    }
+
+    render() {
+        return (
+            <div>
+                <SegmentedToggle
+                    value={this.state.selected}
+                >
+                    <MyCustomOption
+                        value='open'
+                        checked={this.state.selected === 'open'}
+                        onChange={this.onChange}
+                        label='Open'
+                        onLabelClick={(val) => console.log('clicked on label ' + val)}
+                        icon={OpenSVG}
+                        onLabelClick={(val) => console.log('clicked on icon ' + val)}
+                    />
+                    <MyCustomOption
+                        value='close'
+                        checked={this.state.selected === 'close'}
+                        onChange={this.onChange}
+                        label='Close'
+                        onLabelClick={(val) => console.log('clicked on label ' + val)}
+                        icon={CloseSVG}
+                        onLabelClick={(val) => console.log('clicked on icon ' + val)}
+                    />
+                    
                 </SegmentedToggle>
                    
             </div>
@@ -96,18 +184,11 @@ export class ComponentsDemo extends React.Component<{}, {}>{
 }
 ```
 
-
-
 **Style**
 
-Brief description of pseudo-classes and custom CSS states that can be applied to the component.
-See [README.md](./README.md) for more info. 
+## **SimpleToggleOption** States
 
-
-
-## **ToggleItem** States
-
-A description of all the internal states of the component, and how they should be shown visually.
+Since **SegmentedToggle** is merely rendering options, most styling is done on the `option` elements. These are the states available on **SimpleToggleOption**.
 
 | State         | Description                            | Link to design |
 |:--------------|:---------------------------------------|:---------------|
@@ -124,6 +205,11 @@ A description of all the internal states of the component, and how they should b
 ## Accessibility
 
 TBD role, aria-labels 
+**SegmentedToggle** role = "radiogroup"
+option role = "radio"
+
+selected option should have `aria-checked=“true”`. all other options should have `aria-checked=“false”.`
+
 roving tabIndex
 
 ##### Keyboard
@@ -140,19 +226,11 @@ roving tabIndex
 
 
 ### Behavior
-**SegmentedToggle** should be viewed as a replacement to a radio group in all aspects and should mimic its "native" counterpart (meaning a few `<input type="radio" name="..."/>`>) behavior.
+**SegmentedToggle** should be viewed as a replacement to a radio group in all aspects and should mimic its "native" counterpart (meaning a group of `<input type="radio" name="..."/>`>) behavior.
 
 
 #### Validation 
-toggleItem tabIndex override
 Default validation needs to be addressed, as well as the component behavior when validation is broken.
-
-> E.g. 
-> Time Input component will address inputs that fail validation like letters, numbers larger than 24 for hours, numbers larger than 59 for minutes, etc. What should happen, what should be shown to the user, etc.
-
-The component may allow a developer to use his own validation patterns where relevant. 
-**In such a case, there should be an example implementation in the readme doc.**
-
 
 
 #### Edge case handling
@@ -174,13 +252,7 @@ The component may allow a developer to use his own validation patterns where rel
 | shift+tab | moves to previous element   |
 | UP / LEFT      | moves selection & focus to previous option |
 | DOWN / RIGHT      | moves selection & focus to next option |
-
-
-**RTL** ( if applicable )
-
-| Keys | Action |
-| ---- | ------ |
-|      |        |
+| SPACE      | selects focused option (should only be applicable when no option is currently selected) |
 
 
 
@@ -188,8 +260,8 @@ The component may allow a developer to use his own validation patterns where rel
 
 | Event | Action                | NOTE                     |
 | ----- | --------------------- | ------------------------ |
-| hover | what happens on hover | Side notes (if relevant) |
-| click |                       |                          |
+| hover | - |  |
+| click | select option         |                          |
 
 
 
@@ -197,27 +269,10 @@ The component may allow a developer to use his own validation patterns where rel
 
 | Event | Action              | NOTE                    |
 | ----- | ------------------- | ----------------------- |
-| tap   | what happens on tap | Side note (if relevant) |
-| drag  |                     |                         |
+| tap   | select option |  |
+| drag  | -                    |                         |
 
 
 
 ## RTL
-
-> We are deciding on how are we going to handle the RTL. Detailed description will be added later.
-
-
-
-## DOM structure
-
-Each component should have a visual style guide for all of its visual states and elements structure. This style guide will be based on the **Style API**, and a visual theme agreed upon as our reset style (blank base).
-
-If more themes exist, they should be shown as well, and available as options through change of theme.
-
-In addition, a link to Zeplin or a similar system is optional.
-
-
-
-## Design
-
-Link to [assets](link goes here)
+TBD
