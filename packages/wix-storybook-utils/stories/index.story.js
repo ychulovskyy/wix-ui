@@ -70,7 +70,7 @@ export default {
 </div>
       `}/>
 
-      <LiveCodeExample.Row>
+      <div style={{maxWidth: 440}}>
         <LiveCodeExample
           compact
           title="Large size"
@@ -87,38 +87,7 @@ export default {
 </TextField>
           `}
         />
-        <LiveCodeExample
-          compact
-          title="Medium size"
-          scope={wsrScope}
-          initialCode={`
-<TextField>
-  <Label for="firstName">
-    Label
-  </Label>
-  <Input
-    placeholder="Place holder test goes here"
-  />
-</TextField>
-          `}
-        />
-        <LiveCodeExample
-          compact
-          title="Small size"
-          scope={wsrScope}
-          initialCode={`
-<TextField>
-  <Label for="firstName">
-    Label
-  </Label>
-  <Input
-    placeholder="Place holder test goes here"
-    size="small"
-  />
-</TextField>
-          `}
-        />
-      </LiveCodeExample.Row>
+      </div>
     </div>
   )
 };

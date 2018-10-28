@@ -13,10 +13,6 @@ import Code from 'wix-ui-icons-common/Code';
 import Document from 'wix-ui-icons-common/Document';
 import TextButton from '../TextButton';
 
-const LiveCodeExamplesRow = props => (
-  <div className={styles.examplesContainer} {...props}/>
-);
-
 export default class LiveCodeExample extends Component {
 
   static propTypes = {
@@ -29,8 +25,6 @@ export default class LiveCodeExample extends Component {
   static defaultProps = {
     compact: false
   };
-
-  static Row = LiveCodeExamplesRow;
 
   resetCode = () => {
     this.setState({

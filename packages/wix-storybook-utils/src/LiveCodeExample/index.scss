@@ -1,11 +1,5 @@
 @import '../mixins.scss';
 
-.examplesContainer {
-  display: flex;
-  max-width: 1254px;
-  align-items: baseline;
-}
-
 .wrapper {
   min-width: 894px;
   max-width: 1254px;
@@ -17,8 +11,7 @@
 
   &.compact {
     min-width: auto;
-    max-width: 400px;
-    margin-right: 20px;
+    width: 100%;
     border: 0;
     overflow: unset;
   }
@@ -229,11 +222,17 @@
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 100%;
+      right: 0;
       background: #ff5555;
       color: #ffffff;
       padding: 10px;
       white-space: pre;
+
+      .compact & {
+        top: 0;
+        height: 100%;
+        overflow: auto;
+      }
     }
   }
 }
