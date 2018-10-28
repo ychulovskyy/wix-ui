@@ -3,12 +3,13 @@ import Component from './component';
 import CodeShowcase from '../src/CodeShowcase/';
 import LiveCodeExample from '../src/LiveCodeExample';
 
-// Taking the whole wsr library for the code example test
-import * as wsrScope from 'wix-style-react';
-
 const showcase = `<button className={button.one}>one</button>
 <button className={button.two}>two</button>
 <button className={button.three}>three</button>`;
+
+const exampleScope = {
+  Button: props => <button {...props}/>
+};
 
 const ExampleShowcase = () => (
   <CodeShowcase title="CodeShowcase" code={showcase}>
@@ -51,40 +52,24 @@ export default {
       <ExampleShowcase/>
 
       <LiveCodeExample
-        scope={wsrScope}
+        scope={exampleScope}
         title="Live code example" initialCode={`
-/* This is just a big example to test the live editor */
 <div>
-  <Dropdown
-    placeholder="Select dominant hand"
-    options={[
-      {id: 0, value: 'Left'},
-      {id: 1, value: 'Right'},
-      {id: 2, value: 'Ambidextrous'}
-    ]}
-  />
-
-  <br/>
-
-  <Heading>This is a live preview!</Heading>
+  <p>Look at me!</p>
+  <Button>I come from the scope!</Button>
 </div>
       `}/>
 
       <div style={{maxWidth: 440}}>
         <LiveCodeExample
           compact
-          title="Large size"
-          scope={wsrScope}
+          title="Compact mode"
+          scope={exampleScope}
           initialCode={`
-<TextField>
-  <Label for="firstName">
-    Label
-  </Label>
-  <Input
-    placeholder="Place holder test goes here"
-    size="large"
-  />
-</TextField>
+<div>
+  <p>Look at me!</p>
+  <Button>I come from the scope!</Button>
+</div>
           `}
         />
       </div>
