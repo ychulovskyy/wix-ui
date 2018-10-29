@@ -9,6 +9,12 @@ import { ButtonSecondary } from "./showcase/button/button-secondary";
 import { ButtonSizes } from "./showcase/button/button-sizes";
 import { ButtonAffixes } from "./showcase/button/button-affixes";
 
+import { TextButtonPrimary } from "./showcase/textButton/textButton-primary";
+import { TextButtonSecondary } from "./showcase/textButton/textButton-secondary";
+import { TextButtonUnderlined } from "./showcase/textButton/textButton-underlined";
+import { TextButtonSizes } from "./showcase/textButton/textButton-sizes";
+import { TextButtonAffixes } from "./showcase/textButton/textButton-affixes";
+
 const controlledWidth = {
   maxWidth: "1254px",
   height: "auto",
@@ -16,17 +22,28 @@ const controlledWidth = {
   display: "flex"
 };
 
+const controlledWidthColumn = {
+  maxWidth: "1254px",
+  height: "auto",
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  lineHeight: "1.6",
+  padding: "10px"
+};
+
 const halfColumn = {
   display: "flex",
   flexDirection: "column",
   padding: "10px",
-  width: "48%"
+  width: "48%",
+  lineHeight: "1.6"
 };
 
 const Title = () => (
-  <div style={{ padding: "10px" }}>
+  <div style={{ padding: "10px", maxWidth: "1254px" }}>
     <h1 style={{ fontSize: "2.75rem", fontWeight: "300" }}>Buttons</h1>
-    <p style={{ fontSize: "1.2rem", fontWeight: "300" }}>
+    <p style={{ fontSize: "1.2rem", fontWeight: "300", lineHeight: "1.6" }}>
       The Text Buttons, Filled Buttons, Ghost Buttons, Icon Buttons and Close
       Buttons are built on top of the same component: the ButtonNext. You can
       take advantage of this lower level component to build custom interactions.
@@ -34,11 +51,16 @@ const Title = () => (
   </div>
 );
 
+const SubContainer = ({ children }) => (
+  <div style={controlledWidthColumn}>{children}</div>
+);
+
 const SubTitle = ({ children }) => (
   <h2
     style={{
       fontSize: "1.75rem",
-      fontWeight: "300"
+      fontWeight: "300",
+      margin: "15px 0 15px 0"
     }}
   >
     {children}
@@ -80,13 +102,14 @@ const ButtonsStory = () => (
       </Box>
     </Container>
 
-    <Box>
+    <SubContainer>
       <SubTitle>Icon Buttons</SubTitle>
       <SubParagraph>
         An Icon Button should perform a constructive action such as creating a
         new item or sharing the item on screen.
       </SubParagraph>
-    </Box>
+    </SubContainer>
+
     <Container>
       <Box>
         <IconButtonPrimary />
@@ -96,7 +119,31 @@ const ButtonsStory = () => (
       </Box>
     </Container>
 
-    <SubTitle>Sizes</SubTitle>
+    <SubContainer>
+      <SubTitle>Text Buttons</SubTitle>
+      <SubParagraph>
+        The major benefit of text buttons is pretty simple — they minimize
+        distraction from content.
+      </SubParagraph>
+    </SubContainer>
+
+    <Container>
+      <Box>
+        <TextButtonPrimary />
+      </Box>
+      <Box>
+        <TextButtonSecondary />
+      </Box>
+    </Container>
+    <Container>
+      <Box>
+        <TextButtonUnderlined />
+      </Box>
+    </Container>
+
+    <SubContainer>
+      <SubTitle>Sizes</SubTitle>
+    </SubContainer>
 
     <Container>
       <Box>
@@ -106,12 +153,19 @@ const ButtonsStory = () => (
         <IconButtonSizes />
       </Box>
     </Container>
+    <Container>
+      <Box>
+        <TextButtonSizes />
+      </Box>
+    </Container>
 
     <SubTitle>Affixes</SubTitle>
-
     <Container>
       <Box>
         <ButtonAffixes />
+      </Box>
+      <Box>
+        <TextButtonAffixes />
       </Box>
     </Container>
   </div>
