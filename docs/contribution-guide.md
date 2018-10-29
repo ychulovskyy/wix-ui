@@ -61,8 +61,6 @@ it's faster, and cheaper on your runtime
 
 All component APIs must be strongly typed, with `any` not accepted. it might be harder to write, but its much easier to use.
 
-All components will also define react-prop-types. In order to support our friends that still use vanilla JS.
-
 ### Component Style API
 
 **Component.st.css**
