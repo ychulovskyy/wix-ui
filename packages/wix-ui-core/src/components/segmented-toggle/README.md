@@ -26,11 +26,12 @@
 - [Design](#design)
 
   ​
-TBD
-component name - segmented control?
-error prop & style????
-callback structure
-selection indicator + animation
+### TBD
+* component name - segmented control?
+* error prop & style????
+* callback structure
+* selection indicator + animation
+* rtl and how to pass it
 
 ## Description
 
@@ -56,7 +57,8 @@ This component consists of **container** which is the root of the component and 
 | onChange        | (event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change                                                         |
 | disabled        | boolean                                                  | false        |            | disables all functionality of the component AND toggles non-functional visual state         |
 | readOnly        | boolean                                                  | false        |            | disables all functionality of the component WITHOUT toggling non-functional visual state    |
-| required        | boolean                                                  | false        |            | when true, a user cannot submit a form when this component has no selected option           |
+| required????        | boolean                                                  | false        |            | when true, a user cannot submit a form when this component has no selected option           |
+| rtl????        | boolean                                                  | false        |            | when true, the rendering order of the options change from left-to-right to right-to-left           |
 | children        | Component<IToggleableOption>                             |              |            | The options to render.                                                                      |
 | aria-labelledby | string                                                   | false        |            | accessibility feature to provide additional description for screen readers                  |
 
@@ -216,13 +218,11 @@ selected option should have `aria-checked=“true”`. all other options should 
 **SegmentedToggle** has a radio group focus behavior, meaning focus is put on the selected item. Changing selection causes focus to shift to the new selected item. By default mouse selection causes non visual focus while keyboard selection toggles focus visible visual state.
 
 ##### Reference links
-
-> Links to similar ARIA compatible components for reference
-
+[ARIA radio button example](https://www.w3.org/TR/2017/WD-wai-aria-practices-1.1-20170628/examples/radio/radio-1/radio-1.html)
 
 
 ### Behavior
-**SegmentedToggle** should be viewed as a replacement to a radio group in all aspects and should mimic its "native" counterpart (meaning a group of `<input type="radio" name="..."/>`>) behavior.
+**SegmentedToggle** should be viewed as a replacement to a radio group in all aspects and should mimic its "native" counterpart (meaning a group of `<input type="radio" name="..."/>`) behavior.
 
 
 #### Validation 
