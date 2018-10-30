@@ -1,30 +1,4 @@
 **Table of Contents**
-
-- [Description](#description)
-
-- [Elements](#elements)
-
-- [API](#api)
-
-- [States](#states-(if-applicable))
-
-- [Accessibility](#accessibility)
-
-- [Behavior](#behavior)
-  - [Validation](validation)
-  - [Edge case handling](edge-case-handling)
-
-- [Input Methods](#input-methods)
-  - [Keyboard](#keyboard)
-  - [Mouse](#mouse)
-  - [Touch](#touch)
-
-- [RTL](#rtl)
-
-- [DOM Structure](#dom-structure)
-
-- [Design](#design)
-
   ​
 ### TBD
 * component name - segmented control?
@@ -60,7 +34,7 @@ This component consists of **container** which is the root of the component and 
 | required????        | boolean                                                  | false        |            | when true, a user cannot submit a form when this component has no selected option           |
 | rtl????        | boolean                                                  | false        |            | when true, the rendering order of the options change from left-to-right to right-to-left           |
 | children        | Component<IToggleableOption>                             |              |            | The options to render.                                                                      |
-| aria-labelledby | string                                                   | false        |            | accessibility feature to provide additional description for screen readers                  |
+| ariaLabelledby | string                                                   | false        |            | accessibility feature to provide additional description for screen readers                  |
 
 **IToggleableOption Props**
 Children of the **SegmentedToggle** component are expected to implement this interface in order for the component to function as expected:
@@ -95,7 +69,7 @@ export class ComponentsDemo extends React.Component<{}, {}>{
 
     render() {
         return (
-            <div>
+            <div className={style.toggle}>
                 <SegmentedToggle
                     value={this.state.selected}
                     onChange={this.onChange} 
@@ -154,7 +128,7 @@ export class ComponentsDemo extends React.Component<{}, {selected: string}>{
 
     render() {
         return (
-            <div>
+            <div className={style.toggle}>
                 <SegmentedToggle
                     value={this.state.selected}
                 >
@@ -187,9 +161,16 @@ export class ComponentsDemo extends React.Component<{}, {selected: string}>{
 
 **Style**
 
+### Subcomponents (pseudo-elements)
+
+| selector    | description                             | type                                | children pseudo-states |
+|:------------|:----------------------------------------|:------------------------------------|:-----------------------|
+| ::container | contains all options                    | the root of the component           |                        |
+| ::option    | wraps each child of **SegmentedToggle** | renders the children of that option |                        |    
+
 ## **SimpleToggleOption** States
 
-Since **SegmentedToggle** is merely rendering options, most styling is done on the `option` elements. These are the states available on **SimpleToggleOption**.
+Since **SegmentedToggle** is merely rendering options, most states relate to `option` elements. These are the states available on **SimpleToggleOption**.
 
 | State         | Description                            | Link to design |
 |:--------------|:---------------------------------------|:---------------|
