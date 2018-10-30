@@ -1,10 +1,7 @@
-**Table of Contents**
+# Segmented Toggle
   ​
 ### TBD
-* component name - segmented control?
-* error prop & style????
 * callback structure
-* selection indicator + animation
 * rtl and how to pass it
 
 ## Description
@@ -17,7 +14,7 @@
 
 ### Elements
 
-This component consists of **container** which is the root of the component and **option** which holds each of the selection options content (children)
+This component consists of **container** which is the root of the component, **option** which holds each of the selection options content (children) and **toggle-indicator** that indicates the selected option and shows toggle animation
 
 ![image](./readme-assets/segmented-toggle-elements.png)
 
@@ -27,24 +24,24 @@ This component consists of **container** which is the root of the component and 
 
 | name            | type                                                     | defaultValue | isRequired | description                                                                                 |
 |:----------------|:---------------------------------------------------------|:-------------|:-----------|:--------------------------------------------------------------------------------------------|
-| value           | string                                                   |              |            | sets the selected option of the group. should match the `value` prop of one of the children |
-| onChange        | (event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change                                                         |
+| value           | string                                                   |             |            | sets the selected option of the group. Should match the `value` prop of one of the children |
+| onChange        | (value: string, event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change                                                         |
 | disabled        | boolean                                                  | false        |            | disables all functionality of the component AND toggles non-functional visual state         |
+| hideToggleIndicator        | boolean                                                  | false        |            | setting `true` will remove the toggle indicator element         |
 | readOnly        | boolean                                                  | false        |            | disables all functionality of the component WITHOUT toggling non-functional visual state    |
-| required????        | boolean                                                  | false        |            | when true, a user cannot submit a form when this component has no selected option           |
 | rtl????        | boolean                                                  | false        |            | when true, the rendering order of the options change from left-to-right to right-to-left           |
-| children        | Component<IToggleableOption>                             |              |            | The options to render.                                                                      |
+| children        | Component< IToggleableOption >                             |              |            | The options to render.                                                                      |
 | ariaLabelledby | string                                                   | false        |            | accessibility feature to provide additional description for screen readers                  |
 
 **IToggleableOption Props**
-Children of the **SegmentedToggle** component are expected to implement this interface in order for the component to function as expected:
+<br>Children of the **SegmentedToggle** component are expected to implement this interface in order for the component to function as expected:
 
 | name     | type                                                     | defaultValue | isRequired | description                                                      |
 |:---------|:---------------------------------------------------------|:-------------|:-----------|:-----------------------------------------------------------------|
 | value    | string                                                   | true         |            | sets the value of the specific option. Must be unique            |
 | checked  | boolean                                                  | false        |            | indicates that the option should be shown as selected            |
 | disabled | boolean                                                  | false        |            | indicates this option is non selectable and toggles visual state |
-| onChange | (event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change                              |
+| onChange | (value: string, event: React.ChangeEvent<React.SyntheticEvent>) => null | () => {}     |            | event to call when selection change                              |
 | children | ReactNode                                                | false        |            | The content to render.                                           |
 
 
@@ -174,7 +171,6 @@ Since **SegmentedToggle** is merely rendering options, most states relate to `op
 
 | State         | Description                            | Link to design |
 |:--------------|:---------------------------------------|:---------------|
-| default       | Default component appearance           |                |
 | selected      | selected option                        |                |
 | disabled      | disabled option                        |                |
 | hover         | when hovering over option              |                |
@@ -203,11 +199,11 @@ selected option should have `aria-checked=“true”`. all other options should 
 
 
 ### Behavior
-**SegmentedToggle** should be viewed as a replacement to a radio group in all aspects and should mimic its "native" counterpart (meaning a group of `<input type="radio" name="..."/>`) behavior.
+**SegmentedToggle** mostly mimics native radio group (meaning a group of `<input type="radio" name="..."/>`) in behavior. Unlike native radio group, this type of selector must always start with an option selected. `value` property is required to force it, and if it matches none of its the children `value` properties the first option is selected.
 
 
 #### Validation 
-Aside from supplying a simplified usage with `<SimpleToggleOption>` this component doesn't validate that children conform to the required interface. This can lead to unexpected behaviors 
+Aside from supplying a simplified usage with `<SimpleToggleOption>` this component doesn't validate that children conform to the required interface. This can lead to unexpected behaviors when using custom option component.  `<SimpleToggleOption>` should suffice most use cases so using it is recommended.
 
 #### Edge case handling
 
