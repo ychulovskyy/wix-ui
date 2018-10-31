@@ -1,12 +1,11 @@
 # Segmented Toggle
   ​
-### TBD
-* callback structure
-* rtl and how to pass it
 
 ## Description
 
-**Segmented Toggle** allows users to choose a single option out of a group. Recommended use is for a small amount of predefined options.
+**Segmented Toggle** allows users to choose a single option out of a group. Best applied to use cases where: 
+* Only one options applies for the user
+* One of the options is always selected
 
 
 ![image](./readme-assets/example.gif)
@@ -163,7 +162,8 @@ export class ComponentsDemo extends React.Component<{}, {selected: string}>{
 | selector    | description                             | type                                | children pseudo-states |
 |:------------|:----------------------------------------|:------------------------------------|:-----------------------|
 | ::container | contains all options                    | the root of the component           |                        |
-| ::option    | wraps each child of **SegmentedToggle** | renders the children of that option |                        |    
+| ::option    | wraps each child of **SegmentedToggle** | renders the children of that option |                        |   
+| ::toggle-indicator    | overlay element shown over selected option |  |                        |  
 
 ## **SimpleToggleOption** States
 
@@ -176,7 +176,7 @@ Since **SegmentedToggle** is merely rendering options, most states relate to `op
 | hover         | when hovering over option              |                |
 | focus         | the option has focus                   |                |
 | focus-visible | the option has focus and visible focus |                |
-| pressed       | toggles when the option is pressed     |                |
+| active       | toggles when the option is pressed     |                |
 
 
 
@@ -219,8 +219,6 @@ Aside from supplying a simplified usage with `<SimpleToggleOption>` this compone
 | shift+tab    | moves to previous element                                                               |
 | UP / LEFT    | moves selection & focus to previous option                                              |
 | DOWN / RIGHT | moves selection & focus to next option                                                  |
-| SPACE        | selects focused option (should only be applicable when no option is currently selected) |
-
 
 
 #### Mouse
@@ -237,9 +235,14 @@ Aside from supplying a simplified usage with `<SimpleToggleOption>` this compone
 | Event | Action        | NOTE |
 |:------|:--------------|:-----|
 | tap   | select option |      |
-| drag  | -             |      |
+| drag (toggle-indicator)  | moves the toggle indicator to a different option  |      |
 
 
 
 ## RTL
 TBD
+
+
+## For discussion
+* onChange callback structure
+* rtl and how to apply it
