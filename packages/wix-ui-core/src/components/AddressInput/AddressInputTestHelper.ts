@@ -1,4 +1,4 @@
-import * as waitForCond from 'wait-for-cond';
+import waitForCond from 'wait-for-cond';
 import {createAddress, createGeocode, createPlaceDetails} from './GoogleMapsClientStub';
 import {Address, Geocode, PlaceDetails} from '../../clients/GoogleMaps/types';
 const first = require('lodash/first');

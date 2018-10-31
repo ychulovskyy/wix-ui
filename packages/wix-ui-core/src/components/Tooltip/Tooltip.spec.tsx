@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as eventually from 'wix-eventually';
+import eventually from 'wix-eventually';
 import {tooltipDriverFactory} from './Tooltip.driver';
 import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';

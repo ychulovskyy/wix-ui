@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Collapse from 'react-collapse';
-import Heading from 'wix-style-react/Heading';
+
+import Heading from '../../../ui/heading';
 
 import styles from './styles.scss';
 
@@ -10,11 +11,11 @@ export default class PropsCollapse extends React.Component {
     title: PropTypes.string.isRequired,
     isOpen: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired
-  }
+  };
 
   static defaultProps = {
     isOpen: false
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -24,31 +25,22 @@ export default class PropsCollapse extends React.Component {
     };
   }
 
-  toggleCollapse = () =>
-    this.setState({isOpen: !this.state.isOpen});
+  toggleCollapse = () => this.setState(({isOpen}) => ({isOpen: !isOpen}));
 
-  getNumChildren = () =>
-    Object.keys(this.props.children).length;
+  getNumChildren = () => Object.keys(this.props.children).length;
 
   render() {
     return (
       <div>
-        <div
-          onClick={this.toggleCollapse}
-          className={styles.head}
-        >
-          <Heading appearance="H2">
-            {this.props.title}
-          </Heading>
+        <div onClick={this.toggleCollapse} className={styles.head}>
+          <Heading>{this.props.title}</Heading>
 
-          <div className={styles.headSub}>
-            { this.state.isOpen ? 'Hide' : 'Expand' }
+          <div className={styles.subtitle}>
+            {this.state.isOpen ? 'Hide' : 'Expand'}
           </div>
         </div>
 
-        <Collapse isOpened={this.state.isOpen}>
-          {this.props.children}
-        </Collapse>
+        <Collapse isOpened={this.state.isOpen}>{this.props.children}</Collapse>
       </div>
     );
   }

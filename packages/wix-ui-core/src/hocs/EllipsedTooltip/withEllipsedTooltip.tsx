@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import * as shallowequal from 'shallowequal';
+import shallowequal from 'shallowequal';
 import {Tooltip} from '../../components/Tooltip';
 import textStyle from './Text.st.css';
 import tooltipStyle from './EllipsedTooltip.st.css';

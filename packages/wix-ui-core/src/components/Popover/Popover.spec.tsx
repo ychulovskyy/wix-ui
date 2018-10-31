@@ -3,7 +3,7 @@ import {Simulate} from 'react-dom/test-utils';
 import {queryHook} from 'wix-ui-test-utils/dom';
 import {Popover, PopoverProps} from './';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
-import * as eventually from 'wix-eventually';
+import eventually from 'wix-eventually';
 import styles from './Popover.st.css';
 
 const popoverWithProps = (props: PopoverProps) => (

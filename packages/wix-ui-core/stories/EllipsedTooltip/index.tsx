@@ -1,16 +1,16 @@
-import * as React from 'react';
+import React from 'react';
 import Markdown from 'wix-storybook-utils/Markdown';
-import * as Readme from '../../src/hocs/EllipsedTooltip/README.md';
+import Readme from '../../src/hocs/EllipsedTooltip/README.md';
 import CodeExample from 'wix-storybook-utils/CodeExample';
 
 import ExampleWithoutTooltip from './ExampleWithoutTooltip';
-import * as ExampleWithoutTooltipRaw from '!raw-loader!./ExampleWithoutTooltip';
+import ExampleWithoutTooltipRaw from '!raw-loader!./ExampleWithoutTooltip';
 
 import ExampleWithTooltip from './ExampleWithTooltip';
-import * as ExampleWithTooltipRaw from '!raw-loader!./ExampleWithTooltip';
+import ExampleWithTooltipRaw from '!raw-loader!./ExampleWithTooltip';
 
 import ExampleNotEllipsed from './ExampleNotEllipsed';
-import * as ExampleNotEllipsedRaw from '!raw-loader!./ExampleNotEllipsed';
+import ExampleNotEllipsedRaw from '!raw-loader!./ExampleNotEllipsed';
 
 const Example: React.SFC = () => (
   <div>

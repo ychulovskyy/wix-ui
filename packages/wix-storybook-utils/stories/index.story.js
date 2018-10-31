@@ -53,12 +53,14 @@ export default {
 
       <LiveCodeExample
         scope={exampleScope}
-        title="Live code example" initialCode={`
+        title="Live code example"
+        initialCode={`
 <div>
   <p>Look at me!</p>
   <Button>I come from the scope!</Button>
 </div>
-      `}/>
+      `}
+      />
 
       <div style={{maxWidth: 440}}>
         <LiveCodeExample

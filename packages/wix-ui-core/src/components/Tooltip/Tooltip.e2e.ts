@@ -1,5 +1,5 @@
 import * as eyes from 'eyes.it';
-import * as eventually from 'wix-eventually';
+import eventually from 'wix-eventually';
 import {browser} from 'protractor';
 import {getStoryUrl, waitForVisibilityOf} from 'wix-ui-test-utils/protractor';
 import {tooltipTestkitFactory} from '../../testkit/protractor';
