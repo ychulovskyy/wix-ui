@@ -1,10 +1,4 @@
-:import {
-  -st-from: "../../hocs/Focusable/Focusable.st.css";
-  -st-default: Focusable;
-}
-
 .root {
-  -st-extends: Focusable;
   display: inline-flex;
   align-items: center;
   cursor: pointer;
