@@ -13,7 +13,7 @@ import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
 import {mount} from 'enzyme';
 import {addressInputTestkitFactory} from '../../testkit';
 import {addressInputTestkitFactory as enzymeAddressInputTestkitFactory} from '../../testkit/enzyme';
-import {AddressInputPrivateDriver} from "./AddressInput.private.driver";
+import {AddressInputPrivateDriver} from './AddressInput.private.driver';
 
 describe('AddressInput', () => {
     const container = new ReactDOMTestContainer().unmountAfterEachTest();
@@ -317,7 +317,7 @@ describe('AddressInput', () => {
         return eventually(() => {
             const firstCallArgument = onSelectSpy.mock.calls[0][0];
             const {address_components} = firstCallArgument.googleResult;
-            expect(firstCallArgument.address.street_number.short).toBe('11');
+            expect(firstCallArgument.address.streetNumber.short).toBe('11');
             expect(address_components).toEqual([{
                 long_name: '11',
                 short_name: '11',
