@@ -83,17 +83,16 @@ is exposing both the `btn1` class and `btn2` class to stylable so they can be cu
 
 #### Essential rules only
 
-while its tempting to add rules to a component's CSS. for it to be truly reusable and customizable its CSS should be as devoid of rules as possible.
-adding only ones that are essential to the components functionality.
-and leaving the rest to open customizations.
+While its tempting to add rules to a component's CSS, for it to be truly reusable and customizable its CSS should be as devoid of rules as possible.
 
-when working on a component, its always good to create a style variant of it for development processes
+- The component's stylesheet, should only include rules which are **essential** to the components functionality.
+- Basic styling/appeaerance rules can be provided in a separate stylesheet under the "default" theme.
 
 #### Expose the API
 
 Unlike normal component properties, which result in runtime costs, CSS APIs have very little runtime cost.
 
-you should always open up the API as much as possible, Put special attention to clear naming of CSS classes since these form the component's style API. Later changes in these could result in major version update.
+You should always open up the API as much as possible, Put special attention to clear naming of CSS classes since these form the component's style API. Later changes in these could result in major version update.
 
 ##### Expose all meaningfull nodes
 
@@ -149,6 +148,7 @@ export const day = (props:{date:number})=>{
 
 Exposing states allows richer style variants for each component.
 
+See also [Styling Best-Practices](styling-best-practices.md)
 ### Component Tests
 
 **component.spec.tsx**
