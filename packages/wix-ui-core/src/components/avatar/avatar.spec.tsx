@@ -1,9 +1,13 @@
 import * as React from "react";
+import {StylableDOMUtil} from '@stylable/dom-test-kit';
+
 import { ReactDOMTestContainer } from "../../../test/dom-test-container";
 import { Avatar } from ".";
 import { avatarDriverFactory } from "./avatar.driver";
+import styles from "./avatar.st.css";
 
 const TEST_IMG_URL = "http://localhost/123.png";
+const ICON_AS_TEXT = <span>XXXXX</span>;
 
 describe("Avatar", () => {
   const testContainer = new ReactDOMTestContainer()
@@ -30,7 +34,7 @@ describe("Avatar", () => {
     });
 
     it("should render an icon", async () => {
-      const driver = createDriver(<Avatar icon={<span>XXXXX</span>} />);
+      const driver = createDriver(<Avatar icon={ICON_AS_TEXT} />);
       expect((await driver.getContentType()) === 'icon').toBe(true);
     });
     
@@ -43,7 +47,7 @@ describe("Avatar", () => {
       const driver = createDriver(
         <Avatar 
           text='JD'
-          icon={<span>XXXXX</span>} 
+          icon={ICON_AS_TEXT} 
         />);
       expect((await driver.getContentType()) === 'icon').toBe(true);
     });
@@ -51,7 +55,7 @@ describe("Avatar", () => {
     it("should render an image when given icon and image", async () => {
       const driver = createDriver(
         <Avatar 
-          icon={<span>XXXXX</span>} 
+          icon={ICON_AS_TEXT} 
           imgProps={{src:TEST_IMG_URL}}
         />);
       expect((await driver.getContentType()) === 'image').toBe(true);
@@ -125,6 +129,34 @@ describe("Avatar", () => {
         />);
       const imgElem = testContainer.componentNode.querySelector(`[data-hook="${dataHook}"]`);
       expect(imgElem.getAttribute('src')).toBe(TEST_IMG_URL);
+    });
+  });
+
+  describe(`Styling`, () => {
+    it("should have only text class", async () => {
+      testContainer.renderSync(<Avatar text='JD'/>);
+      const utils = new StylableDOMUtil(styles, testContainer.componentNode);
+      expect(utils.select('.text').textContent).toBe('JD');
+      expect(utils.select('.icon')).toBe(null);
+      expect(utils.select('.image')).toBe(null);
+    });
+
+    it("should have icon class", async () => {
+      testContainer.renderSync(<Avatar icon={ICON_AS_TEXT}/>);
+      const utils = new StylableDOMUtil(styles, testContainer.componentNode);
+      expect(utils.select('.icon').textContent).toBe('XXXXX');
+      expect(utils.select('.text')).toBe(null);
+      expect(utils.select('.image')).toBe(null);
+    });
+
+    it("should have image class", async () => {
+      testContainer.renderSync(
+        <Avatar imgProps={{ src:TEST_IMG_URL }} />
+      );
+      const utils = new StylableDOMUtil(styles, testContainer.componentNode);
+      expect(utils.select('.image').getAttribute('src')).toBe(TEST_IMG_URL);
+      expect(utils.select('.icon')).toBe(null);
+      expect(utils.select('.text')).toBe(null);
     });
   });
 });
