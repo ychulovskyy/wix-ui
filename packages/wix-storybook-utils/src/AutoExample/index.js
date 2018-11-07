@@ -76,6 +76,9 @@ export default class extends Component {
      * ```
      */
     componentProps: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+
+    /** A render function for the component (in the Preview). Typicaly this function can wrap the component in something usefull like a className which is needed. ({component}) => JSXElement */
+    componentWrapper: PropTypes.func,
     exampleProps: PropTypes.object,
 
     /** when true, display only component preview without interactive props nor code example */
@@ -335,6 +338,13 @@ export default class extends Component {
     if (!this.props.isInteractive) {
       return React.createElement(this.props.component, componentProps);
     }
+    const component = React.createElement(this.props.component, componentProps);
+
+    const componentWrapper = this.props.componentWrapper
+      ? React.cloneElement(this.props.componentWrapper({ component }), {
+          'data-hook': 'componentWrapper',
+        })
+      : undefined;
 
     return (
       <Layout dataHook="auto-example">
@@ -368,7 +378,7 @@ export default class extends Component {
           onToggleBackground={isDarkBackground =>
             this.setState({ isDarkBackground })
           }
-          children={React.createElement(this.props.component, componentProps)}
+          children={componentWrapper || component}
         />
 
         {this.props.codeExample && (
