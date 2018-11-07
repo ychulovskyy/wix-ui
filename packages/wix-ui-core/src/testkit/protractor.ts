@@ -6,7 +6,7 @@ import {
 import {
   buttonDriverFactory,
   ButtonDriver
-} from '../components/Button/Button.protractor.driver';
+} from '../components/deprecated/Button/Button.protractor.driver';
 export const buttonTestkitFactory = protractorTestkitFactoryCreator(
   buttonDriverFactory
 );
@@ -61,7 +61,7 @@ export { TooltipDriver };
 import {
   dividerDriverFactory,
   DividerDriver
-} from '../components/Divider/Divider.protractor.driver';
+} from '../components/deprecated/Divider/Divider.protractor.driver';
 export const dividerTestkitFactory = protractorTestkitFactoryCreator(
   dividerDriverFactory
 );
@@ -116,7 +116,7 @@ export { RadioButtonDriver };
 import {
   badgeDriverFactory as stylableBadgeDriverFactory,
   BadgeDriver as StylableBadgeDriver
-} from '../components/StylableBadge/Badge.protractor.driver';
+} from '../components/deprecated/StylableBadge/Badge.protractor.driver';
 export const stylablebadgeTestkitFactory = protractorTestkitFactoryCreator(
   stylableBadgeDriverFactory
 );
@@ -152,7 +152,7 @@ export { AddressInputDriver };
 import {
   labelDriverFactory,
   LabelDriver
-} from '../components/Label/Label.protractor.driver';
+} from '../components/deprecated/Label/Label.protractor.driver';
 export const labelTestkitFactory = protractorTestkitFactoryCreator(
   labelDriverFactory
 );
