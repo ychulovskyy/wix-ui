@@ -1,6 +1,7 @@
 import {Avatar} from '.';
 import {
   avatar,
+  defaultTheme
 } from "../../themes/default";
 
 export default {

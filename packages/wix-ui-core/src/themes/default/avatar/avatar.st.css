@@ -10,7 +10,9 @@
 
 .avatar {
   -st-extends: Avatar;
+}
 
+DefaultTheme .avatar {
   display: flex;
   justify-content: center;
   align-items: center;
