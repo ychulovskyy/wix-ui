@@ -19,13 +19,15 @@ avatarMetadata.addSim({
 avatarMetadata.addSim({
   title: "Only icon specified",
   props: {
-    icon: <User/>
+    icon: <User/>,
+    name: 'John Doe'
   }
 });
 
 avatarMetadata.addSim({
-  title: "Only imgProps specified",
+  title: "imgProps specified",
   props: {
-    imgProps: {src: IMG_SRC_STUB}
+    imgProps: {src: IMG_SRC_STUB},
+    name: 'John Doe'
   }
 });
