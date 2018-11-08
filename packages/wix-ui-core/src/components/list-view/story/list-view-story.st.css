@@ -1,0 +1,9 @@
+.listViewItem
+{
+    -st-states: selected;
+}
+
+.listViewItem:selected
+{
+    background: orange;
+}
