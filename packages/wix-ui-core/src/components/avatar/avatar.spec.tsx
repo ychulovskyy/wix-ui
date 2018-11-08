@@ -1,21 +1,21 @@
-import * as React from "react";
+import * as React from 'react';
 import {StylableDOMUtil} from '@stylable/dom-test-kit';
 
-import { ReactDOMTestContainer } from "../../../test/dom-test-container";
-import { Avatar } from ".";
-import { avatarDriverFactory } from "./avatar.driver";
-import styles from "./avatar.st.css";
+import { ReactDOMTestContainer } from '../../../test/dom-test-container';
+import { Avatar } from '.';
+import { avatarDriverFactory } from './avatar.driver';
+import styles from './avatar.st.css';
 
-const TEST_IMG_URL = "http://localhost/123.png";
+const TEST_IMG_URL = 'http://localhost/123.png';
 const ICON_AS_TEXT = <span>XXXXX</span>;
 
-describe("Avatar", () => {
+describe('Avatar', () => {
   const testContainer = new ReactDOMTestContainer()
     .unmountAfterEachTest();
 
   const createDriver = testContainer.createUniRenderer(avatarDriverFactory);
     
-  it("should render an empty text by default", async () => {
+  it('should render an empty text by default', async () => {
     const driver = createDriver(<Avatar />);
     expect((await driver.getContentType()) === 'text').toBe(true);
     expect(await driver.getTextContent()).toBe('');
@@ -23,36 +23,36 @@ describe("Avatar", () => {
   
   describe(`content type resolution`, () => {
 
-    it("should render a text", async () => {
-      const driver = createDriver(<Avatar text='JD' />);
+    it('should render a text', async () => {
+      const driver = createDriver(<Avatar text="JD" />);
       expect((await driver.getContentType()) === 'text').toBe(true);
     });
 
-    it("should render a text when name given", async () => {
-      const driver = createDriver(<Avatar name='John Doe' />);
+    it('should render a text when name given', async () => {
+      const driver = createDriver(<Avatar name="John Doe" />);
       expect((await driver.getContentType()) === 'text').toBe(true);
     });
 
-    it("should render an icon", async () => {
+    it('should render an icon', async () => {
       const driver = createDriver(<Avatar icon={ICON_AS_TEXT} />);
       expect((await driver.getContentType()) === 'icon').toBe(true);
     });
     
-    it("should render an image", async () => {
+    it('should render an image', async () => {
       const driver = createDriver(<Avatar imgProps={{src:TEST_IMG_URL}} />);
       expect((await driver.getContentType()) === 'image').toBe(true);
     });
 
-    it("should render an icon when given icon and text", async () => {
+    it('should render an icon when given icon and text', async () => {
       const driver = createDriver(
         <Avatar 
-          text='JD'
+          text="JD"
           icon={ICON_AS_TEXT} 
         />);
       expect((await driver.getContentType()) === 'icon').toBe(true);
     });
 
-    it("should render an image when given icon and image", async () => {
+    it('should render an image when given icon and image', async () => {
       const driver = createDriver(
         <Avatar 
           icon={ICON_AS_TEXT} 
@@ -63,21 +63,21 @@ describe("Avatar", () => {
   });
 
   describe(`'name' prop`, () => {
-    it("should provide generated initials as text content", async () => {
-      const driver = createDriver(<Avatar name='John Doe' />);
+    it('should provide generated initials as text content', async () => {
+      const driver = createDriver(<Avatar name="John Doe" />);
       expect(await driver.getTextContent()).toBe('JD');
     });
 
-    it("should NOT override text content", async () => {
+    it('should NOT override text content', async () => {
       const driver = createDriver(
         <Avatar 
-          name='John Smith Junir Doe'
-          text='JsD'
+          name="John Smith Junir Doe"
+          text="JsD"
         />);
       expect(await driver.getTextContent()).toBe('JsD');
     });
 
-    it("should have a default 'alt' value when image is displayed", () => {
+    it('should have a default \'alt\' value when image is displayed', () => {
       const dataHook = 'avatar_test_image';
       testContainer.renderSync(
         <Avatar 
@@ -88,7 +88,7 @@ describe("Avatar", () => {
       expect(imgElem.getAttribute('alt')).toBe('John Doe');
     });
 
-    it("should NOT override 'alt' value when image is displayed", () => {
+    it('should NOT override \'alt\' value when image is displayed', () => {
       const alt = 'Profile photo of John Doe';
       const dataHook = 'avatar_test_image';
       testContainer.renderSync(
@@ -106,7 +106,7 @@ describe("Avatar", () => {
   });
 
   describe(`'icon' prop`, () => {
-    it("should render specified icon content", async () => {
+    it('should render specified icon content', async () => {
       const dataHook = 'avatar_test_icon';
       testContainer.renderSync(
         <Avatar 
@@ -118,7 +118,7 @@ describe("Avatar", () => {
   });
 
   describe(`'imgProps' prop`, () => {
-    it("should render img tag with imgProps", async () => {
+    it('should render img tag with imgProps', async () => {
       const dataHook = 'avatar_test_image';
       testContainer.renderSync(
         <Avatar 
@@ -133,15 +133,15 @@ describe("Avatar", () => {
   });
 
   describe(`Styling`, () => {
-    it("should have only text class", async () => {
-      testContainer.renderSync(<Avatar text='JD'/>);
+    it('should have only text class', async () => {
+      testContainer.renderSync(<Avatar text="JD"/>);
       const utils = new StylableDOMUtil(styles, testContainer.componentNode);
       expect(utils.select('.text').textContent).toBe('JD');
       expect(utils.select('.icon')).toBe(null);
       expect(utils.select('.image')).toBe(null);
     });
 
-    it("should have icon class", async () => {
+    it('should have icon class', async () => {
       testContainer.renderSync(<Avatar icon={ICON_AS_TEXT}/>);
       const utils = new StylableDOMUtil(styles, testContainer.componentNode);
       expect(utils.select('.icon').textContent).toBe('XXXXX');
@@ -149,7 +149,7 @@ describe("Avatar", () => {
       expect(utils.select('.image')).toBe(null);
     });
 
-    it("should have image class", async () => {
+    it('should have image class', async () => {
       testContainer.renderSync(
         <Avatar imgProps={{ src:TEST_IMG_URL }} />
       );

@@ -1,8 +1,8 @@
-import * as React from "react";
-import classNames from "classnames";
+import * as React from 'react';
+import classNames from 'classnames';
 
-import { BaseProps } from "../../types/BaseProps";
-import style from "./avatar.st.css";
+import { BaseProps } from '../../types/BaseProps';
+import style from './avatar.st.css';
 import {ContentType} from './types';
 
 export interface AvatarProps extends BaseProps {
@@ -77,7 +77,11 @@ function getContent(contentType: ContentType, props: AvatarProps): React.ReactEl
         />
       );
     }
+
+    default: {
+      return null;
+    }
   }
 }
 
-Avatar.displayName = "Avatar";
+Avatar.displayName = 'Avatar';

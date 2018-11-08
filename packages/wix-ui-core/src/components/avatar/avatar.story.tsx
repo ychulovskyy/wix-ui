@@ -4,7 +4,7 @@ import {Avatar} from '.';
 import {
   avatar,
   defaultTheme
-} from "../../themes/default";
+} from '../../themes/default';
 
 import User from 'wix-ui-icons-common/User';
 
