@@ -7,17 +7,19 @@ import { CheckboxStory } from './Checkbox/Checkbox-story';
 import { TooltipStory } from './Tooltip/custom';
 import { RadioButtonStory } from './RadioButton';
 import ButtonsStory from './backoffice/button-next';
-import EllipsedText from './EllipsedTooltip';
+import EllipsedText, {CustomEllipsedText} from './EllipsedTooltip';
 import Focusable from './Focusable';
 
 const Components = storiesOf('Components', module);
 const Backoffice = storiesOf('Backoffice', module);
 const HOCs = storiesOf('HOCs', module);
+const Tests = storiesOf('Tests', module);
 
 // components (ordered alphabetically)
 import './AddressInput/index.story';
 import './AddressInput/E2E';
 import './Autocomplete.story';
+import '../src/components/avatar/avatar.story';
 import './Button.story';
 import '../src/components/button-next/button-next.story';
 Components.add('Checkbox', () => <CheckboxStory />);
@@ -47,3 +49,6 @@ HOCs.add('Focusable', Focusable);
 
 // BackOffice Theme
 Backoffice.add('Buttons', ButtonsStory);
+
+// Tests
+Tests.add('EllipsedTooltip', CustomEllipsedText);

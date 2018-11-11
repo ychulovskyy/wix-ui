@@ -59,7 +59,7 @@ interface SectionProps {
   children: any;
 }
 
-const Section: React.StatelessComponent<SectionProps> = ({
+const Section: React.FunctionComponent<SectionProps> = ({
   title,
   children,
 }: SectionProps) => (
@@ -76,6 +76,7 @@ interface StoryPageProps {
   config: Config;
   component: any;
   componentProps: any;
+  componentWrapper: any;
   hiddenProps: string[];
   displayName: string;
   exampleProps: any;
@@ -90,11 +91,12 @@ interface StoryPageProps {
   codeExample: boolean;
 }
 
-const StoryPage: React.StatelessComponent<StoryPageProps> = ({
+const StoryPage: React.FunctionComponent<StoryPageProps> = ({
   metadata,
   config,
   component,
   componentProps,
+  componentWrapper,
   hiddenProps,
   displayName,
   exampleProps,
@@ -143,6 +145,7 @@ const StoryPage: React.StatelessComponent<StoryPageProps> = ({
             component={component}
             parsedSource={visibleMetadata}
             componentProps={componentProps}
+            componentWrapper={componentWrapper}
             exampleProps={exampleProps}
             codeExample={codeExample}
           />

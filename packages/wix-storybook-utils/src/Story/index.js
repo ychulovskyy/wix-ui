@@ -13,6 +13,7 @@ export default ({
   storyName,
   displayName,
   componentProps,
+  componentWrapper,
   examples,
   exampleProps,
   exampleImport,
@@ -21,9 +22,9 @@ export default ({
   _config,
   _metadata,
 }) =>
-  _config.storiesOf(category, module).add(
-    storyName || _metadata.displayName,
-    () =>
+  _config
+    .storiesOf(category, module)
+    .add(storyName || _metadata.displayName, () =>
       isE2E ? (
         <div>
           <Remount>
@@ -43,6 +44,7 @@ export default ({
           {...{
             component,
             componentProps,
+            componentWrapper,
             exampleProps,
             exampleImport,
             displayName,
@@ -54,4 +56,4 @@ export default ({
           }}
         />
       ),
-  );
+    );
