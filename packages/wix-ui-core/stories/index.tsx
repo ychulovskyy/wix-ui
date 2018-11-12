@@ -4,12 +4,16 @@ import { PaginationStory } from './Pagination/pagination-story';
 import { DividerStory } from './Divider/divider-story';
 import { GoogleMapsIframeClientStory } from './clients/GoogleMapsIframeClient-story';
 import { CheckboxStory } from './Checkbox/Checkbox-story';
-import { ListViewStory } from '../src/components/list-view/story/list-view.story';
 import { TooltipStory } from './Tooltip/custom';
 import { RadioButtonStory } from './RadioButton';
+import {BasicListViewStory} from '../src/components/list-view/stories/basic-list-view-story/basic-list-view-story';
+import {ComplexListViewStory} from '../src/components/list-view/stories/complex-list-view-story/complex-list-view-story';
+import {BasicTreeViewStory} from '../src/components/tree-view/stories/basic-tree-view-story/basic-tree-view-story';
 import ButtonsStory from './backoffice/button-next';
 import EllipsedText, {CustomEllipsedText} from './EllipsedTooltip';
 import Focusable from './Focusable';
+
+
 
 const Components = storiesOf('Components', module);
 const Backoffice = storiesOf('Backoffice', module);
@@ -33,7 +37,8 @@ import './IconWithOptions.story';
 import './Label.story';
 import './LabelWithOptions.story';
 import './LinearProgressBar/index.story';
-Components.add('ListView', () => <ListViewStory/>);
+Components.add('ListView - Basic', () => (<BasicListViewStory/>));
+Components.add('ListView - Complex', () => (<ComplexListViewStory/>));
 import './NavStepper.story';
 Components.add('Pagination', () => <PaginationStory />);
 import './Popover.story';
@@ -45,6 +50,7 @@ import './TimePicker/index.story';
 import './ToggleSwitch/index.story';
 import './Tooltip/index.story';
 Components.add('Tooltip Custom', () => <TooltipStory />);
+Components.add('TreeView - Basic', () => (<BasicTreeViewStory/>));
 import './Video.story';
 HOCs.add('EllipsedTooltip', EllipsedText);
 HOCs.add('Focusable', Focusable);

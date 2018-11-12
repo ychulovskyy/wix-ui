@@ -1,0 +1,68 @@
+.treeItemRoot
+{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    height: 26px;
+    align-items: center;
+
+    -st-states: selected, current;
+}
+
+.treeItemRoot:selected
+{
+    background: orange;
+}
+
+.treeItemRoot:current::after
+{
+    content: "";
+    position: absolute;
+    right: 100%;
+    bottom: -7px;
+    top: -7px;
+    width: 10px;
+    border-left: 1px solid green;
+    border-top: 1px solid green;
+    border-bottom: 1px solid green;
+}
+
+
+.treeItemIcon
+{
+    width: 25px;
+    text-align: left;
+
+    -st-states: hasChildren;
+}
+
+.treeItemIcon:hasChildren
+{
+    cursor: pointer;
+}
+
+.treeItemContent
+{
+    flex: 1;
+}
+
+
+.treeItemContent:focus
+{
+    outline: none;
+}
+
+.treeItemContent:focus:before
+{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    box-shadow: 0 0 4px 2px #0ea0f4;
+}
+
+
+
+

@@ -1,0 +1,20 @@
+.separator
+{
+    height: 1px;
+    background: #ccc;
+    margin: 30px 0;
+}
+
+.section
+{
+    background: #f0f0f0;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.selectionList
+{
+    padding: 20px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+}

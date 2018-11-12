@@ -1,4 +1,4 @@
-import {ListViewDataSourceItem, ListViewItemId} from "./list-view-types";
+import {ListViewDataSourceItem, ListViewItemId} from './list-view-types';
 
 export function createSelectablePrimitiveValuesDataSource<T extends ListViewItemId> (value: Array<T>) {
     return createDataSource(value, {

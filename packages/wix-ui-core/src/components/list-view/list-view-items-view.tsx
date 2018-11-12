@@ -1,21 +1,23 @@
 import {
     DataItemsEqualityComparer,
-    ListViewDataSource,
+    ListViewDataSource, ListViewDataSourceItem,
     ListViewItemId,
     ListViewRenderItem,
-    ListViewRenderItemProps
-} from "./list-view-types";
-import * as React from "react";
-import {ListViewContext, ListViewContextData} from "./list-view";
-import {ListViewItemViewWrapper, ListViewItemViewWrapperProps} from "./list-view-item-view-wrapper";
+} from './list-view-types';
+import * as React from 'react';
+import {ListViewContext, ListViewContextData} from './list-view-composable';
+import {ListViewItemViewWrapper} from './list-view-item-view-wrapper';
 
-interface ListViewItemsViewProps<T> {
-    dataSource: ListViewDataSource<T>,
+export interface ListViewItemsViewProps<T> {
     renderItem: ListViewRenderItem<T>,
     dataItemEqualityComparer?: DataItemsEqualityComparer<T>;
 }
 
-export class ListViewItemsView<T> extends React.Component<ListViewItemsViewProps<T>>
+interface ComposableListViewItemsViewProps<T> extends ListViewItemsViewProps<T> {
+    dataSource: ListViewDataSource<T>
+}
+
+export class ListViewItemsView<T> extends React.Component<ComposableListViewItemsViewProps<T>>
 {
     render () {
 
@@ -27,56 +29,61 @@ export class ListViewItemsView<T> extends React.Component<ListViewItemsViewProps
 
         return (
             <ListViewContext.Consumer>
-                {
-                    (listViewContextData) => {
-                        return dataSource.map(dataSourceItem => {
+                {listViewContextData => {
+                    return dataSource.map((dataSourceItem: ListViewDataSourceItem<T>) => {
 
-                            const dataItemId = dataSourceItem.id;
+                        if (dataSourceItem.isExcluded)
+                        {
+                            return null;
+                        }
 
-                            const isSelected = listViewContextData.selectedIdsSet.has(dataItemId);
-                            const isDisabled = listViewContextData.disabledIdsSet.has(dataItemId);
-                            const isCurrentNavigatableItem = listViewContextData.currentNavigatableItemId === dataItemId;
+                        const dataItemId = dataSourceItem.id;
 
-                            const renderItemProps: ListViewRenderItemProps<T> = {
-                                dataItemId: dataItemId,
-                                dataItem: dataSourceItem.dataItem,
-                                isSelected: isSelected,
-                                isCurrent: isCurrentNavigatableItem,
-                                isDisabled: isDisabled,
-                                selectableItemRoot: () => {
-                                    return {
-                                        disabled: isDisabled ? true : null,
-                                        'aria-selected': isSelected ? "true" : null,
-                                        'aria-disabled': isDisabled ? "true" : null,
-                                        role: 'option',
-                                        ...resolveListViewItemRootProps(dataItemId, listViewContextData, isDisabled)
-                                    }
-                                },
-                                innerFocusableItem: () => {
-                                    return {
-                                        disabled: isDisabled ? true : null,
-                                        tabIndex: resolveTabIndex(dataItemId, listViewContextData, isDisabled)
-                                    }
-                                },
-                                triggerAction: (data) => {
-                                    listViewContextData.onAction(dataItemId, data)
+                        const isSelected = listViewContextData.selectedIdsSet.has(dataItemId);
+                        const isDisabled = listViewContextData.disabledIdsSet.has(dataItemId);
+                        const isCurrentListViewItem = listViewContextData.currentListViewItemId === dataItemId;
+
+                        const renderItemProps = {
+                            dataItemId,
+                            dataItem: dataSourceItem.dataItem,
+                            isSelected,
+                            isCurrent: isCurrentListViewItem,
+                            isDisabled,
+                            listViewItemRoot: () => {
+                                return {
+                                    disabled: isDisabled ? true : null,
+                                    'aria-selected': isSelected ? 'true' : null,
+                                    'aria-disabled': isDisabled ? 'true' : null,
+                                    role: 'option',
+                                    ...resolveListViewItemRootProps(dataItemId, listViewContextData, isDisabled)
                                 }
-                            };
+                            },
+                            innerFocusableItem: () => {
+                                return {
+                                    disabled: isDisabled ? true : null,
+                                    tabIndex: resolveTabIndex(dataItemId, listViewContextData, isDisabled)
+                                }
+                            },
+                            updateState: updateFunction => {
+                                listViewContextData.listView.updateState(updateFunction);
+                            },
+                            triggerInteractiveSelection (event: React.MouseEvent<Element>) {
+                                listViewContextData.listView.updateState(stateController => {
+                                    stateController.handleInteractiveSelection(dataItemId, event);
+                                })
+                            }
+                        };
 
-                            const listViewItemViewWrapperProps: ListViewItemViewWrapperProps<any> = {
-                                key: dataItemId,
-                                id: dataItemId,
-                                isCurrentNavigatableItem: isCurrentNavigatableItem,
-                                listViewContextData: listViewContextData,
-                                renderProps: renderItemProps,
-                                renderItem: renderItem,
-                                dataItemEqualityComparer: dataItemEqualityComparer,
-                            };
-
-                            return React.createElement(ListViewItemViewWrapper, listViewItemViewWrapperProps);
-                        })
-                    }
-                }
+                        return ListViewItemViewWrapper.create({
+                            key: dataItemId,
+                            id: dataItemId,
+                            listViewContextData,
+                            renderProps: renderItemProps,
+                            renderItem,
+                            dataItemEqualityComparer
+                        });
+                    })
+                }}
             </ListViewContext.Consumer>
         )
     }
@@ -87,11 +94,11 @@ function resolveListViewItemRootProps (itemId: ListViewItemId, listViewContextDa
     return {
         'tabIndex': resolveTabIndex(itemId, listViewContextData, isDisabled),
         'data-navigatable-item': listViewContextData.navigationListId,
-        onFocus: function (event: React.FocusEvent<Element>) {
+        onFocus (event: React.FocusEvent<Element>) {
 
             if (event.target.getAttribute('data-navigatable-item') === listViewContextData.navigationListId)
             {
-                listViewContextData.onNavigatableItemFocus(itemId);
+                listViewContextData.onListViewItemFocus(itemId);
             }
 
         }
@@ -104,13 +111,7 @@ function resolveTabIndex (itemId: ListViewItemId, listViewContextData: ListViewC
         return null;
     }
 
-    const listView = listViewContextData.listView;
-
-    let currentNavigatableItemId = listViewContextData.currentNavigatableItemId;
-    if (currentNavigatableItemId === null)
-    {
-        currentNavigatableItemId = listView.getItemIdByIndex(0);
-    }
+    let currentNavigatableItemId = listViewContextData.currentListViewItemId;
 
     const isFocusable = listViewContextData.isFocusable;
     const isCurrent = currentNavigatableItemId === itemId;

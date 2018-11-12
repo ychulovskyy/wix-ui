@@ -1,19 +1,18 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import {domFindAncestor} from "./list-view-utils";
-import {ListViewContextData} from "./list-view";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import {domFindAncestor} from './list-view-utils';
+import {ListViewContextData} from './list-view-composable';
 import {
     DataItemsEqualityComparer, defaultDataItemsEqualityComparer,
     ListViewItemId,
     ListViewRenderItem,
     ListViewRenderItemProps
-} from "./list-view-types";
+} from './list-view-types';
+import {ClassAttributes} from 'react';
 
-export interface ListViewItemViewWrapperProps<T>
+interface ListViewItemViewWrapperProps<T>
 {
-    key: string | number,
     id: ListViewItemId,
-    isCurrentNavigatableItem: boolean,
     renderProps: ListViewRenderItemProps<T>,
     renderItem: ListViewRenderItem<T>,
     listViewContextData: ListViewContextData,
@@ -26,6 +25,9 @@ export class ListViewItemViewWrapper<T> extends React.Component<ListViewItemView
         dataItemEqualityComparer: defaultDataItemsEqualityComparer
     };
 
+    static create<T> (props: ClassAttributes<T> & ListViewItemViewWrapperProps<T>) {
+        return React.createElement<ListViewItemViewWrapperProps<T>>(ListViewItemViewWrapper, props);
+    }
 
     render () {
         return (
@@ -56,28 +58,28 @@ export class ListViewItemViewWrapper<T> extends React.Component<ListViewItemView
             listViewContextData
         } = this.props;
 
-        this.focusWhenCurrentNavigatableItem(listViewContextData.isItemShouldBeFocusedWhenRendered(id));
+        this.focusWhenCurrentListViewItem(listViewContextData.isItemShouldBeFocusedWhenRendered(id));
         listViewContextData.handleItemRendered(id);
     }
 
     componentDidUpdate (prevProps: Readonly<ListViewItemViewWrapperProps<T>>) {
-        if (prevProps.isCurrentNavigatableItem !== this.props.isCurrentNavigatableItem)
+        if (prevProps.renderProps.isCurrent !== this.props.renderProps.isCurrent)
         {
-            this.focusWhenCurrentNavigatableItem();
+            this.focusWhenCurrentListViewItem();
         }
     }
 
-    focusWhenCurrentNavigatableItem (forceFocus: boolean = false) {
+    focusWhenCurrentListViewItem (forceFocus: boolean = false) {
 
         const {
-            isCurrentNavigatableItem,
             listViewContextData,
+            renderProps
         } = this.props;
 
         let navigationListId = listViewContextData.navigationListId;
         let listView = listViewContextData.listView;
 
-        if (isCurrentNavigatableItem)
+        if (renderProps.isCurrent)
         {
             const element = ReactDOM.findDOMNode(this) as HTMLElement;
             const listViewElement = ReactDOM.findDOMNode(listView) as HTMLElement;
@@ -87,7 +89,7 @@ export class ListViewItemViewWrapper<T> extends React.Component<ListViewItemView
                 element.querySelector(`[data-navigatable-item='${navigationListId}']`) as HTMLElement;
 
             const shouldFocusElement = forceFocus ||
-                                       domFindAncestor(document.activeElement as HTMLElement, element => element === listViewElement, true)
+                                       domFindAncestor(document.activeElement as HTMLElement, el => el === listViewElement, true)
 
             if (elementToFocus && shouldFocusElement)
             {

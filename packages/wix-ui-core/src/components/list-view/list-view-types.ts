@@ -1,14 +1,20 @@
-import {TriggerActionFunction} from "./list-view";
-import * as React from "react";
+import {TriggerInteractiveSelectionFunction} from './list-view-composable';
+import * as React from 'react';
+import {ListViewStateController} from './list-view-state-controller';
 
 export type ListViewItemId = string | number;
 
-export interface ListViewDataSourceItem<T>
+export interface ListViewItemMetadata
 {
-    dataItem: T,
     id: ListViewItemId,
     typeAheadText?: string,
     isSelectable: boolean,
+    isExcluded?: boolean
+}
+
+export interface ListViewDataSourceItem<T> extends ListViewItemMetadata
+{
+    dataItem: T,
 }
 
 export enum NavigationOrientation {
@@ -21,11 +27,22 @@ export enum TypeAheadNavigationType {
     GoToNext = 2,
 }
 
+export enum KeyboardNavigationDirection {
+    Forward = 1,
+    Backward = 2
+}
+
+export enum ListViewSelectionType {
+    None = 1,
+    Single = 2,
+    Multiple = 3
+}
+
 export type ListViewDataSource<T> = Array<ListViewDataSourceItem<T>>;
 
 export interface CommonListViewProps {
-    isMultiple?: boolean,
-    selectedIds: Array<ListViewItemId>,
+    selectionType?: ListViewSelectionType,
+    selectedIds?: Array<ListViewItemId>,
     disabledIds?: Array<ListViewItemId>,
     currentNavigatableItemId?: ListViewItemId,
     selectionStartId?: ListViewItemId,
@@ -34,7 +51,6 @@ export interface CommonListViewProps {
     className?: string,
     typeAhead?: boolean,
     typeAheadValue?: string,
-    onChange?: (event: ListViewState) => void,
     forceRenderNavigatableItem?: (navigatableItemId: ListViewItemId) => void,
     isCyclic?: boolean,
     typeAheadNavigationType?: TypeAheadNavigationType,
@@ -43,10 +59,13 @@ export interface CommonListViewProps {
 
 export const DefaultCommonListViewProps = {
     isFocusable: true,
-    isMultiple: false,
+    selectionType: ListViewSelectionType.None,
     typeAhead: true,
     tagName: 'div',
-    onChange: function () {}
+    isCyclic: false,
+    typeAheadNavigationType: TypeAheadNavigationType.StayOnCurrent,
+    typeAheadClearTimeout: 1000,
+    onChange: () => {return;}
 };
 
 export interface ListViewCommonRenderItemProps<T> {
@@ -55,12 +74,15 @@ export interface ListViewCommonRenderItemProps<T> {
     isSelected: boolean,
     isCurrent: boolean,
     isDisabled: boolean,
-    selectableItemRoot: () => {[key: string]: any},
+    listViewItemRoot: () => {[key: string]: any},
     innerFocusableItem: () => {tabIndex: number},
-    triggerAction: TriggerActionFunction
+    triggerInteractiveSelection: TriggerInteractiveSelectionFunction
 }
 
+export type ListViewStateUpdateFunction = (stateController: ListViewStateController) => void;
+
 export interface ListViewRenderItemProps<T> extends ListViewCommonRenderItemProps<T> {
+    updateState: (updateFunction: ListViewStateUpdateFunction) => void
 }
 
 export const ListViewDefaultState: ListViewState = {
@@ -68,7 +90,7 @@ export const ListViewDefaultState: ListViewState = {
     disabledIds: null,
     selectionStartId: null,
     currentNavigatableItemId: null,
-    typeAheadValue: ""
+    typeAheadValue: ''
 };
 
 export interface ListViewState {

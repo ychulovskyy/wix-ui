@@ -1,3 +1,5 @@
+import {ListViewDataSourceItem, ListViewItemId} from "./list-view-types";
+
 export function domFindAncestor (element: HTMLElement, predicate: (element: HTMLElement) => boolean, includeSelf: boolean = true) : HTMLElement {
 
     if (!includeSelf)
@@ -50,3 +52,10 @@ export function arrayFindIndex<T> (arr: Array<T>, predicate: (item: T) => boolea
 
     return -1;
 }
+
+export function isTypeAheadKey (event) {
+    const eventKey = event.key;
+
+    return eventKey.length === 1 && !event.ctrlKey && !event.altKey;
+}
+

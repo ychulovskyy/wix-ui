@@ -1,0 +1,93 @@
+.root
+{
+    -st-states: selected, current;
+    padding: 7px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.root:selected
+{
+    background: orange;
+}
+
+.root:focus
+{
+    outline: none;
+}
+
+.root:focus::before
+{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    box-shadow: 0 0 4px 2px #0ea0f4;
+}
+
+.root[disabled]
+{
+    outline: none;
+}
+
+.root[disabled]::before
+{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    box-shadow: 0 0 4px 2px #f43722;
+}
+
+.root:current::after
+{
+    content: "";
+    position: absolute;
+    right: 100%;
+    bottom: -7px;
+    top: -7px;
+    width: 10px;
+    border-left: 1px solid green;
+    border-top: 1px solid green;
+    border-bottom: 1px solid green;
+}
+
+.innerButton
+{
+    position: relative;
+    margin-left: 10px;
+}
+
+.innerButton:focus::after
+{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    box-shadow: 0 0 4px 2px green;
+}
+
+/*.root:focused*/
+/*{*/
+/*position: relative;*/
+/*}*/
+
+/*.root:focused::after*/
+/*{*/
+/*content: "";*/
+
+/*position: absolute;*/
+/*left: 0;*/
+/*right: 0;*/
+/*top: 0;*/
+/*bottom: 0;*/
+/*z-index: 1;*/
+/*box-shadow: 0 0 3px 1px red;*/
+/*}*/
