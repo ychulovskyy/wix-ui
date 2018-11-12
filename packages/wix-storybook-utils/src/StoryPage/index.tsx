@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { AutoTestkit } from '../AutoTestkit/auto-testkit';
 
 const TabbedView = require('../TabbedView').default;
 const Markdown = require('../Markdown').default;
@@ -12,7 +13,9 @@ const styles = require('./styles.scss');
 const tabs = metadata => [
   'Usage',
   'API',
-  ...(metadata.readmeTestkit ? ['Testkit'] : []),
+  ...(metadata.readmeTestkit || (metadata.drivers && metadata.drivers.length)
+    ? ['Testkit']
+    : []),
   ...(metadata.readmeAccessibility ? ['Accessibility'] : []),
 ];
 
@@ -76,6 +79,7 @@ interface StoryPageProps {
   config: Config;
   component: any;
   componentProps: any;
+  componentWrapper: any;
   hiddenProps: string[];
   displayName: string;
   exampleProps: any;
@@ -88,6 +92,7 @@ interface StoryPageProps {
 
   /** currently only `false` possible. later same property shall be used for configuring code example */
   codeExample: boolean;
+  activeTabId?: string;
 }
 
 const StoryPage: React.StatelessComponent<StoryPageProps> = ({
@@ -95,12 +100,14 @@ const StoryPage: React.StatelessComponent<StoryPageProps> = ({
   config,
   component,
   componentProps,
+  componentWrapper,
   hiddenProps,
   displayName,
   exampleProps,
   exampleImport,
   examples,
   codeExample,
+  activeTabId,
 }: StoryPageProps) => {
   const visibleDisplayName = displayName || metadata.displayName;
   const visibleMetadata = {
@@ -110,7 +117,7 @@ const StoryPage: React.StatelessComponent<StoryPageProps> = ({
   };
 
   return (
-    <TabbedView tabs={tabs(metadata)}>
+    <TabbedView activeTabId={activeTabId} tabs={tabs(metadata)}>
       <div className={styles.usage}>
         <Markdown
           dataHook="metadata-readme"
@@ -143,6 +150,7 @@ const StoryPage: React.StatelessComponent<StoryPageProps> = ({
             component={component}
             parsedSource={visibleMetadata}
             componentProps={componentProps}
+            componentWrapper={componentWrapper}
             exampleProps={exampleProps}
             codeExample={codeExample}
           />
@@ -152,7 +160,19 @@ const StoryPage: React.StatelessComponent<StoryPageProps> = ({
       </div>
 
       <AutoDocs parsedSource={visibleMetadata} />
-      {metadata.readmeTestkit && <Markdown source={metadata.readmeTestkit} />}
+
+      <div>
+        {metadata.readmeTestkit && (
+          <Markdown
+            data-hook="testkit-markdown"
+            source={metadata.readmeTestkit}
+          />
+        )}
+        {metadata.drivers && metadata.drivers.length && (
+          <AutoTestkit component={metadata} />
+        )}
+      </div>
+
       {metadata.readmeAccessibility && (
         <Markdown source={metadata.readmeAccessibility} />
       )}
