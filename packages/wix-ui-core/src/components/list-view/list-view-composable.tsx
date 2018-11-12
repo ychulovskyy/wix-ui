@@ -13,15 +13,10 @@ import {
     NavigationOrientation,
     TypeAheadNavigationType
 } from './list-view-types';
-import * as ReactUpdatedTypesPolyfill from './react-updated-types-polyfill';
 import {ListViewStateController} from './list-view-state-controller';
 
-// -------------------------
-// type Context<T> = React.Context<T>;
-// const createContext = React.createContext;
-type Context<T> = ReactUpdatedTypesPolyfill.Context<T>
-const createContext = ((React as any).createContext as ReactUpdatedTypesPolyfill.createContext<ListViewContextData>);
-// -------------------------
+type Context<T> = React.Context<T>;
+const createContext = React.createContext;
 
 export const ListViewContext: Context<ListViewContextData> = createContext(null);
 

@@ -14,16 +14,10 @@ import {
     ListViewDataSource, ListViewDataSourceItem,
     ListViewItemId, ListViewState, NavigationOrientation
 } from '../list-view/list-view-types';
-import * as ReactUpdatedTypesPolyfill from '../list-view/react-updated-types-polyfill';
 import {TreeViewStateController} from './tree-view-state-controller';
 
-// -------------------------
-// type Context<T> = React.Context<T>;
-// const createContext = React.createContext;
-
-type Context<T> = ReactUpdatedTypesPolyfill.Context<T>
-const createContext = ((React as any).createContext as ReactUpdatedTypesPolyfill.createContext<TreeViewContextData>);
-// -------------------------
+type Context<T> = React.Context<T>;
+const createContext = React.createContext;
 
 export const TreeViewContext : Context<TreeViewContextData> = createContext(null);
 
