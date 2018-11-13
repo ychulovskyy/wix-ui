@@ -7,7 +7,7 @@ export interface ListViewStoryTextualItemDataItem {
     text: string
 }
 
-export const ListViewStoryTextualItem: React.SFC<ListViewRenderItemProps<ListViewStoryTextualItemDataItem>> = (renderProps => {
+export const ListViewStoryTextualItem: React.SFC<ListViewRenderItemProps<ListViewStoryTextualItemDataItem,{}>> = (renderProps => {
 
     const {
         isSelected,

@@ -81,8 +81,9 @@ export interface ListViewCommonRenderItemProps<T> {
 
 export type ListViewStateUpdateFunction = (stateController: ListViewStateController) => void;
 
-export interface ListViewRenderItemProps<T> extends ListViewCommonRenderItemProps<T> {
-    updateState: (updateFunction: ListViewStateUpdateFunction) => void
+export interface ListViewRenderItemProps<T, S> extends ListViewCommonRenderItemProps<T> {
+    updateState: (updateFunction: ListViewStateUpdateFunction) => void,
+    contextArg?: S,
 }
 
 export const ListViewDefaultState: ListViewState = {
@@ -101,10 +102,15 @@ export interface ListViewState {
     typeAheadValue: string
 }
 
-export type ListViewRenderItem<T> = React.SFC<ListViewRenderItemProps<T>>;
+export type ListViewRenderItem<T, S> = React.SFC<ListViewRenderItemProps<T, S>>;
 
-export type DataItemsEqualityComparer<T> = (dataItem1: T, dataItem2: T) => boolean;
+export type EqualityComparer<T> = (value1: T, value2: T) => boolean;
 
 export function defaultDataItemsEqualityComparer<T> (dataItem1: T, dataItem2: T) {
     return dataItem1 === dataItem2;
 }
+
+export function defaultContextArgsEqualityComparer<T> (contextArg1: T, contextArg2: T) {
+    return contextArg1 === contextArg2;
+}
+

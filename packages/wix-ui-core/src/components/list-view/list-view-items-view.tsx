@@ -1,5 +1,5 @@
 import {
-    DataItemsEqualityComparer,
+    EqualityComparer,
     ListViewDataSource, ListViewDataSourceItem,
     ListViewItemId,
     ListViewRenderItem,
@@ -8,23 +8,27 @@ import * as React from 'react';
 import {ListViewContext, ListViewContextData} from './list-view-composable';
 import {ListViewItemViewWrapper} from './list-view-item-view-wrapper';
 
-export interface ListViewItemsViewProps<T> {
-    renderItem: ListViewRenderItem<T>,
-    dataItemEqualityComparer?: DataItemsEqualityComparer<T>;
+export interface ListViewItemsViewProps<T, S> {
+    renderItem: ListViewRenderItem<T, S>,
+    contextArg?: S,
+    dataItemEqualityComparer?: EqualityComparer<T>;
+    contextArgEqualityComparer?: EqualityComparer<S>;
 }
 
-interface ComposableListViewItemsViewProps<T> extends ListViewItemsViewProps<T> {
+interface ComposableListViewItemsViewProps<T,S = any> extends ListViewItemsViewProps<T,S> {
     dataSource: ListViewDataSource<T>
 }
 
-export class ListViewItemsView<T> extends React.Component<ComposableListViewItemsViewProps<T>>
+export class ListViewItemsView<T,S> extends React.Component<ComposableListViewItemsViewProps<T,S>>
 {
     render () {
 
         const {
             dataSource,
             renderItem,
-            dataItemEqualityComparer
+            contextArg,
+            dataItemEqualityComparer,
+            contextArgEqualityComparer
         } = this.props;
 
         return (
@@ -44,6 +48,7 @@ export class ListViewItemsView<T> extends React.Component<ComposableListViewItem
                         const isCurrentListViewItem = listViewContextData.currentListViewItemId === dataItemId;
 
                         const renderItemProps = {
+                            contextArg,
                             dataItemId,
                             dataItem: dataSourceItem.dataItem,
                             isSelected,
@@ -74,14 +79,20 @@ export class ListViewItemsView<T> extends React.Component<ComposableListViewItem
                             }
                         };
 
-                        return ListViewItemViewWrapper.create({
-                            key: dataItemId,
+                        const listViewItemViewWrapperProps = {
                             id: dataItemId,
                             listViewContextData,
                             renderProps: renderItemProps,
                             renderItem,
-                            dataItemEqualityComparer
-                        });
+                            dataItemEqualityComparer,
+                            contextArgEqualityComparer,
+                        };
+
+                        return (
+                            <ListViewItemViewWrapper
+                                key={dataItemId}
+                                {...listViewItemViewWrapperProps}
+                            />);
                     })
                 }}
             </ListViewContext.Consumer>

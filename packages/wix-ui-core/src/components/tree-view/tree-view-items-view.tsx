@@ -4,32 +4,36 @@ import {
     ListViewCommonRenderItemProps,
     ListViewRenderItemProps,
     ListViewDataSource,
-    DataItemsEqualityComparer, defaultDataItemsEqualityComparer
+    EqualityComparer, defaultDataItemsEqualityComparer, defaultContextArgsEqualityComparer
 } from '../list-view/list-view-types';
 import {FlattenTreeNode, FlattenTreeNodeMetadata, TreeViewStateUpdateFunction} from './tree-view-types';
 import {TreeViewComposable, TreeViewContext} from './tree-view-composable';
 
-interface TreeViewItemRenderProps<T> extends ListViewCommonRenderItemProps<T>, FlattenTreeNodeMetadata
+export interface TreeViewItemRenderProps<T,S> extends ListViewCommonRenderItemProps<T>, FlattenTreeNodeMetadata
 {
     treeView: TreeViewComposable,
-    updateTreeViewState: (updateFunction: TreeViewStateUpdateFunction) => void
+    updateTreeViewState: (updateFunction: TreeViewStateUpdateFunction) => void,
+    contextArg?: S,
 }
 
-export interface TreeViewItemViewProps<T>
+export interface TreeViewItemViewProps<T,S>
 {
-    renderItem: React.SFC<TreeViewItemRenderProps<T>>,
-    dataItemEqualityComparer?: DataItemsEqualityComparer<T>;
+    renderItem: React.SFC<TreeViewItemRenderProps<T,S>>,
+    dataItemEqualityComparer?: EqualityComparer<T>,
+    contextArg?: S,
+    contextArgEqualityComparer?: EqualityComparer<S>;
 }
 
-interface ComposableTreeViewItemsViewProps<T> extends TreeViewItemViewProps<T>
+interface ComposableTreeViewItemsViewProps<T,S> extends TreeViewItemViewProps<T,S>
 {
     dataSource: ListViewDataSource<FlattenTreeNode<T>>,
 }
 
-export class TreeViewItemsView<T> extends React.Component<ComposableTreeViewItemsViewProps<T>>
+export class TreeViewItemsView<T,S> extends React.Component<ComposableTreeViewItemsViewProps<T,S>>
 {
     static defaultProps = {
-        dataItemEqualityComparer: defaultDataItemsEqualityComparer
+        dataItemEqualityComparer: defaultDataItemsEqualityComparer,
+        contextArgEqualityComparer: defaultContextArgsEqualityComparer,
     };
 
     render () {
@@ -37,7 +41,9 @@ export class TreeViewItemsView<T> extends React.Component<ComposableTreeViewItem
         const {
             dataSource,
             renderItem,
-            dataItemEqualityComparer
+            contextArg,
+            dataItemEqualityComparer,
+            contextArgEqualityComparer
         } = this.props;
 
         return (
@@ -54,7 +60,9 @@ export class TreeViewItemsView<T> extends React.Component<ComposableTreeViewItem
                                     dataItem1.hasChildren === dataItem2.hasChildren
                                 );
                             }}
-                            renderItem={(props: ListViewRenderItemProps<FlattenTreeNode<T>>) => {
+                            contextArg={contextArg}
+                            contextArgEqualityComparer={contextArgEqualityComparer}
+                            renderItem={(props: ListViewRenderItemProps<FlattenTreeNode<T>,S>) => {
 
                                 const {
                                     dataItem,

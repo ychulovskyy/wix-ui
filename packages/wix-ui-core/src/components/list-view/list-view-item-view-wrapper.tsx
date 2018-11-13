@@ -3,47 +3,48 @@ import * as ReactDOM from 'react-dom';
 import {domFindAncestor} from './list-view-utils';
 import {ListViewContextData} from './list-view-composable';
 import {
-    DataItemsEqualityComparer, defaultDataItemsEqualityComparer,
+    EqualityComparer, defaultContextArgsEqualityComparer, defaultDataItemsEqualityComparer,
     ListViewItemId,
     ListViewRenderItem,
     ListViewRenderItemProps
 } from './list-view-types';
-import {ClassAttributes} from 'react';
+import {Attributes} from 'react';
 
-interface ListViewItemViewWrapperProps<T>
+interface ListViewItemViewWrapperProps<T,S>
 {
     id: ListViewItemId,
-    renderProps: ListViewRenderItemProps<T>,
-    renderItem: ListViewRenderItem<T>,
+    renderProps: ListViewRenderItemProps<T,S>,
+    renderItem: ListViewRenderItem<T, S>,
     listViewContextData: ListViewContextData,
-    dataItemEqualityComparer: DataItemsEqualityComparer<T>
+    dataItemEqualityComparer: EqualityComparer<T>,
+    contextArgEqualityComparer?: EqualityComparer<S>;
 }
 
-export class ListViewItemViewWrapper<T> extends React.Component<ListViewItemViewWrapperProps<T>>
+export class ListViewItemViewWrapper<T,S> extends React.Component<ListViewItemViewWrapperProps<T,S>>
 {
     static defaultProps = {
-        dataItemEqualityComparer: defaultDataItemsEqualityComparer
+        dataItemEqualityComparer: defaultDataItemsEqualityComparer,
+        contextArgEqualityComparer: defaultContextArgsEqualityComparer,
     };
 
-    static create<T> (props: ClassAttributes<T> & ListViewItemViewWrapperProps<T>) {
-        return React.createElement<ListViewItemViewWrapperProps<T>>(ListViewItemViewWrapper, props);
-    }
-
     render () {
-        return (
-            <React.Fragment>
-                {this.props.renderItem(this.props.renderProps)}
-            </React.Fragment>
-        );
+        const {
+            renderProps,
+            renderItem,
+        } = this.props;
+
+        return renderItem(renderProps);
     }
 
-    shouldComponentUpdate (nextProps: Readonly<ListViewItemViewWrapperProps<T>>) {
+    shouldComponentUpdate (nextProps: Readonly<ListViewItemViewWrapperProps<T,S>>) {
 
         const currentRenderProps = this.props.renderProps;
         const nextRenderProps = nextProps.renderProps;
         const dataItemEqualityComparer = this.props.dataItemEqualityComparer;
+        const contextArgEqualityComparer = this.props.contextArgEqualityComparer;
 
         return (
+            !contextArgEqualityComparer(currentRenderProps.contextArg, nextRenderProps.contextArg) ||
             !dataItemEqualityComparer(currentRenderProps.dataItem, nextRenderProps.dataItem) ||
             currentRenderProps.dataItemId !== nextRenderProps.dataItemId ||
             currentRenderProps.isCurrent !== nextRenderProps.isCurrent ||
@@ -62,7 +63,7 @@ export class ListViewItemViewWrapper<T> extends React.Component<ListViewItemView
         listViewContextData.handleItemRendered(id);
     }
 
-    componentDidUpdate (prevProps: Readonly<ListViewItemViewWrapperProps<T>>) {
+    componentDidUpdate (prevProps: Readonly<ListViewItemViewWrapperProps<T,S>>) {
         if (prevProps.renderProps.isCurrent !== this.props.renderProps.isCurrent)
         {
             this.focusWhenCurrentListViewItem();
