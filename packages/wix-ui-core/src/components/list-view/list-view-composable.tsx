@@ -100,14 +100,12 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
             tagName,
             selectionType,
             onChange,
-            typeAhead,
             selectionStartId,
             isFocusable,
             typeAheadValue,
             forceRenderNavigatableItem,
-            typeAheadClearTimeout,
             dataSourcesArray,
-            typeAheadNavigationType,
+            typeAheadStrategy,
             isCyclic,
             keyboardHandler,
             ...restProps
@@ -132,7 +130,7 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
             listView: this,
             typeAheadValue,
             currentListViewItemId: currentNavigatableItemId,
-            typeAhead,
+            typeAhead: typeAheadStrategy.typeAheadNavigationType !== TypeAheadNavigationType.None,
             isFocusable,
             navigationListId: this.navigationListId,
             onListViewItemFocus: this._onNavigatableItemFocus,
@@ -190,10 +188,11 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
             }
         }
 
-        const typeAheadClearTimeout = this.props.typeAheadClearTimeout;
-        const useTypeAhead = this.props.typeAhead;
+        const {
+            typeAheadClearTimeout,
+        } = this.props.typeAheadStrategy;
 
-        if (typeAheadClearTimeout && useTypeAhead) {
+        if (typeAheadClearTimeout && this.isTypeAheadEnabled()) {
             if (prevProps.typeAheadValue !== this.props.typeAheadValue) {
                 window.clearTimeout(self.currentTypeAheadTimeOut);
                 self.currentTypeAheadTimeOut = window.setTimeout(() => {
@@ -253,11 +252,7 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
 
         if (!isHandled) {
             const {
-                currentNavigatableItemId,
-                selectionStartId,
-                typeAhead,
                 typeAheadValue,
-                orientation,
             } = this.props;
 
             const eventKey = event.key;
@@ -320,7 +315,7 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
                 event.preventDefault();
             }
             else if (isTypeAheadKey(event)) {
-                if (typeAhead) {
+                if (this.isTypeAheadEnabled()) {
                     let updatedTypeAheadValue = typeAheadValue;
 
                     this.updateState((stateController => {
@@ -345,6 +340,10 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
             }
         }
     };
+
+    public isTypeAheadEnabled = () => {
+        return this.props.typeAheadStrategy.typeAheadNavigationType !== TypeAheadNavigationType.None;
+    }
 
     private getNavigationDirectionFromEvent(event: React.KeyboardEvent<Element>) {
         const {
@@ -539,18 +538,21 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
 
     public resolveNextFocusedItemByTypeAheadText(currentNavigatableItemId: ListViewItemId, typeAheadText: string): ListViewItemId {
 
+        this.assertSupportsTypeHead();
+
         if (typeAheadText) {
+            const typeAheadNavigationType = this.props.typeAheadStrategy.typeAheadNavigationType;
+
             const navigatableItemsIdsEnabled = this.navigatableItemsIds;
 
             const navigatableItemsIdsEnabledLength = navigatableItemsIdsEnabled.length;
 
             let currentItemIndex = arrayFindIndex(navigatableItemsIdsEnabled, id => id === currentNavigatableItemId);
-
             let searchStartingIndex;
-            if (this.props.typeAheadNavigationType === TypeAheadNavigationType.GoToNext) {
+            if (typeAheadNavigationType === TypeAheadNavigationType.GoToNext) {
                 searchStartingIndex = currentItemIndex >= 0 ? (currentItemIndex + 1) % navigatableItemsIdsEnabledLength : 0;
             }
-            else if (this.props.typeAheadNavigationType === TypeAheadNavigationType.StayOnCurrent) {
+            else if (typeAheadNavigationType === TypeAheadNavigationType.StayOnCurrent) {
                 searchStartingIndex = currentItemIndex >= 0 ? currentItemIndex : 0;
             }
 
@@ -610,6 +612,15 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
             }
 
         });
+    }
+
+    private assertSupportsTypeHead(){
+        const typeAheadNavigationType = this.props.typeAheadStrategy.typeAheadNavigationType;
+
+        if (typeAheadNavigationType === TypeAheadNavigationType.None)
+        {
+            throw new Error("TypeAhead Navigation not supported");
+        }
     }
 
 

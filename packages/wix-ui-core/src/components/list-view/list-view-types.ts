@@ -23,8 +23,9 @@ export enum NavigationOrientation {
 }
 
 export enum TypeAheadNavigationType {
-    StayOnCurrent = 1,
-    GoToNext = 2,
+    None = 1,
+    StayOnCurrent = 2,
+    GoToNext = 3,
 }
 
 export enum KeyboardNavigationDirection {
@@ -38,6 +39,20 @@ export enum ListViewSelectionType {
     Multiple = 3
 }
 
+export interface TypeAheadStrategy {
+    typeAheadNavigationType: TypeAheadNavigationType,
+    typeAheadClearTimeout?: number,
+}
+
+export const DefaultTypeAheadStrategy = {
+    typeAheadNavigationType: TypeAheadNavigationType.StayOnCurrent,
+    typeAheadClearTimeout: 1000,
+}
+
+export const DisabledTypeAheadStrategy = {
+    typeAheadNavigationType: TypeAheadNavigationType.None,
+}
+
 export type ListViewDataSource<T> = Array<ListViewDataSourceItem<T>>;
 
 export interface CommonListViewProps {
@@ -49,22 +64,18 @@ export interface CommonListViewProps {
     isFocusable?: boolean,
     tagName?: string,
     className?: string,
-    typeAhead?: boolean,
     typeAheadValue?: string,
     forceRenderNavigatableItem?: (navigatableItemId: ListViewItemId) => void,
     isCyclic?: boolean,
-    typeAheadNavigationType?: TypeAheadNavigationType,
-    typeAheadClearTimeout?: number,
+    typeAheadStrategy?: TypeAheadStrategy,
 }
 
 export const DefaultCommonListViewProps = {
     isFocusable: true,
     selectionType: ListViewSelectionType.None,
-    typeAhead: true,
     tagName: 'div',
     isCyclic: false,
-    typeAheadNavigationType: TypeAheadNavigationType.StayOnCurrent,
-    typeAheadClearTimeout: 1000,
+    typeAheadStrategy: DisabledTypeAheadStrategy,
     onChange: () => {return;}
 };
 

@@ -3,7 +3,11 @@ import style from './basic-tree-view-story.st.css';
 import {createRandomTree} from '../../tree-view-dev-utils';
 import {TreeView} from '../../tree-view';
 import {TreeViewDefaultState, TreeViewState} from '../../tree-view-types';
-import {ListViewSelectionType, TypeAheadNavigationType} from '../../../list-view/list-view-types';
+import {
+    DefaultTypeAheadStrategy,
+    ListViewSelectionType,
+    TypeAheadNavigationType
+} from '../../../list-view/list-view-types';
 import {ListView} from '../../../list-view/list-view';
 import {ListViewNavigationInputBehaviour} from "../../../list-view/list-view-navigation-input-behaviour";
 
@@ -78,10 +82,8 @@ export class BasicTreeViewStory extends React.Component<{}, BasicTreeViewStorySt
                     <TreeView
                         ref={this.treeView}
                         collapsedItemsIds={collapsedItemsIds}
-                        typeAheadNavigationType={TypeAheadNavigationType.StayOnCurrent}
-                        typeAheadClearTimeout={1000}
                         selectionType={ListViewSelectionType.Multiple}
-                        typeAhead={true}
+                        typeAheadStrategy={DefaultTypeAheadStrategy}
                         {...listViewStateProps}
                         onChange={changeEvent => {
                             this.setState(changeEvent)

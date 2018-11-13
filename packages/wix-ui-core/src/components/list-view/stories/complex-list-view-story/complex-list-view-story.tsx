@@ -6,6 +6,7 @@ import RCDevSelectionListPanelStyle from './complex-list-view-story.st.css';
 import SelectionTypeItemStyle from './complex-list-view-story-horizontal-item.st.css'
 import * as ListViewDataSource from '../../list-view-data-source';
 import {
+    DefaultTypeAheadStrategy, DisabledTypeAheadStrategy,
     ListViewItemId,
     ListViewRenderItemProps,
     ListViewSelectionType,
@@ -150,7 +151,6 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                     <ListView
                         ref={this.selectionTypeListView}
                         dataSource={dataSource}
-                        typeAhead={false}
                         selectedIds={[selectionType]}
                         onChange={updatedState => {
                             const selectedId = updatedState.selectedIds.length > 0 ? updatedState.selectedIds[0] : ListViewSelectionType.None;
@@ -160,7 +160,6 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                             });
                         }}
                         orientation={NavigationOrientation.Horizontal}
-                        typeAheadNavigationType={TypeAheadNavigationType.StayOnCurrent}
                         selectionType={ListViewSelectionType.Single}
                         renderItem={SelectionTypeViewItem}
                     />
@@ -191,11 +190,9 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                         otherProducts,
                         this.fetchMoreButtonAll,
                     ]}
-                    typeAheadNavigationType={TypeAheadNavigationType.StayOnCurrent}
+                    typeAheadStrategy={useTypeAhead ? DefaultTypeAheadStrategy : DisabledTypeAheadStrategy}
                     orientation={NavigationOrientation.Vertical}
                     disabledIds={disabledIds}
-                    typeAheadClearTimeout={1000}
-                    typeAhead={useTypeAhead}
                     typeAheadValue={this.state.typeAheadValue}
                     tagName="div"
                     selectedIds={selectedIds}

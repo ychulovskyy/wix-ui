@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+    DefaultTypeAheadStrategy,
     ListViewDefaultState,
     ListViewSelectionType,
     ListViewState,
@@ -82,12 +83,11 @@ export class BasicListViewStory extends React.Component<{}, BasicListViewStorySt
                     <ListView
                         ref={this.listView}
                         dataSource={dataSource}
-                        typeAheadClearTimeout={1000}
                         {...listViewStateProps}
                         onChange={updatedState => {
                             this.setState(updatedState)
                         }}
-                        typeAheadNavigationType={TypeAheadNavigationType.StayOnCurrent}
+                        typeAheadStrategy={DefaultTypeAheadStrategy}
                         selectionType={ListViewSelectionType.Multiple}
                         renderItem={ListViewStoryTextualItem}
                     />
