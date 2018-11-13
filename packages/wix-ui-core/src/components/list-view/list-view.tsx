@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {ListViewComposable, ListViewSharedProps, ListViewItemsView} from './list-view-composable';
-import {ListViewDataSource} from './list-view-types';
+import {ListViewDataSource, ListViewDataSourceItem} from './list-view-types';
 import {ListViewItemsViewProps} from './list-view-items-view';
 import {IListView} from './i-list-view';
+import {arrayFlatten} from './list-view-utils';
 
 interface ListViewProps<T,S = any> extends ListViewSharedProps, ListViewItemsViewProps<T,S>
 {
-    dataSource: ListViewDataSource<T>
+    children: Array<ListViewDataSourceItem<T> | ListViewDataSource<T>>
 }
 
 export class ListView<T,S = any> extends React.Component<ListViewProps<T,S>> implements IListView
@@ -16,11 +17,13 @@ export class ListView<T,S = any> extends React.Component<ListViewProps<T,S>> imp
     render () {
 
         const {
-            dataSource,
+            children,
             renderItem,
             dataItemEqualityComparer,
             ...listViewComposableProps
         } = this.props;
+
+        const dataSource = Array.isArray(children) ? arrayFlatten(children as Array<any>) as ListViewDataSource<T> : [children];
 
         return (
             <ListViewComposable

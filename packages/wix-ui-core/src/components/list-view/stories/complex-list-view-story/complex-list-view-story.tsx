@@ -150,7 +150,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                     </div>
                     <ListView
                         ref={this.selectionTypeListView}
-                        dataSource={dataSource}
+                        children={dataSource}
                         selectedIds={[selectionType]}
                         onChange={updatedState => {
                             const selectedId = updatedState.selectedIds.length > 0 ? updatedState.selectedIds[0] : ListViewSelectionType.None;

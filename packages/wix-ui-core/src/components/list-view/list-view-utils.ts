@@ -1,5 +1,3 @@
-import {ListViewDataSourceItem, ListViewItemId} from "./list-view-types";
-
 export function domFindAncestor (element: HTMLElement, predicate: (element: HTMLElement) => boolean, includeSelf: boolean = true) : HTMLElement {
 
     if (!includeSelf)

@@ -11,7 +11,7 @@ import {ListViewComposable} from '../list-view/list-view-composable';
 import {
     CommonListViewProps,
     DefaultCommonListViewProps,
-    ListViewDataSource, ListViewDataSourceItem,
+    ListViewDataSource, ListViewDataSourceDataItem, ListViewDataSourceItem,
     ListViewItemId, ListViewState, NavigationOrientation
 } from '../list-view/list-view-types';
 import {TreeViewStateController} from './tree-view-state-controller';
@@ -171,7 +171,7 @@ export class TreeViewComposable extends React.Component<TreeViewProps>
     }
 
     getTreeViewItemMetadata (itemId: ListViewItemId): TreeViewItemMetadata {
-        const listViewItem: ListViewDataSourceItem<FlattenTreeNode<any>> = this.listView.current.getListViewItemById(itemId);
+        const listViewItem: ListViewDataSourceDataItem<FlattenTreeNode<any>> = this.listView.current.getListViewItemById(itemId);
 
         if (listViewItem)
         {
