@@ -5,6 +5,7 @@ import {TreeView} from '../../tree-view';
 import {TreeViewDefaultState, TreeViewState} from '../../tree-view-types';
 import {ListViewSelectionType, TypeAheadNavigationType} from '../../../list-view/list-view-types';
 import {ListView} from '../../../list-view/list-view';
+import {ListViewNavigationInputBehaviour} from "../../../list-view/list-view-navigation-input-behaviour";
 
 
 type TreeViewDataItem = {
@@ -56,26 +57,18 @@ export class BasicTreeViewStory extends React.Component<{}, BasicTreeViewStorySt
                         borderBottom: '1px solid #ddd'
                     }}
                 >
-                    <input
-                        type="text"
-                        onChange={event => {
-                            this.treeView.current.moveToItemBasedOnTypeAhead(event.target.value);
-                        }}
-                        style={{
-                            height: 24,
-                            padding: '0 10px',
-                            width: '300px',
-                        }}
-                        onKeyDown={(event: React.KeyboardEvent<Element>) => {
-
-                            const eventKey = event.key;
-
-                            if (eventKey === 'ArrowDown' || eventKey === 'ArrowUp' || (eventKey === ' ' && (event.ctrlKey || event.shiftKey )))
-                            {
-                                this.treeView.current.handleKeyboardEvent(event);
-                            }
-                        }}
-                    />
+                    <ListViewNavigationInputBehaviour
+                        listViewSelector={() => this.treeView}
+                    >
+                        <input
+                            type="text"
+                            style={{
+                                height: 24,
+                                padding: '0 10px',
+                                width: '300px',
+                            }}
+                        />
+                    </ListViewNavigationInputBehaviour>
                 </div>
                 <div
                     style={{

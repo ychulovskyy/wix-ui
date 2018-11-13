@@ -6,6 +6,7 @@ import {
     ListViewItemId
 } from '../list-view/list-view-types';
 import {TreeNode, TreeViewDataSource, TreeViewState} from './tree-view-types';
+import {IListView} from '../list-view/i-list-view';
 
 interface TreeViewProps<T> extends CommonListViewProps, TreeViewItemViewProps<T>
 {
@@ -14,7 +15,7 @@ interface TreeViewProps<T> extends CommonListViewProps, TreeViewItemViewProps<T>
     onChange?: (event: TreeViewState) => void,
 }
 
-export class TreeView<T> extends React.Component<TreeViewProps<T>>
+export class TreeView<T> extends React.Component<TreeViewProps<T>> implements IListView
 {
     private treeViewComposable = React.createRef<TreeViewComposable>();
 

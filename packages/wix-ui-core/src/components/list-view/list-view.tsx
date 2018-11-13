@@ -2,13 +2,14 @@ import * as React from 'react';
 import {ListViewComposable, ListViewSharedProps, ListViewItemsView} from './list-view-composable';
 import {ListViewDataSource} from './list-view-types';
 import {ListViewItemsViewProps} from './list-view-items-view';
+import {IListView} from './i-list-view';
 
 interface ListViewProps<T> extends ListViewSharedProps, ListViewItemsViewProps<T>
 {
     dataSource: ListViewDataSource<T>
 }
 
-export class ListView<T> extends React.Component<ListViewProps<T>>
+export class ListView<T> extends React.Component<ListViewProps<T>> implements IListView
 {
     private listViewComposable = React.createRef<ListViewComposable>();
 

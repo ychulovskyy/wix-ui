@@ -11,6 +11,7 @@ import {
     ListViewStoryTextualItem,
     ListViewStoryTextualItemDataItem
 } from '../list-view-story-textual-item/list-view-story-textual-item';
+import {ListViewNavigationInputBehaviour} from '../../list-view-navigation-input-behaviour';
 
 
 type DataItem = {
@@ -60,26 +61,18 @@ export class BasicListViewStory extends React.Component<{}, BasicListViewStorySt
                         borderBottom: '1px solid #ddd'
                     }}
                 >
-                    <input
-                        type="text"
-                        onChange={event => {
-                            this.listView.current.moveToItemBasedOnTypeAhead(event.target.value);
-                        }}
-                        style={{
-                            height: 24,
-                            padding: '0 10px',
-                            width: '300px',
-                        }}
-                        onKeyDown={(event: React.KeyboardEvent<Element>) => {
-
-                            const eventKey = event.key;
-
-                            if (eventKey === 'ArrowDown' || eventKey === 'ArrowUp' || (eventKey === ' ' && (event.ctrlKey || event.shiftKey )))
-                            {
-                                this.listView.current.handleKeyboardEvent(event);
-                            }
-                        }}
-                    />
+                    <ListViewNavigationInputBehaviour
+                        listViewSelector={() => this.listView}
+                    >
+                        <input
+                            type="text"
+                            style={{
+                                height: 24,
+                                padding: '0 10px',
+                                width: '300px',
+                            }}
+                        />
+                    </ListViewNavigationInputBehaviour>
                 </div>
                 <div
                     style={{
