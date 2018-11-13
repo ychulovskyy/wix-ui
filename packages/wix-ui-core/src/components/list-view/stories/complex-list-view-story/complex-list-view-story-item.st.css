@@ -59,6 +59,13 @@
     border-bottom: 1px solid green;
 }
 
+.innerText
+{
+    line-height: 36px;
+    height: 36px;
+    display: inline-block;
+}
+
 .innerButton
 {
     position: relative;
