@@ -38,6 +38,7 @@ interface RCDevSelectionListViewBasicState extends ListViewState
     recommendedProductsCount: number,
     typeAheadValue: string,
     selectionType: ListViewSelectionType,
+    currentSelectionTypeItemId: ListViewItemId,
 }
 
 interface SelectionTypeInfo {
@@ -94,6 +95,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
             typeAheadValue: '',
             useTypeAhead: true,
             selectionType: ListViewSelectionType.Multiple,
+            currentSelectionTypeItemId: null,
         };
     }
 
@@ -109,6 +111,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
             typeAheadValue,
             useTypeAhead,
             selectionType,
+            currentSelectionTypeItemId,
         } = this.state;
 
         const otherProducts = ListViewDataSource.createSelectablePrimitiveValuesDataSource(
@@ -157,8 +160,10 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                             this.setState({
                                 selectionType: selectionTypesMap[selectedId].selectionType,
                                 selectedIds: [],
+                                currentSelectionTypeItemId: updatedState.currentNavigatableItemId,
                             });
                         }}
+                        currentNavigatableItemId={currentSelectionTypeItemId}
                         orientation={NavigationOrientation.Horizontal}
                         selectionType={ListViewSelectionType.Single}
                         renderItem={SelectionTypeViewItem}
