@@ -15,6 +15,7 @@ import {
 } from '../../list-view-types';
 import {ListViewStateController} from '../../list-view-state-controller';
 import {ListView} from '../../list-view';
+import {ListViewNavigationInputBehaviour} from '../../list-view-navigation-input-behaviour';
 
 export class ComplexListViewStory extends React.Component
 {
@@ -138,9 +139,9 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                         <input
                             type="checkbox"
                             checked={useTypeAhead}
-                            onChange={event => {
+                            onChange={(event) => {
                                 this.setState({
-                                    useTypeAhead: event.target.checked
+                                    useTypeAhead: (event.target as any).checked
                                 })
                             }}
                         />
@@ -165,25 +166,21 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                     />
 
                 </div>
-                <input
-                    type="text"
-                    style={{
-                        width: '100%',
-                        marginBottom: 10
-                    }}
-                    onChange={event => {
-                        this.selectionList.current.moveToItemBasedOnTypeAhead(event.target.value);
-                    }}
-                    onKeyDown={(event: React.KeyboardEvent<Element>) => {
-
-                        const eventKey = event.key;
-
-                        if (eventKey === 'ArrowDown' || eventKey === 'ArrowUp' || (eventKey === ' ' && (event.ctrlKey || event.shiftKey )))
-                        {
-                            this.selectionList.current.handleKeyboardEvent(event);
-                        }
-                    }}
-                />
+                <ListViewNavigationInputBehaviour
+                    listViewSelector={() => this.selectionList}
+                    isTypeAheadNavigationEnabled={useTypeAhead}
+                >
+                    <input
+                        type="text"
+                        style={{
+                            height: 24,
+                            padding: '0 10px',
+                            width: '100%',
+                            marginBottom: 20,
+                            boxSizing: 'border-box'
+                        }}
+                    />
+                </ListViewNavigationInputBehaviour>
                 <ListViewComposable
                     ref={this.selectionList}
                     className={RCDevSelectionListPanelStyle.selectionList}
@@ -237,7 +234,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                             return (
                                 <div
                                     {...listViewItemRoot()}
-                                    {...RCDevSelectionListPanelButtonStyle('root', {focused: isCurrent})}
+                                    {...RCDevSelectionListPanelButtonStyle('root', {current: isCurrent})}
                                     children="Fetch More"
                                     onClick={() => {
                                         this.fetchMoreRecommendedProducts();
@@ -284,7 +281,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                             return (
                                 <div
                                     {...listViewItemRoot()}
-                                    {...RCDevSelectionListPanelButtonStyle('root', {focused: isCurrent})}
+                                    {...RCDevSelectionListPanelButtonStyle('root', {current: isCurrent})}
                                     children="Fetch More"
                                     onClick={() => {
                                         this.fetchMoreToAllProducts();

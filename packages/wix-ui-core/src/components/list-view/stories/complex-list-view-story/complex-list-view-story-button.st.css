@@ -1,6 +1,13 @@
 .root
 {
+    -st-states: current;
     background: #ccc;
     padding: 10px;
     text-align: center;
+    border: 2px solid transparent;
+}
+
+.root:current
+{
+    border-color: #85b5ff;
 }
