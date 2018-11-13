@@ -81,6 +81,7 @@ export class BasicTreeViewStory extends React.Component<{}, BasicTreeViewStorySt
                         typeAheadNavigationType={TypeAheadNavigationType.StayOnCurrent}
                         typeAheadClearTimeout={1000}
                         selectionType={ListViewSelectionType.Multiple}
+                        typeAhead={true}
                         {...listViewStateProps}
                         onChange={changeEvent => {
                             this.setState(changeEvent)
