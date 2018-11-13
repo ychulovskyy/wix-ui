@@ -44,7 +44,7 @@ export class BasicListViewStory extends React.Component<{}, BasicListViewStorySt
         ...ListViewDefaultState
     };
 
-    private listView = React.createRef<ListView<DataItem>>();
+    private listView = React.createRef<ListView<DataItem, any>>();
 
     render () {
 

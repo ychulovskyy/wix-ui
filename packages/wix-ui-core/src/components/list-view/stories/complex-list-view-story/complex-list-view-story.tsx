@@ -14,7 +14,7 @@ import {
     TypeAheadNavigationType
 } from '../../list-view-types';
 import {ListViewStateController} from '../../list-view-state-controller';
-import {ListView} from "../../list-view";
+import {ListView} from '../../list-view';
 
 export class ComplexListViewStory extends React.Component
 {
@@ -38,10 +38,10 @@ interface RCDevSelectionListViewBasicState extends ListViewState
     selectionType: ListViewSelectionType,
 }
 
-type SelectionType = {
+interface SelectionTypeInfo {
     title: string,
     selectionType: ListViewSelectionType,
-};
+}
 
 const selectionTypes = [
     {
@@ -58,7 +58,7 @@ const selectionTypes = [
     }
 ];
 
-var selectionTypesMap = selectionTypes.reduce(function(map, selectionTypeItem) {
+const selectionTypesMap = selectionTypes.reduce(function(map, selectionTypeItem) {
     map[selectionTypeItem.selectionType] = selectionTypeItem;
     return map;
 }, {});
@@ -73,7 +73,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
 {
 
     private selectionList = React.createRef<ListViewComposable>();
-    private selectionTypeListView = React.createRef<ListView<SelectionType>>();
+    private selectionTypeListView = React.createRef<ListView<SelectionTypeInfo>>();
 
     private fetchMoreButtonAll = ListViewDataSource.createNavigatablePrimitiveValuesDataSource(['FetchMoreButtonAll']);
     private fetchMoreButtonRecommended = ListViewDataSource.createNavigatablePrimitiveValuesDataSource(['FetchMoreButtonRecommended']);
@@ -154,7 +154,8 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                         onChange={updatedState => {
                             const selectedId = updatedState.selectedIds.length > 0 ? updatedState.selectedIds[0] : ListViewSelectionType.None;
                             this.setState({
-                                selectionType: selectionTypesMap[selectedId].selectionType
+                                selectionType: selectionTypesMap[selectedId].selectionType,
+                                selectedIds: [],
                             });
                         }}
                         orientation={NavigationOrientation.Horizontal}
@@ -169,6 +170,18 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                     style={{
                         width: '100%',
                         marginBottom: 10
+                    }}
+                    onChange={event => {
+                        this.selectionList.current.moveToItemBasedOnTypeAhead(event.target.value);
+                    }}
+                    onKeyDown={(event: React.KeyboardEvent<Element>) => {
+
+                        const eventKey = event.key;
+
+                        if (eventKey === 'ArrowDown' || eventKey === 'ArrowUp' || (eventKey === ' ' && (event.ctrlKey || event.shiftKey )))
+                        {
+                            this.selectionList.current.handleKeyboardEvent(event);
+                        }
                     }}
                 />
                 <ListViewComposable
@@ -185,7 +198,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                     orientation={NavigationOrientation.Vertical}
                     disabledIds={disabledIds}
                     typeAheadClearTimeout={1000}
-                    typeAhead
+                    typeAhead={useTypeAhead}
                     typeAheadValue={this.state.typeAheadValue}
                     tagName="div"
                     selectedIds={selectedIds}
@@ -199,20 +212,15 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                     <h2>Recommended Products</h2>
                     <ListViewItemsView
                         dataSource={recommendedProducts}
-                        renderItem={selectionType ? props => {
+                        contextArg={{
+                            selectionType
+                        }}
+                        contextArgEqualityComparer={contextArgComparer}
+                        renderItem={renderProps => {
                             return (
                                 <TextualItemView
-                                    selectionType={selectionType}
-                                    text={props.dataItem}
-                                    {...props}
-                                />
-                            );
-                        } : props => {
-                            return (
-                                <TextualItemView
-                                    selectionType={selectionType}
-                                    text={props.dataItem}
-                                    {...props}
+                                    text={renderProps.dataItem}
+                                    {...renderProps}
                                 />
                             );
                         } }
@@ -251,12 +259,15 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                     <h2>All Products</h2>
                     <ListViewItemsView
                         dataSource={otherProducts}
-                        renderItem={props => {
+                        contextArg={{
+                            selectionType
+                        }}
+                        contextArgEqualityComparer={contextArgComparer}
+                        renderItem={renderProps => {
                             return (
                                 <TextualItemView
-                                    selectionType={selectionType}
-                                    text={props.dataItem}
-                                    {...props}
+                                    text={renderProps.dataItem}
+                                    {...renderProps}
                                 />
                             );
                         }}
@@ -316,9 +327,8 @@ interface RCDevSelectionListPanelState extends ListViewState
 }
 
 type TextualItemViewProps = {
-    text: string,
-    selectionType: ListViewSelectionType,
-} & ListViewRenderItemProps<any>
+    text: string
+} & ListViewRenderItemProps<any, {selectionType: ListViewSelectionType}>
 
 
 interface ItemButtonInfo {
@@ -398,7 +408,9 @@ const TextualItemView: React.SFC<TextualItemViewProps> =props => {
         updateState,
         dataItemId,
         triggerInteractiveSelection,
-        selectionType
+        contextArg: {
+            selectionType
+        }
     } = props;
 
     return (
@@ -451,7 +463,7 @@ const TextualItemView: React.SFC<TextualItemViewProps> =props => {
     )
 };
 
-const SelectionTypeViewItem: React.SFC<ListViewRenderItemProps<any>> = renderProps => {
+const SelectionTypeViewItem: React.SFC<ListViewRenderItemProps<SelectionTypeInfo,null>> = renderProps => {
 
     const {
         isSelected,
@@ -483,4 +495,8 @@ export function arrayGenerate<T> (count: number, generator: (index: number) => T
     }
 
     return result;
+}
+
+function contextArgComparer(contextArg1, contextArg2){
+    return contextArg1.selectionType === contextArg2.selectionType;
 }

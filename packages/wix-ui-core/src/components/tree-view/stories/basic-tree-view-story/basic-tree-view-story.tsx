@@ -39,7 +39,7 @@ export class BasicTreeViewStory extends React.Component<{}, BasicTreeViewStorySt
         ...TreeViewDefaultState
     };
 
-    private treeView = React.createRef<TreeView<TreeViewDataItem>>();
+    private treeView = React.createRef<TreeView<TreeViewDataItem, {}>>();
 
     render () {
 
