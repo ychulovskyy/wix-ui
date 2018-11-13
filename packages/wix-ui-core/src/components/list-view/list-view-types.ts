@@ -1,7 +1,7 @@
 import {TriggerInteractiveSelectionFunction} from './list-view-composable';
 import * as React from 'react';
 import {ListViewStateController} from './list-view-state-controller';
-import {ReactElement} from "react";
+import {ReactElement} from 'react';
 
 export type ListViewItemId = string | number;
 

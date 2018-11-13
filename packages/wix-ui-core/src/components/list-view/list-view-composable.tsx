@@ -118,7 +118,7 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
         const selectedIdsSet = this.selectedIdsSet = new Set<ListViewItemId>(selectedIds);
 
         const listViewItems = this.listViewItemsArray = arrayFlatten(this.props.dataSourcesArray);
-        const listViewDataItemsArray = this.listViewDataItemsArray = listViewItems.filter(item => isListViewDataSourceDataItem(item));
+        const listViewDataItemsArray = this.listViewDataItemsArray = listViewItems.filter(item => isListViewDataSourceDataItem(item)) as Array<ListViewDataSourceDataItem<any>>;
 
         const navigatableListViewItems = listViewDataItemsArray
             .filter(listViewItem => !listViewItem.isExcluded && !disabledIdsSet.has(listViewItem.id));
