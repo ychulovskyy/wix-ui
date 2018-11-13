@@ -28,8 +28,11 @@ export class ListViewNavigationInputBehaviour extends React.Component<ListViewNa
             ...inputProps,
             onChange (event) {
                 listViewSelector().current.moveToItemBasedOnTypeAhead(event.target.value);
-                
-                originalOnChange(event);
+
+                if (originalOnChange)
+                {
+                    originalOnChange(event);
+                }
             },
             onKeyDown (event: React.KeyboardEvent<Element>) {
                 const eventKey = event.key;
@@ -39,7 +42,10 @@ export class ListViewNavigationInputBehaviour extends React.Component<ListViewNa
                     listViewSelector().current.handleKeyboardEvent(event);
                 }
 
-                originalOnKeyDown(event);
+                if (originalOnKeyDown)
+                {
+                    originalOnKeyDown(event);
+                }
             }
         })
     }
