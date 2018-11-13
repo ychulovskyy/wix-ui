@@ -61,6 +61,15 @@ it's faster, and cheaper on your runtime
 
 All component APIs must be strongly typed, with `any` not accepted. it might be harder to write, but its much easier to use.
 
+### Component Drivers
+**component.driver.ts**
+
+In the root you will find a drivers folder containing different index files(according to your testing platform).
+These files are exports list for each component's driver export. If you are a component library developer trying to import drivers from wix-ui-core,
+please use the drivers index file, for example - if you need the vanilla driver of **AddressInput** :
+
+`export {addressInputDriverFactory} from 'wix-ui-core/drivers/vanilla';`
+
 ### Component Style API
 
 **Component.st.css**
@@ -80,6 +89,17 @@ a component importing the following stylable file:
 ```
 
 is exposing both the `btn1` class and `btn2` class to stylable so they can be customized.
+
+Note that in the root path, there is an `index.st.css` file. It is an index file for all component's style exports.
+If you are trying to import a style outside of wix-ui-core, please import it from this file - like here :
+
+```css
+:import {
+    -st-from: "wix-ui-core/index.st.css";
+    -st-named: AddressInput;
+}
+
+```
 
 #### Essential rules only
 
