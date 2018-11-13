@@ -2,9 +2,9 @@ import * as React from 'react';
 import {arrayFindIndex, arrayFlatten, domFindAncestor, isTypeAheadKey} from './list-view-utils';
 import {
     CommonListViewProps,
-    DefaultCommonListViewProps,
+    DefaultCommonListViewProps, isListViewDataSourceDataItem,
     KeyboardNavigationDirection,
-    ListViewDataSource,
+    ListViewDataSource, ListViewDataSourceDataItem,
     ListViewDataSourceItem,
     ListViewItemId,
     ListViewSelectionType,
@@ -62,8 +62,9 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
     private listViewItemsIds: Array<ListViewItemId> = null;
     private navigatableItemsIds: Array<ListViewItemId> = null;
     private selectableItemsSet: Set<ListViewItemId> = null;
-    private listViewItemsMap: Map<ListViewItemId, ListViewDataSourceItem<any>> = null;
+    private listViewItemsMap: Map<ListViewItemId, ListViewDataSourceDataItem<any>> = null;
     private listViewItemsArray: Array<ListViewDataSourceItem<any>>;
+    private listViewDataItemsArray: Array<ListViewDataSourceDataItem<any>>;
     private disabledIdsSet: Set<ListViewItemId>;
     private selectedIdsSet: Set<ListViewItemId>;
 
@@ -117,14 +118,16 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
         const selectedIdsSet = this.selectedIdsSet = new Set<ListViewItemId>(selectedIds);
 
         const listViewItems = this.listViewItemsArray = arrayFlatten(this.props.dataSourcesArray);
-        const navigatableListViewItems = listViewItems
+        const listViewDataItemsArray = this.listViewDataItemsArray = listViewItems.filter(item => isListViewDataSourceDataItem(item));
+
+        const navigatableListViewItems = listViewDataItemsArray
             .filter(listViewItem => !listViewItem.isExcluded && !disabledIdsSet.has(listViewItem.id));
 
-        this.listViewItemsIds = listViewItems.map(item => item.id);
+        this.listViewItemsIds = listViewDataItemsArray.map(item => item.id);
         this.navigatableItemsIds = navigatableListViewItems.map(item => item.id);
 
-        this.selectableItemsSet = new Set(this.listViewItemsArray.filter(item => item.isSelectable).map(item => item.id));
-        this.listViewItemsMap = new Map(this.listViewItemsArray.map((item): [ListViewItemId, ListViewDataSourceItem<any>] => [item.id, item]));
+        this.selectableItemsSet = new Set(listViewDataItemsArray.filter(item => item.isSelectable).map(item => item.id));
+        this.listViewItemsMap = new Map(listViewDataItemsArray.map((item): [ListViewItemId, ListViewDataSourceDataItem<any>] => [item.id, item]));
 
         const listViewContextData = this.listViewContextData = {
             selectedIdsSet,

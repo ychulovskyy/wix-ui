@@ -1,5 +1,5 @@
 import {
-    EqualityComparer,
+    EqualityComparer, isListViewDataSourceDataItem,
     ListViewDataSource, ListViewDataSourceItem,
     ListViewItemId,
     ListViewRenderItem,
@@ -36,63 +36,70 @@ export class ListViewItemsView<T,S> extends React.Component<ComposableListViewIt
                 {listViewContextData => {
                     return dataSource.map((dataSourceItem: ListViewDataSourceItem<T>) => {
 
-                        if (dataSourceItem.isExcluded)
+                        if (isListViewDataSourceDataItem(dataSourceItem))
                         {
-                            return null;
-                        }
-
-                        const dataItemId = dataSourceItem.id;
-
-                        const isSelected = listViewContextData.selectedIdsSet.has(dataItemId);
-                        const isDisabled = listViewContextData.disabledIdsSet.has(dataItemId);
-                        const isCurrentListViewItem = listViewContextData.currentListViewItemId === dataItemId;
-
-                        const renderItemProps = {
-                            contextArg,
-                            dataItemId,
-                            dataItem: dataSourceItem.dataItem,
-                            isSelected,
-                            isCurrent: isCurrentListViewItem,
-                            isDisabled,
-                            listViewItemRoot: () => {
-                                return {
-                                    disabled: isDisabled ? true : null,
-                                    'aria-selected': isSelected ? 'true' : null,
-                                    'aria-disabled': isDisabled ? 'true' : null,
-                                    role: 'option',
-                                    ...resolveListViewItemRootProps(dataItemId, listViewContextData, isDisabled)
-                                }
-                            },
-                            innerFocusableItem: () => {
-                                return {
-                                    disabled: isDisabled ? true : null,
-                                    tabIndex: resolveTabIndex(dataItemId, listViewContextData, isDisabled)
-                                }
-                            },
-                            updateState: updateFunction => {
-                                listViewContextData.listView.updateState(updateFunction);
-                            },
-                            triggerInteractiveSelection (event: React.MouseEvent<Element>) {
-                                listViewContextData.listView.updateState(stateController => {
-                                    stateController.handleInteractiveSelection(dataItemId, event);
-                                })
+                            if (dataSourceItem.isExcluded)
+                            {
+                                return null;
                             }
-                        };
 
-                        const listViewItemViewWrapperProps = {
-                            id: dataItemId,
-                            listViewContextData,
-                            renderProps: renderItemProps,
-                            renderItem,
-                            dataItemEqualityComparer,
-                            contextArgEqualityComparer,
-                        };
+                            const dataItemId = dataSourceItem.id;
 
-                        return (
-                            <ListViewItemViewWrapper
-                                key={dataItemId}
-                                {...listViewItemViewWrapperProps}
-                            />);
+                            const isSelected = listViewContextData.selectedIdsSet.has(dataItemId);
+                            const isDisabled = listViewContextData.disabledIdsSet.has(dataItemId);
+                            const isCurrentListViewItem = listViewContextData.currentListViewItemId === dataItemId;
+
+                            const renderItemProps = {
+                                contextArg,
+                                dataItemId,
+                                dataItem: dataSourceItem.dataItem,
+                                isSelected,
+                                isCurrent: isCurrentListViewItem,
+                                isDisabled,
+                                listViewItemRoot: () => {
+                                    return {
+                                        disabled: isDisabled ? true : null,
+                                        'aria-selected': isSelected ? 'true' : null,
+                                        'aria-disabled': isDisabled ? 'true' : null,
+                                        role: 'option',
+                                        ...resolveListViewItemRootProps(dataItemId, listViewContextData, isDisabled)
+                                    }
+                                },
+                                innerFocusableItem: () => {
+                                    return {
+                                        disabled: isDisabled ? true : null,
+                                        tabIndex: resolveTabIndex(dataItemId, listViewContextData, isDisabled)
+                                    }
+                                },
+                                updateState: updateFunction => {
+                                    listViewContextData.listView.updateState(updateFunction);
+                                },
+                                triggerInteractiveSelection (event: React.MouseEvent<Element>) {
+                                    listViewContextData.listView.updateState(stateController => {
+                                        stateController.handleInteractiveSelection(dataItemId, event);
+                                    })
+                                }
+                            };
+
+                            const listViewItemViewWrapperProps = {
+                                id: dataItemId,
+                                listViewContextData,
+                                renderProps: renderItemProps,
+                                renderItem,
+                                dataItemEqualityComparer,
+                                contextArgEqualityComparer,
+                            };
+
+                            return (
+                                <ListViewItemViewWrapper
+                                    key={dataItemId}
+                                    {...listViewItemViewWrapperProps}
+                                />);
+                        }
+                        else
+                        {
+                            return dataSourceItem;
+                        }
                     })
                 }}
             </ListViewContext.Consumer>

@@ -148,7 +148,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                     </div>
                     <ListView
                         ref={this.selectionTypeListView}
-                        dataSource={dataSource}
+                        children={dataSource}
                         typeAhead={false}
                         selectedIds={[selectionType]}
                         onChange={updatedState => {

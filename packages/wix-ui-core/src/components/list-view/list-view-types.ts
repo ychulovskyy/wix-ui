@@ -1,6 +1,7 @@
 import {TriggerInteractiveSelectionFunction} from './list-view-composable';
 import * as React from 'react';
 import {ListViewStateController} from './list-view-state-controller';
+import {ReactElement} from "react";
 
 export type ListViewItemId = string | number;
 
@@ -12,10 +13,12 @@ export interface ListViewItemMetadata
     isExcluded?: boolean
 }
 
-export interface ListViewDataSourceItem<T> extends ListViewItemMetadata
+export interface ListViewDataSourceDataItem<T> extends ListViewItemMetadata
 {
     dataItem: T,
 }
+
+export type ListViewDataSourceItem<T> = ListViewDataSourceDataItem<T> | ReactElement<any>;
 
 export enum NavigationOrientation {
     Vertical = 1,
@@ -114,3 +117,7 @@ export function defaultContextArgsEqualityComparer<T> (contextArg1: T, contextAr
     return contextArg1 === contextArg2;
 }
 
+export function isListViewDataSourceDataItem<T> (item: ListViewDataSourceItem<T>) : item is ListViewDataSourceDataItem<T>
+{
+    return !React.isValidElement(item);
+}
