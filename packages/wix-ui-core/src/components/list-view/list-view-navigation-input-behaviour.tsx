@@ -5,7 +5,9 @@ import {IListView} from './i-list-view';
 interface ListViewNavigationInputBehaviourProps
 {
     listViewSelector: () => RefObject<IListView>,
-    children: ReactElement<HTMLInputElement>
+    children: ReactElement<HTMLInputElement>,
+    isTypeAheadNavigationEnabled?: boolean,
+    isKeyboardNavigationEnabled?: boolean,
 }
 
 export class ListViewNavigationInputBehaviour extends React.Component<ListViewNavigationInputBehaviourProps>
@@ -14,7 +16,9 @@ export class ListViewNavigationInputBehaviour extends React.Component<ListViewNa
         
         const {
             children: inputElement,
-            listViewSelector
+            listViewSelector,
+            isTypeAheadNavigationEnabled = true,
+            isKeyboardNavigationEnabled = true,
         } = this.props;
         
         const inputProps = inputElement.props;
@@ -27,7 +31,10 @@ export class ListViewNavigationInputBehaviour extends React.Component<ListViewNa
         return React.cloneElement(inputElement, {
             ...inputProps,
             onChange (event) {
-                listViewSelector().current.moveToItemBasedOnTypeAhead(event.target.value);
+                if (isTypeAheadNavigationEnabled)
+                {
+                    listViewSelector().current.moveToItemBasedOnTypeAhead(event.target.value);
+                }
 
                 if (originalOnChange)
                 {
@@ -35,11 +42,15 @@ export class ListViewNavigationInputBehaviour extends React.Component<ListViewNa
                 }
             },
             onKeyDown (event: React.KeyboardEvent<Element>) {
-                const eventKey = event.key;
 
-                if (eventKey === 'ArrowDown' || eventKey === 'ArrowUp' || (eventKey === ' ' && (event.ctrlKey || event.shiftKey )))
+                if (isKeyboardNavigationEnabled)
                 {
-                    listViewSelector().current.handleKeyboardEvent(event);
+                    const eventKey = event.key;
+
+                    if (eventKey === 'ArrowDown' || eventKey === 'ArrowUp' || (eventKey === ' ' && (event.ctrlKey || event.shiftKey )))
+                    {
+                        listViewSelector().current.handleKeyboardEvent(event);
+                    }
                 }
 
                 if (originalOnKeyDown)
