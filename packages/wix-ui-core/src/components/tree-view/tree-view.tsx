@@ -10,7 +10,7 @@ import {IListView} from '../list-view/i-list-view';
 
 interface TreeViewProps<T,S> extends CommonListViewProps, TreeViewItemViewProps<T,S>
 {
-    collapsedItemsIds: ListViewItemId[],
+    treeViewState: TreeViewState,
     children: Array<TreeNode<T>>,
     onChange?: (event: TreeViewState) => void,
 }
@@ -24,13 +24,17 @@ export class TreeView<T,S> extends React.Component<TreeViewProps<T,S>> implement
     render () {
 
         const {
-            collapsedItemsIds,
+            treeViewState,
             children,
             onChange,
             renderItem,
             dataItemEqualityComparer,
             ...listViewProps
         } = this.props;
+
+        const {
+            collapsedItemsIds,
+        } = treeViewState;
 
         let treeDataSource = this.flattenTreeDataSource;
         if (!treeDataSource)
@@ -42,7 +46,7 @@ export class TreeView<T,S> extends React.Component<TreeViewProps<T,S>> implement
             <TreeViewComposable
                 ref={this.treeViewComposable}
                 dataSourcesArray={[treeDataSource]}
-                collapsedItemsIds={collapsedItemsIds}
+                treeViewState={treeViewState}
                 {...listViewProps}
                 onChange={onChange}
             >
@@ -67,7 +71,7 @@ export class TreeView<T,S> extends React.Component<TreeViewProps<T,S>> implement
 
         const {
             children,
-            collapsedItemsIds
+            treeViewState,
         } = this.props;
 
         const {
@@ -75,7 +79,7 @@ export class TreeView<T,S> extends React.Component<TreeViewProps<T,S>> implement
             collapsedItemsIds: nextCollapsedItemsIds
         } = nextProps;
 
-        if (children !== nextChildren || collapsedItemsIds !== nextCollapsedItemsIds)
+        if (children !== nextChildren || treeViewState.collapsedItemsIds !== nextCollapsedItemsIds)
         {
             this.flattenTreeDataSource = undefined;
         }

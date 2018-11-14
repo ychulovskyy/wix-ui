@@ -34,14 +34,17 @@ const tree = createRandomTree([[5],[3],[2],[3]], info => {
     }
 });
 
-interface BasicTreeViewStoryState extends TreeViewState
+interface BasicTreeViewStoryState
 {
+    treeViewState: TreeViewState,
 }
 
 export class BasicTreeViewStory extends React.Component<{}, BasicTreeViewStoryState>
 {
     state = {
-        ...TreeViewDefaultState
+        treeViewState:{
+            ...TreeViewDefaultState
+        }
     };
 
     private treeView = React.createRef<TreeView<TreeViewDataItem, {}>>();
@@ -49,9 +52,10 @@ export class BasicTreeViewStory extends React.Component<{}, BasicTreeViewStorySt
     render () {
 
         const {
-            collapsedItemsIds,
+            treeViewState,
             ...listViewStateProps
         } = this.state;
+
 
         return (
             <div>
@@ -81,12 +85,14 @@ export class BasicTreeViewStory extends React.Component<{}, BasicTreeViewStorySt
                 >
                     <TreeView
                         ref={this.treeView}
-                        collapsedItemsIds={collapsedItemsIds}
+                        treeViewState={treeViewState}
                         selectionType={ListViewSelectionType.Multiple}
                         typeAheadStrategy={DefaultTypeAheadStrategy}
                         {...listViewStateProps}
-                        onChange={changeEvent => {
-                            this.setState(changeEvent)
+                        onChange={treeViewState => {
+                            this.setState({
+                                treeViewState: treeViewState
+                            })
                         }}
                         renderItem={renderProps => {
 

@@ -14,7 +14,7 @@ export class TreeViewStateController extends ListViewStateController
 
         const {
             collapsedItemsIds
-        } = treeView.props;
+        } = treeView.props.treeViewState;
 
         this.setCurrentTreeViewStateState({
             collapsedItemsIds,

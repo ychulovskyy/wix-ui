@@ -58,16 +58,27 @@ export const DisabledTypeAheadStrategy = {
 
 export type ListViewDataSource<T> = Array<ListViewDataSourceItem<T>>;
 
-export interface CommonListViewProps {
-    selectionType?: ListViewSelectionType,
+export const ListViewDefaultState: ListViewState = {
+    selectedIds: null,
+    disabledIds: null,
+    selectionStartId: null,
+    currentNavigatableItemId: null,
+    typeAheadValue: ''
+};
+
+export interface ListViewState {
     selectedIds?: Array<ListViewItemId>,
     disabledIds?: Array<ListViewItemId>,
     currentNavigatableItemId?: ListViewItemId,
     selectionStartId?: ListViewItemId,
+    typeAheadValue?: string
+}
+
+export interface CommonListViewProps {
+    selectionType?: ListViewSelectionType,
     isFocusable?: boolean,
     tagName?: string,
     className?: string,
-    typeAheadValue?: string,
     forceRenderNavigatableItem?: (navigatableItemId: ListViewItemId) => void,
     isCyclic?: boolean,
     typeAheadStrategy?: TypeAheadStrategy,
@@ -98,22 +109,6 @@ export type ListViewStateUpdateFunction = (stateController: ListViewStateControl
 export interface ListViewRenderItemProps<T, S> extends ListViewCommonRenderItemProps<T> {
     updateState: (updateFunction: ListViewStateUpdateFunction) => void,
     contextArg?: S,
-}
-
-export const ListViewDefaultState: ListViewState = {
-    selectedIds: null,
-    disabledIds: null,
-    selectionStartId: null,
-    currentNavigatableItemId: null,
-    typeAheadValue: ''
-};
-
-export interface ListViewState {
-    selectedIds: Array<ListViewItemId>,
-    disabledIds: Array<ListViewItemId>,
-    currentNavigatableItemId: ListViewItemId,
-    selectionStartId: ListViewItemId,
-    typeAheadValue: string
 }
 
 export type ListViewRenderItem<T, S> = React.SFC<ListViewRenderItemProps<T, S>>;

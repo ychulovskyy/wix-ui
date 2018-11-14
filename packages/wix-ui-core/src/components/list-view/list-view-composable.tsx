@@ -37,6 +37,7 @@ export interface ListViewContextData {
 export {ListViewItemsView} from './list-view-items-view';
 
 export interface ListViewSharedProps extends CommonListViewProps {
+    listViewState: ListViewState,
     orientation?: NavigationOrientation,
     keyboardHandler?: (listView: ListViewComposable, event: React.KeyboardEvent<Element>) => boolean;
     onChange?: (event: ListViewState) => void,
@@ -94,16 +95,12 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
     render() {
 
         let {
-            selectedIds,
-            disabledIds,
-            currentNavigatableItemId,
+            listViewState,
             children,
             tagName,
             selectionType,
             onChange,
-            selectionStartId,
             isFocusable,
-            typeAheadValue,
             forceRenderNavigatableItem,
             dataSourcesArray,
             typeAheadStrategy,
@@ -112,7 +109,15 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
             ...restProps
         } = this.props;
 
-        const disabledIdsSet = this.disabledIdsSet = new Set<ListViewItemId>(this.props.disabledIds);
+
+        let {
+            selectedIds,
+            disabledIds,
+            currentNavigatableItemId,
+            typeAheadValue,
+        } = listViewState;
+
+        const disabledIdsSet = this.disabledIdsSet = new Set<ListViewItemId>(disabledIds);
         const selectedIdsSet = this.selectedIdsSet = new Set<ListViewItemId>(selectedIds);
 
         const listViewItems = this.listViewItemsArray = arrayFlatten(this.props.dataSourcesArray);
@@ -171,11 +176,23 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
     componentDidUpdate(prevProps: ListViewComposableProps) {
         const self = this;
 
+        const {
+            listViewState: prevListViewState,
+        } = prevProps;
+
+        const {
+            listViewState: currentListViewState,
+        } = this.props;
+
+        const {
+            typeAheadClearTimeout,
+        } = this.props.typeAheadStrategy;
+
         const forceRenderNavigatableItem = this.props.forceRenderNavigatableItem;
 
         if (forceRenderNavigatableItem) {
-            const prevCurrentNavigatableItemId = prevProps.currentNavigatableItemId;
-            const updatedCurrentNavigatableItemId = this.props.currentNavigatableItemId;
+            const prevCurrentNavigatableItemId = prevListViewState.currentNavigatableItemId;
+            const updatedCurrentNavigatableItemId = currentListViewState.currentNavigatableItemId;
 
             if (updatedCurrentNavigatableItemId && prevCurrentNavigatableItemId !== updatedCurrentNavigatableItemId) {
                 const activeElement = document.activeElement;
@@ -191,21 +208,14 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
             }
         }
 
-        const {
-            typeAheadClearTimeout,
-        } = this.props.typeAheadStrategy;
-
         if (typeAheadClearTimeout && this.isTypeAheadEnabled()) {
-            if (prevProps.typeAheadValue !== this.props.typeAheadValue) {
+            if (prevListViewState.typeAheadValue !== currentListViewState.typeAheadValue) {
                 window.clearTimeout(self.currentTypeAheadTimeOut);
                 self.currentTypeAheadTimeOut = window.setTimeout(() => {
                     window.clearTimeout(self.currentTypeAheadTimeOut);
                     self.props.onChange({
+                        ...self.props.listViewState,
                         typeAheadValue: '',
-                        selectionStartId: self.props.selectionStartId,
-                        selectedIds: self.props.selectedIds,
-                        disabledIds: self.props.disabledIds,
-                        currentNavigatableItemId: self.props.currentNavigatableItemId,
                     });
                 }, typeAheadClearTimeout);
             }
@@ -256,7 +266,7 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
         if (!isHandled) {
             const {
                 typeAheadValue,
-            } = this.props;
+            } = this.props.listViewState;
 
             const eventKey = event.key;
 
@@ -435,7 +445,7 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
     }
 
     public getCurrentItemId() {
-        return this.props.currentNavigatableItemId;
+        return this.props.listViewState.currentNavigatableItemId;
     }
 
     public handleKeyboardNavigation(direction: KeyboardNavigationDirection, event: React.KeyboardEvent<Element>) {
