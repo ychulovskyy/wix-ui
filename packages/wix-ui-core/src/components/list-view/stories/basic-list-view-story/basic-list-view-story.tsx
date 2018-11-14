@@ -43,9 +43,7 @@ interface BasicListViewStoryState
 export class BasicListViewStory extends React.Component<{}, BasicListViewStoryState>
 {
     state = {
-        listViewState:{
-            ...ListViewDefaultState
-        }
+        listViewState: ListViewDefaultState
     };
 
     private listView = React.createRef<ListView<DataItem, any>>();
@@ -53,7 +51,7 @@ export class BasicListViewStory extends React.Component<{}, BasicListViewStorySt
     render () {
 
         const {
-            ...listViewStateProps
+            listViewState
         } = this.state;
 
         const [group1, group2] = arraySplit(dataSource, [5, Infinity]);
@@ -86,7 +84,7 @@ export class BasicListViewStory extends React.Component<{}, BasicListViewStorySt
                 >
                     <ListView
                         ref={this.listView}
-                        listViewState={this.state.listViewState}
+                        listViewState={listViewState}
                         onChange={updatedState => {
                             this.setState({
                                 listViewState: updatedState,

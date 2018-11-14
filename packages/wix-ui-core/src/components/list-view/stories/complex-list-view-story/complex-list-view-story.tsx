@@ -61,11 +61,6 @@ const selectionTypes = [
     }
 ];
 
-const selectionTypesMap = selectionTypes.reduce(function(map, selectionTypeItem) {
-    map[selectionTypeItem.selectionType] = selectionTypeItem;
-    return map;
-}, {});
-
 const dataSource = ListViewDataSource.createDataSource(selectionTypes, {
     idFunction: item => item.selectionType,
     typeAheadTextFunction: item => item.title,
@@ -88,12 +83,8 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
         this.state = {
             allProductsCount: 6,
             recommendedProductsCount: 4,
-            listViewState: {
-                ...ListViewDefaultState
-            },
-            selectionTypeListViewState: {
-                ...ListViewDefaultState
-            },
+            listViewState: ListViewDefaultState,
+            selectionTypeListViewState: ListViewDefaultState,
             useTypeAhead: true,
             selectionType: ListViewSelectionType.Multiple,
         };
@@ -109,14 +100,6 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
             useTypeAhead,
             selectionType,
         } = this.state;
-
-
-        const {
-            selectionStartId,
-            selectedIds,
-            disabledIds,
-            currentNavigatableItemId,
-        } = listViewState;
 
         const {
             currentNavigatableItemId: currentSelectionTypeItemId,
@@ -138,7 +121,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                         display: 'flex',
                         flexDirection: 'row',
                         alignItems: 'center',
-                        marginBottom: "20px"
+                        marginBottom: '20px'
                     }}
                 >
                     <div
@@ -151,7 +134,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                         <input
                             type="checkbox"
                             checked={useTypeAhead}
-                            onChange={(event) => {
+                            onChange={event => {
                                 this.setState({
                                     useTypeAhead: (event.target as any).checked
                                 })
@@ -167,9 +150,14 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                         }}
                         children={dataSource}
                         onChange={updatedState => {
-                            const selectedId = updatedState.selectedIds.length > 0 ? updatedState.selectedIds[0] : ListViewSelectionType.None;
+
+                            const {
+                                selectedIds: selectionTypesArr
+                            } = updatedState;
+
+                            const selectedSelectionType = selectionTypesArr[0];
                             this.setState({
-                                selectionType: selectionTypesMap[selectedId].selectionType,
+                                selectionType: selectedSelectionType,
                                 listViewState: {
                                     ...listViewState,
                                     selectedIds: [],
@@ -216,9 +204,9 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                     orientation={NavigationOrientation.Vertical}
                     tagName="div"
                     selectionType={selectionType}
-                    onChange={listViewState => {
+                    onChange={updatedListViewState => {
                         this.setState({
-                            listViewState: listViewState,
+                            listViewState: updatedListViewState,
                         })
                     }}
                 >
@@ -443,7 +431,7 @@ const TextualItemView: React.SFC<TextualItemViewProps> =props => {
                     {text}
                 </div>
                 {
-                    itemButtonsInfoArr.filter((item) => {
+                    itemButtonsInfoArr.filter(item => {
                         if(selectionType === ListViewSelectionType.Multiple){
                             return true;
                         }
