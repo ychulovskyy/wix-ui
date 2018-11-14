@@ -23,8 +23,8 @@ export const TreeViewContext : Context<TreeViewContextData> = createContext(null
 
 interface TreeViewProps extends CommonListViewProps
 {
+    treeViewState: TreeViewState,
     dataSourcesArray: Array<ListViewDataSource<FlattenTreeNode<any>>>,
-    collapsedItemsIds: Array<ListViewItemId>,
     onChange?: (event: TreeViewState) => void,
 }
 
@@ -40,10 +40,16 @@ export class TreeViewComposable extends React.Component<TreeViewProps>
 
         const {
             dataSourcesArray,
-            collapsedItemsIds,
+            treeViewState,
             onChange,
             ...listViewProps
         } = this.props;
+
+
+        const {
+            collapsedItemsIds,
+            ...listViewState
+        } = treeViewState;
 
         const treeViewContextData = {
             treeView: this
@@ -127,6 +133,7 @@ export class TreeViewComposable extends React.Component<TreeViewProps>
                             ...updatedListViewState
                         })
                     }}
+                    listViewState={listViewState}
                     {...listViewProps}
                 >
                     {this.props.children}

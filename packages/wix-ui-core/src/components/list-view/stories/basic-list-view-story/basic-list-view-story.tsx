@@ -35,14 +35,17 @@ const dataSource = ListViewDataSource.createDataSource(dataItems, {
     isSelectable: () => true,
 });
 
-interface BasicListViewStoryState extends ListViewState
+interface BasicListViewStoryState
 {
+    listViewState: ListViewState
 }
 
 export class BasicListViewStory extends React.Component<{}, BasicListViewStoryState>
 {
     state = {
-        ...ListViewDefaultState
+        listViewState:{
+            ...ListViewDefaultState
+        }
     };
 
     private listView = React.createRef<ListView<DataItem, any>>();
@@ -83,9 +86,11 @@ export class BasicListViewStory extends React.Component<{}, BasicListViewStorySt
                 >
                     <ListView
                         ref={this.listView}
-                        {...listViewStateProps}
+                        listViewState={this.state.listViewState}
                         onChange={updatedState => {
-                            this.setState(updatedState)
+                            this.setState({
+                                listViewState: updatedState,
+                            })
                         }}
                         typeAheadStrategy={DefaultTypeAheadStrategy}
                         selectionType={ListViewSelectionType.Multiple}

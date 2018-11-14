@@ -6,7 +6,7 @@ import RCDevSelectionListPanelStyle from './complex-list-view-story.st.css';
 import SelectionTypeItemStyle from './complex-list-view-story-horizontal-item.st.css'
 import * as ListViewDataSource from '../../list-view-data-source';
 import {
-    DefaultTypeAheadStrategy, DisabledTypeAheadStrategy,
+    DefaultTypeAheadStrategy, DisabledTypeAheadStrategy, ListViewDefaultState,
     ListViewItemId,
     ListViewRenderItemProps,
     ListViewSelectionType,
@@ -31,14 +31,14 @@ export class ComplexListViewStory extends React.Component
     }
 }
 
-interface RCDevSelectionListViewBasicState extends ListViewState
+interface RCDevSelectionListViewBasicState
 {
+    listViewState: ListViewState,
+    selectionTypeListViewState: ListViewState,
+    recommendedProductsCount: number,
+    selectionType: ListViewSelectionType,
     useTypeAhead: boolean,
     allProductsCount: number,
-    recommendedProductsCount: number,
-    typeAheadValue: string,
-    selectionType: ListViewSelectionType,
-    currentSelectionTypeItemId: ListViewItemId,
 }
 
 interface SelectionTypeInfo {
@@ -88,31 +88,39 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
         this.state = {
             allProductsCount: 6,
             recommendedProductsCount: 4,
-            selectedIds: null,
-            disabledIds: null,
-            currentNavigatableItemId: null,
-            selectionStartId: null,
-            typeAheadValue: '',
+            listViewState: {
+                ...ListViewDefaultState
+            },
+            selectionTypeListViewState: {
+                ...ListViewDefaultState
+            },
             useTypeAhead: true,
             selectionType: ListViewSelectionType.Multiple,
-            currentSelectionTypeItemId: null,
         };
     }
 
     render () {
 
         const {
+            listViewState,
+            selectionTypeListViewState,
+            allProductsCount,
+            recommendedProductsCount,
+            useTypeAhead,
+            selectionType,
+        } = this.state;
+
+
+        const {
             selectionStartId,
             selectedIds,
             disabledIds,
             currentNavigatableItemId,
-            allProductsCount,
-            recommendedProductsCount,
-            typeAheadValue,
-            useTypeAhead,
-            selectionType,
-            currentSelectionTypeItemId,
-        } = this.state;
+        } = listViewState;
+
+        const {
+            currentNavigatableItemId: currentSelectionTypeItemId,
+        } = selectionTypeListViewState;
 
         const otherProducts = ListViewDataSource.createSelectablePrimitiveValuesDataSource(
             arrayGenerate(allProductsCount, i => 'Product ' + (i + 1)));
@@ -153,17 +161,25 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                     </div>
                     <ListView
                         ref={this.selectionTypeListView}
+                        listViewState={{
+                            ...selectionTypeListViewState,
+                            selectedIds:[selectionType]
+                        }}
                         children={dataSource}
-                        selectedIds={[selectionType]}
                         onChange={updatedState => {
                             const selectedId = updatedState.selectedIds.length > 0 ? updatedState.selectedIds[0] : ListViewSelectionType.None;
                             this.setState({
                                 selectionType: selectionTypesMap[selectedId].selectionType,
-                                selectedIds: [],
-                                currentSelectionTypeItemId: updatedState.currentNavigatableItemId,
+                                listViewState: {
+                                    ...listViewState,
+                                    selectedIds: [],
+                                },
+                                selectionTypeListViewState: {
+                                    ...selectionTypeListViewState,
+                                    currentNavigatableItemId: updatedState.currentNavigatableItemId
+                                },
                             });
                         }}
-                        currentNavigatableItemId={currentSelectionTypeItemId}
                         orientation={NavigationOrientation.Horizontal}
                         selectionType={ListViewSelectionType.Single}
                         renderItem={SelectionTypeViewItem}
@@ -187,6 +203,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                 </ListViewNavigationInputBehaviour>
                 <ListViewComposable
                     ref={this.selectionList}
+                    listViewState={listViewState}
                     className={RCDevSelectionListPanelStyle.selectionList}
                     isCyclic
                     dataSourcesArray={[
@@ -197,15 +214,12 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                     ]}
                     typeAheadStrategy={useTypeAhead ? DefaultTypeAheadStrategy : DisabledTypeAheadStrategy}
                     orientation={NavigationOrientation.Vertical}
-                    disabledIds={disabledIds}
-                    typeAheadValue={this.state.typeAheadValue}
                     tagName="div"
-                    selectedIds={selectedIds}
-                    selectionStartId={selectionStartId}
                     selectionType={selectionType}
-                    currentNavigatableItemId={currentNavigatableItemId}
-                    onChange={changeEvent => {
-                        this.setState(changeEvent)
+                    onChange={listViewState => {
+                        this.setState({
+                            listViewState: listViewState,
+                        })
                     }}
                 >
                     <h2>Recommended Products</h2>
