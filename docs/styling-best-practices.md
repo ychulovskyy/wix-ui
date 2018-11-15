@@ -30,4 +30,4 @@ The css priority logic would take the default color rule (blue) over the red.
 
 In other cases, rule ordering would decide on the priority.
 
-This makes it hard to add feaults, or refactor the stylesheet.
+This makes it hard to add defaults, or refactor the stylesheet.
