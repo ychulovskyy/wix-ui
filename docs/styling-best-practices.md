@@ -1,32 +1,64 @@
 # Styling Best-Practices
 
 ## Avoid lifting classes
-Some people try to optimize this kind of rule:
+Some people would write a component's stylsheet like this:
 ```css
-.myComp .elem1.colorRed  {
+.button {
+  background-color: grey;
+  color: white;
+}
+
+.button .prefix {
+  background-color: black;
+}
+
+.prefixRed {
   color: red;
-} 
+}
 ```
-With this one:
+
+While they could have written:
+
 ```css
-.colorRed  {
+.button {
+  background-color: grey;
+  color: white;
+}
+
+.button .prefix {
+  background-color: black;
+}
+
+.button .prefix.prefixRed {
   color: red;
-} 
+}
 ```
-Assuming that `.colorRed` can only appear along-side `.elem1`,
+
+It comes from a wish to optimise run-time, by having shorter rules.
+
+Assuming that `.prefixRed` can only appear along-side `.prefix`,
 and that each component is namespaced this would work exactly the same, and won't introduce any risk.
 
-The thing is, that it is hard to maintain.
-Say that you want to add a default color to `.elem1` like so:
+The thing is, that it is hard for future maintenance.
+
+Say that you want to add a default yellow color to `.prefix` like so:
 ```css
-.myComp .elem1  {
-  color: blue;
-} 
-.colorRed  {
+.button {
+  background-color: grey;
+  color: white;
+}
+
+.button .prefix {
+  background-color: black;
+  color: yellow;
+}
+
+.prefixRed {
   color: red;
-} 
+}
 ```
-The css priority logic would take the default color rule (blue) over the red.
+
+The css priority (specifity) logic would take the default yellow color rule over the red.
 
 In other cases, rule ordering would decide on the priority.
 
