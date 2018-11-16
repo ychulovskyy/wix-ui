@@ -14,7 +14,6 @@ export class Draggable extends React.Component {
     return (
       <div className={s.root}>
         <DropTarget
-          items={this.state.items}
           onMove={this.onMove}
         >
           {this.state.items.map((item, index) => (

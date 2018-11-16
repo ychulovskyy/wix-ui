@@ -48,6 +48,7 @@ HOCs.add('EllipsedTooltip', EllipsedText);
 HOCs.add('Focusable', Focusable);
 
 import './DragAndDrop/Draggable.story';
+import './DragAndDrop/Sortable.story';
 
 // BackOffice Theme
 Backoffice.add('Buttons', ButtonsStory);
