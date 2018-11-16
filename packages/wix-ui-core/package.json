@@ -54,16 +54,17 @@
     "lodash": "^4.17.5",
     "playable": "1.13.0",
     "popper.js": "1.14.3",
+    "react-dnd": "^6.0.0",
     "react-onclickoutside": "^6.7.0",
     "react-popper": "0.10.1",
     "react-portal": "^4.1.5",
     "react-transition-group": "^2.2.1",
     "shallowequal": "1.1.0",
-    "type-zoo": "3.1.1",
     "tslib": "^1.9.3",
+    "type-zoo": "3.1.1",
+    "unidriver": "^1.0.0-alpha",
     "wix-ui-jss": "^1.0.0",
-    "wix-ui-test-utils": "^1.0.0",
-    "unidriver": "^1.0.0-alpha"
+    "wix-ui-test-utils": "^1.0.0"
   },
   "devDependencies": {
     "@storybook/addon-options": "4.0.0-alpha.14",
