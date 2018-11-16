@@ -66,6 +66,7 @@ export class TreeViewItemsView<T,S> extends React.Component<ComposableTreeViewIt
 
                                 const {
                                     dataItem,
+                                    updateState,
                                     ...restRenderProps
                                 } = props;
 

@@ -155,7 +155,7 @@ class RCDevSelectionListViewBasic extends React.Component<any, RCDevSelectionLis
                                 selectedIds: selectionTypesArr
                             } = updatedState;
 
-                            const selectedSelectionType = selectionTypesArr[0];
+                            const selectedSelectionType = selectionTypesArr[0] as ListViewSelectionType;
                             this.setState({
                                 selectionType: selectedSelectionType,
                                 listViewState: {
