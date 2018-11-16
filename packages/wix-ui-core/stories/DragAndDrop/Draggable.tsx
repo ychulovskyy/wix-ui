@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {DropTarget, DragSource} from '../../src/components/DragAndDrop';
+import {DropTarget, DragSource, DragDropContextProvider} from '../../src/components/DragAndDrop';
 import * as s from './Draggable.scss';
 
 export class Draggable extends React.Component {
@@ -13,20 +13,22 @@ export class Draggable extends React.Component {
   render() {
     return (
       <div className={s.root}>
-        <DropTarget
-          onMove={this.onMove}
-        >
-          {this.state.items.map((item, index) => (
-            <DragSource
-              key={index}
-              id={index}
-              top={item.styles.top + item.styles.deltaTop}
-              left={item.styles.left + item.styles.deltaLeft}
-            >
-              <div className={s.item}>{item.text}</div>
-            </DragSource>
-          ))}
-        </DropTarget>
+        <DragDropContextProvider>
+          <DropTarget
+            onMove={this.onMove}
+          >
+            {this.state.items.map((item, index) => (
+              <DragSource
+                key={index}
+                id={index}
+                top={item.styles.top + item.styles.deltaTop}
+                left={item.styles.left + item.styles.deltaLeft}
+              >
+                <div className={s.item}>{item.text}</div>
+              </DragSource>
+            ))}
+          </DropTarget>
+        </DragDropContextProvider>
       </div>
     );
   }

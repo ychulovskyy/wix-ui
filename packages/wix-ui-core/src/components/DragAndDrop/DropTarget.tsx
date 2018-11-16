@@ -3,9 +3,7 @@ import {
   DropTarget as ReactDropTarget,
   ConnectDropTarget,
   DropTargetMonitor,
-  DragDropContext,
 } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 import {ItemTypes} from './types';
 
 const target = {
@@ -20,7 +18,7 @@ const target = {
     const {id} = monitor.getItem();
     const delta = monitor.getDifferenceFromInitialOffset();
 
-    component.moveBox(id, delta.x, delta.y);
+    props.onMove(id, delta.x, delta.y);
   },
 };
 
@@ -33,7 +31,7 @@ interface DropTargetClassCollectedProps {
 }
 
 class DropTargetClass extends React.Component<DropTargetClassProps & DropTargetClassCollectedProps> {
-  moveBox = (id, deltaLeft, deltaTop) => {
+  onMove = (id, deltaLeft, deltaTop) => {
     this.props.onMove(id, deltaLeft, deltaTop);
   };
 
@@ -45,12 +43,10 @@ class DropTargetClass extends React.Component<DropTargetClassProps & DropTargetC
   }
 }
 
-export const DropTarget = DragDropContext(HTML5Backend)(
-  ReactDropTarget<DropTargetClassProps, DropTargetClassCollectedProps>(
-    ItemTypes.BOX,
-    target,
-    (connect: any) => ({
-      connectDropTarget: connect.dropTarget(),
-    }),
-  )(DropTargetClass)
-);
+export const DropTarget = ReactDropTarget<DropTargetClassProps, DropTargetClassCollectedProps>(
+  ItemTypes.BOX,
+  target,
+  (connect: any) => ({
+    connectDropTarget: connect.dropTarget(),
+  }),
+)(DropTargetClass);

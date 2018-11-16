@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ListDropTarget, ListDragSource} from '../../src/components/DragAndDrop';
+import {ListDropTarget, ListDragSource, DragDropContextProvider} from '../../src/components/DragAndDrop';
 import * as s from './Sortable.scss';
 
 export class Sortable extends React.Component {
@@ -17,17 +17,22 @@ export class Sortable extends React.Component {
   render() {
     return (
       <div className={s.root}>
-        <ListDropTarget>
+        <DragDropContextProvider>
           {this.state.items.map((item, index) => (
-            <ListDragSource
+            <ListDropTarget
               key={index}
               id={index}
               onMove={this.onMove}
             >
-              <div className={s.item}>{item}</div>
-            </ListDragSource>
+              <ListDragSource
+                key={index}
+                id={index}
+              >
+                <div className={s.item}>{item}</div>
+              </ListDragSource>
+            </ListDropTarget>
           ))}
-        </ListDropTarget>
+        </DragDropContextProvider>
       </div>
     );
   }
