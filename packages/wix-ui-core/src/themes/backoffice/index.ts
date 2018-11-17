@@ -7,7 +7,7 @@ import CloseButton from './close-button/close-button.st.css';
 import BackofficeTheme from './theme.st.css';
 
 /* New generation prop-like API */
-export {button} from './button/button-classes';
+export {button, ButtonStyleProps, ButtonSize, ButtonSkin} from './button/button-classes';
 
 /* Old generation class name array */
 const getClassNames = (values, stylesheet, rootcls) => {

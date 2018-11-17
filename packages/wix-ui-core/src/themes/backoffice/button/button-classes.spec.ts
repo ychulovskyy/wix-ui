@@ -1,4 +1,4 @@
-import {button, SizeType, SkinType} from './button-classes';
+import {button, ButtonSize, ButtonSkin} from './button-classes';
 
 describe('button-styles', () => {
 
@@ -31,11 +31,11 @@ describe('button-styles', () => {
   });
   
   it('size', () => {
-    testProp<SizeType>('size', ['tiny', 'small', 'medium', 'large'], 'medium');
+    testProp<ButtonSize>('size', ['tiny', 'small', 'medium', 'large'], 'medium');
   });
 
   it('skin', () => {
-    testProp<SkinType>('skin', ['standard', 'destructive', 'premium', 'transparent', 'light', 'dark'], 'standard');
+    testProp<ButtonSkin>('skin', ['standard', 'destructive', 'premium', 'transparent', 'light', 'dark'], 'standard');
   });
   
   it('secondary', ()=> {
