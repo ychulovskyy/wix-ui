@@ -14,7 +14,11 @@ describe('button-styles', () => {
     values.forEach((value)=>{
       const classes = button({[propName]: value});
       if (value === defaultValue) {
-        expect(parseClasses(classes)).not.toContain(value);;
+        //expect classes NOT to contain any value
+        const pClasses = parseClasses(classes);
+        for (let v of values) {
+          expect(pClasses).not.toContain(v);
+        }
       } else {
         expect(parseClasses(classes)).toContain(value);
       }
@@ -31,19 +35,9 @@ describe('button-styles', () => {
   });
 
   it('skin', () => {
-    testProp<SkinType>('skin', ['destructive', 'premium', 'transparent']);
+    testProp<SkinType>('skin', ['standard', 'destructive', 'premium', 'transparent', 'light', 'dark'], 'standard');
   });
   
-  it('light', ()=> {
-    const classes = button({light: true});
-    expect(parseClasses(classes)).toContain('light');
-  });
-
-  it('dark', ()=> {
-    const classes = button({dark: true});
-    expect(parseClasses(classes)).toContain('dark');
-  });
-
   it('secondary', ()=> {
     const classes = button({secondary: true});
     expect(parseClasses(classes)).toContain('secondary');

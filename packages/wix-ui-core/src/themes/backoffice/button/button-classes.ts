@@ -2,13 +2,14 @@ import style from './button.st.css';
 import classNames from 'classnames';
 
 export type SizeType = 'tiny' | 'small' | 'medium' | 'large';
-export type SkinType = 'destructive' | 'premium' | 'transparent';
+export type SkinType = 'standard' | 'destructive' | 'premium' | 'transparent' | 'light' | 'dark';
 
 interface ButtonStyleProps {
+  /* Button size - default 'medium'*/
   size?: SizeType;
+  /* Button color set - default 'standard'*/
   skin?: SkinType;
-  light?: boolean;
-  dark?: boolean;
+  /* Secondary priority */
   secondary?: boolean;
 }
 
@@ -17,8 +18,6 @@ export function button(props : ButtonStyleProps = {}) : string {
   return classNames(
     style.button,
     {
-      [style.light]: props.light,
-      [style.dark]: props.dark,
       [style.secondary]: props.secondary,
     },
     style[props.size],

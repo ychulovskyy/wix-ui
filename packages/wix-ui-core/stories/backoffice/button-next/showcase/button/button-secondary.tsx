@@ -13,8 +13,8 @@ import { button } from "wix-ui-core/themes/backoffice";
 
 const secondary = button({secondary: true});
 const premiumSecondary = button({skin: 'premium', secondary: true});
-const darkSecondary = button({dark: true, secondary: true});
-const lightSecondary = button({light: true, secondary: true});
+const darkSecondary = button({skin: 'dark', secondary: true});
+const lightSecondary = button({skin: 'light', secondary: true});
 const transparentSecondary = button({skin: 'transparent', secondary: true});
 const destructiveSecondary = button({skin: 'destructive', secondary: true});
 
@@ -39,8 +39,8 @@ const description = (
 
 const secondary = button({secondary: true});
 const premiumSecondary = button({skin: 'premium', secondary: true});
-const darkSecondary = button({dark: true, secondary: true});
-const lightSecondary = button({light: true, secondary: true});
+const darkSecondary = button({skin: 'dark', secondary: true});
+const lightSecondary = button({skin: 'light', secondary: true});
 const transparentSecondary = button({skin: 'transparent', secondary: true});
 const destructiveSecondary = button({skin: 'destructive', secondary: true});
 

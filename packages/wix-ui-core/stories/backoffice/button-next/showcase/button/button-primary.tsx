@@ -13,11 +13,11 @@ import { buttonNext } from "wix-ui-core/themes/backoffice";
 
 export default () => (
   <React.Fragment>
-    <ButtonNext className={button()}>default</ButtonNext>
+    <ButtonNext className={button()}>Standard (default)</ButtonNext>
     <ButtonNext className={button({skin: "destructive"})}>destructive</ButtonNext>
     <ButtonNext className={button({skin: "premium"})}>premium</ButtonNext>
-    <ButtonNext className={button({dark: true})}>dark</ButtonNext>
-    <ButtonNext className={button({light: true})}>light</ButtonNext>
+    <ButtonNext className={button({skin: "light"})}>dark</ButtonNext>
+    <ButtonNext className={button({skin: "dark"})}>light</ButtonNext>
     <ButtonNext className={button({skin: "transparent"})}>transparent</ButtonNext>
   </React.Fragment>
 );`;
@@ -51,7 +51,7 @@ export const ButtonPrimary = ({ style }: ButtonPrimaryProps) => (
         padding: '2px'
       }}
     >
-      <ButtonNext className={button({dark: true})}>dark</ButtonNext>
+      <ButtonNext className={button({skin: 'dark'})}>dark</ButtonNext>
     </div>
     <div
       style={{
@@ -59,7 +59,7 @@ export const ButtonPrimary = ({ style }: ButtonPrimaryProps) => (
         padding: '2px'
       }}
     >
-      <ButtonNext className={button({light: true})}>light</ButtonNext>
+      <ButtonNext className={button({skin: 'light'})}>light</ButtonNext>
     </div>
     <div
       style={{
