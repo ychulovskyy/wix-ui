@@ -6,6 +6,10 @@ import TextButton from './text-button/text-button.st.css';
 import CloseButton from './close-button/close-button.st.css';
 import BackofficeTheme from './theme.st.css';
 
+/* New generation prop-like API */
+export {button} from './button/button-classes';
+
+/* Old generation class name array */
 const getClassNames = (values, stylesheet, rootcls) => {
   const clsArray = values.map(cls => stylesheet[cls] || null);
   return classNames(stylesheet[rootcls], clsArray);
@@ -13,9 +17,6 @@ const getClassNames = (values, stylesheet, rootcls) => {
 
 export const avatar = (...values) =>
   getClassNames(values, Avatar, 'avatar');
-
-export {button} from './button/button-styles';
-
 export const iconButton = (...values) =>
   getClassNames(values, IconButton, 'iconButton');
 export const textButton = (...values) =>

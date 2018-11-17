@@ -1,4 +1,4 @@
-import {button, SizeType, SkinType} from './button-styles';
+import {button, SizeType, SkinType} from './button-classes';
 
 describe('button-styles', () => {
 
