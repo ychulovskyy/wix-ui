@@ -3,20 +3,20 @@ import * as React from 'react';
 import CodeShowcase from 'wix-storybook-utils/CodeShowcase';
 import { ButtonNext } from '../../../../../src/components/button-next';
 import {
-  buttonNext,
+  button,
   backofficeTheme
 } from '../../../../../src/themes/backoffice';
 
 export const example = `import * as React from "react";
 import { ButtonNext } from "wix-ui-core/button-next";
-import { buttonNext } from "wix-ui-core/themes/backoffice";
+import { button } from "wix-ui-core/themes/backoffice";
 
-const secondary = buttonNext('secondary');
-const premiumSecondary = buttonNext('premium', 'secondary');
-const darkSecondary = buttonNext('dark', 'secondary');
-const lightSecondary = buttonNext('light', 'secondary');
-const destructiveSecondary = buttonNext('destructive', 'secondary');
-const transparentSecondary = buttonNext('transparent', 'secondary')
+const secondary = button({secondary: true});
+const premiumSecondary = button({skin: 'premium', secondary: true});
+const darkSecondary = button({dark: true, secondary: true});
+const lightSecondary = button({light: true, secondary: true});
+const transparentSecondary = button({skin: 'transparent', secondary: true});
+const destructiveSecondary = button({skin: 'destructive', secondary: true});
 
 export default () => (
   <React.Fragment>
@@ -37,12 +37,12 @@ const description = (
   </div>
 );
 
-const secondary = buttonNext(`secondary`);
-const premiumSecondary = buttonNext(`premium`, 'secondary');
-const darkSecondary = buttonNext(`dark`, 'secondary');
-const lightSecondary = buttonNext(`light`, 'secondary');
-const transparentSecondary = buttonNext(`transparent`, 'secondary');
-const destructiveSecondary = buttonNext(`destructive`, 'secondary');
+const secondary = button({secondary: true});
+const premiumSecondary = button({skin: 'premium', secondary: true});
+const darkSecondary = button({dark: true, secondary: true});
+const lightSecondary = button({light: true, secondary: true});
+const transparentSecondary = button({skin: 'transparent', secondary: true});
+const destructiveSecondary = button({skin: 'destructive', secondary: true});
 
 interface ButtonSecondaryProps {
   style?: object;

@@ -14,7 +14,7 @@ const getClassNames = (values, stylesheet, rootcls) => {
 export const avatar = (...values) =>
   getClassNames(values, Avatar, 'avatar');
 
-export {button as Button} from './button/button-styles';
+export {button} from './button/button-styles';
 
 export const iconButton = (...values) =>
   getClassNames(values, IconButton, 'iconButton');

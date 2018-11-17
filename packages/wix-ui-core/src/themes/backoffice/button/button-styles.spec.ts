@@ -1,28 +1,52 @@
-import button, {SizeType} from './button-styles';
+import {button, SizeType, SkinType} from './button-styles';
 
 describe('button-styles', () => {
 
   /*
-  * Gets the 2nd class name and strips aways the namespace
-  * That is, assumming the 1st class name is the 'button'
-  */
-  const getClassName = (classes) => classes.split(' ')[1].split('--')[1];
+   * Parses classes string, and constructs a class name array.
+   * Class names are stripped from their namespace prefix.
+   */
+  function parseClasses(classes: string) {
+    return classes.split(' ').map(c => c.split('--')[1]);
+  } 
+
+  function testProp<T extends string>(propName: string, values: T[], defaultValue?: T) {
+    values.forEach((value)=>{
+      const classes = button({[propName]: value});
+      if (value === defaultValue) {
+        expect(parseClasses(classes)).not.toContain(value);;
+      } else {
+        expect(parseClasses(classes)).toContain(value);
+      }
+    });
+  }
 
   it('button', () => {
     const classes = button();
-    expect(classes.split('--')[1]).toBe('button');
+    expect(parseClasses(classes)).toContain('button');
   });
   
   it('size', () => {
-    ['tiny', 'small', 'large'].forEach((size)=>{
-      const classes = button({size: size as SizeType});
-      expect(getClassName(classes)).toBe(size);
-    });
+    testProp<SizeType>('size', ['tiny', 'small', 'medium', 'large'], 'medium');
+  });
+
+  it('skin', () => {
+    testProp<SkinType>('skin', ['destructive', 'premium', 'transparent']);
   });
   
   it('light', ()=> {
     const classes = button({light: true});
-    expect(getClassName(classes)).toBe('light');
+    expect(parseClasses(classes)).toContain('light');
+  });
+
+  it('dark', ()=> {
+    const classes = button({dark: true});
+    expect(parseClasses(classes)).toContain('dark');
+  });
+
+  it('secondary', ()=> {
+    const classes = button({secondary: true});
+    expect(parseClasses(classes)).toContain('secondary');
   });
 })
 

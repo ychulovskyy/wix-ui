@@ -3,7 +3,7 @@ import CodeShowcase from 'wix-storybook-utils/CodeShowcase';
 
 import { ButtonNext } from '../../../../../src/components/button-next';
 import {
-  buttonNext,
+  button,
   backofficeTheme
 } from '../../../../../src/themes/backoffice';
 
@@ -13,12 +13,12 @@ import { buttonNext } from "wix-ui-core/themes/backoffice";
 
 export default () => (
   <React.Fragment>
-    <ButtonNext className={buttonNext()}>default</ButtonNext>
-    <ButtonNext className={buttonNext("destructive")}>destructive</ButtonNext>
-    <ButtonNext className={buttonNext("premium")}>premium</ButtonNext>
-    <ButtonNext className={buttonNext("dark")}>dark</ButtonNext>
-    <ButtonNext className={buttonNext("light")}>light</ButtonNext>
-    <ButtonNext className={buttonNext("transparent")}>transparent</ButtonNext>
+    <ButtonNext className={button()}>default</ButtonNext>
+    <ButtonNext className={button({skin: "destructive"})}>destructive</ButtonNext>
+    <ButtonNext className={button({skin: "premium"})}>premium</ButtonNext>
+    <ButtonNext className={button({dark: true})}>dark</ButtonNext>
+    <ButtonNext className={button({light: true})}>light</ButtonNext>
+    <ButtonNext className={button({skin: "transparent"})}>transparent</ButtonNext>
   </React.Fragment>
 );`;
 
@@ -42,16 +42,16 @@ export const ButtonPrimary = ({ style }: ButtonPrimaryProps) => (
     description={description}
     theme={backofficeTheme}
   >
-    <ButtonNext className={buttonNext()}>standard</ButtonNext>
-    <ButtonNext className={buttonNext(`destructive`)}>destructive</ButtonNext>
-    <ButtonNext className={buttonNext(`premium`)}>premium</ButtonNext>
+    <ButtonNext className={button()}>standard</ButtonNext>
+    <ButtonNext className={button({skin: `destructive`})}>destructive</ButtonNext>
+    <ButtonNext className={button({skin: `premium`})}>premium</ButtonNext>
     <div
       style={{
         background: '#fef0ba',
         padding: '2px'
       }}
     >
-      <ButtonNext className={buttonNext(`dark`)}>dark</ButtonNext>
+      <ButtonNext className={button({dark: true})}>dark</ButtonNext>
     </div>
     <div
       style={{
@@ -59,7 +59,7 @@ export const ButtonPrimary = ({ style }: ButtonPrimaryProps) => (
         padding: '2px'
       }}
     >
-      <ButtonNext className={buttonNext(`light`)}>light</ButtonNext>
+      <ButtonNext className={button({light: true})}>light</ButtonNext>
     </div>
     <div
       style={{
@@ -67,7 +67,7 @@ export const ButtonPrimary = ({ style }: ButtonPrimaryProps) => (
         padding: '2px'
       }}
     >
-      <ButtonNext className={buttonNext(`transparent`)}>transparent</ButtonNext>
+      <ButtonNext className={button({skin: `transparent`})}>transparent</ButtonNext>
     </div>
   </CodeShowcase>
 );
