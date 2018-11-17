@@ -5,7 +5,7 @@ import {ListViewItemsViewProps} from './list-view-items-view';
 import {IListView} from './i-list-view';
 import {arrayFlatten} from './list-view-utils';
 
-interface ListViewProps<T,S = any> extends ListViewSharedProps, ListViewItemsViewProps<T,S>
+export interface ListViewProps<T,S = any> extends ListViewSharedProps, ListViewItemsViewProps<T,S>
 {
     children: Array<ListViewDataSourceItem<T> | ListViewDataSource<T>>
 }
