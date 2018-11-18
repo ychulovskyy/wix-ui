@@ -19,7 +19,7 @@ export class ListViewStateController {
         } = listView.props.listViewState;
 
         this.setCurrentState({
-            selectionStartId: selectionStartId !== null ? selectionStartId : currentNavigatableItemId,
+            selectionStartId: selectionStartId !== null || listView.isNotSupportingSelection() ? selectionStartId : currentNavigatableItemId,
             currentNavigatableItemId,
             selectedIds,
             disabledIds,
