@@ -8,6 +8,8 @@ import Mock = jest.Mock;
 
 describe('ListView', () => {
 
+    const dataSourceItemsCount = 12;
+
     let listViewDriver;
     let separator;
     let listView;
@@ -15,7 +17,6 @@ describe('ListView', () => {
     let onChange;
 
     beforeAll(() => {
-        const dataSourceItemsCount = 12;
 
         // We'll create a data source that will contain items for ListView.
         // Items with odd ids will be selectable and the others will be only "navigatable"
