@@ -8,17 +8,26 @@ import Mock = jest.Mock;
 
 describe('ListView', () => {
 
-    const dataSource = times(10, index => {
+    const dataSourceItemsCount = 12;
+
+    // We'll create a data source that will contain items for ListView.
+    // Items with odd ids will be selectable and the others will be only "navigatable"
+    const dataSource = times(dataSourceItemsCount, index => {
         const id = index + 1;
 
-        return {id: id, isSelectable: id % 2 !== 0 , dataItem: {text: `Item ${id}`}}
+        return {
+            id: id,
+            isSelectable: id % 2 !== 0 ,
+            dataItem: {
+                text: `Item ${id}`
+            }
+        }
     });
 
-    const [group1, group2] = partition(dataSource, item => item.id <= 5);
+    // We'll split the data source to 2 equal groups
+    const [group1, group2] = partition(dataSource, item => item.id <= dataSourceItemsCount / 2);
 
     describe('ListView with single selection', () => {
-
-
 
         const onChange = jest.fn(listViewState => {
             listViewDriver.updateState(listViewState);
@@ -95,6 +104,30 @@ describe('ListView', () => {
             separator.simulate('click');
 
             expectNoStateChange(onChange)
+        });
+
+        it (`Should move the current item but leaves the selection intact when clicking a non selectable item.`, () => {
+
+            listViewDriver.itemClick(2);
+
+            expectStateChange(onChange, {
+                selectedIds: [3],
+                selectionStartId: 3,
+                currentNavigatableItemId: 2,
+            });
+
+            expectRerendering(renderItem, [
+                {
+                    dataItemId: 2,
+                    isSelected: false,
+                    isCurrent: true
+                },
+                {
+                    dataItemId: 3,
+                    isSelected: true,
+                    isCurrent: false
+                }
+            ])
         });
     });
 
