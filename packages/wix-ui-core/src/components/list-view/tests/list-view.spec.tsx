@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {times, partition} from 'lodash';
-import {createDriver, SimulateCtrlKey} from './list-view.driver';
+import {createDriver, SimulateCtrlKey, SimulateCtrlShiftKey, SimulateShiftKey} from './list-view.driver';
 import {mount} from "enzyme";
 import {ListView} from "../list-view";
 import {ListViewDefaultState, ListViewRenderItemProps, ListViewSelectionType, ListViewState} from "../list-view-types";
@@ -143,6 +143,45 @@ describe('ListView', () => {
                     isCurrent: false
                 }
             ])
+        });
+
+        it(`Should ignore ctrl/shift key combinations when item should be selected as a result of a mouse clicke`, () => {
+
+            const keysCombinationsArr = [
+                SimulateCtrlKey,
+                SimulateCtrlShiftKey,
+                SimulateShiftKey
+            ];
+
+            for (let keysCombination of keysCombinationsArr)
+            {
+                listViewDriver.itemClick(1);
+
+                onChange.mockClear();
+                renderItem.mockClear();
+
+                listViewDriver.itemClick(3, keysCombination);
+
+                expectStateChange(onChange, {
+                    selectedIds: [3],
+                    selectionStartId: 3,
+                    currentNavigatableItemId: 3,
+                });
+
+                expectRerendering(renderItem, [
+                    {
+                        dataItemId: 1,
+                        isSelected: false,
+                        isCurrent: false
+                    },
+                    {
+                        dataItemId: 3,
+                        isSelected: true,
+                        isCurrent: true
+                    }
+                ])
+            }
+
         });
     });
 
