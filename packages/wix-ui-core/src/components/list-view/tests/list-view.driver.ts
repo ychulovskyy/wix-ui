@@ -42,6 +42,10 @@ class ListViewDriver<T, S>
         });
     }
 
+    getSelectedIds () {
+        return this.listView.props().listViewState.selectedIds;
+    }
+
     selectItem (itemId: ListViewItemId) {
         this.updateState({
             selectedIds: [itemId]
