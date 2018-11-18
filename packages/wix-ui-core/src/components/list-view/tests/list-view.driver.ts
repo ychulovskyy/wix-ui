@@ -26,47 +26,37 @@ class ListViewDriver<T, S>
         })
     }
 
-    getWrapper () {
-        return this.listView;
-    }
-
     findItem (itemId: ListViewItemId) {
         return this.listView.find(ListViewItemViewWrapper).filter({id: itemId})
     }
 
-    itemClick (itemId: ListViewItemId) {
-        this.findItem(itemId).simulate('click')
+    itemClick (itemId: ListViewItemId, metaDataKeyBoard? : SimulateKeyboardMetaData) {
+        this.findItem(itemId).simulate('click', metaDataKeyBoard)
     }
 
-    itemCtrlClick (itemId: ListViewItemId) {
-        this.findItem(itemId).simulate('click', {
-            ctrlKey: true
-        })
-    }
+    listKeyDown (keyCode: number, metaDataKeyBoard? : SimulateKeyboardMetaData) {
 
-    itemShiftClick (itemId: ListViewItemId) {
-        this.findItem(itemId).simulate('click', {
-            shiftKey: true
-        })
+        this.listView.simulate('keyDown', {
+            ...metaDataKeyBoard,
+            keyCode: keyCode
+        });
     }
-
-    itemCtrlShiftClick (itemId: ListViewItemId) {
-        this.findItem(itemId).simulate('click', {
-            shiftKey: true
-        })
-    }
-
-    // findItemById (itemId: ListViewItemId) {
-    //     const listView = this.listView;
-    //
-    //     listView.find(ListViewItemViewWrapper).
-    // }
 
     selectItem (itemId: ListViewItemId) {
         this.updateState({
             selectedIds: [itemId]
         })
     }
+}
+
+export const SimulateCtrlKey = {ctrlKey: true};
+export const SimulateCtrlShiftKey = {ctrlKey: true, shiftKey: true};
+export const SimulateShiftKey = {shiftKey: true};
+
+export interface SimulateKeyboardMetaData  {
+    ctrlKey?: boolean,
+    shiftKey?: boolean,
+    altKey?: boolean
 }
 
 export function createDriver<T, S> (listViewWrapper: ReactWrapper<ListViewProps<T, S>>) {

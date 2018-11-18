@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {times, partition} from 'lodash';
-import {createDriver} from './list-view.driver';
+import {createDriver, SimulateCtrlKey} from './list-view.driver';
 import {mount} from "enzyme";
 import {ListView} from "../list-view";
 import {ListViewDefaultState, ListViewRenderItemProps, ListViewSelectionType, ListViewState} from "../list-view-types";
@@ -126,6 +126,176 @@ describe('ListView', () => {
                     dataItemId: 3,
                     isSelected: true,
                     isCurrent: false
+                }
+            ])
+        });
+    });
+
+    describe('ListView with multiple selection', () => {
+
+        const onChange = jest.fn(listViewState => {
+            listViewDriver.updateState(listViewState);
+        });
+
+        const renderItem = jest.fn(createListViewItem);
+
+        const listView = mount(
+            <ListView
+                renderItem={renderItem}
+                listViewState={ListViewDefaultState}
+                onChange={onChange}
+                selectionType={ListViewSelectionType.Multiple}
+            >
+                {group1}
+                <div className="separator"/>
+                {group2}
+            </ListView>
+        );
+
+        const separator = listView.find('.separator');
+
+        const listViewDriver = createDriver(listView);
+
+        beforeEach(() => {
+            onChange.mockClear();
+            renderItem.mockClear();
+        });
+
+        it(`Should select a selectable item when it's clicked`, () => {
+
+            listViewDriver.itemClick(1);
+
+            expectStateChange(onChange, {
+                selectedIds: [1],
+                selectionStartId: 1,
+                currentNavigatableItemId: 1,
+            });
+
+            expectRerendering(renderItem, [
+                {
+                    dataItemId: 1,
+                    isSelected: true,
+                    isCurrent: true
+                }
+            ])
+        });
+
+        it(`Should add to selection when a different selectable item is clicked with ctrl`, () => {
+            listViewDriver.itemClick(3, SimulateCtrlKey);
+
+            expectStateChange(onChange, {
+                selectedIds: [1,3],
+                selectionStartId: 3,
+                currentNavigatableItemId: 3,
+            });
+
+            expectRerendering(renderItem, [
+                {
+                    dataItemId: 1,
+                    isSelected: true,
+                    isCurrent: false
+                },
+                {
+                    dataItemId: 3,
+                    isSelected: true,
+                    isCurrent: true
+                }
+            ])
+        });
+
+        it (`Should move the current item but leaves the selection intact when clicking witch ctrl a non selectable item.`, () => {
+
+            listViewDriver.itemClick(2, SimulateCtrlKey);
+
+            expectStateChange(onChange, {
+                selectedIds: [1,3],
+                selectionStartId: 3,
+                currentNavigatableItemId: 2,
+            });
+
+            expectRerendering(renderItem, [
+                {
+                    dataItemId: 2,
+                    isSelected: false,
+                    isCurrent: true
+                },
+                {
+                    dataItemId: 3,
+                    isSelected: true,
+                    isCurrent: false
+                }
+            ])
+        });
+    });
+
+    describe('ListView with none selection', () => {
+
+        const onChange = jest.fn(listViewState => {
+            listViewDriver.updateState(listViewState);
+        });
+
+        const renderItem = jest.fn(createListViewItem);
+
+        const listView = mount(
+            <ListView
+                renderItem={renderItem}
+                listViewState={ListViewDefaultState}
+                onChange={onChange}
+                selectionType={ListViewSelectionType.None}
+            >
+                {group1}
+                <div className="separator"/>
+                {group2}
+            </ListView>
+        );
+
+        const separator = listView.find('.separator');
+
+        const listViewDriver = createDriver(listView);
+
+        beforeEach(() => {
+            onChange.mockClear();
+            renderItem.mockClear();
+        });
+
+        it(`Should not select a selectable item when it's clicked`, () => {
+
+            listViewDriver.itemClick(1);
+
+            expectStateChange(onChange, {
+                selectedIds: null,
+                selectionStartId: null,
+                currentNavigatableItemId: 1,
+            });
+
+            expectRerendering(renderItem, [
+                {
+                    dataItemId: 1,
+                    isSelected: false,
+                    isCurrent: true
+                }
+            ])
+        });
+
+        it(`Should change current Navigatable when a different item is clicked and keep selectionStartId as null`, () => {
+            listViewDriver.itemClick(3);
+
+            expectStateChange(onChange, {
+                selectedIds: null,
+                selectionStartId: null,
+                currentNavigatableItemId: 3,
+            });
+
+            expectRerendering(renderItem, [
+                {
+                    dataItemId: 1,
+                    isSelected: false,
+                    isCurrent: false
+                },
+                {
+                    dataItemId: 3,
+                    isSelected: false,
+                    isCurrent: true
                 }
             ])
         });
