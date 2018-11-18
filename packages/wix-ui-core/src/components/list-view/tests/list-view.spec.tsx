@@ -195,54 +195,34 @@ describe('ListView', () => {
                         });
                     });
 
+                    const firstItemId = getItemIdByIndex(dataSource, 0);
+                    const secondItemId = getItemIdByIndex(dataSource, 1);
+
                     it(`User clicked the first item`, () => {
 
-                        listViewDriver.itemClick(1);
+                        listViewDriver.itemClick(firstItemId);
 
                         expectStateChange(onChange, {
-                            selectedIds: isSelectableItem(dataSource, 1) ? [1] : [],
-                            selectionStartId: 1,
-                            currentNavigatableItemId: 1,
+                            selectedIds: isSelectableItem(dataSource, firstItemId) ? [firstItemId] : [],
+                            currentNavigatableItemId: firstItemId,
                         });
-
-                        expectRerendering(renderItem, [
-                            {
-                                dataItemId: 1,
-                                isSelected: true,
-                                isCurrent: true
-                            }
-                        ])
                     });
 
                     it(`User clicked the second item`, () => {
 
-                        const targetItemId = 2;
+                        listViewDriver.itemClick(secondItemId);
 
-                        listViewDriver.itemClick(targetItemId);
-
-                        const itemIsSelectable = isSelectableItem(dataSource, targetItemId);
+                        const itemIsSelectable = isSelectableItem(dataSource, secondItemId);
 
                         expectStateChange(onChange, {
-                            selectedIds: itemIsSelectable ? [targetItemId] : listViewDriver.getSelectedIds(),
-                            currentNavigatableItemId: targetItemId,
+                            selectedIds: itemIsSelectable ? [secondItemId] : listViewDriver.getSelectedIds(),
+                            currentNavigatableItemId: secondItemId,
                         });
-
-                        expectRerendering(renderItem, [
-                            {
-                                dataItemId: 1,
-                                isCurrent: false
-                            },
-                            {
-                                dataItemId: targetItemId,
-                                isSelected: itemIsSelectable,
-                                isCurrent: true
-                            }
-                        ])
                     });
 
                     if (separator)
                     {
-                        it (`Should ignore clicking on a separator`, () => {
+                        it (`User clicked on a non-selectable item`, () => {
 
                             separator.simulate('click');
 
