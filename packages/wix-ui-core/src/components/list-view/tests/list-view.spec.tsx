@@ -398,39 +398,6 @@ describe('ListView', () => {
                     }
                 ])
             });
-
-            it(`Should unselect all selectable items and select only clicked item`, () => {
-                listViewDriver.itemClick(11, SimulateShiftKey);
-
-                expectStateChange(onChange, {
-                    selectedIds: [3, 5, 7, 9, 11],
-                    selectionStartId: 3,
-                    currentNavigatableItemId: 11,
-                });
-
-                expectRerendering(renderItem, [
-                    {
-                        dataItemId: 1,
-                        isSelected: false,
-                        isCurrent: false
-                    },
-                    {
-                        dataItemId: 7,
-                        isSelected: true,
-                        isCurrent: false
-                    },
-                    {
-                        dataItemId: 9,
-                        isSelected: true,
-                        isCurrent: false
-                    },
-                    {
-                        dataItemId: 11,
-                        isSelected: true,
-                        isCurrent: true
-                    }
-                ])
-            });
         });
 
     });
