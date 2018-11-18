@@ -398,6 +398,50 @@ describe('ListView', () => {
                     }
                 ])
             });
+
+
+            it(`Should unselect all selectable items and select only clicked item`, () => {
+                listViewDriver.itemClick(1);
+
+                expectStateChange(onChange, {
+                    selectedIds: [1],
+                    selectionStartId: 1,
+                    currentNavigatableItemId: 1,
+                });
+
+                expectRerendering(renderItem, [
+                    {
+                        dataItemId: 1,
+                        isSelected: true,
+                        isCurrent: true
+                    },
+                    {
+                        dataItemId: 3,
+                        isSelected: false,
+                        isCurrent: false
+                    },
+                    {
+                        dataItemId: 5,
+                        isSelected: false,
+                        isCurrent: false
+                    },
+                    {
+                        dataItemId: 7,
+                        isSelected: false,
+                        isCurrent: false
+                    },
+                    {
+                        dataItemId: 9,
+                        isSelected: false,
+                        isCurrent: false
+                    },
+                    {
+                        dataItemId: 11,
+                        isSelected: false,
+                        isCurrent: false
+                    }
+                ])
+            });
         });
 
     });
