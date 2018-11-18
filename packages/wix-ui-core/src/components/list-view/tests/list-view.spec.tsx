@@ -1,9 +1,15 @@
 import * as React from 'react';
-import {times, partition} from 'lodash';
+import {times, partition, find} from 'lodash';
 import {createDriver, SimulateCtrlKey, SimulateCtrlShiftKey, SimulateShiftKey} from './list-view.driver';
 import {mount} from "enzyme";
 import {ListView} from "../list-view";
-import {ListViewDefaultState, ListViewRenderItemProps, ListViewSelectionType, ListViewState} from "../list-view-types";
+import {
+    ListViewDefaultState,
+    ListViewItemId,
+    ListViewRenderItemProps,
+    ListViewSelectionType,
+    ListViewState
+} from "../list-view-types";
 import Mock = jest.Mock;
 
 expect.extend({
@@ -60,14 +66,16 @@ describe('ListView', () => {
     let listView;
     let renderItem;
     let onChange;
+    let dataSource;
 
-
+    const firstItemId = 1;
+    const lastItemId = dataSourceItemsCount;
 
     beforeAll(() => {
 
         // We'll create a data source that will contain items for ListView.
         // Items with odd ids will be selectable and the others will be only "navigatable"
-        const dataSource = times(dataSourceItemsCount, index => {
+        dataSource = times(dataSourceItemsCount, index => {
             const id = index + 1;
 
             return {
@@ -233,7 +241,36 @@ describe('ListView', () => {
                     currentNavigatableItemId: 1,
                 });
 
-            })
+            });
+
+            it (`Should clear selection but change the current item when pressing key down navigates to a non selectable item`, () => {
+
+                listViewDriver.listKeyDown(Keys.ArrowDown);
+
+                expectStateChange(onChange, {
+                    selectedIds: [],
+                    currentNavigatableItemId: 2,
+                });
+
+            });
+
+            it (`Should navigate to the last item when 'End' key is pressed.`, () => {
+                listViewDriver.listKeyDown(Keys.End);
+
+                expectStateChange(onChange, {
+                    selectedIds: isSelectableItem(lastItemId) ? [lastItemId] : [],
+                    currentNavigatableItemId: lastItemId,
+                });
+            });
+
+            it (`Should navigate to the first item when 'Home' key is pressed.`, () => {
+                listViewDriver.listKeyDown(Keys.Home);
+
+                expectStateChange(onChange, {
+                    selectedIds: isSelectableItem(firstItemId) ? [firstItemId] : [],
+                    currentNavigatableItemId: firstItemId,
+                });
+            });
 
         })
     });
@@ -549,5 +586,13 @@ describe('ListView', () => {
         {
             expect(renderMock).toBeCalledWith(expect.objectContaining(renderItemProps));
         }
+    }
+
+    function getItemMetadata (itemId: ListViewItemId) {
+        return find(dataSource, item => item.id === itemId);
+    }
+
+    function isSelectableItem (itemId: ListViewItemId) {
+        return !!getItemMetadata(itemId).isSelectable;
     }
 });
