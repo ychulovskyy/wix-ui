@@ -167,19 +167,6 @@ describe('ListView', () => {
                     selectionStartId: 3,
                     currentNavigatableItemId: 3,
                 });
-
-                expectRerendering(renderItem, [
-                    {
-                        dataItemId: 1,
-                        isSelected: false,
-                        isCurrent: false
-                    },
-                    {
-                        dataItemId: 3,
-                        isSelected: true,
-                        isCurrent: true
-                    }
-                ])
             }
 
         });
