@@ -42,6 +42,8 @@ expect.extend({
 
 describe('ListView', () => {
 
+    const dataSourceItemsCount = 12;
+
     let listViewDriver;
     let separator;
     let listView;
@@ -51,8 +53,6 @@ describe('ListView', () => {
 
 
     beforeAll(() => {
-
-        const dataSourceItemsCount = 12;
 
         // We'll create a data source that will contain items for ListView.
         // Items with odd ids will be selectable and the others will be only "navigatable"
@@ -179,6 +179,32 @@ describe('ListView', () => {
                     isCurrent: false
                 }
             ])
+        });
+
+        it(`Should ignore ctrl/shift key combinations when item should be selected as a result of a mouse clicke`, () => {
+
+            const keysCombinationsArr = [
+                SimulateCtrlKey,
+                SimulateCtrlShiftKey,
+                SimulateShiftKey
+            ];
+
+            for (let keysCombination of keysCombinationsArr)
+            {
+                listViewDriver.itemClick(1);
+
+                onChange.mockClear();
+                renderItem.mockClear();
+
+                listViewDriver.itemClick(3, keysCombination);
+
+                expectStateChange(onChange, {
+                    selectedIds: [3],
+                    selectionStartId: 3,
+                    currentNavigatableItemId: 3,
+                });
+            }
+
         });
     });
 
