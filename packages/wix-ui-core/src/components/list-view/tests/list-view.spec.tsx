@@ -114,6 +114,7 @@ describe('ListView', () => {
             onChange={onChange}
         >
             <div/>
+            <div/>
         </ListView>
     );
 
