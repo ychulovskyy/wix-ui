@@ -205,7 +205,17 @@ export class ListViewStateController {
 
         const listView = this.listView;
 
-        if (event.shiftKey)
+        if (event.ctrlKey && event.shiftKey) {
+            if (listView.isMultiSelection())
+            {
+                this.addItemsInRangeToSelection(this.getSelectionStartId(), itemId);
+            }
+            else if(listView.isSingleSelection())
+            {
+                this.selectItem(itemId);
+            }
+        }
+        else if (event.shiftKey)
         {
             if (listView.isMultiSelection())
             {
