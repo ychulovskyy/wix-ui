@@ -4,6 +4,7 @@ import {createDriver, SimulateCtrlKey, SimulateCtrlShiftKey, SimulateShiftKey} f
 import {mount} from "enzyme";
 import {ListView} from "../list-view";
 import {
+    ListViewDataSourceDataItem,
     ListViewDefaultState,
     ListViewItemId,
     ListViewRenderItemProps,
@@ -498,6 +499,7 @@ describe('ListView', () => {
     for (var selectionTypeInfo of testedSelectionTypes)
     {
         (function (selectionTypeInfo) {
+
             describe(`ListView basic keyboard interaction with ${selectionTypeInfo.title}`, () => {
 
                 beforeAll(() => {
@@ -507,24 +509,28 @@ describe('ListView', () => {
                     });
                 });
 
-                it (`Should select the first item when key down is pressed`, () => {
+                it (`Should select the first item when ArrowDown is pressed`, () => {
+
+                    const firstItemId = getItemIdByIndex(dataSource, 0);
 
                     listViewDriver.listKeyDown(Keys.ArrowDown);
 
                     expectStateChange(onChange, {
-                        selectedIds: [1],
-                        currentNavigatableItemId: 1,
+                        selectedIds: isSelectableItem(dataSource, firstItemId) ? [firstItemId] : [],
+                        currentNavigatableItemId: firstItemId,
                     });
 
                 });
 
-                it (`Should clear selection but change the current item when pressing key down navigates to a non selectable item`, () => {
+                it (`Should move to the second item when ArrowDown is pressed.`, () => {
+
+                    const secondItemId = getItemIdByIndex(dataSource, 1);
 
                     listViewDriver.listKeyDown(Keys.ArrowDown);
 
                     expectStateChange(onChange, {
-                        selectedIds: [],
-                        currentNavigatableItemId: 2,
+                        selectedIds: isSelectableItem(dataSource, secondItemId) ? [secondItemId] : [],
+                        currentNavigatableItemId: secondItemId,
                     });
 
                 });
@@ -533,7 +539,7 @@ describe('ListView', () => {
                     listViewDriver.listKeyDown(Keys.End);
 
                     expectStateChange(onChange, {
-                        selectedIds: isSelectableItem(lastItemId) ? [lastItemId] : [],
+                        selectedIds: isSelectableItem(dataSource, lastItemId) ? [lastItemId] : [],
                         currentNavigatableItemId: lastItemId,
                     });
                 });
@@ -542,7 +548,7 @@ describe('ListView', () => {
                     listViewDriver.listKeyDown(Keys.Home);
 
                     expectStateChange(onChange, {
-                        selectedIds: isSelectableItem(firstItemId) ? [firstItemId] : [],
+                        selectedIds: isSelectableItem(dataSource, firstItemId) ? [firstItemId] : [],
                         currentNavigatableItemId: firstItemId,
                     });
                 });
@@ -603,11 +609,15 @@ describe('ListView', () => {
         }
     }
 
-    function getItemMetadata (itemId: ListViewItemId) {
+    function getItemIdByIndex (dataSource: Array<ListViewDataSourceDataItem<any>>, itemIndex: number) {
+        return dataSource[itemIndex].id;
+    }
+
+    function getItemMetadata (dataSource: Array<ListViewDataSourceDataItem<any>>, itemId: ListViewItemId) {
         return find(dataSource, item => item.id === itemId);
     }
 
-    function isSelectableItem (itemId: ListViewItemId) {
-        return !!getItemMetadata(itemId).isSelectable;
+    function isSelectableItem (dataSource: Array<ListViewDataSourceDataItem<any>>, itemId: ListViewItemId) {
+        return !!getItemMetadata(dataSource, itemId).isSelectable;
     }
 });
