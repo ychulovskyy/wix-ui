@@ -226,6 +226,29 @@ describe('ListView', () => {
                 }
             ])
         });
+
+        it(`Should remove from selection when a selected item is clicked with ctrl`, () => {
+            listViewDriver.itemClick(3, SimulateCtrlKey);
+
+            expectStateChange(onChange, {
+                selectedIds: [1],
+                selectionStartId: 3,
+                currentNavigatableItemId: 3,
+            });
+
+            expectRerendering(renderItem, [
+                {
+                    dataItemId: 2,
+                    isSelected: false,
+                    isCurrent: false
+                },
+                {
+                    dataItemId: 3,
+                    isSelected: false,
+                    isCurrent: true
+                }
+            ])
+        });
     });
 
     describe('ListView with none selection', () => {
