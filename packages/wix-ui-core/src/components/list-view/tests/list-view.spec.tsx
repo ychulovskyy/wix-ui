@@ -8,39 +8,43 @@ import Mock = jest.Mock;
 
 describe('ListView', () => {
 
-    const dataSourceItemsCount = 12;
+    let listViewDriver;
+    let separator;
+    let listView;
+    let renderItem;
+    let onChange;
 
-    // We'll create a data source that will contain items for ListView.
-    // Items with odd ids will be selectable and the others will be only "navigatable"
-    const dataSource = times(dataSourceItemsCount, index => {
-        const id = index + 1;
+    beforeAll(() => {
+        const dataSourceItemsCount = 12;
 
-        return {
-            id: id,
-            isSelectable: id % 2 !== 0 ,
-            dataItem: {
-                text: `Item ${id}`
+        // We'll create a data source that will contain items for ListView.
+        // Items with odd ids will be selectable and the others will be only "navigatable"
+        const dataSource = times(dataSourceItemsCount, index => {
+            const id = index + 1;
+
+            return {
+                id: id,
+                isSelectable: id % 2 !== 0 ,
+                dataItem: {
+                    text: `Item ${id}`
+                }
             }
-        }
-    });
+        });
 
-    // We'll split the data source to 2 equal groups
-    const [group1, group2] = partition(dataSource, item => item.id <= dataSourceItemsCount / 2);
+        // We'll split the data source to 2 equal groups
+        const [group1, group2] = partition(dataSource, item => item.id <= dataSourceItemsCount / 2);
 
-    describe('ListView with single selection', () => {
-
-        const onChange = jest.fn(listViewState => {
+        onChange = jest.fn(listViewState => {
             listViewDriver.updateState(listViewState);
         });
 
-        const renderItem = jest.fn(createListViewItem);
+        renderItem = jest.fn(createListViewItem);
 
-        const listView = mount(
+        listView = mount(
             <ListView
                 renderItem={renderItem}
                 listViewState={ListViewDefaultState}
                 onChange={onChange}
-                selectionType={ListViewSelectionType.Single}
             >
                 {group1}
                 <div className="separator"/>
@@ -48,13 +52,23 @@ describe('ListView', () => {
             </ListView>
         );
 
-        const separator = listView.find('.separator');
+        separator = listView.find('.separator');
 
-        const listViewDriver = createDriver(listView);
+        listViewDriver = createDriver(listView);
+    });
 
-        beforeEach(() => {
-            onChange.mockClear();
-            renderItem.mockClear();
+    beforeEach(() => {
+        onChange.mockClear();
+        renderItem.mockClear();
+    });
+
+    describe('ListView with single selection', () => {
+
+        beforeAll(() => {
+            listView.setProps({
+                selectionType: ListViewSelectionType.Single,
+                listViewState: ListViewDefaultState
+            });
         });
 
         it(`Should select a selectable item when it's clicked`, () => {
@@ -133,32 +147,11 @@ describe('ListView', () => {
 
     describe('ListView with multiple selection', () => {
 
-        const onChange = jest.fn(listViewState => {
-            listViewDriver.updateState(listViewState);
-        });
-
-        const renderItem = jest.fn(createListViewItem);
-
-        const listView = mount(
-            <ListView
-                renderItem={renderItem}
-                listViewState={ListViewDefaultState}
-                onChange={onChange}
-                selectionType={ListViewSelectionType.Multiple}
-            >
-                {group1}
-                <div className="separator"/>
-                {group2}
-            </ListView>
-        );
-
-        const separator = listView.find('.separator');
-
-        const listViewDriver = createDriver(listView);
-
-        beforeEach(() => {
-            onChange.mockClear();
-            renderItem.mockClear();
+        beforeAll(() => {
+            listView.setProps({
+                selectionType: ListViewSelectionType.Multiple,
+                listViewState: ListViewDefaultState
+            });
         });
 
         it(`Should select a selectable item when it's clicked`, () => {
@@ -230,32 +223,11 @@ describe('ListView', () => {
 
     describe('ListView with none selection', () => {
 
-        const onChange = jest.fn(listViewState => {
-            listViewDriver.updateState(listViewState);
-        });
-
-        const renderItem = jest.fn(createListViewItem);
-
-        const listView = mount(
-            <ListView
-                renderItem={renderItem}
-                listViewState={ListViewDefaultState}
-                onChange={onChange}
-                selectionType={ListViewSelectionType.None}
-            >
-                {group1}
-                <div className="separator"/>
-                {group2}
-            </ListView>
-        );
-
-        const separator = listView.find('.separator');
-
-        const listViewDriver = createDriver(listView);
-
-        beforeEach(() => {
-            onChange.mockClear();
-            renderItem.mockClear();
+        beforeAll(() => {
+            listView.setProps({
+                selectionType: ListViewSelectionType.None,
+                listViewState: ListViewDefaultState
+            });
         });
 
         it(`Should not select a selectable item when it's clicked`, () => {
