@@ -476,7 +476,8 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
         this.updateState(stateController => {
             let currentItemId = stateController.getCurrentItemId();
             if (currentItemId === null || currentItemId === undefined) {
-                stateController.moveToItem(this.getNavigatableItemIdByIndex(0));
+                stateController
+                    .moveToItem(this.getNavigatableItemIdByIndex(0));
             }
             else {
                 if (direction === KeyboardNavigationDirection.Forward) {
@@ -485,6 +486,13 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
                 else {
                     stateController.movePrev();
                 }
+            }
+
+            let selectionStartId = stateController.getSelectionStartId();
+
+            if (selectionStartId === null || selectionStartId === undefined)
+            {
+               stateController.setSelectionStartId(this.getNavigatableItemIdByIndex(0));
             }
 
             // if only ctrl pressed don't select , only navigate

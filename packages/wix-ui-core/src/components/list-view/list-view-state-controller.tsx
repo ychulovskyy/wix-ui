@@ -87,6 +87,24 @@ export class ListViewStateController {
         return this;
     }
 
+    public setSelectionStartIdToCurrent () {
+        return this.setSelectionStartId(this.getCurrentItemId());
+    }
+
+    public setSelectionStartId (itemId: ListViewItemId) {
+        const isDisabled = this.listView.isDisabled(itemId);
+
+        if (!isDisabled)
+        {
+            this.setCurrentState({
+                ...this.currentState,
+                selectionStartId: itemId,
+            });
+        }
+
+        return this;
+    }
+
     public addItemsInRangeToSelection (startId : ListViewItemId, endId: ListViewItemId) {
 
         this.assertMultiple();
