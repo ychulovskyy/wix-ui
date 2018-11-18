@@ -287,9 +287,15 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
 
                     const firstItemId = this.navigatableItemsIds[0];
 
-                    if (isSelectToHomeEvent(event) && this.isMultiSelection())
+                    if (this.isMultiSelection())
                     {
-                        stateController.selectItemsInRange(firstItemId, stateController.getSelectionStartId());
+                        if (isSelectToHomeEvent(event))
+                        {
+                            stateController.selectItemsInRange(firstItemId, stateController.getSelectionStartId());
+                        }
+                        else{
+                            stateController.selectItem(firstItemId);
+                        }
                     }
                     else if (this.isSingleSelection())
                     {
@@ -308,9 +314,15 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
                     let navigatableItemsLength = this.navigatableItemsIds.length;
                     const lastItemId = this.navigatableItemsIds[navigatableItemsLength - 1];
 
-                    if (isSelectToEndEvent(event) && this.isMultiSelection())
+                    if (this.isMultiSelection())
                     {
-                        stateController.selectItemsInRange(stateController.getSelectionStartId(), lastItemId);
+                        if (isSelectToEndEvent(event))
+                        {
+                            stateController.selectItemsInRange(stateController.getSelectionStartId(), lastItemId);
+                        }
+                        else{
+                            stateController.selectItem(lastItemId);
+                        }
                     }
                     else if (this.isSingleSelection())
                     {
@@ -434,7 +446,18 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
     }
 
     public getItemIdByIndex(index: number): ListViewItemId {
-        const navigatableItemsIds = this.listViewItemsIds;
+        const listViewItemsIds = this.listViewItemsIds;
+
+        if (index < listViewItemsIds.length) {
+            return listViewItemsIds[index];
+        }
+        else {
+            return null;
+        }
+    }
+
+    public getNavigatableItemIdByIndex(index: number): ListViewItemId {
+        const navigatableItemsIds = this.navigatableItemsIds;
 
         if (index < navigatableItemsIds.length) {
             return navigatableItemsIds[index];
@@ -453,7 +476,7 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
         this.updateState(stateController => {
             let currentItemId = stateController.getCurrentItemId();
             if (currentItemId === null || currentItemId === undefined) {
-                stateController.moveToItem(this.getItemIdByIndex(0));
+                stateController.moveToItem(this.getNavigatableItemIdByIndex(0));
             }
             else {
                 if (direction === KeyboardNavigationDirection.Forward) {
