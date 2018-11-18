@@ -612,7 +612,7 @@ export class ListViewComposable extends React.Component<ListViewComposableProps>
                     if (event.ctrlKey && event.shiftKey) {
                         stateController.addItemsInRangeToSelection(stateController.getSelectionStartId(), stateController.getCurrentItemId());
                     }
-                    if (event.shiftKey) {
+                    else if (event.shiftKey) {
                         stateController.selectItemsInRange(stateController.getSelectionStartId(), stateController.getCurrentItemId());
                     }
                     else if (event.ctrlKey) {
