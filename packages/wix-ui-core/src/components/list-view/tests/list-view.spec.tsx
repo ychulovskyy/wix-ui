@@ -114,510 +114,478 @@ describe('ListView', () => {
             onChange={onChange}
         >
             <div/>
+            <div/>
         </ListView>
     );
 
     listViewDriver = createDriver(listView);
 
-    describe (`ListView generic test cases`, () => {
-
-        listViewTestCasesArr = [
-            {
-                title: "Alternating data source splitted to 2 groups with separator between them",
-                dataSource: alternatingDataSource,
-                getChildren () {
-                    return [
-                        group1,
-                        <div className="separator"/>,
-                        group2
-                    ]
-                },
-                getNonNavigatableItem (listView) {
-                    return listView.find('.separator');
-                }
+    listViewTestCasesArr = [
+        {
+            title: "Alternating data source splitted to 2 groups with separator between them",
+            dataSource: alternatingDataSource,
+            getChildren () {
+                return [
+                    group1,
+                    <div className="separator"/>,
+                    group2
+                ]
             },
-            {
-                title: "Alternating data source surrounded with header and footer",
-                dataSource: alternatingDataSource,
-                getChildren () {
-                    return [
-                        <div className="header"/>,
-                        alternatingDataSource,
-                        <div className="footer"/>
-                    ]
-                },
-                getNonNavigatableItem (listView) {
-                    return listView.find('.footer');
-                }
-            },
-            {
-                title: "Selectable Items DataSource",
-                dataSource: selectableItemsDataSource,
-                getChildren () {
-                    return selectableItemsDataSource
-                },
-                getNonNavigatableItem (listView) {
-
-                }
+            getNonNavigatableItem (listView) {
+                return listView.find('.separator');
             }
-        ];
+        },
+        {
+            title: "Alternating data source surrounded with header and footer",
+            dataSource: alternatingDataSource,
+            getChildren () {
+                return [
+                    <div className="header"/>,
+                    alternatingDataSource,
+                    <div className="footer"/>
+                ]
+            },
+            getNonNavigatableItem (listView) {
+                return listView.find('.footer');
+            }
+        },
+        {
+            title: "Selectable Items DataSource",
+            dataSource: selectableItemsDataSource,
+            getChildren () {
+                return selectableItemsDataSource
+            },
+            getNonNavigatableItem (listView) {
 
-        beforeEach(() => {
-            onChange.mockClear();
-            renderItem.mockClear();
-        });
+            }
+        }
+    ];
 
-        for (let testCase of listViewTestCasesArr) {
-            const {
-                dataSource,
-                title,
-                getChildren,
-                getNonNavigatableItem
-            } = testCase;
+    beforeEach(() => {
+        onChange.mockClear();
+        renderItem.mockClear();
+    });
 
-            describe (`ListView test-case '${title}'`, () => {
+    for (let testCase of listViewTestCasesArr) {
+        const {
+            dataSource,
+            title,
+            getChildren,
+            getNonNavigatableItem
+        } = testCase;
 
-                let separator;
+        describe (`ListView test-case '${title}'`, () => {
 
-                beforeAll(() => {
-                    listView.setProps({
-                        children: getChildren()
-                    });
+            let separator;
 
-                    separator = getNonNavigatableItem(listView);
+            beforeAll(() => {
+                listView.setProps({
+                    children: getChildren()
                 });
 
-                describe(`ListView mouse interaction`, () => {
-                    describe('ListView with single selection', () => {
+                separator = getNonNavigatableItem(listView);
+            });
 
-                        beforeAll(() => {
-                            listView.setProps({
-                                selectionType: ListViewSelectionType.Single,
-                                listViewState: ListViewDefaultState
-                            });
+            describe(`ListView mouse interaction`, () => {
+                describe('ListView with single selection', () => {
+
+                    beforeAll(() => {
+                        listView.setProps({
+                            selectionType: ListViewSelectionType.Single,
+                            listViewState: ListViewDefaultState
                         });
+                    });
 
-                        it(`User clicked the first item`, () => {
+                    const firstItemId = getItemIdByIndex(dataSource, 0);
+                    const secondItemId = getItemIdByIndex(dataSource, 1);
 
+                    it(`User clicked the first item`, () => {
+
+                        listViewDriver.itemClick(firstItemId);
+
+                        expectStateChange(onChange, {
+                            selectedIds: isSelectableItem(dataSource, firstItemId) ? [firstItemId] : [],
+                            currentNavigatableItemId: firstItemId,
+                        });
+                    });
+
+                    it(`User clicked the second item`, () => {
+
+                        listViewDriver.itemClick(secondItemId);
+
+                        const itemIsSelectable = isSelectableItem(dataSource, secondItemId);
+
+                        expectStateChange(onChange, {
+                            selectedIds: itemIsSelectable ? [secondItemId] : listViewDriver.getSelectedIds(),
+                            currentNavigatableItemId: secondItemId,
+                        });
+                    });
+
+                    if (separator)
+                    {
+                        it (`User clicked on a non-selectable item`, () => {
+
+                            separator.simulate('click');
+
+                            expectNoStateChange(onChange)
+                        });
+                    }
+
+                    it(`Should ignore ctrl/shift key combinations when item should be selected as a result of a mouse clicke`, () => {
+
+                        const keysCombinationsArr = [
+                            SimulateCtrlKey,
+                            SimulateCtrlShiftKey,
+                            SimulateShiftKey
+                        ];
+
+                        for (let keysCombination of keysCombinationsArr)
+                        {
                             listViewDriver.itemClick(1);
 
-                            expectStateChange(onChange, {
-                                selectedIds: isSelectableItem(dataSource, 1) ? [1] : [],
-                                selectionStartId: 1,
-                                currentNavigatableItemId: 1,
-                            });
+                            onChange.mockClear();
+                            renderItem.mockClear();
 
-                            expectRerendering(renderItem, [
-                                {
-                                    dataItemId: 1,
-                                    isSelected: true,
-                                    isCurrent: true
-                                }
-                            ])
-                        });
-
-                        it(`User clicked the second item`, () => {
-
-                            const targetItemId = 2;
-
-                            listViewDriver.itemClick(targetItemId);
-
-                            const itemIsSelectable = isSelectableItem(dataSource, targetItemId);
+                            listViewDriver.itemClick(3, keysCombination);
 
                             expectStateChange(onChange, {
-                                selectedIds: itemIsSelectable ? [targetItemId] : listViewDriver.getSelectedIds(),
-                                currentNavigatableItemId: targetItemId,
-                            });
-
-                            expectRerendering(renderItem, [
-                                {
-                                    dataItemId: 1,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: targetItemId,
-                                    isSelected: itemIsSelectable,
-                                    isCurrent: true
-                                }
-                            ])
-                        });
-
-                        if (separator)
-                        {
-                            it (`Should ignore clicking on a separator`, () => {
-
-                                separator.simulate('click');
-
-                                expectNoStateChange(onChange)
+                                selectedIds: [3],
+                                selectionStartId: 3,
+                                currentNavigatableItemId: 3,
                             });
                         }
 
-                        it(`Should ignore ctrl/shift key combinations when item should be selected as a result of a mouse clicke`, () => {
-
-                            const keysCombinationsArr = [
-                                SimulateCtrlKey,
-                                SimulateCtrlShiftKey,
-                                SimulateShiftKey
-                            ];
-
-                            for (let keysCombination of keysCombinationsArr)
-                            {
-                                listViewDriver.itemClick(1);
-
-                                onChange.mockClear();
-                                renderItem.mockClear();
-
-                                listViewDriver.itemClick(3, keysCombination);
-
-                                expectStateChange(onChange, {
-                                    selectedIds: [3],
-                                    selectionStartId: 3,
-                                    currentNavigatableItemId: 3,
-                                });
-                            }
-
-                        });
-                    });
-
-                    describe('ListView with multiple selection', () => {
-
-                        beforeAll(() => {
-                            listView.setProps({
-                                selectionType: ListViewSelectionType.Multiple,
-                                listViewState: ListViewDefaultState
-                            });
-                        });
-
-                        it(`Should select a selectable item when it's clicked`, () => {
-
-                            listViewDriver.itemClick(1);
-
-                            expectStateChange(onChange, {
-                                selectedIds: [1],
-                                selectionStartId: 1,
-                                currentNavigatableItemId: 1,
-                            });
-
-                            expectRerendering(renderItem, [
-                                {
-                                    dataItemId: 1,
-                                    isSelected: true,
-                                    isCurrent: true
-                                }
-                            ])
-                        });
-
-                        it(`Should add to selection when a different selectable item is clicked with ctrl`, () => {
-                            listViewDriver.itemClick(3, SimulateCtrlKey);
-
-                            expectStateChange(onChange, {
-                                selectedIds: [1,3],
-                                selectionStartId: 3,
-                                currentNavigatableItemId: 3,
-                            });
-
-                            expectRerendering(renderItem, [
-                                {
-                                    dataItemId: 1,
-                                    isSelected: true,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 3,
-                                    isSelected: true,
-                                    isCurrent: true
-                                }
-                            ])
-                        });
-
-                        it (`Should move the current item but leaves the selection intact when clicking witch ctrl a non selectable item.`, () => {
-
-                            listViewDriver.itemClick(2, SimulateCtrlKey);
-
-                            expectStateChange(onChange, {
-                                selectedIds: [1,3],
-                                selectionStartId: 3,
-                                currentNavigatableItemId: 2,
-                            });
-
-                            expectRerendering(renderItem, [
-                                {
-                                    dataItemId: 2,
-                                    isSelected: false,
-                                    isCurrent: true
-                                },
-                                {
-                                    dataItemId: 3,
-                                    isSelected: true,
-                                    isCurrent: false
-                                }
-                            ])
-                        });
-
-                        it(`Should remove from selection when a selected item is clicked with ctrl`, () => {
-                            listViewDriver.itemClick(3, SimulateCtrlKey);
-
-                            expectStateChange(onChange, {
-                                selectedIds: [1],
-                                selectionStartId: 3,
-                                currentNavigatableItemId: 3,
-                            });
-
-                            expectRerendering(renderItem, [
-                                {
-                                    dataItemId: 2,
-                                    isSelected: false,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 3,
-                                    isSelected: false,
-                                    isCurrent: true
-                                }
-                            ])
-                        });
-
-                        it(`Should keep current selection and add to selection selectable items from selection start to clicked item when item is clicked with ctrl+shift`, () => {
-                            listViewDriver.itemClick(7, SimulateCtrlShiftKey);
-
-                            expectStateChange(onChange, {
-                                selectedIds: [1, 3, 5, 7],
-                                selectionStartId: 3,
-                                currentNavigatableItemId: 7,
-                            });
-
-                            expectRerendering(renderItem, [
-                                {
-                                    dataItemId: 3,
-                                    isSelected: true,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 5,
-                                    isSelected: true,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 7,
-                                    isSelected: true,
-                                    isCurrent: true
-                                }
-                            ])
-                        });
-
-                        it(`Should select all selectable items in range between selection start to last clicked item when item is clicked with shift`, () => {
-                            listViewDriver.itemClick(11, SimulateShiftKey);
-
-                            expectStateChange(onChange, {
-                                selectedIds: [3, 5, 7, 9, 11],
-                                selectionStartId: 3,
-                                currentNavigatableItemId: 11,
-                            });
-
-                            expectRerendering(renderItem, [
-                                {
-                                    dataItemId: 1,
-                                    isSelected: false,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 7,
-                                    isSelected: true,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 9,
-                                    isSelected: true,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 11,
-                                    isSelected: true,
-                                    isCurrent: true
-                                }
-                            ])
-                        });
-
-                        it(`Should unselect all selectable items and select only clicked item`, () => {
-                            listViewDriver.itemClick(1);
-
-                            expectStateChange(onChange, {
-                                selectedIds: [1],
-                                selectionStartId: 1,
-                                currentNavigatableItemId: 1,
-                            });
-
-                            expectRerendering(renderItem, [
-                                {
-                                    dataItemId: 1,
-                                    isSelected: true,
-                                    isCurrent: true
-                                },
-                                {
-                                    dataItemId: 3,
-                                    isSelected: false,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 5,
-                                    isSelected: false,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 7,
-                                    isSelected: false,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 9,
-                                    isSelected: false,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 11,
-                                    isSelected: false,
-                                    isCurrent: false
-                                }
-                            ])
-                        });
-                    });
-
-                    describe('ListView with none selection', () => {
-
-                        beforeAll(() => {
-                            listView.setProps({
-                                selectionType: ListViewSelectionType.None,
-                                listViewState: ListViewDefaultState
-                            });
-                        });
-
-                        it(`Should not select a selectable item when it's clicked`, () => {
-
-                            listViewDriver.itemClick(1);
-
-                            expectStateChange(onChange, {
-                                selectedIds: null,
-                                selectionStartId: null,
-                                currentNavigatableItemId: 1,
-                            });
-
-                            expectRerendering(renderItem, [
-                                {
-                                    dataItemId: 1,
-                                    isSelected: false,
-                                    isCurrent: true
-                                }
-                            ])
-                        });
-
-                        it(`Should change current Navigatable when a different item is clicked and keep selectionStartId as null`, () => {
-                            listViewDriver.itemClick(3);
-
-                            expectStateChange(onChange, {
-                                selectedIds: null,
-                                selectionStartId: null,
-                                currentNavigatableItemId: 3,
-                            });
-
-                            expectRerendering(renderItem, [
-                                {
-                                    dataItemId: 1,
-                                    isSelected: false,
-                                    isCurrent: false
-                                },
-                                {
-                                    dataItemId: 3,
-                                    isSelected: false,
-                                    isCurrent: true
-                                }
-                            ])
-                        });
                     });
                 });
 
-                const testedSelectionTypes = [
-                    {
-                        selectionType: ListViewSelectionType.Multiple,
-                        title: "Multiple Selection"
-                    },
-                    {
-                        selectionType: ListViewSelectionType.Single,
-                        title: "Single Selection"
-                    },
-                ];
+                describe('ListView with multiple selection', () => {
 
-                for (var selectionTypeInfo of testedSelectionTypes)
+                    beforeAll(() => {
+                        listView.setProps({
+                            selectionType: ListViewSelectionType.Multiple,
+                            listViewState: ListViewDefaultState
+                        });
+                    });
+
+                    it(`Should select a selectable item when it's clicked`, () => {
+
+                        listViewDriver.itemClick(1);
+
+                        expectStateChange(onChange, {
+                            selectedIds: [1],
+                            selectionStartId: 1,
+                            currentNavigatableItemId: 1,
+                        });
+
+                        expectRerendering(renderItem, [
+                            {
+                                dataItemId: 1,
+                                isSelected: true,
+                                isCurrent: true
+                            }
+                        ])
+                    });
+
+                    it(`Should add to selection when a different selectable item is clicked with ctrl`, () => {
+                        listViewDriver.itemClick(3, SimulateCtrlKey);
+
+                        expectStateChange(onChange, {
+                            selectedIds: [1,3],
+                            selectionStartId: 3,
+                            currentNavigatableItemId: 3,
+                        });
+
+                        expectRerendering(renderItem, [
+                            {
+                                dataItemId: 1,
+                                isSelected: true,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 3,
+                                isSelected: true,
+                                isCurrent: true
+                            }
+                        ])
+                    });
+
+                    it (`Should move the current item but leaves the selection intact when clicking witch ctrl a non selectable item.`, () => {
+
+                        listViewDriver.itemClick(2, SimulateCtrlKey);
+
+                        expectStateChange(onChange, {
+                            selectedIds: [1,3],
+                            selectionStartId: 3,
+                            currentNavigatableItemId: 2,
+                        });
+
+                        expectRerendering(renderItem, [
+                            {
+                                dataItemId: 2,
+                                isSelected: false,
+                                isCurrent: true
+                            },
+                            {
+                                dataItemId: 3,
+                                isSelected: true,
+                                isCurrent: false
+                            }
+                        ])
+                    });
+
+                    it(`Should remove from selection when a selected item is clicked with ctrl`, () => {
+                        listViewDriver.itemClick(3, SimulateCtrlKey);
+
+                        expectStateChange(onChange, {
+                            selectedIds: [1],
+                            selectionStartId: 3,
+                            currentNavigatableItemId: 3,
+                        });
+
+                        expectRerendering(renderItem, [
+                            {
+                                dataItemId: 2,
+                                isSelected: false,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 3,
+                                isSelected: false,
+                                isCurrent: true
+                            }
+                        ])
+                    });
+
+                    it(`Should keep current selection and add to selection selectable items from selection start to clicked item when item is clicked with ctrl+shift`, () => {
+                        listViewDriver.itemClick(7, SimulateCtrlShiftKey);
+
+                        expectStateChange(onChange, {
+                            selectedIds: [1, 3, 5, 7],
+                            selectionStartId: 3,
+                            currentNavigatableItemId: 7,
+                        });
+
+                        expectRerendering(renderItem, [
+                            {
+                                dataItemId: 3,
+                                isSelected: true,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 5,
+                                isSelected: true,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 7,
+                                isSelected: true,
+                                isCurrent: true
+                            }
+                        ])
+                    });
+
+                    it(`Should select all selectable items in range between selection start to last clicked item when item is clicked with shift`, () => {
+                        listViewDriver.itemClick(11, SimulateShiftKey);
+
+                        expectStateChange(onChange, {
+                            selectedIds: [3, 5, 7, 9, 11],
+                            selectionStartId: 3,
+                            currentNavigatableItemId: 11,
+                        });
+
+                        expectRerendering(renderItem, [
+                            {
+                                dataItemId: 1,
+                                isSelected: false,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 7,
+                                isSelected: true,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 9,
+                                isSelected: true,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 11,
+                                isSelected: true,
+                                isCurrent: true
+                            }
+                        ])
+                    });
+
+                    it(`Should unselect all selectable items and select only clicked item`, () => {
+                        listViewDriver.itemClick(1);
+
+                        expectStateChange(onChange, {
+                            selectedIds: [1],
+                            selectionStartId: 1,
+                            currentNavigatableItemId: 1,
+                        });
+
+                        expectRerendering(renderItem, [
+                            {
+                                dataItemId: 1,
+                                isSelected: true,
+                                isCurrent: true
+                            },
+                            {
+                                dataItemId: 3,
+                                isSelected: false,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 5,
+                                isSelected: false,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 7,
+                                isSelected: false,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 9,
+                                isSelected: false,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 11,
+                                isSelected: false,
+                                isCurrent: false
+                            }
+                        ])
+                    });
+                });
+
+                describe('ListView with none selection', () => {
+
+                    beforeAll(() => {
+                        listView.setProps({
+                            selectionType: ListViewSelectionType.None,
+                            listViewState: ListViewDefaultState
+                        });
+                    });
+
+                    it(`Should not select a selectable item when it's clicked`, () => {
+
+                        listViewDriver.itemClick(1);
+
+                        expectStateChange(onChange, {
+                            selectedIds: null,
+                            selectionStartId: null,
+                            currentNavigatableItemId: 1,
+                        });
+
+                        expectRerendering(renderItem, [
+                            {
+                                dataItemId: 1,
+                                isSelected: false,
+                                isCurrent: true
+                            }
+                        ])
+                    });
+
+                    it(`Should change current Navigatable when a different item is clicked and keep selectionStartId as null`, () => {
+                        listViewDriver.itemClick(3);
+
+                        expectStateChange(onChange, {
+                            selectedIds: null,
+                            selectionStartId: null,
+                            currentNavigatableItemId: 3,
+                        });
+
+                        expectRerendering(renderItem, [
+                            {
+                                dataItemId: 1,
+                                isSelected: false,
+                                isCurrent: false
+                            },
+                            {
+                                dataItemId: 3,
+                                isSelected: false,
+                                isCurrent: true
+                            }
+                        ])
+                    });
+                });
+            });
+
+            const testedSelectionTypes = [
                 {
-                    (function (selectionTypeInfo) {
+                    selectionType: ListViewSelectionType.Multiple,
+                    title: "Multiple Selection"
+                },
+                {
+                    selectionType: ListViewSelectionType.Single,
+                    title: "Single Selection"
+                },
+            ];
 
-                        describe(`ListView basic keyboard interaction with ${selectionTypeInfo.title}`, () => {
+            for (var selectionTypeInfo of testedSelectionTypes)
+            {
+                (function (selectionTypeInfo) {
 
-                            beforeAll(() => {
-                                listView.setProps({
-                                    selectionType: selectionTypeInfo.selectionType,
-                                    listViewState: ListViewDefaultState
-                                });
-                            });
+                    describe(`ListView basic keyboard interaction with ${selectionTypeInfo.title}`, () => {
 
-                            it (`Should select the first item when ArrowDown is pressed`, () => {
-
-                                const firstItemId = getItemIdByIndex(dataSource, 0);
-
-                                listViewDriver.listKeyDown(Keys.ArrowDown);
-
-                                expectStateChange(onChange, {
-                                    selectedIds: isSelectableItem(dataSource, firstItemId) ? [firstItemId] : [],
-                                    currentNavigatableItemId: firstItemId,
-                                });
-
-                            });
-
-                            it (`Should move to the second item when ArrowDown is pressed.`, () => {
-
-                                const secondItemId = getItemIdByIndex(dataSource, 1);
-
-                                listViewDriver.listKeyDown(Keys.ArrowDown);
-
-                                expectStateChange(onChange, {
-                                    selectedIds: isSelectableItem(dataSource, secondItemId) ? [secondItemId] : [],
-                                    currentNavigatableItemId: secondItemId,
-                                });
-
-                            });
-
-                            it (`Should navigate to the last item when 'End' key is pressed.`, () => {
-                                listViewDriver.listKeyDown(Keys.End);
-
-                                expectStateChange(onChange, {
-                                    selectedIds: isSelectableItem(dataSource, lastItemId) ? [lastItemId] : [],
-                                    currentNavigatableItemId: lastItemId,
-                                });
-                            });
-
-                            it (`Should navigate to the first item when 'Home' key is pressed.`, () => {
-                                listViewDriver.listKeyDown(Keys.Home);
-
-                                expectStateChange(onChange, {
-                                    selectedIds: isSelectableItem(dataSource, firstItemId) ? [firstItemId] : [],
-                                    currentNavigatableItemId: firstItemId,
-                                });
+                        beforeAll(() => {
+                            listView.setProps({
+                                selectionType: selectionTypeInfo.selectionType,
+                                listViewState: ListViewDefaultState
                             });
                         });
-                    })(selectionTypeInfo);
-                }
-            });
-        }
 
-    });
+                        it (`Should select the first item when ArrowDown is pressed`, () => {
 
-    describe (`ListView specific test cases`, () => {
+                            const firstItemId = getItemIdByIndex(dataSource, 0);
 
-    });
+                            listViewDriver.listKeyDown(Keys.ArrowDown);
 
-    describe (`ListView items rendering`, () => {
+                            expectStateChange(onChange, {
+                                selectedIds: isSelectableItem(dataSource, firstItemId) ? [firstItemId] : [],
+                                currentNavigatableItemId: firstItemId,
+                            });
 
-    });
+                        });
 
+                        it (`Should move to the second item when ArrowDown is pressed.`, () => {
+
+                            const secondItemId = getItemIdByIndex(dataSource, 1);
+
+                            listViewDriver.listKeyDown(Keys.ArrowDown);
+
+                            expectStateChange(onChange, {
+                                selectedIds: isSelectableItem(dataSource, secondItemId) ? [secondItemId] : [],
+                                currentNavigatableItemId: secondItemId,
+                            });
+
+                        });
+
+                        it (`Should navigate to the last item when 'End' key is pressed.`, () => {
+                            listViewDriver.listKeyDown(Keys.End);
+
+                            expectStateChange(onChange, {
+                                selectedIds: isSelectableItem(dataSource, lastItemId) ? [lastItemId] : [],
+                                currentNavigatableItemId: lastItemId,
+                            });
+                        });
+
+                        it (`Should navigate to the first item when 'Home' key is pressed.`, () => {
+                            listViewDriver.listKeyDown(Keys.Home);
+
+                            expectStateChange(onChange, {
+                                selectedIds: isSelectableItem(dataSource, firstItemId) ? [firstItemId] : [],
+                                currentNavigatableItemId: firstItemId,
+                            });
+                        });
+                    });
+                })(selectionTypeInfo);
+            }
+        });
+    }
 
 
     function createListViewItem (renderProps: ListViewRenderItemProps<{text: string}, void>) {
