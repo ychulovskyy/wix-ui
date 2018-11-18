@@ -36,9 +36,9 @@ class ListViewDriver<T, S>
 
     listKeyDown (keyCode: number, metaDataKeyBoard? : SimulateKeyboardMetaData) {
 
-        this.listView.simulate('keyDown', {
+        this.listView.find(ListViewItemViewWrapper).first().simulate('keyDown', {
             ...metaDataKeyBoard,
-            keyCode: keyCode
+            key: keyCode
         });
     }
 

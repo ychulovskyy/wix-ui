@@ -40,6 +40,17 @@ expect.extend({
 });
 
 
+enum Keys
+{
+    ArrowDown = 'ArrowDown',
+    ArrowUp = 'ArrowUp',
+    ArrowLeft = 'ArrowLeft',
+    ArrowRight = 'ArrowRight',
+    Home = 'Home',
+    End = 'End',
+    Space = ' '
+}
+
 describe('ListView', () => {
 
     const dataSourceItemsCount = 12;
@@ -206,6 +217,25 @@ describe('ListView', () => {
             }
 
         });
+
+        describe (`Keyboard Navigation`, () => {
+
+            beforeAll(() => {
+                listViewDriver.updateState(ListViewDefaultState);
+            });
+
+            it (`Should select the first item when key down is pressed`, () => {
+
+                listViewDriver.listKeyDown(Keys.ArrowDown);
+
+                expectStateChange(onChange, {
+                    selectedIds: [1],
+                    currentNavigatableItemId: 1,
+                });
+
+            })
+
+        })
     });
 
     describe('ListView with multiple selection', () => {
