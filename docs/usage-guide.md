@@ -68,7 +68,6 @@ function App() {
 
 ```
 
-
 ## Backoffice usage
 
 In the Wix backoffice we choose to work in a more restricted environment.
