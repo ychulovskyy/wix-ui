@@ -182,5 +182,22 @@ describe('Popover', () => {
 
       expect(queryPopoverPortal().parentElement).toBe(container.node.firstChild);
     });
+
+    it(`should update the portal's styles when updated`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        shown: true,
+        appendTo: portalContainer.node
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        shown: true,
+        appendTo: portalContainer.node,
+        className: 'some-class'
+      }));
+
+      expect(queryPopoverPortal().classList).toContain('some-class');
+    });
   });
 });
