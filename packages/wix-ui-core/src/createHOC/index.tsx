@@ -1,6 +1,6 @@
+const hoistNonReactMethods = require('hoist-non-react-methods');
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as hoistNonReactMethods from 'hoist-non-react-methods';
 
 export interface WixComponentProps {
   dataHook?: string;

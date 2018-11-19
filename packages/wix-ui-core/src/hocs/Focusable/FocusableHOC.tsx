@@ -1,5 +1,5 @@
+const hoistNonReactStatics = require('hoist-non-react-statics');
 import * as React from 'react';
-import * as hoistNonReactStatics from 'hoist-non-react-statics';
 import { getDisplayName } from '../utils';
 import styles from './Focusable.st.css';
 
