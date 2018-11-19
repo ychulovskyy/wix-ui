@@ -1,7 +1,7 @@
-const hoistNonReactStatics = require('hoist-non-react-statics');
 import * as React from 'react';
 import { getDisplayName } from '../utils';
 import styles from './Focusable.st.css';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 type SubscribeCb = () => void;
 
