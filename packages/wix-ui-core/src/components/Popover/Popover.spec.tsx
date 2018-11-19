@@ -184,12 +184,16 @@ describe('Popover', () => {
     });
 
     it(`should update the portal's styles when updated`, async () => {
+      // First render without passing the `className` prop, the <Popover/>
+      // portal should only have the root class applied.
       await container.render(popoverWithProps({
         placement: 'bottom',
         shown: true,
         appendTo: portalContainer.node
       }));
 
+      // Second render with a `className` prop. Stylable `style()` function
+      // should apply it.
       await container.render(popoverWithProps({
         placement: 'bottom',
         shown: true,
