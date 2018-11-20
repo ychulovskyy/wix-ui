@@ -49,21 +49,23 @@
   },
   "dependencies": {
     "@stylable/dom-test-kit": "^0.1.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "classnames": "^2.2.5",
     "hoist-non-react-statics": "^3.1.0",
     "lodash": "^4.17.5",
     "playable": "1.13.0",
     "popper.js": "1.14.3",
+    "react-loadable": "^5.5.0",
     "react-onclickoutside": "^6.7.0",
     "react-popper": "0.10.1",
     "react-portal": "^4.1.5",
     "react-transition-group": "^2.2.1",
     "shallowequal": "1.1.0",
-    "type-zoo": "3.1.1",
     "tslib": "^1.9.3",
+    "type-zoo": "3.1.1",
+    "unidriver": "^1.0.0-alpha",
     "wix-ui-jss": "^1.0.0",
-    "wix-ui-test-utils": "^1.0.0",
-    "unidriver": "^1.0.0-alpha"
+    "wix-ui-test-utils": "^1.0.0"
   },
   "devDependencies": {
     "@storybook/addon-options": "4.0.0-alpha.14",
