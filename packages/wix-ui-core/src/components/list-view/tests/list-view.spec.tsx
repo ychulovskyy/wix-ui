@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {times, partition, find} from 'lodash';
-import {createDriver, SimulateCtrlKey, SimulateCtrlShiftKey, SimulateShiftKey} from './list-view.driver';
+import {find, partition, times} from 'lodash';
+import {createListViewTestingController, SimulateCtrlKey, SimulateCtrlShiftKey, SimulateShiftKey, ListViewTester} from './list-view-test-utils';
 import {mount} from 'enzyme';
 import {ListView} from '../list-view';
 import {
@@ -9,7 +9,8 @@ import {
     ListViewItemId,
     ListViewRenderItemProps,
     ListViewSelectionType,
-    ListViewState, NavigationOrientation
+    ListViewState,
+    NavigationOrientation
 } from '../list-view-types';
 import Mock = jest.Mock;
 
@@ -46,7 +47,6 @@ expect.extend({
     },
 });
 
-
 enum Keys
 {
     ArrowDown = 'ArrowDown',
@@ -59,11 +59,47 @@ enum Keys
     a = 'a'
 }
 
+describe('ListViewNew', () => {
+
+    let listViewTester;
+
+    beforeAll(() => {
+        listViewTester = new ListViewTester({
+            generateItem: id => {
+
+                const itemText = 'Item ' + id;
+
+                return {
+                    dataItem: {
+                        text: itemText
+                    },
+                    typeAheadText: itemText
+                }
+            },
+            renderItem: createListViewItem
+        });
+    });
+
+    it ('"S(<{X}>),X" => MoveNext => "X,S(<{X}>)"', () => {
+
+        listViewTester.testListView({
+            testedInput: "SELECTED(<{X}>),X",
+            expectedOutput: "X,S(<{X}>)",
+            listViewProps: {
+                selectionType: ListViewSelectionType.Single
+            },
+            testExecution: driver => {
+                driver.listKeyDown(Keys.ArrowDown);
+            }
+        })
+    })
+});
+
 describe('ListView', () => {
 
     const dataSourceItemsCount = 12;
 
-    let listViewDriver;
+    let testingController;
     let listView;
     let renderItem;
     let onChange;
@@ -103,7 +139,7 @@ describe('ListView', () => {
     const [group1, group2] = partition(alternatingDataSource, item => item.id <= dataSourceItemsCount / 2);
 
     onChange = jest.fn(listViewState => {
-        listViewDriver.updateState(listViewState);
+        testingController.updateState(listViewState);
     });
 
     renderItem = jest.fn(createListViewItem);
@@ -119,7 +155,7 @@ describe('ListView', () => {
         </ListView>
     );
 
-    listViewDriver = createDriver(listView);
+    testingController = createListViewTestingController(listView);
 
     describe(`ListView generic test cases`, () => {
         listViewTestCasesArr = [
@@ -203,7 +239,7 @@ describe('ListView', () => {
 
                         it(`User clicked the first item`, () => {
 
-                            listViewDriver.itemClick(firstItemId);
+                            testingController.itemClick(firstItemId);
 
                             expectStateChange(onChange, {
                                 selectedIds: isSelectableItem(dataSource, firstItemId) ? [firstItemId] : [],
@@ -213,12 +249,12 @@ describe('ListView', () => {
 
                         it(`User clicked the second item`, () => {
 
-                            listViewDriver.itemClick(secondItemId);
+                            testingController.itemClick(secondItemId);
 
                             const itemIsSelectable = isSelectableItem(dataSource, secondItemId);
 
                             expectStateChange(onChange, {
-                                selectedIds: itemIsSelectable ? [secondItemId] : listViewDriver.getSelectedIds(),
+                                selectedIds: itemIsSelectable ? [secondItemId] : testingController.getSelectedIds(),
                                 currentNavigatableItemId: secondItemId,
                             });
                         });
@@ -241,12 +277,12 @@ describe('ListView', () => {
                             ];
 
                             for (let keysCombination of keysCombinationsArr) {
-                                listViewDriver.itemClick(1);
+                                testingController.itemClick(1);
 
                                 onChange.mockClear();
                                 renderItem.mockClear();
 
-                                listViewDriver.itemClick(3, keysCombination);
+                                testingController.itemClick(3, keysCombination);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [3],
@@ -286,7 +322,7 @@ describe('ListView', () => {
 
                                 const firstItemId = getItemIdByIndex(dataSource, 0);
 
-                                listViewDriver.listKeyDown(Keys.ArrowDown);
+                                testingController.listKeyDown(Keys.ArrowDown);
 
                                 expectStateChange(onChange, {
                                     selectedIds: isSelectableItem(dataSource, firstItemId) ? [firstItemId] : [],
@@ -299,7 +335,7 @@ describe('ListView', () => {
 
                                 const secondItemId = getItemIdByIndex(dataSource, 1);
 
-                                listViewDriver.listKeyDown(Keys.ArrowDown);
+                                testingController.listKeyDown(Keys.ArrowDown);
 
                                 expectStateChange(onChange, {
                                     selectedIds: isSelectableItem(dataSource, secondItemId) ? [secondItemId] : [],
@@ -309,7 +345,7 @@ describe('ListView', () => {
                             });
 
                             it(`Should navigate to the last item when 'End' key is pressed.`, () => {
-                                listViewDriver.listKeyDown(Keys.End);
+                                testingController.listKeyDown(Keys.End);
 
                                 expectStateChange(onChange, {
                                     selectedIds: isSelectableItem(dataSource, lastItemId) ? [lastItemId] : [],
@@ -318,7 +354,7 @@ describe('ListView', () => {
                             });
 
                             it(`Should navigate to the first item when 'Home' key is pressed.`, () => {
-                                listViewDriver.listKeyDown(Keys.Home);
+                                testingController.listKeyDown(Keys.Home);
 
                                 expectStateChange(onChange, {
                                     selectedIds: isSelectableItem(dataSource, firstItemId) ? [firstItemId] : [],
@@ -382,7 +418,7 @@ describe('ListView', () => {
 
                         it(`Should select a selectable item when it's clicked`, () => {
 
-                            listViewDriver.itemClick(firstItemId);
+                            testingController.itemClick(firstItemId);
 
                             expectStateChange(onChange, {
                                 selectedIds: [firstItemId],
@@ -393,11 +429,11 @@ describe('ListView', () => {
 
                         it(`Should add to selection when a different selectable item is clicked with ctrl`, () => {
 
-                            listViewDriver.itemClick(firstItemId);
+                            testingController.itemClick(firstItemId);
 
                             onChange.mockClear();
 
-                            listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
+                            testingController.itemClick(thirdItemId, SimulateCtrlKey);
 
                             expectStateChange(onChange, {
                                 selectedIds: [firstItemId, thirdItemId],
@@ -408,12 +444,12 @@ describe('ListView', () => {
 
                         it(`Should move the current item but leaves the selection intact when clicking with ctrl a non selectable item.`, () => {
 
-                            listViewDriver.itemClick(firstItemId);
-                            listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
+                            testingController.itemClick(firstItemId);
+                            testingController.itemClick(thirdItemId, SimulateCtrlKey);
 
                             onChange.mockClear();
 
-                            listViewDriver.itemClick(secondItemId, SimulateCtrlKey);
+                            testingController.itemClick(secondItemId, SimulateCtrlKey);
 
                             expectStateChange(onChange, {
                                 selectedIds: [firstItemId, thirdItemId],
@@ -424,13 +460,13 @@ describe('ListView', () => {
 
                         it(`Should remove from selection when a selected item is clicked with ctrl and keep other selected items selected`, () => {
 
-                            listViewDriver.itemClick(firstItemId);
-                            listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
-                            listViewDriver.itemClick(secondItemId, SimulateCtrlKey);
+                            testingController.itemClick(firstItemId);
+                            testingController.itemClick(thirdItemId, SimulateCtrlKey);
+                            testingController.itemClick(secondItemId, SimulateCtrlKey);
 
                             onChange.mockClear();
 
-                            listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
+                            testingController.itemClick(thirdItemId, SimulateCtrlKey);
 
                             expectStateChange(onChange, {
                                 selectedIds: [firstItemId],
@@ -440,12 +476,12 @@ describe('ListView', () => {
                         });
 
                         it(`Should keep current selection and add to selection selectable items from selection start to clicked item when item is clicked with ctrl+shift`, () => {
-                            listViewDriver.itemClick(firstItemId);
-                            listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
+                            testingController.itemClick(firstItemId);
+                            testingController.itemClick(thirdItemId, SimulateCtrlKey);
 
                             onChange.mockClear();
 
-                            listViewDriver.itemClick(sevenItemId, SimulateCtrlShiftKey);
+                            testingController.itemClick(sevenItemId, SimulateCtrlShiftKey);
 
                             expectStateChange(onChange, {
                                 selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId],
@@ -456,11 +492,11 @@ describe('ListView', () => {
                         });
 
                         it(`Should select all selectable items in range between selection start to last clicked item when item is clicked with shift`, () => {
-                            listViewDriver.itemClick(firstItemId);
+                            testingController.itemClick(firstItemId);
 
                             onChange.mockClear();
 
-                            listViewDriver.itemClick(sevenItemId, SimulateShiftKey);
+                            testingController.itemClick(sevenItemId, SimulateShiftKey);
 
                             expectStateChange(onChange, {
                                 selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId],
@@ -471,12 +507,12 @@ describe('ListView', () => {
                         });
 
                         it(`Should unselect all selectable items and select only clicked item`, () => {
-                            listViewDriver.itemClick(thirdItemId);
-                            listViewDriver.itemClick(sevenItemId, SimulateShiftKey);
+                            testingController.itemClick(thirdItemId);
+                            testingController.itemClick(sevenItemId, SimulateShiftKey);
 
                             onChange.mockClear();
 
-                            listViewDriver.itemClick(firstItemId);
+                            testingController.itemClick(firstItemId);
 
                             expectStateChange(onChange, {
                                 selectedIds: [firstItemId],
@@ -532,12 +568,12 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.listKeyDown(keyboardNavigation.next);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+                                testingController.listKeyDown(keyboardNavigation.next);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [firstItemId, thirdItemId],
@@ -560,12 +596,12 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.itemClick(thirdItemId);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+                                testingController.itemClick(thirdItemId);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [firstItemId, thirdItemId],
@@ -588,14 +624,14 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.listKeyDown(keyboardNavigation.next);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [firstItemId, thirdItemId],
@@ -618,14 +654,14 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.itemClick(thirdItemId);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.itemClick(thirdItemId);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [firstItemId, thirdItemId],
@@ -648,22 +684,22 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.listKeyDown(keyboardNavigation.next);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
 
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [firstItemId, thirdItemId, sevenItemId, nineItemId],
@@ -686,22 +722,22 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.itemClick(nineItemId);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.itemClick(nineItemId);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
 
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [firstItemId, thirdItemId, sevenItemId, nineItemId],
@@ -725,15 +761,15 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.listKeyDown(keyboardNavigation.next);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(Keys.End, SimulateCtrlShiftKey);
+                                testingController.listKeyDown(Keys.End, SimulateCtrlShiftKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
@@ -756,13 +792,13 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.itemClick(lastItemId);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.itemClick(lastItemId);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(Keys.Home, SimulateCtrlShiftKey);
+                                testingController.listKeyDown(Keys.Home, SimulateCtrlShiftKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
@@ -786,15 +822,15 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.listKeyDown(keyboardNavigation.next);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(Keys.End, SimulateShiftKey);
+                                testingController.listKeyDown(Keys.End, SimulateShiftKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
@@ -817,17 +853,17 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.itemClick(lastItemId);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.itemClick(lastItemId);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(Keys.Home, SimulateShiftKey);
+                                testingController.listKeyDown(Keys.Home, SimulateShiftKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId],
@@ -851,15 +887,15 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.listKeyDown(keyboardNavigation.next);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(Keys.End, SimulateShiftKey);
+                                testingController.listKeyDown(Keys.End, SimulateShiftKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
@@ -882,17 +918,17 @@ describe('ListView', () => {
                                     listViewState: ListViewDefaultState,
                                 });
 
-                                listViewDriver.itemClick(lastItemId);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
-                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.itemClick(lastItemId);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
 
                                 onChange.mockClear();
 
-                                listViewDriver.listKeyDown(Keys.Home, SimulateShiftKey);
+                                testingController.listKeyDown(Keys.Home, SimulateShiftKey);
 
                                 expectStateChange(onChange, {
                                     selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId],
@@ -912,18 +948,6 @@ describe('ListView', () => {
             }
         );
     });
-
-    function createListViewItem(renderProps: ListViewRenderItemProps<{ text: string }, void>) {
-
-        return (
-            <div
-                {...renderProps.listViewItemRoot()}
-                onClick={renderProps.triggerInteractiveSelection}
-            >
-                {renderProps.dataItem.text}
-            </div>
-        )
-    }
 
     function expectNoStateChange(onChangeMock: Mock) {
         expect(onChangeMock).toHaveBeenCalledTimes(0);
@@ -975,3 +999,15 @@ describe('ListView', () => {
         return !!getItemMetadata(dataSource, itemId).isSelectable;
     }
 });
+
+function createListViewItem(renderProps: ListViewRenderItemProps<{ text: string }, void>) {
+
+    return (
+        <div
+            {...renderProps.listViewItemRoot()}
+            onClick={renderProps.triggerInteractiveSelection}
+        >
+            {renderProps.dataItem.text}
+        </div>
+    )
+}
