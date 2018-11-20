@@ -94,8 +94,8 @@ export function parseListViewInfo (str) : ExtractedListViewInfo {
     const listViewDataSource = [];
     const selectedIds = [];
     const disabledIds = [];
-    let selectionStartId = undefined;
-    let currentItemId = undefined;
+    let selectionStartId = null;
+    let currentItemId = null;
 
     for (var i = 0; i < splittedListViewInfo.length; i++)
     {
@@ -144,7 +144,7 @@ export function parseListViewInfo (str) : ExtractedListViewInfo {
 
             if (isSelectionStart)
             {
-                if (selectionStartId !== undefined)
+                if (selectionStartId !== null)
                 {
                     throw new Error(`Selection start was set on both items ${selectionStartId} and ${itemId}`);
                 }
@@ -154,7 +154,7 @@ export function parseListViewInfo (str) : ExtractedListViewInfo {
 
             if (isCurrent)
             {
-                if (currentItemId !== undefined)
+                if (currentItemId !== null)
                 {
                     throw new Error(`Current item was set both for item ${currentItemId} and ${itemId}`);
                 }
@@ -206,10 +206,46 @@ interface ListViewTesterOptions<T,S>
     dataItemEqualityComparer?: EqualityComparer<T>;
 }
 
+class ExpectedListViewInfo
+{
+    private _ignoreSelectionStart: boolean = false;
+    private _ignoreCurrentItem: boolean = false;
+
+    constructor (private extractedListViewInfo: ExtractedListViewInfo) {
+
+    }
+
+    ignoreSelectionStart () {
+        this._ignoreSelectionStart = true;
+        return this;
+    }
+
+    ignoreCurrentItem () {
+        this._ignoreCurrentItem = true;
+        return this;
+    }
+
+    getExtractedListViewInfo () {
+        return this.extractedListViewInfo;
+    }
+
+    shouldIgnoreSelectionStart () {
+        return this._ignoreSelectionStart;
+    }
+
+    shouldIgnoreCurrentItem () {
+        return this._ignoreCurrentItem;
+    }
+}
+
+export function expectListViewInfo (extractedListViewInfo: ExtractedListViewInfo) {
+    return new ExpectedListViewInfo(extractedListViewInfo);
+}
+
 interface TestListViewOptions<T,S>
 {
     testedInput: ExtractedListViewInfo,
-    expectedOutput: ExtractedListViewInfo,
+    expectedOutput: ExtractedListViewInfo | ExpectedListViewInfo,
     testExecution: (listViewTestingController: ListViewTestingController<T, S>) => void,
     orientation?: NavigationOrientation,
     contextArg?: S,
@@ -244,9 +280,35 @@ export class ListViewTester<T,S>
             listViewDataSource
         } = testedInput;
 
+        let extractedListViewInfo;
+        let shouldIgnoreSelectionStart: boolean = false;
+        let shouldIgnoreCurrentItem: boolean = false;
+
+        if (expectedOutput instanceof ExpectedListViewInfo)
+        {
+            extractedListViewInfo = expectedOutput.getExtractedListViewInfo();
+            shouldIgnoreSelectionStart = expectedOutput.shouldIgnoreSelectionStart();
+            shouldIgnoreCurrentItem = expectedOutput.shouldIgnoreCurrentItem();
+        }
+        else
+        {
+            extractedListViewInfo = expectedOutput;
+        }
+
         const {
             listViewState: expectedListViewState
-        } = expectedOutput;
+        } = extractedListViewInfo;
+
+        if (shouldIgnoreSelectionStart)
+        {
+            delete expectedListViewState.selectionStartId;
+        }
+
+        if (shouldIgnoreCurrentItem)
+        {
+            delete expectedListViewState.currentNavigatableItemId;
+        }
+
 
         const onChange = jest.fn(listViewState => {
         });
@@ -404,7 +466,6 @@ function expectStateChange(onChangeMock: Mock, expectedListViewState: Partial<Li
     if (expectedSelectedIds !== undefined) {
         expect(expectedSelectedIds).toHaveSameItems(updatedState.selectedIds);
     }
-
 
     if (expectedDisabledIds !== undefined) {
         expect(expectedDisabledIds).toHaveSameItems(updatedState.disabledIds);
