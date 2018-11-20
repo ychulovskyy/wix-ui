@@ -8,10 +8,10 @@ const LoadablePopover = Loadable({
     return (
       <PopoverComp shown>
         <PopoverComp.Element>
-          {props[0].element}
+          {props.element}
         </PopoverComp.Element>
         <PopoverComp.Content>
-          {props[0].content}
+          {props.content}
         </PopoverComp.Content>
       </PopoverComp>
     )
@@ -19,7 +19,7 @@ const LoadablePopover = Loadable({
   loading: () => <div>bblbla</div>
 });
 
-export const Popover: React.SFC<any> = (...props) => {
+export const Popover: React.SFC<any> = props => {
   return <LoadablePopover {...props}/>;
 };
 
