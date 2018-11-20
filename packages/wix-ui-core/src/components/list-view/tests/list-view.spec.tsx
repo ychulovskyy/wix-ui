@@ -87,11 +87,11 @@ describe('ListViewNew', () => {
         });
     });
 
-    it ('"SELECTED(<{X}>),X" => MoveNext => "X,SELECTED(<{X}>)"', () => {
+    it ('"SELECTED(<{X}>) , X" => MoveNext => "X , SELECTED(<{X}>)"', () => {
 
         listViewTester.testListView({
-            testedInput: parseListViewInfo("SELECTED(<{X}>),X"),
-            expectedOutput: parseListViewInfo("X,SELECTED(<{X}>)"),
+            testedInput: parseListViewInfo("SELECTED(<{X}>) , X"),
+            expectedOutput: parseListViewInfo("X , SELECTED(<{X}>)"),
             selectionType: ListViewSelectionType.Single,
             testExecution: driver => {
                 driver.listKeyDown(Keys.ArrowDown);
