@@ -55,7 +55,8 @@ enum Keys
     ArrowRight = 'ArrowRight',
     Home = 'Home',
     End = 'End',
-    Space = ' '
+    Space = ' ',
+    a = 'a'
 }
 
 describe('ListView', () => {
@@ -520,7 +521,7 @@ describe('ListView', () => {
                             }
                         ];
 
-                        it(`"Next Key" - Should select items 1 & 3 and set the current to 3 witch (Ctrl + Shift + Next Key)`, () => {
+                        it(`"Next Key" - Should select items 1 & 3 and set the current to 3 with (Ctrl + Shift + Next Key)`, () => {
 
                             for (let i = 0; i < keyboardNavigations.length; i++)
                             {
@@ -548,7 +549,7 @@ describe('ListView', () => {
                             }
                         });
 
-                        it(`"Prev Key" - Should select items 1 & 3 and set the current to 3 witch (Ctrl + Shift + Prev Key)`, () => {
+                        it(`"Prev Key" - Should select items 1 & 3 and set the current to 3 with (Ctrl + Shift + Prev Key)`, () => {
 
                             for (let i = 0; i < keyboardNavigations.length; i++)
                             {
@@ -576,7 +577,7 @@ describe('ListView', () => {
                             }
                         });
 
-                        it(`"Next Key" - Should select items 1 & 3 and set the current to 3 witch (Ctrl + Space + Next Key)`, () => {
+                        it(`"Next Key" - Should select items 1 & 3 and set the current to 3 with (Ctrl + Space + Next Key)`, () => {
 
                             for (let i = 0; i < keyboardNavigations.length; i++)
                             {
@@ -606,7 +607,7 @@ describe('ListView', () => {
                             }
                         });
 
-                        it(`"Prev Key" - Should select items 1 & 3 and set the current to 3 witch (Ctrl + Space + Prev Key)`, () => {
+                        it(`"Prev Key" - Should select items 1 & 3 and set the current to 3 with (Ctrl + Space + Prev Key)`, () => {
 
                             for (let i = 0; i < keyboardNavigations.length; i++)
                             {
@@ -713,7 +714,7 @@ describe('ListView', () => {
                         });
 
 
-                        it(`"Next Key + End" - Should select items 1 & 3 & 5 & 7 & 9 (((Ctrl + Space) | (Ctrl + Shift + End)) + Next Key)`, () => {
+                        it(`"Next Key + End" - Should select items 1 & 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Ctrl + Shift + End)) + Next Key)`, () => {
 
                             for (let i = 0; i < keyboardNavigations.length; i++)
                             {
@@ -744,7 +745,7 @@ describe('ListView', () => {
                             }
                         });
 
-                        it(`"Prev Key + Home" - Should select items 1 & 3 & 5 & 7 & 9 (((Ctrl + Space) | (Ctrl + Shift + Home)) + Prev Key)`, () => {
+                        it(`"Prev Key + Home" - Should select items 1 & 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Ctrl + Shift + Home)) + Prev Key)`, () => {
 
                             for (let i = 0; i < keyboardNavigations.length; i++)
                             {
@@ -766,6 +767,136 @@ describe('ListView', () => {
                                 expectStateChange(onChange, {
                                     selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
                                     selectionStartId: elevenItemId,
+                                    currentNavigatableItemId: firstItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+
+                        it(`"Next Key + End" - Should select items 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Shift + End)) + Next Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.listKeyDown(keyboardNavigation.next);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(Keys.End, SimulateShiftKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
+                                    selectionStartId: thirdItemId,
+                                    currentNavigatableItemId: lastItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+                        it(`"Prev Key + Home" - Should select items 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Shift + Home)) + Prev Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.itemClick(lastItemId);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(Keys.Home, SimulateShiftKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId],
+                                    selectionStartId: nineItemId,
+                                    currentNavigatableItemId: firstItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+
+                        it(`"Next Key + End" - Should select items 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Shift + End)) + Next Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.listKeyDown(keyboardNavigation.next);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(Keys.End, SimulateShiftKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
+                                    selectionStartId: thirdItemId,
+                                    currentNavigatableItemId: lastItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+                        it(`"Prev Key + Home" - Should select items 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Shift + Home)) + Prev Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.itemClick(lastItemId);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(Keys.Home, SimulateShiftKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId],
+                                    selectionStartId: nineItemId,
                                     currentNavigatableItemId: firstItemId,
                                 });
 
