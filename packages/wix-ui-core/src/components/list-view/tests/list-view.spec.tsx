@@ -1,20 +1,20 @@
 import * as React from 'react';
 import {times, partition, find} from 'lodash';
 import {createDriver, SimulateCtrlKey, SimulateCtrlShiftKey, SimulateShiftKey} from './list-view.driver';
-import {mount} from "enzyme";
-import {ListView} from "../list-view";
+import {mount} from 'enzyme';
+import {ListView} from '../list-view';
 import {
     ListViewDataSourceDataItem,
     ListViewDefaultState,
     ListViewItemId,
     ListViewRenderItemProps,
     ListViewSelectionType,
-    ListViewState
-} from "../list-view-types";
+    ListViewState, NavigationOrientation
+} from '../list-view-types';
 import Mock = jest.Mock;
 
 expect.extend({
-    toHaveSameItems (receivedArr, targetArr) {
+    toHaveSameItems(receivedArr, targetArr) {
 
         let pass = false;
 
@@ -91,7 +91,7 @@ describe('ListView', () => {
 
         return {
             id: id,
-            isSelectable: id % 2 !== 0 ,
+            isSelectable: id % 2 !== 0,
             dataItem: {
                 text: `Item ${id}`
             }
@@ -120,43 +120,43 @@ describe('ListView', () => {
 
     listViewDriver = createDriver(listView);
 
-    describe (`ListView generic test cases`, () => {
+    describe(`ListView generic test cases`, () => {
         listViewTestCasesArr = [
             {
-                title: "Alternating data source splitted to 2 groups with separator between them",
+                title: 'Alternating data source splitted to 2 groups with separator between them',
                 dataSource: alternatingDataSource,
-                getChildren () {
+                getChildren() {
                     return [
                         group1,
                         <div className="separator"/>,
                         group2
                     ]
                 },
-                getNonNavigatableItem (listView) {
+                getNonNavigatableItem(listView) {
                     return listView.find('.separator');
                 }
             },
             {
-                title: "Alternating data source surrounded with header and footer",
+                title: 'Alternating data source surrounded with header and footer',
                 dataSource: alternatingDataSource,
-                getChildren () {
+                getChildren() {
                     return [
                         <div className="header"/>,
                         alternatingDataSource,
                         <div className="footer"/>
                     ]
                 },
-                getNonNavigatableItem (listView) {
+                getNonNavigatableItem(listView) {
                     return listView.find('.footer');
                 }
             },
             {
-                title: "Selectable Items DataSource",
+                title: 'Selectable Items DataSource',
                 dataSource: selectableItemsDataSource,
-                getChildren () {
+                getChildren() {
                     return selectableItemsDataSource
                 },
-                getNonNavigatableItem (listView) {
+                getNonNavigatableItem(listView) {
 
                 }
             }
@@ -175,7 +175,7 @@ describe('ListView', () => {
                 getNonNavigatableItem
             } = testCase;
 
-            describe (`ListView test-case '${title}'`, () => {
+            describe(`ListView test-case '${title}'`, () => {
 
                 let separator;
 
@@ -222,9 +222,8 @@ describe('ListView', () => {
                             });
                         });
 
-                        if (separator)
-                        {
-                            it (`User clicked on a non-selectable item`, () => {
+                        if (separator) {
+                            it(`User clicked on a non-selectable item`, () => {
 
                                 separator.simulate('click');
 
@@ -240,8 +239,7 @@ describe('ListView', () => {
                                 SimulateShiftKey
                             ];
 
-                            for (let keysCombination of keysCombinationsArr)
-                            {
+                            for (let keysCombination of keysCombinationsArr) {
                                 listViewDriver.itemClick(1);
 
                                 onChange.mockClear();
@@ -263,16 +261,15 @@ describe('ListView', () => {
                 const testedSelectionTypes = [
                     {
                         selectionType: ListViewSelectionType.Multiple,
-                        title: "Multiple Selection"
+                        title: 'Multiple Selection'
                     },
                     {
                         selectionType: ListViewSelectionType.Single,
-                        title: "Single Selection"
+                        title: 'Single Selection'
                     },
                 ];
 
-                for (var selectionTypeInfo of testedSelectionTypes)
-                {
+                for (var selectionTypeInfo of testedSelectionTypes) {
                     (function (selectionTypeInfo) {
 
                         describe(`ListView basic keyboard interaction with ${selectionTypeInfo.title}`, () => {
@@ -284,7 +281,7 @@ describe('ListView', () => {
                                 });
                             });
 
-                            it (`Should select the first item when ArrowDown is pressed`, () => {
+                            it(`Should select the first item when ArrowDown is pressed`, () => {
 
                                 const firstItemId = getItemIdByIndex(dataSource, 0);
 
@@ -297,7 +294,7 @@ describe('ListView', () => {
 
                             });
 
-                            it (`Should move to the second item when ArrowDown is pressed.`, () => {
+                            it(`Should move to the second item when ArrowDown is pressed.`, () => {
 
                                 const secondItemId = getItemIdByIndex(dataSource, 1);
 
@@ -310,7 +307,7 @@ describe('ListView', () => {
 
                             });
 
-                            it (`Should navigate to the last item when 'End' key is pressed.`, () => {
+                            it(`Should navigate to the last item when 'End' key is pressed.`, () => {
                                 listViewDriver.listKeyDown(Keys.End);
 
                                 expectStateChange(onChange, {
@@ -319,7 +316,7 @@ describe('ListView', () => {
                                 });
                             });
 
-                            it (`Should navigate to the first item when 'Home' key is pressed.`, () => {
+                            it(`Should navigate to the first item when 'Home' key is pressed.`, () => {
                                 listViewDriver.listKeyDown(Keys.Home);
 
                                 expectStateChange(onChange, {
@@ -334,206 +331,458 @@ describe('ListView', () => {
         }
     });
 
-    describe (`ListView specific test cases`, () => {
-        describe('ListView with multiple selection - alternating selectable data source', () => {
+    describe(`ListView specific test cases`, () => {
+        describe('Multiple selection', () => {
 
-            beforeAll(() => {
-                listView.setProps({
-                    children: [
-                        group1,
-                        group2
-                    ]
+                beforeEach(() => {
+                    listView.setProps({
+                        selectionType: ListViewSelectionType.Multiple,
+                    });
                 });
 
-                listView.setProps({
-                    selectionType: ListViewSelectionType.Multiple,
+                describe('Mixture of selectable and none selectable items', () => {
+                    // We'll create a data source that will contain items for ListView.
+                    // Items with odd ids will be selectable and the others will be only "navigatable"
+                    const selectableAndNotSelectableDataSource = times(dataSourceItemsCount, index => {
+                        const id = index + 1;
+
+                        return {
+                            id: id,
+                            isSelectable: id % 2 !== 0,
+                            dataItem: {
+                                text: `Item ${id}`
+                            }
+                        }
+                    });
+
+                    beforeEach(() => {
+                        listView.setProps({
+                            children: selectableAndNotSelectableDataSource
+                        });
+                    });
+
+                    describe('Mouse Interactions', () => {
+
+                        const firstItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 0);
+                        const secondItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 1);
+                        const thirdItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 2);
+                        const fifthItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 4);
+                        const sevenItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 6);
+
+                        beforeEach(() => {
+
+                            listView.setProps({
+                                listViewState: ListViewDefaultState
+                            });
+
+                            onChange.mockClear();
+                        });
+
+
+                        it(`Should select a selectable item when it's clicked`, () => {
+
+                            listViewDriver.itemClick(firstItemId);
+
+                            expectStateChange(onChange, {
+                                selectedIds: [firstItemId],
+                                selectionStartId: firstItemId,
+                                currentNavigatableItemId: firstItemId,
+                            });
+                        });
+
+                        it(`Should add to selection when a different selectable item is clicked with ctrl`, () => {
+
+                            listViewDriver.itemClick(firstItemId);
+
+                            onChange.mockClear();
+
+                            listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
+
+                            expectStateChange(onChange, {
+                                selectedIds: [firstItemId, thirdItemId],
+                                selectionStartId: thirdItemId,
+                                currentNavigatableItemId: thirdItemId,
+                            });
+                        });
+
+                        it(`Should move the current item but leaves the selection intact when clicking with ctrl a non selectable item.`, () => {
+
+                            listViewDriver.itemClick(firstItemId);
+                            listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
+
+                            onChange.mockClear();
+
+                            listViewDriver.itemClick(secondItemId, SimulateCtrlKey);
+
+                            expectStateChange(onChange, {
+                                selectedIds: [firstItemId, thirdItemId],
+                                selectionStartId: thirdItemId,
+                                currentNavigatableItemId: secondItemId,
+                            });
+                        });
+
+                        it(`Should remove from selection when a selected item is clicked with ctrl and keep other selected items selected`, () => {
+
+                            listViewDriver.itemClick(firstItemId);
+                            listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
+                            listViewDriver.itemClick(secondItemId, SimulateCtrlKey);
+
+                            onChange.mockClear();
+
+                            listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
+
+                            expectStateChange(onChange, {
+                                selectedIds: [firstItemId],
+                                selectionStartId: thirdItemId,
+                                currentNavigatableItemId: thirdItemId,
+                            });
+                        });
+
+                        it(`Should keep current selection and add to selection selectable items from selection start to clicked item when item is clicked with ctrl+shift`, () => {
+                            listViewDriver.itemClick(firstItemId);
+                            listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
+
+                            onChange.mockClear();
+
+                            listViewDriver.itemClick(sevenItemId, SimulateCtrlShiftKey);
+
+                            expectStateChange(onChange, {
+                                selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId],
+                                selectionStartId: thirdItemId,
+                                currentNavigatableItemId: sevenItemId,
+                            });
+
+                        });
+
+                        it(`Should select all selectable items in range between selection start to last clicked item when item is clicked with shift`, () => {
+                            listViewDriver.itemClick(firstItemId);
+
+                            onChange.mockClear();
+
+                            listViewDriver.itemClick(sevenItemId, SimulateShiftKey);
+
+                            expectStateChange(onChange, {
+                                selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId],
+                                selectionStartId: firstItemId,
+                                currentNavigatableItemId: sevenItemId,
+                            });
+
+                        });
+
+                        it(`Should unselect all selectable items and select only clicked item`, () => {
+                            listViewDriver.itemClick(thirdItemId);
+                            listViewDriver.itemClick(sevenItemId, SimulateShiftKey);
+
+                            onChange.mockClear();
+
+                            listViewDriver.itemClick(firstItemId);
+
+                            expectStateChange(onChange, {
+                                selectedIds: [firstItemId],
+                                selectionStartId: firstItemId,
+                                currentNavigatableItemId: firstItemId,
+                            });
+
+                        });
+                    });
+
+                    describe('Keyboard Interactions - mixture of selectable and none selectable items', () => {
+
+                        const firstItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 0);
+                        const secondItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 1);
+                        const thirdItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 2);
+                        const fifthItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 4);
+                        const sevenItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 6);
+                        const nineItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 8);
+                        const elevenItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 10);
+                        const lastItemId = getItemIdByIndex(selectableAndNotSelectableDataSource, 11);
+
+                        beforeEach(() => {
+
+                            listView.setProps({
+                                listViewState: ListViewDefaultState,
+                            });
+
+                            onChange.mockClear();
+                        });
+
+
+                        const keyboardNavigations = [
+                            {
+                                next: Keys.ArrowDown,
+                                prev: Keys.ArrowUp,
+                                orientation: NavigationOrientation.Vertical
+                            },
+                            {
+                                next: Keys.ArrowRight,
+                                prev: Keys.ArrowLeft,
+                                orientation: NavigationOrientation.Horizontal
+                            }
+                        ];
+
+                        it(`"Next Key" - Should select items 1 & 3 and set the current to 3 witch (Ctrl + Shift + Next Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.listKeyDown(keyboardNavigation.next);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [firstItemId, thirdItemId],
+                                    selectionStartId: firstItemId,
+                                    currentNavigatableItemId: thirdItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+                        it(`"Prev Key" - Should select items 1 & 3 and set the current to 3 witch (Ctrl + Shift + Prev Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.itemClick(thirdItemId);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [firstItemId, thirdItemId],
+                                    selectionStartId: thirdItemId,
+                                    currentNavigatableItemId: firstItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+                        it(`"Next Key" - Should select items 1 & 3 and set the current to 3 witch (Ctrl + Space + Next Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.listKeyDown(keyboardNavigation.next);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [firstItemId, thirdItemId],
+                                    selectionStartId: thirdItemId,
+                                    currentNavigatableItemId: thirdItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+                        it(`"Prev Key" - Should select items 1 & 3 and set the current to 3 witch (Ctrl + Space + Prev Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.itemClick(thirdItemId);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [firstItemId, thirdItemId],
+                                    selectionStartId: firstItemId,
+                                    currentNavigatableItemId: firstItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+                        it(`"Next Key" - Should select items 1 & 3 & 7 & 9 (((Ctrl + Space) | (Ctrl + Shift)) + Next Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.listKeyDown(keyboardNavigation.next);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [firstItemId, thirdItemId, sevenItemId, nineItemId],
+                                    selectionStartId: sevenItemId,
+                                    currentNavigatableItemId: nineItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+                        it(`"Prev Key" - Should select items 1 & 3 & 7 & 9 (((Ctrl + Space) | (Ctrl + Shift)) + Prev Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.itemClick(nineItemId);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [firstItemId, thirdItemId, sevenItemId, nineItemId],
+                                    selectionStartId: thirdItemId,
+                                    currentNavigatableItemId: firstItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+
+                        it(`"Next Key + End" - Should select items 1 & 3 & 5 & 7 & 9 (((Ctrl + Space) | (Ctrl + Shift + End)) + Next Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.listKeyDown(keyboardNavigation.next);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(Keys.End, SimulateCtrlShiftKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
+                                    selectionStartId: thirdItemId,
+                                    currentNavigatableItemId: lastItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+                        it(`"Prev Key + Home" - Should select items 1 & 3 & 5 & 7 & 9 (((Ctrl + Space) | (Ctrl + Shift + Home)) + Prev Key)`, () => {
+
+                            for (let i = 0; i < keyboardNavigations.length; i++)
+                            {
+                                let keyboardNavigation = keyboardNavigations[i];
+
+                                listView.setProps({
+                                    orientation: keyboardNavigation.orientation,
+                                    listViewState: ListViewDefaultState,
+                                });
+
+                                listViewDriver.itemClick(lastItemId);
+                                listViewDriver.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+                                listViewDriver.listKeyDown(Keys.Space, SimulateCtrlKey);
+
+                                onChange.mockClear();
+
+                                listViewDriver.listKeyDown(Keys.Home, SimulateCtrlShiftKey);
+
+                                expectStateChange(onChange, {
+                                    selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
+                                    selectionStartId: elevenItemId,
+                                    currentNavigatableItemId: firstItemId,
+                                });
+
+                                onChange.mockClear();
+                            }
+                        });
+
+                    })
+
                 });
-            });
-
-            const firstItemId = getItemIdByIndex(alternatingDataSource, 0);
-            const secondItemId = getItemIdByIndex(alternatingDataSource, 1);
-            const thirdItemId = getItemIdByIndex(alternatingDataSource, 2);
-            const fifthItemId = getItemIdByIndex(alternatingDataSource, 4);
-            const sevenItemId = getItemIdByIndex(alternatingDataSource, 6);
-            const nineItemId = getItemIdByIndex(alternatingDataSource, 8);
-            const elevenItemId = getItemIdByIndex(alternatingDataSource, 10);
-
-            beforeEach(() => {
-
-                listView.setProps({
-                    listViewState: ListViewDefaultState
-                });
-
-                onChange.mockClear();
-                renderItem.mockClear();
-            });
 
 
-            it(`Should select a selectable item when it's clicked`, () => {
-
-                listViewDriver.itemClick(firstItemId);
-
-                expectStateChange(onChange, {
-                    selectedIds: [firstItemId],
-                    selectionStartId: firstItemId,
-                    currentNavigatableItemId: firstItemId,
-                });
-            });
-
-            it(`Should add to selection when a different selectable item is clicked with ctrl`, () => {
-
-                listViewDriver.itemClick(firstItemId);
-
-                onChange.mockClear();
-
-                listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
-
-                expectStateChange(onChange, {
-                    selectedIds: [firstItemId,thirdItemId],
-                    selectionStartId: thirdItemId,
-                    currentNavigatableItemId: thirdItemId,
-                });
-            });
-
-            it (`Should move the current item but leaves the selection intact when clicking with ctrl a non selectable item.`, () => {
-
-                listViewDriver.itemClick(firstItemId);
-                listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
-
-                onChange.mockClear();
-
-                listViewDriver.itemClick(secondItemId, SimulateCtrlKey);
-
-                expectStateChange(onChange, {
-                    selectedIds: [firstItemId,thirdItemId],
-                    selectionStartId: thirdItemId,
-                    currentNavigatableItemId: secondItemId,
-                });
-            });
-
-            it(`Should remove from selection when a selected item is clicked with ctrl and keep other selected items selected`, () => {
-
-                listViewDriver.itemClick(firstItemId);
-                listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
-                listViewDriver.itemClick(secondItemId, SimulateCtrlKey);
-
-                onChange.mockClear();
-
-                listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
-
-                expectStateChange(onChange, {
-                    selectedIds: [firstItemId],
-                    selectionStartId: thirdItemId,
-                    currentNavigatableItemId: thirdItemId,
-                });
-            });
-
-            it(`Should keep current selection and add to selection selectable items from selection start to clicked item when item is clicked with ctrl+shift`, () => {
-                listViewDriver.itemClick(firstItemId);
-                listViewDriver.itemClick(thirdItemId, SimulateCtrlKey);
-
-                onChange.mockClear();
-
-                listViewDriver.itemClick(sevenItemId, SimulateCtrlShiftKey);
-
-                expectStateChange(onChange, {
-                    selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId],
-                    selectionStartId: thirdItemId,
-                    currentNavigatableItemId: sevenItemId,
-                });
-
-            });
-
-            it(`Should select all selectable items in range between selection start to last clicked item when item is clicked with shift`, () => {
-                listViewDriver.itemClick(firstItemId);
-
-                onChange.mockClear();
-
-                listViewDriver.itemClick(sevenItemId, SimulateShiftKey);
-
-                expectStateChange(onChange, {
-                    selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId],
-                    selectionStartId: firstItemId,
-                    currentNavigatableItemId: sevenItemId,
-                });
-
-            });
-
-            it(`Should unselect all selectable items and select only clicked item`, () => {
-                listViewDriver.itemClick(thirdItemId);
-                listViewDriver.itemClick(sevenItemId, SimulateShiftKey);
-
-                onChange.mockClear();
-
-                listViewDriver.itemClick(firstItemId);
-
-                expectStateChange(onChange, {
-                    selectedIds: [firstItemId],
-                    selectionStartId: firstItemId,
-                    currentNavigatableItemId: firstItemId,
-                });
-
-            });
-        });
-
-        describe('ListView with none selection', () => {
-
-            beforeAll(() => {
-                listView.setProps({
-                    children: [
-                        group1,
-                        group2
-                    ]
-                });
-
-                listView.setProps({
-                    selectionType: ListViewSelectionType.None,
-                });
-            });
-
-            const firstItemId = getItemIdByIndex(alternatingDataSource, 0);
-            const secondItemId = getItemIdByIndex(alternatingDataSource, 1);
-            const thirdItemId = getItemIdByIndex(alternatingDataSource, 2);
-            const fifthItemId = getItemIdByIndex(alternatingDataSource, 4);
-            const sevenItemId = getItemIdByIndex(alternatingDataSource, 6);
-            const nineItemId = getItemIdByIndex(alternatingDataSource, 8);
-            const elevenItemId = getItemIdByIndex(alternatingDataSource, 10);
-
-            beforeEach(() => {
-
-                listView.setProps({
-                    listViewState: ListViewDefaultState
-                });
-
-                onChange.mockClear();
-                renderItem.mockClear();
-            });
-
-            it(`Should not select a selectable item when it's clicked`, () => {
-
-                listViewDriver.itemClick(1);
-
-                expectStateChange(onChange, {
-                    selectedIds: null,
-                    selectionStartId: null,
-                    currentNavigatableItemId: 1,
-                });
-            });
-
-            it(`Should change current Navigatable when a different item is clicked and keep selectionStartId as null`, () => {
-                listViewDriver.itemClick(3);
-
-                expectStateChange(onChange, {
-                    selectedIds: null,
-                    selectionStartId: null,
-                    currentNavigatableItemId: 3,
-                });
-
-            });
-        });
+            }
+        );
     });
 
-    function createListViewItem (renderProps: ListViewRenderItemProps<{text: string}, void>) {
+    function createListViewItem(renderProps: ListViewRenderItemProps<{ text: string }, void>) {
 
         return (
             <div
@@ -545,11 +794,11 @@ describe('ListView', () => {
         )
     }
 
-    function expectNoStateChange (onChangeMock: Mock) {
+    function expectNoStateChange(onChangeMock: Mock) {
         expect(onChangeMock).toHaveBeenCalledTimes(0);
     }
 
-    function expectStateChange (onChangeMock: Mock, expectedListViewState: Partial<ListViewState>) {
+    function expectStateChange(onChangeMock: Mock, expectedListViewState: Partial<ListViewState>) {
         expect(onChangeMock).toHaveBeenCalledTimes(1);
 
         const {
@@ -563,38 +812,35 @@ describe('ListView', () => {
         const updatedState = singleCall[0];
 
 
-        if (expectedSelectedIds !== undefined)
-        {
+        if (expectedSelectedIds !== undefined) {
             expect(expectedSelectedIds).toHaveSameItems(updatedState.selectedIds);
         }
 
 
-        if (expectedDisabledIds !== undefined)
-        {
+        if (expectedDisabledIds !== undefined) {
             expect(expectedDisabledIds).toHaveSameItems(updatedState.disabledIds);
         }
 
         expect(onChangeMock).toBeCalledWith(expect.objectContaining(expectedShallowListViewStateProps));
     }
 
-    function expectRerendering (renderMock: Mock, renderItemsPropsArr: Array<Partial<ListViewRenderItemProps<any, any>>>) {
+    function expectRerendering(renderMock: Mock, renderItemsPropsArr: Array<Partial<ListViewRenderItemProps<any, any>>>) {
         expect(renderMock).toHaveBeenCalledTimes(renderItemsPropsArr.length);
 
-        for (let renderItemProps of renderItemsPropsArr)
-        {
+        for (let renderItemProps of renderItemsPropsArr) {
             expect(renderMock).toBeCalledWith(expect.objectContaining(renderItemProps));
         }
     }
 
-    function getItemIdByIndex (dataSource: Array<ListViewDataSourceDataItem<any>>, itemIndex: number) {
+    function getItemIdByIndex(dataSource: Array<ListViewDataSourceDataItem<any>>, itemIndex: number) {
         return dataSource[itemIndex].id;
     }
 
-    function getItemMetadata (dataSource: Array<ListViewDataSourceDataItem<any>>, itemId: ListViewItemId) {
+    function getItemMetadata(dataSource: Array<ListViewDataSourceDataItem<any>>, itemId: ListViewItemId) {
         return find(dataSource, item => item.id === itemId);
     }
 
-    function isSelectableItem (dataSource: Array<ListViewDataSourceDataItem<any>>, itemId: ListViewItemId) {
+    function isSelectableItem(dataSource: Array<ListViewDataSourceDataItem<any>>, itemId: ListViewItemId) {
         return !!getItemMetadata(dataSource, itemId).isSelectable;
     }
 });

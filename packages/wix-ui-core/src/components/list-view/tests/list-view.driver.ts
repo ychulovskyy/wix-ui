@@ -34,11 +34,11 @@ class ListViewDriver<T, S>
         this.findItem(itemId).simulate('click', metaDataKeyBoard)
     }
 
-    listKeyDown (keyCode: number, metaDataKeyBoard? : SimulateKeyboardMetaData) {
+    listKeyDown (key: string, metaDataKeyBoard? : SimulateKeyboardMetaData) {
 
         this.listView.find(ListViewItemViewWrapper).first().simulate('keyDown', {
             ...metaDataKeyBoard,
-            key: keyCode
+            key: key
         });
     }
 
