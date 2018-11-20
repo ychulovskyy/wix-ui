@@ -1,6 +1,13 @@
 import * as React from 'react';
 import {find, partition, times} from 'lodash';
-import {createListViewTestingController, SimulateCtrlKey, SimulateCtrlShiftKey, SimulateShiftKey, ListViewTester} from './list-view-test-utils';
+import {
+    createListViewTestingController,
+    SimulateCtrlKey,
+    SimulateCtrlShiftKey,
+    SimulateShiftKey,
+    ListViewTester,
+    parseListViewInfo
+} from './list-view-test-utils';
 import {mount} from 'enzyme';
 import {ListView} from '../list-view';
 import {
@@ -80,14 +87,12 @@ describe('ListViewNew', () => {
         });
     });
 
-    it ('"S(<{X}>),X" => MoveNext => "X,S(<{X}>)"', () => {
+    it ('"SELECTED(<{X}>),X" => MoveNext => "X,SELECTED(<{X}>)"', () => {
 
         listViewTester.testListView({
-            testedInput: "SELECTED(<{X}>),X",
-            expectedOutput: "X,S(<{X}>)",
-            listViewProps: {
-                selectionType: ListViewSelectionType.Single
-            },
+            testedInput: parseListViewInfo("SELECTED(<{X}>),X"),
+            expectedOutput: parseListViewInfo("X,SELECTED(<{X}>)"),
+            selectionType: ListViewSelectionType.Single,
             testExecution: driver => {
                 driver.listKeyDown(Keys.ArrowDown);
             }

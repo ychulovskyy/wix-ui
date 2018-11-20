@@ -1,30 +1,22 @@
-/*
-
-S => Selectable List View Item
-NS => Non Selectable List View Item
--- => An element that's not a list view item (usually a separator)
-{} => SelectionStart
-<> -> Current
-S() | SELECTED() -> Range of selection
-D() | DISABLED() -> Range of disabled items
-
- */
-
 import {
-    ListViewDataSourceItem, ListViewItemId,
-    ListViewRenderItem,
-    ListViewState
+    EqualityComparer,
+    ListViewItemId, ListViewItemMetadata,
+    ListViewRenderItem, ListViewSelectionType,
+    ListViewState, NavigationOrientation, TypeAheadStrategy
 } from "../list-view-types";
 import {mount, ReactWrapper} from "enzyme";
 import {ListView, ListViewProps} from "../list-view";
 import * as React from "react";
 import Mock = jest.Mock;
 import {ListViewItemViewWrapper} from "../list-view-item-view-wrapper";
+import {ReactElement} from "react";
 
-interface ExtractedListViewInfo<T>
+type ListViewDataSourceItemTemplate = ListViewItemMetadata | ReactElement<any>;
+
+interface ExtractedListViewInfo
 {
     listViewState: Partial<ListViewState>,
-    listViewDataSource: Array<ListViewDataSourceItem<T>>
+    listViewDataSource: Array<ListViewDataSourceItemTemplate>
 }
 
 const isSelectedRegex = /^(?:S|SELECTED)\(([^)]+)\)$/;
@@ -79,7 +71,21 @@ function normalizeListViewInfoStr (str) {
     })
 }
 
-function extractListViewInfo<T> (str, itemFactory) : ExtractedListViewInfo<T> {
+/*
+    Extracts list view data source and state from string, according to the following legend:
+
+    X => Selectable List View Item
+    NX => Non Selectable List View Item
+    -- => An element that's not a list view item (usually a separator)
+    {X} => SelectionStart - Optional - must appear at most one time in the string
+    <X|NX> => Current - Optional - must appear at most one time in the string
+    S(X,...,X) | SELECTED(X,...,X) => Range of selection - Can't Wrap non selectable or disabled items.
+    D(X|NX,...,X|NX) | DISABLED(X|NX,...,X|NX) => Range of disabled items - can't wrap selected items.
+
+    Example:
+        X,S({X},X,X),NX,--,D(X,NX),<X>
+*/
+export function parseListViewInfo (str) : ExtractedListViewInfo {
     const normalizedListViewInfoStr = normalizeListViewInfoStr(str);
 
     const splittedListViewInfo = normalizedListViewInfoStr.split(',').map(item => item.trim());
@@ -173,16 +179,8 @@ function extractListViewInfo<T> (str, itemFactory) : ExtractedListViewInfo<T> {
                 throw new Error(`Disabled item ${itemId} can't be marked as current`);
             }
 
-            const itemInfo = itemFactory(itemId);
-            const {
-                dataItem,
-                typeAheadText
-            } = itemInfo;
-
             listViewDataSource.push({
                 id: itemId,
-                dataItem,
-                typeAheadText,
                 isSelectable: isSelectable
             });
         }
@@ -199,30 +197,38 @@ function extractListViewInfo<T> (str, itemFactory) : ExtractedListViewInfo<T> {
     };
 }
 
-type GenerateItemFunc<T> = (id: number) => {dataItem: T, typeAheadText: string | null};
+type GenerateItemFunc<T> = (id: ListViewItemId) => {dataItem: T, typeAheadText: string | null};
 
 interface ListViewTesterOptions<T,S>
 {
     renderItem: ListViewRenderItem<T, S>,
-    generateItem: GenerateItemFunc<T>
+    generateItem: GenerateItemFunc<T>,
+    dataItemEqualityComparer?: EqualityComparer<T>;
 }
 
 interface TestListViewOptions<T,S>
 {
-    testedInput: string,
-    expectedOutput: string,
+    testedInput: ExtractedListViewInfo,
+    expectedOutput: ExtractedListViewInfo,
     testExecution: (listViewTestingController: ListViewTestingController<T, S>) => void,
-    listViewProps?: Partial<ListViewProps<T,S>>
+    orientation?: NavigationOrientation,
+    contextArg?: S,
+    contextArgEqualityComparer?: EqualityComparer<S>,
+    isCyclic?: boolean,
+    typeAheadStrategy?: TypeAheadStrategy,
+    selectionType?: ListViewSelectionType,
 }
 
 export class ListViewTester<T,S>
 {
     private renderItem: ListViewRenderItem<T, S>;
     private generateItem: GenerateItemFunc<T>;
+    private dataItemEqualityComparer?: EqualityComparer<T> = undefined;
 
     constructor (options: ListViewTesterOptions<T,S>) {
         this.renderItem = options.renderItem;
         this.generateItem = options.generateItem;
+        this.dataItemEqualityComparer = options.dataItemEqualityComparer;
     }
 
     testListView (options: TestListViewOptions<T,S>) {
@@ -230,17 +236,17 @@ export class ListViewTester<T,S>
             testedInput,
             expectedOutput,
             testExecution,
-            listViewProps
+            ...listViewProps
         } = options;
 
         const {
             listViewState,
             listViewDataSource
-        } = extractListViewInfo<T>(testedInput, this.generateItem);
+        } = testedInput;
 
         const {
             listViewState: expectedListViewState
-        } = extractListViewInfo<T>(expectedOutput, this.generateItem);
+        } = expectedOutput;
 
         const onChange = jest.fn(listViewState => {
         });
@@ -251,8 +257,24 @@ export class ListViewTester<T,S>
                 renderItem={this.renderItem}
                 listViewState={listViewState}
                 onChange={onChange}
+                dataItemEqualityComparer={this.dataItemEqualityComparer}
             >
-                {listViewDataSource}
+                {listViewDataSource.map(dataSourceItem => {
+
+                    if (React.isValidElement(dataSourceItem))
+                    {
+                        return dataSourceItem;
+                    }
+                    else
+                    {
+                        const dataItemInfo = this.generateItem((dataSourceItem as ListViewItemMetadata).id);
+
+                        return {
+                            ...dataSourceItem,
+                            ...dataItemInfo
+                        }
+                    }
+                })}
             </ListView>
         );
 
