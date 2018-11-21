@@ -6,7 +6,7 @@ import {
     SimulateCtrlShiftKey,
     SimulateShiftKey,
     ListViewTester,
-    parseListViewInfo
+    parseListViewInfo, expectListViewInfo
 } from './list-view-test-utils';
 import {mount} from 'enzyme';
 import {ListView} from '../list-view';
@@ -66,7 +66,7 @@ enum Keys
     a = 'a'
 }
 
-describe('ListViewNew', () => {
+describe('ListViewNew New', () => {
 
     let listViewTester;
 
@@ -87,17 +87,556 @@ describe('ListViewNew', () => {
         });
     });
 
-    it ('"SELECTED(<{X}>) , X" => MoveNext => "X , SELECTED(<{X}>)"', () => {
 
-        listViewTester.testListView({
-            testedInput: parseListViewInfo("SELECTED(<{X}>) , X"),
-            expectedOutput: parseListViewInfo("X , SELECTED(<{X}>)"),
-            selectionType: ListViewSelectionType.Single,
-            testExecution: driver => {
-                driver.listKeyDown(Keys.ArrowDown);
-            }
+    describe('Multiple selection', () => {
+
+        let defaultMultipleProps = {
+            selectionType: ListViewSelectionType.Multiple,
+        };
+
+        describe('Mouse Interactions', () => {
+
+            it(`"SELECTED(<{X}>) , X" => click item 2 => "X , SELECTED(<{X}>)"`, () => {
+
+                listViewTester.testListView({
+                    testedInput: parseListViewInfo("SELECTED(<{X}>) , X"),
+                    expectedOutput: expectListViewInfo(parseListViewInfo("X , SELECTED(<{X}>)")),
+                    ...defaultMultipleProps,
+                    testExecution: driver => {
+                        driver.itemClick(1);
+                    }
+                });
+            });
+
+            it(`SELECTED(<{X}>) , X" => click item 2 with ctrl=> "SELECTED(X , <{X}>)"`, () => {
+
+                listViewTester.testListView({
+                    testedInput: parseListViewInfo("SELECTED(<{X}>) , X"),
+                    expectedOutput: expectListViewInfo(parseListViewInfo("SELECTED(X , <{X}>)")),
+                    ...defaultMultipleProps,
+                    testExecution: driver => {
+                        driver.itemClick(1, SimulateCtrlKey);
+                    }
+                });
+            });
+
+            it(`"SELECTED(<{X}>) , NX" => click item 2 with ctrl=> "SELECTED({X}) , <NX>"`, () => {
+
+                listViewTester.testListView({
+                    testedInput: parseListViewInfo("SELECTED(<{X}>) , NX"),
+                    expectedOutput: expectListViewInfo(parseListViewInfo("SELECTED({X}) , <NX>")),
+                    ...defaultMultipleProps,
+                    testExecution: driver => {
+                        driver.itemClick(1, SimulateCtrlKey);
+                    }
+                });
+            });
+
+            it(`"SELECTED(<{X}>, X)" => click item 2 with ctrl=> "SELECTED(X) , <{X}>"`, () => {
+
+                listViewTester.testListView({
+                    testedInput: parseListViewInfo("SELECTED(<{X}> , X)"),
+                    expectedOutput: expectListViewInfo(parseListViewInfo("SELECTED(X) , <{X}>")),
+                    ...defaultMultipleProps,
+                    testExecution: driver => {
+                        driver.itemClick(1, SimulateCtrlKey);
+                    }
+                });
+            });
+
+            it(`"SELECTED(X, X),X,<{X}>,X,X" => click item 6 with ctrl + shift=> "SELECTED(X, X),X,SELECTED({X},X,<X>)"`, () => {
+
+                listViewTester.testListView({
+                    testedInput: parseListViewInfo("SELECTED(X, X),X,<{X}>,X,X"),
+                    expectedOutput: expectListViewInfo(parseListViewInfo("SELECTED(X, X), X, SELECTED({X}, X, <X>)")),
+                    ...defaultMultipleProps,
+                    testExecution: driver => {
+                        driver.itemClick(5, SimulateCtrlShiftKey);
+                    }
+                });
+
+            });
+
+            it(`"SELECTED(X, X),X,<{X}>,X,X" => click item 6 with shift=> "X, X ,X ,SELECTED({X} ,X, <X>)"`, () => {
+
+                listViewTester.testListView({
+                    testedInput: parseListViewInfo("SELECTED(X, X),X,<{X}>,X,X"),
+                    expectedOutput: expectListViewInfo(parseListViewInfo("X, X ,X ,SELECTED({X} ,X, <X>)")),
+                    ...defaultMultipleProps,
+                    testExecution: driver => {
+                        driver.itemClick(5, SimulateShiftKey);
+                    }
+                });
+            });
+
+            it(`"SELECTED(X, X, X, <{X}>), X, X" => click item => "X, X, X, X, X, S(<{X}>)"`, () => {
+                listViewTester.testListView({
+                    testedInput: parseListViewInfo("SELECTED(X, X, X, <{X}>), X, X"),
+                    expectedOutput: expectListViewInfo(parseListViewInfo("X, X, X, X, X, S(<{X}>)")),
+                    ...defaultMultipleProps,
+                    testExecution: driver => {
+                        driver.itemClick(5);
+                    }
+                });
+
+            });
+        });
+
+        describe('Keyboard Interactions', () => {
+
+            const keyboardNavigations = [
+                {
+                    next: Keys.ArrowDown,
+                    prev: Keys.ArrowUp,
+                    orientation: NavigationOrientation.Vertical
+                },
+                {
+                    next: Keys.ArrowRight,
+                    prev: Keys.ArrowLeft,
+                    orientation: NavigationOrientation.Horizontal
+                }
+            ];
+
+            it ('"SELECTED(<{X}>) , X" => MoveNext => "X , SELECTED(<{X}>)"', () => {
+
+                for (let i = 0; i < keyboardNavigations.length; i++) {
+                    let keyboardNavigation = keyboardNavigations[i];
+
+                    listViewTester.testListView({
+                        testedInput: parseListViewInfo("SELECTED(<{X}>) , X"),
+                        expectedOutput: parseListViewInfo("X , SELECTED(<{X}>)"),
+                        selectionType: ListViewSelectionType.Single,
+                        orientation: keyboardNavigation.orientation,
+                        ...defaultMultipleProps,
+                        testExecution: driver => {
+                            driver.listKeyDown(keyboardNavigation.next);
+                        }
+                    });
+
+                }
+            });
+
+            it ('"X, SELECTED(<{X}>)" => MovePrev => "SELECTED(<{X}>), X"', () => {
+
+                for (let i = 0; i < keyboardNavigations.length; i++) {
+                    let keyboardNavigation = keyboardNavigations[i];
+
+                    listViewTester.testListView({
+                        testedInput: parseListViewInfo("X, SELECTED(<{X}>)"),
+                        expectedOutput: parseListViewInfo("SELECTED(<{X}>), X"),
+                        selectionType: ListViewSelectionType.Single,
+                        orientation: keyboardNavigation.orientation,
+                        ...defaultMultipleProps,
+                        testExecution: driver => {
+                            driver.listKeyDown(keyboardNavigation.prev);
+                        }
+                    });
+                }
+            });
+
+            it ('"SELECTED(X), X, X, <{X}>, X" => MoveNext + Ctrl + Shift => "SELECTED(X), X, X, SELECTED({X}, <X>)"', () => {
+
+                for (let i = 0; i < keyboardNavigations.length; i++) {
+                    let keyboardNavigation = keyboardNavigations[i];
+
+                    listViewTester.testListView({
+                        testedInput: parseListViewInfo("SELECTED(X), X, X, <{X}>, X"),
+                        expectedOutput: parseListViewInfo("SELECTED(X), X, X, SELECTED({X}, <X>)"),
+                        orientation: keyboardNavigation.orientation,
+                        ...defaultMultipleProps,
+                        testExecution: driver => {
+                            driver.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+                        }
+                    });
+                }
+            });
+
+            // it(`"Next Key" - Should select items 1 & 3 and set the current to 3 with (Ctrl + Shift + Next Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.listKeyDown(keyboardNavigation.next);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [firstItemId, thirdItemId],
+            //             selectionStartId: firstItemId,
+            //             currentNavigatableItemId: thirdItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+            //
+            // it(`"Prev Key" - Should select items 1 & 3 and set the current to 3 with (Ctrl + Shift + Prev Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.itemClick(thirdItemId);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [firstItemId, thirdItemId],
+            //             selectionStartId: thirdItemId,
+            //             currentNavigatableItemId: firstItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+            //
+            // it(`"Next Key" - Should select items 1 & 3 and set the current to 3 with (Ctrl + Space + Next Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.listKeyDown(keyboardNavigation.next);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [firstItemId, thirdItemId],
+            //             selectionStartId: thirdItemId,
+            //             currentNavigatableItemId: thirdItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+            //
+            // it(`"Prev Key" - Should select items 1 & 3 and set the current to 3 with (Ctrl + Space + Prev Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.itemClick(thirdItemId);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [firstItemId, thirdItemId],
+            //             selectionStartId: firstItemId,
+            //             currentNavigatableItemId: firstItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+            //
+            // it(`"Next Key" - Should select items 1 & 3 & 7 & 9 (((Ctrl + Space) | (Ctrl + Shift)) + Next Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.listKeyDown(keyboardNavigation.next);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlShiftKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [firstItemId, thirdItemId, sevenItemId, nineItemId],
+            //             selectionStartId: sevenItemId,
+            //             currentNavigatableItemId: nineItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+            //
+            // it(`"Prev Key" - Should select items 1 & 3 & 7 & 9 (((Ctrl + Space) | (Ctrl + Shift)) + Prev Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.itemClick(nineItemId);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlShiftKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [firstItemId, thirdItemId, sevenItemId, nineItemId],
+            //             selectionStartId: thirdItemId,
+            //             currentNavigatableItemId: firstItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+            //
+            // it(`"Next Key + End" - Should select items 1 & 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Ctrl + Shift + End)) + Next Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.listKeyDown(keyboardNavigation.next);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(Keys.End, SimulateCtrlShiftKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
+            //             selectionStartId: thirdItemId,
+            //             currentNavigatableItemId: lastItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+            //
+            // it(`"Prev Key + Home" - Should select items 1 & 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Ctrl + Shift + Home)) + Prev Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.itemClick(lastItemId);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(Keys.Home, SimulateCtrlShiftKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
+            //             selectionStartId: elevenItemId,
+            //             currentNavigatableItemId: firstItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+            //
+            // it(`"Next Key + End" - Should select items 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Shift + End)) + Next Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.listKeyDown(keyboardNavigation.next);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(Keys.End, SimulateShiftKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
+            //             selectionStartId: thirdItemId,
+            //             currentNavigatableItemId: lastItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+            //
+            // it(`"Prev Key + Home" - Should select items 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Shift + Home)) + Prev Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.itemClick(lastItemId);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(Keys.Home, SimulateShiftKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId],
+            //             selectionStartId: nineItemId,
+            //             currentNavigatableItemId: firstItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+            //
+            // it(`"Next Key + End" - Should select items 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Shift + End)) + Next Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.listKeyDown(keyboardNavigation.next);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.next, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(Keys.End, SimulateShiftKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [thirdItemId, fifthItemId, sevenItemId, nineItemId, elevenItemId],
+            //             selectionStartId: thirdItemId,
+            //             currentNavigatableItemId: lastItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+            //
+            // it(`"Prev Key + Home" - Should select items 3 & 5 & 7 & 9 & 11 (((Ctrl + Space) | (Shift + Home)) + Prev Key)`, () => {
+            //
+            //     for (let i = 0; i < keyboardNavigations.length; i++)
+            //     {
+            //         let keyboardNavigation = keyboardNavigations[i];
+            //
+            //         listView.setProps({
+            //             orientation: keyboardNavigation.orientation,
+            //             listViewState: ListViewDefaultState,
+            //         });
+            //
+            //         testingController.itemClick(lastItemId);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //         testingController.listKeyDown(keyboardNavigation.prev, SimulateCtrlKey);
+            //         testingController.listKeyDown(Keys.Space, SimulateCtrlKey);
+            //
+            //         onChange.mockClear();
+            //
+            //         testingController.listKeyDown(Keys.Home, SimulateShiftKey);
+            //
+            //         expectStateChange(onChange, {
+            //             selectedIds: [firstItemId, thirdItemId, fifthItemId, sevenItemId, nineItemId],
+            //             selectionStartId: nineItemId,
+            //             currentNavigatableItemId: firstItemId,
+            //         });
+            //
+            //         onChange.mockClear();
+            //     }
+            // });
+
         })
-    })
+
+
+    });
+
+
 });
 
 describe('ListView', () => {
