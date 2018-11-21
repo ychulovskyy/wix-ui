@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as eventually from 'wix-eventually';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
-import {dropdownDriverFactory} from './Dropdown.driver';
+import {dropdownDriverFactory} from './dropdown.driver';
 import {Dropdown} from './';
 import {CLICK, HOVER} from './constants';
 import {mount} from 'enzyme';

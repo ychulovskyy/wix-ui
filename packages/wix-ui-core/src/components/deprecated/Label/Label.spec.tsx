@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {labelDriverFactory} from './Label.driver';
+import {labelDriverFactory} from './label.driver';
 import {ReactDOMTestContainer} from '../../../../test/dom-test-container';
 import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
 import {isTestkitExists} from 'wix-ui-test-utils/vanilla';

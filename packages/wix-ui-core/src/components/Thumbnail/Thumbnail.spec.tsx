@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {thumbnailDriverFactory} from './Thumbnail.driver';
+import {thumbnailDriverFactory} from './thumbnail.driver';
 import {Thumbnail} from './';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';

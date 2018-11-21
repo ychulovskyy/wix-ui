@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {ReactDOMTestContainer} from '../../../../test/dom-test-container';
-import {buttonDriverFactory} from './Button.driver';
+import {buttonDriverFactory} from './button.driver';
 import {buttonTestkitFactory} from '../../../testkit';
 import {buttonTestkitFactory as enzymeButtonTestkitFactory} from '../../../testkit/enzyme';
 import {Button} from './';

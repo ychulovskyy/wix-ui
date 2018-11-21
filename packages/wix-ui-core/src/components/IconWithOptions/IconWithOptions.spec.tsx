@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
-import {iconWithOptionsDriverFactory} from './IconWithOptions.driver';
+import {iconWithOptionsDriverFactory} from './icon-with-options.driver';
 import {IconWithOptions} from './';
 import {OptionFactory} from '../DropdownOption';
 import {generateOptions} from '../DropdownOption/OptionsExample';

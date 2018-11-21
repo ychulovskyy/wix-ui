@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {dividerDriverFactory} from './Divider.driver';
+import {dividerDriverFactory} from './divider.driver';
 import {ReactDOMTestContainer} from '../../../../test/dom-test-container';
 import {Divider} from './';
 

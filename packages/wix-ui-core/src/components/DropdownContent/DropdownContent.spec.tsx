@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {dropdownContentDriverFactory} from './DropdownContent.driver';
+import {dropdownContentDriverFactory} from './dropdown-content.driver';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {sleep} from 'wix-ui-test-utils/react-helpers';
 import {OptionFactory} from '../DropdownOption';

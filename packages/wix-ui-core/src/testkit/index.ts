@@ -3,20 +3,20 @@ import {
   uniTestkitFactoryCreator
 } from 'wix-ui-test-utils/vanilla';
 
-import { inputDriverFactory } from '../components/Input/Input.driver';
+import { inputDriverFactory } from '../components/Input/input.driver';
 export const inputTestkitFactory = testkitFactoryCreator(inputDriverFactory);
 
-import { paginationDriverFactory } from '../components/Pagination/Pagination.driver';
+import { paginationDriverFactory } from '../components/Pagination/pagination.driver';
 export const paginationTestkitFactory = testkitFactoryCreator(
   paginationDriverFactory
 );
 
-import { tooltipDriverFactory } from '../components/Tooltip/Tooltip.driver';
+import { tooltipDriverFactory } from '../components/Tooltip/tooltip.driver';
 export const tooltipTestkitFactory = testkitFactoryCreator(
   tooltipDriverFactory
 );
 
-import { dividerDriverFactory } from '../components/deprecated/Divider/Divider.driver';
+import { dividerDriverFactory } from '../components/deprecated/Divider/divider.driver';
 export const dividerTestkitFactory = testkitFactoryCreator(
   dividerDriverFactory
 );
@@ -27,7 +27,7 @@ export const checkboxTestkitFactory = testkitFactoryCreator(
 );
 
 //Stylable
-import { toggleSwitchDriverFactory } from '../components/ToggleSwitch/ToggleSwitch.driver';
+import { toggleSwitchDriverFactory } from '../components/ToggleSwitch/toggle-switch.driver';
 export const toggleSwitchTestkitFactory = testkitFactoryCreator(
   toggleSwitchDriverFactory
 );
@@ -35,7 +35,7 @@ export const toggleSwitchTestkitFactory = testkitFactoryCreator(
 import {
   buttonDriverFactory,
   ButtonDriver
-} from '../components/deprecated/Button/Button.driver';
+} from '../components/deprecated/Button/button.driver';
 export const buttonTestkitFactory = testkitFactoryCreator<ButtonDriver>(
   buttonDriverFactory
 );
@@ -53,7 +53,7 @@ export { ButtonNextDriver };
 import {
   linearProgressBarDriverFactory,
   LinearProgressBarDriver
-} from '../components/LinearProgressBar/LinearProgressBar.driver';
+} from '../components/LinearProgressBar/linear-progress-bar.driver';
 export const linearProgressBarTestkitFactory = testkitFactoryCreator<
   LinearProgressBarDriver
 >(linearProgressBarDriverFactory);
@@ -62,7 +62,7 @@ export { LinearProgressBarDriver };
 import {
   circularProgressBarDriverFactory,
   CircularProgressBarDriver
-} from '../components/CircularProgressBar/CircularProgressBar.driver';
+} from '../components/CircularProgressBar/circular-progress-bar.driver';
 export const circularProgressBarTestkitFactory = testkitFactoryCreator<
   CircularProgressBarDriver
 >(circularProgressBarDriverFactory);
@@ -71,13 +71,13 @@ export { CircularProgressBarDriver };
 import {
   badgeDriverFactory as stylableBadgeDriverFactory,
   BadgeDriver as StylableBadgeDriver
-} from '../components/deprecated/StylableBadge/Badge.driver';
+} from '../components/deprecated/StylableBadge/badge.driver';
 export const stylableBadgeTestkitFactory = testkitFactoryCreator<
   StylableBadgeDriver
 >(stylableBadgeDriverFactory);
 export { StylableBadgeDriver };
 
-import { radioButtonDriverFactory } from '../components/RadioButton/RadioButton.driver';
+import { radioButtonDriverFactory } from '../components/RadioButton/radio-button.driver';
 export const radioButtonTestkitFactory = testkitFactoryCreator(
   radioButtonDriverFactory
 );
@@ -87,7 +87,7 @@ export const autocompleteTestkitFactory = testkitFactoryCreator(
   autocompleteDriverFactory
 );
 
-import { sliderDriverFactory } from '../components/Slider/Slider.driver';
+import { sliderDriverFactory } from '../components/Slider/slider.driver';
 export const sliderTestkitFactory = testkitFactoryCreator(sliderDriverFactory);
 
 import { addressInputDriverFactory } from '../components/AddressInput/address-input.driver';
@@ -95,15 +95,15 @@ export const addressInputTestkitFactory = testkitFactoryCreator(
   addressInputDriverFactory
 );
 
-import { labelDriverFactory } from '../components/deprecated/Label/Label.driver';
+import { labelDriverFactory } from '../components/deprecated/Label/label.driver';
 export const labelTestkitFactory = testkitFactoryCreator(labelDriverFactory);
 
-import { timePickerDriverFactory } from '../components/TimePicker/TimePicker.driver';
+import { timePickerDriverFactory } from '../components/TimePicker/time-picker.driver';
 export const timePickerTestkitFactory = testkitFactoryCreator(
   timePickerDriverFactory
 );
 
-import { labelWithOptionsDriverFactory } from '../components/LabelWithOptions/LabelWithOptions.driver';
+import { labelWithOptionsDriverFactory } from '../components/LabelWithOptions/label-with-options.driver';
 export const labelWithOptionsTestkitFactory = testkitFactoryCreator(
   labelWithOptionsDriverFactory
 );
@@ -111,13 +111,13 @@ export const labelWithOptionsTestkitFactory = testkitFactoryCreator(
 import {
   thumbnailDriverFactory,
   ThumbnailDriver
-} from '../components/Thumbnail/Thumbnail.driver';
+} from '../components/Thumbnail/thumbnail.driver';
 export const thumbnailTestkitFactory = testkitFactoryCreator<ThumbnailDriver>(
   thumbnailDriverFactory
 );
 export { ThumbnailDriver };
 
-import { popoverDriverFactory } from '../components/Popover/Popover.driver';
+import { popoverDriverFactory } from '../components/Popover/popover.driver';
 export const popoverTestkitFactory = testkitFactoryCreator(
   popoverDriverFactory
 );

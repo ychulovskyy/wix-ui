@@ -4,7 +4,7 @@ import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {TimePicker} from './index';
 import {FIELD, AmPmOptions, AmPmStrings} from './constants';
 import {convertToAmPm} from './utils';
-import {timePickerDriverFactory} from './TimePicker.driver';
+import {timePickerDriverFactory} from './time-picker.driver';
 import {StylableDOMUtil} from '@stylable/dom-test-kit';
 import style from './TimePicker.st.css';
 

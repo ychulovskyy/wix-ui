@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {sliderDriverFactory} from './Slider.driver';
+import {sliderDriverFactory} from './slider.driver';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {Slider} from './index';
 import * as sinon from 'sinon';

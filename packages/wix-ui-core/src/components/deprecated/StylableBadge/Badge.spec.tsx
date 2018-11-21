@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {badgeDriverFactory} from './Badge.driver';
+import {badgeDriverFactory} from './badge.driver';
 import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
 import {ReactDOMTestContainer} from '../../../../test/dom-test-container';
 import {isTestkitExists} from 'wix-ui-test-utils/vanilla';

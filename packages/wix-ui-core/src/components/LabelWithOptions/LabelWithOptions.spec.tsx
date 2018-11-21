@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
-import {labelWithOptionsDriverFactory} from './LabelWithOptions.driver';
+import {labelWithOptionsDriverFactory} from './label-with-options.driver';
 import {LabelWithOptions} from './';
 import {generateOptions} from '../DropdownOption/OptionsExample';
 import {labelWithOptionsTestkitFactory} from '../../testkit';

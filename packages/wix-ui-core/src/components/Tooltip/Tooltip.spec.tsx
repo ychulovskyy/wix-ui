@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as eventually from 'wix-eventually';
-import {tooltipDriverFactory} from './Tooltip.driver';
+import {tooltipDriverFactory} from './tooltip.driver';
 import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {isTestkitExists} from 'wix-ui-test-utils/vanilla';

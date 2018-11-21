@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {toggleSwitchDriverFactory} from './ToggleSwitch.driver';
+import {toggleSwitchDriverFactory} from './toggle-switch.driver';
 import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {isTestkitExists} from 'wix-ui-test-utils/vanilla';

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { circularProgressBarDriverFactory } from './CircularProgressBar.driver'
+import { circularProgressBarDriverFactory } from './circular-progress-bar.driver'
 import { ReactDOMTestContainer } from '../../../test/dom-test-container';
 import { CircularProgressBar } from './';
 import { CircularProgressBarProps } from './CircularProgressBar';

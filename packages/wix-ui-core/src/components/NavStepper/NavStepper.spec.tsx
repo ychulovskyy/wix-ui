@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ReactDOMTestContainer } from '../../../test/dom-test-container';
-import {NavStepperDriver} from './NavStepper.driver';
+import {NavStepperDriver} from './nav-stepper.driver';
 import {NavStepper} from './NavStepper';
 
 describe('NavStepper', () => {

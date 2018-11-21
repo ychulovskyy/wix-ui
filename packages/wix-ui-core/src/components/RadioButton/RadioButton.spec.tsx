@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {radioButtonDriverFactory} from './RadioButton.driver';
+import {radioButtonDriverFactory} from './radio-button.driver';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {RadioButton, RadioButtonProps} from './RadioButton';
 
