@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
-import {autocompleteDriverFactory} from './Autocomplete.driver';
+import {autocompleteDriverFactory} from './autocomplete.driver';
 import {Autocomplete} from '.';
 import {DividerArgs} from '../DropdownOption';
 import {generateOptions} from '../DropdownOption/OptionsExample';

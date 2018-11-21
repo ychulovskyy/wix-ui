@@ -43,7 +43,7 @@ export const dividerTestkitFactory = enzymeTestkitFactoryCreator(
   dividerDriverFactory
 );
 
-import { checkboxDriverFactory } from '../components/Checkbox/Checkbox.driver';
+import { checkboxDriverFactory } from '../components/Checkbox/checkbox.driver';
 export const checkboxTestkitFactory = enzymeTestkitFactoryCreator(
   checkboxDriverFactory
 );
@@ -86,7 +86,7 @@ export const radioButtonTestkitFactory = enzymeTestkitFactoryCreator(
   radioButtonDriverFactory
 );
 
-import { autocompleteDriverFactory } from '../components/Autocomplete/Autocomplete.driver';
+import { autocompleteDriverFactory } from '../components/Autocomplete/autocomplete.driver';
 export const autocompleteTestkitFactory = enzymeTestkitFactoryCreator(
   autocompleteDriverFactory
 );
@@ -96,7 +96,7 @@ export const sliderTestkitFactory = enzymeTestkitFactoryCreator(
   sliderDriverFactory
 );
 
-import { addressInputDriverFactory } from '../components/AddressInput/AddressInput.driver';
+import { addressInputDriverFactory } from '../components/AddressInput/address-input.driver';
 export const addressInputTestkitFactory = enzymeTestkitFactoryCreator(
   addressInputDriverFactory
 );

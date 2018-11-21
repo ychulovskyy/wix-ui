@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
-import {addressInputDriverFactory} from './AddressInput.driver';
+import {addressInputDriverFactory} from './address-input.driver';
 import {AddressInput, Handler} from './AddressInput';
 import {GoogleMapsClientStub} from './GoogleMapsClientStub';
 import * as waitForCond from 'wait-for-cond';

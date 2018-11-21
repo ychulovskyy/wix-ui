@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {checkboxDriverFactory} from './Checkbox.driver';
+import {checkboxDriverFactory} from './checkbox.driver';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {Checkbox} from './Checkbox';
 
