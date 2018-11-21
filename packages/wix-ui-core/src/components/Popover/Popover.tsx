@@ -16,17 +16,18 @@ import {
 } from '../../utils/stylableUtils';
 
 import * as classNames from 'classnames';
-import isElement = require('lodash/isElement');
+import isElement from 'lodash/isElement';
 
 // This is here and not in the test setup because we don't want consumers to need to run it as well
 const isTestEnv = process.env.NODE_ENV === 'test';
 if (isTestEnv && typeof document !== 'undefined') {
   if (!document.createRange) {
-    document.createRange = () => ({
-      setStart: () => null,
-      setEnd: () => null,
-      commonAncestorContainer: document.documentElement.querySelector('body')
-    } as any);
+    document.createRange = () =>
+      ({
+        setStart: () => null,
+        setEnd: () => null,
+        commonAncestorContainer: document.documentElement.querySelector('body')
+      } as any);
   }
 }
 
@@ -50,7 +51,7 @@ export interface PopoverProps {
   /** Show show arrow from the content */
   showArrow?: boolean;
   /** Moves popover relative to the parent */
-  moveBy?: { x: number, y: number };
+  moveBy?: {x: number; y: number};
   /** Fade Delay */
   hideDelay?: number;
   /** Show Delay */
@@ -82,7 +83,9 @@ const getArrowShift = (shift: number | undefined, direction: string) => {
   }
 
   return {
-    [direction === 'top' || direction === 'bottom' ? 'left' : 'top']: `${shift}px`
+    [direction === 'top' || direction === 'bottom'
+      ? 'left'
+      : 'top']: `${shift}px`
   };
 };
 
@@ -118,7 +121,7 @@ function getAppendToNode({appendTo, targetRef}) {
     appendToNode = null;
   }
   return appendToNode;
-};
+}
 
 const shouldAnimatePopover = ({timeout}: PopoverProps) => !!timeout;
 
@@ -136,7 +139,6 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   stylesObj: AttributeMap = null;
   appendToNode: HTMLElement = null;
 
-
   state = {isMounted: false};
 
   getPopperContentStructure(childrenObject) {
@@ -148,21 +150,25 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
         data-hook="popover-content"
         modifiers={modifiers}
         placement={placement}
-        className={classNames(style.popover, {[style.withArrow]: showArrow, [style.popoverContent]: !showArrow})}
-      >
-        {
-          showArrow ?
-            [
-              <Arrow
-                key="popover-arrow"
-                data-hook="popover-arrow"
-                className={style.arrow}
-                style={getArrowShift(moveArrowTo, placement)}
-              />,
-              <div key="popover-content" className={style.popoverContent}>{childrenObject.Content}</div>
-            ] :
-            <div key="popover-content">{childrenObject.Content}</div>
-        }
+        className={classNames(style.popover, {
+          [style.withArrow]: showArrow,
+          [style.popoverContent]: !showArrow
+        })}>
+        {showArrow ? (
+          [
+            <Arrow
+              key="popover-arrow"
+              data-hook="popover-arrow"
+              className={style.arrow}
+              style={getArrowShift(moveArrowTo, placement)}
+            />,
+            <div key="popover-content" className={style.popoverContent}>
+              {childrenObject.Content}
+            </div>
+          ]
+        ) : (
+          <div key="popover-content">{childrenObject.Content}</div>
+        )}
       </Popper>
     );
 
@@ -189,24 +195,21 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
         timeout={Number(timeout)}
         unmountOnExit
         classNames={style.popoverAnimation}
-        onExited={() => detachStylesFromNode(this.portalNode, this.stylesObj)}
-      >
+        onExited={() => detachStylesFromNode(this.portalNode, this.stylesObj)}>
         {popper}
       </CSSTransition>
-    ) :
-      popper;
+    ) : (
+      popper
+    );
   }
 
   renderPopperContent(childrenObject) {
     const popper = this.getPopperContentStructure(childrenObject);
 
-    return (
-      this.portalNode ? (
-        <Portal node={this.portalNode}>
-          {popper}
-        </Portal>
-      ) :
-        popper
+    return this.portalNode ? (
+      <Portal node={this.portalNode}>{popper}</Portal>
+    ) : (
+      popper
     );
   }
 
@@ -233,7 +236,7 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
         top: 0,
         left: 0,
         width: 0,
-        height:0
+        height: 0
       });
       this.appendToNode.appendChild(this.portalNode);
       // Why do we do this here ?(in componentDidMount and not ONLY in render? or when we actually attachStylesToNode)
@@ -253,10 +256,22 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   }
 
   render() {
-    const {onMouseEnter, onMouseLeave, onKeyDown, onClick, children, shown, style: inlineStyles, id} = this.props;
+    const {
+      onMouseEnter,
+      onMouseLeave,
+      onKeyDown,
+      onClick,
+      children,
+      shown,
+      style: inlineStyles,
+      id
+    } = this.props;
     const {isMounted} = this.state;
 
-    const childrenObject = buildChildrenObject(children, {Element: null, Content: null});
+    const childrenObject = buildChildrenObject(children, {
+      Element: null,
+      Content: null
+    });
     const shouldAnimate = shouldAnimatePopover(this.props);
     const shouldRenderPopper = isMounted && (shouldAnimate || shown);
 
@@ -270,15 +285,13 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         style={inlineStyles}
-        id={id}
-      >
+        id={id}>
         <Target
           onKeyDown={onKeyDown}
           data-hook="popover-element"
           onClick={onClick}
           className={style.popoverElement}
-          innerRef={r => this.targetRef = r}
-        >
+          innerRef={r => (this.targetRef = r)}>
           {childrenObject.Element}
         </Target>
         {shouldRenderPopper && this.renderPopperContent(childrenObject)}

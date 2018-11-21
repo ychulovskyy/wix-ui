@@ -5,39 +5,41 @@ import {Tooltip} from '../../components/Tooltip';
 import textStyle from './Text.st.css';
 import tooltipStyle from './EllipsedTooltip.st.css';
 import {getDisplayName} from '../utils';
-import debounce = require('lodash/debounce');
+import debounce from 'lodash/debounce';
 
 type EllipsedTooltipProps = {
-  component: React.ReactElement<any>,
-  showTooltip?: boolean,
-  style?: object
-}
+  component: React.ReactElement<any>;
+  showTooltip?: boolean;
+  style?: object;
+};
 
 type EllipsedTooltipState = {
-  isEllipsisActive: boolean
-}
+  isEllipsisActive: boolean;
+};
 
 export type WrapperComponentProps = {
   showTooltip?: boolean;
-}
+};
 
 /*
   React 15 can have refs just on StateFull components,
   and as we need a ref of unknown children it required to proxy it with StateFullComponent
 */
-type StateFullComponentWrapProps = {children?: any, [propName: string]: any}
+type StateFullComponentWrapProps = {children?: any; [propName: string]: any};
 
-class StateFullComponentWrap extends React.Component<StateFullComponentWrapProps> {
+class StateFullComponentWrap extends React.Component<
+  StateFullComponentWrapProps
+> {
   render() {
-    const { children, ...props } = this.props;
-    return React.cloneElement(
-      children,
-      props
-    );
+    const {children, ...props} = this.props;
+    return React.cloneElement(children, props);
   }
 }
 
-class EllipsedTooltip extends React.Component<EllipsedTooltipProps, EllipsedTooltipState> {
+class EllipsedTooltip extends React.Component<
+  EllipsedTooltipProps,
+  EllipsedTooltipState
+> {
   static defaultProps = {showTooltip: true};
 
   state = {isEllipsisActive: false};
@@ -64,7 +66,8 @@ class EllipsedTooltip extends React.Component<EllipsedTooltipProps, EllipsedTool
 
   _updateEllipsisState = () => {
     this.setState({
-      isEllipsisActive: this.textNode && this.textNode.offsetWidth < this.textNode.scrollWidth
+      isEllipsisActive:
+        this.textNode && this.textNode.offsetWidth < this.textNode.scrollWidth
     });
   };
 
@@ -77,10 +80,9 @@ class EllipsedTooltip extends React.Component<EllipsedTooltipProps, EllipsedTool
         {...textStyle('root', {}, component.props)}
         style={{
           ...style,
-          whiteSpace: 'nowrap' 
+          whiteSpace: 'nowrap'
         }}
-        ref={n => this.textNode = ReactDOM.findDOMNode(n) as HTMLElement}
-      >
+        ref={n => (this.textNode = ReactDOM.findDOMNode(n) as HTMLElement)}>
         {component}
       </StateFullComponentWrap>
     );
@@ -96,15 +98,16 @@ class EllipsedTooltip extends React.Component<EllipsedTooltipProps, EllipsedTool
         {...tooltipStyle('root', {}, this.props)}
         appendTo="scrollParent"
         content={<div>{this.textNode.textContent}</div>}
-        showArrow
-      >
+        showArrow>
         {this._renderText()}
       </Tooltip>
     );
   }
 }
 
-export const withEllipsedTooltip = ({showTooltip}: {showTooltip?: boolean} = {}) => Comp => {
+export const withEllipsedTooltip = ({
+  showTooltip
+}: {showTooltip?: boolean} = {}) => Comp => {
   const WrapperComponent: React.SFC<WrapperComponentProps> = props => (
     <EllipsedTooltip
       {...props}
