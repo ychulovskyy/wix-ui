@@ -1,15 +1,17 @@
 import * as React from 'react';
 import PopperJS from 'popper.js';
 import {getScrollParent} from 'popper.js/dist/umd/popper-utils';
-import style from './Popover.st.css';
-import {Manager, Target, Popper, Arrow} from 'react-popper';
+import {Manager, Reference, Popper} from 'react-popper';
 import {CSSTransition} from 'react-transition-group';
 import {Portal} from 'react-portal';
+import style from './Popover.st.css';
+
 import {
   buildChildrenObject,
   createComponentThatRendersItsChildren,
   ElementProps
 } from '../../utils';
+
 import {
   attachStylesToNode,
   detachStylesFromNode
@@ -136,8 +138,9 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   stylesObj: AttributeMap = null;
   appendToNode: HTMLElement = null;
 
-
-  state = {isMounted: false};
+  state = {
+    isMounted: false
+  };
 
   getPopperContentStructure(childrenObject) {
     const {moveBy, appendTo, placement, showArrow, moveArrowTo} = this.props;
@@ -145,24 +148,27 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
     const popper = (
       <Popper
-        data-hook="popover-content"
         modifiers={modifiers}
         placement={placement}
-        className={classNames(style.popover, {[style.withArrow]: showArrow, [style.popoverContent]: !showArrow})}
       >
-        {
-          showArrow ?
-            [
-              <Arrow
-                key="popover-arrow"
-                data-hook="popover-arrow"
-                className={style.arrow}
-                style={getArrowShift(moveArrowTo, placement)}
-              />,
-              <div key="popover-content" className={style.popoverContent}>{childrenObject.Content}</div>
-            ] :
-            <div key="popover-content">{childrenObject.Content}</div>
-        }
+        {({ ref, style: popperStyles, placement: popperPlacement, arrowProps }) => (
+          <div
+            ref={ref}
+            data-hook="popover-content"
+            style={popperStyles}
+            data-placement={popperPlacement || placement}
+            className={classNames(style.popover, {[style.withArrow]: showArrow, [style.popoverContent]: !showArrow})}
+          >
+            {
+              showArrow ?
+                [
+                  this.renderArrow(arrowProps, moveArrowTo, popperPlacement),
+                  <div key="popover-content" className={style.popoverContent}>{childrenObject.Content}</div>
+                ] :
+                <div key="popover-content">{childrenObject.Content}</div>
+            }
+          </div>
+        )}
       </Popper>
     );
 
@@ -208,6 +214,21 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
       ) :
         popper
     );
+  }
+
+  renderArrow(arrowProps, moveArrowTo, placement) {
+    return (
+      <div
+        ref={arrowProps.ref}
+        key="popover-arrow"
+        data-hook="popover-arrow"
+        className={style.arrow}
+        style={{
+          ...arrowProps.style,
+          ...getArrowShift(moveArrowTo, placement)
+        }}
+      />
+    )
   }
 
   componentDidMount() {
@@ -263,27 +284,34 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
     const {isMounted} = this.state;
 
     const childrenObject = buildChildrenObject(children, {Element: null, Content: null});
+
     const shouldAnimate = shouldAnimatePopover(this.props);
     const shouldRenderPopper = isMounted && (shouldAnimate || shown);
 
     return (
-      <Manager
-        {...style('root', {}, this.props)}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        style={inlineStyles}
-        id={id}
-      >
-        <Target
-          onKeyDown={onKeyDown}
-          data-hook="popover-element"
-          onClick={onClick}
-          className={style.popoverElement}
-          innerRef={r => this.targetRef = r}
+      <Manager>
+        <div
+          style={inlineStyles}
+          {...style('root', {}, this.props)}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          id={id}
         >
-          {childrenObject.Element}
-        </Target>
-        {shouldRenderPopper && this.renderPopperContent(childrenObject)}
+          <Reference innerRef={r => this.targetRef = r}>
+            {({ref}) => (
+              <div
+                ref={ref}
+                className={style.popoverElement}
+                data-hook="popover-element"
+                onClick={onClick}
+                onKeyDown={onKeyDown}
+              >
+                {childrenObject.Element}
+              </div>
+            )}
+          </Reference>
+          {shouldRenderPopper && this.renderPopperContent(childrenObject)}
+        </div>
       </Manager>
     );
   }
