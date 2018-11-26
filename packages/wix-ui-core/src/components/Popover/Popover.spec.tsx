@@ -183,6 +183,16 @@ describe('Popover', () => {
       expect(queryPopoverPortal().parentElement).toBe(container.node.firstChild);
     });
 
+    it(`adds the portal next to the popover's element when appendTo="parent"`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        shown: true,
+        appendTo: 'parent'
+      }));
+
+      expect(queryPopoverPortal().parentElement).toBe(queryPopoverElement().parentElement);
+    });
+
     it(`should update the portal's styles when updated`, async () => {
       // First render without passing the `className` prop, the <Popover/>
       // portal should only have the root class applied.

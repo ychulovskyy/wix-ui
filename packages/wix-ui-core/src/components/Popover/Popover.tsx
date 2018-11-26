@@ -140,6 +140,8 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   stylesObj: AttributeMap = null;
   appendToNode: HTMLElement = null;
 
+  scheduleUpdate: () => void = null
+
   state = {
     isMounted: false
   };
@@ -153,24 +155,28 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
         modifiers={modifiers}
         placement={placement}
       >
-        {({ ref, style: popperStyles, placement: popperPlacement, arrowProps }) => (
-          <div
-            ref={ref}
-            data-hook="popover-content"
-            style={popperStyles}
-            data-placement={popperPlacement || placement}
-            className={classNames(style.popover, {[style.withArrow]: showArrow, [style.popoverContent]: !showArrow})}
-          >
-            {
-              showArrow ?
-                [
-                  this.renderArrow(arrowProps, moveArrowTo, popperPlacement),
-                  <div key="popover-content" className={style.popoverContent}>{childrenObject.Content}</div>
-                ] :
-                <div key="popover-content">{childrenObject.Content}</div>
-            }
-          </div>
-        )}
+        {({ ref, style: popperStyles, placement: popperPlacement, arrowProps, scheduleUpdate }) => {
+          this.scheduleUpdate = scheduleUpdate;
+
+          return (
+            <div
+              ref={ref}
+              data-hook="popover-content"
+              style={popperStyles}
+              data-placement={popperPlacement || placement}
+              className={classNames(style.popover, {[style.withArrow]: showArrow, [style.popoverContent]: !showArrow})}
+            >
+              {
+                showArrow ?
+                  [
+                    this.renderArrow(arrowProps, moveArrowTo, popperPlacement),
+                    <div key="popover-content" className={style.popoverContent}>{childrenObject.Content}</div>
+                  ] :
+                  <div key="popover-content">{childrenObject.Content}</div>
+              }
+            </div>
+          )
+        }}
       </Popper>
     );
 
@@ -278,6 +284,11 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
       // Apply the styles to the portal
       this.applyStylesToPortaledNode();
+    }
+
+    // Update popper's position
+    if (this.scheduleUpdate) {
+      this.scheduleUpdate();
     }
   }
 
