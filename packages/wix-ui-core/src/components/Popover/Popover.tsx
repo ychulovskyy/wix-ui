@@ -33,7 +33,7 @@ if (isTestEnv && typeof document !== 'undefined') {
 }
 
 export type Placement = PopperJS.Placement;
-export type AppendTo = PopperJS.Boundary | Element;
+export type AppendTo = PopperJS.Boundary | 'parent' | Element;
 
 export interface PopoverProps {
   className?: string;
@@ -114,6 +114,8 @@ function getAppendToNode({appendTo, targetRef}) {
     appendToNode = document.body;
   } else if (appendTo === 'scrollParent') {
     appendToNode = getScrollParent(targetRef);
+  } else if (appendTo === 'parent') {
+    appendToNode = targetRef.parentElement;
   } else if (isElement(appendTo)) {
     appendToNode = appendTo;
   } else {
