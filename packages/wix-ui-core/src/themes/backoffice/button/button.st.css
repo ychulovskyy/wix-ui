@@ -29,22 +29,22 @@
 @st-scope {
 
   Button {
-        box-sizing: border-box;
-        text-align: center;
-        border: 1px solid;
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px solid;
 
-        -st-mixin: sizeMedium, weightNormal;
+    -st-mixin: sizeMedium, weightNormal;
 
-        outline: none;
-        transition: all 100ms linear;
+    outline: none;
+    transition: all 100ms linear;
 
-        height: 36px;
-        border-radius: 18px;
-        padding: 0 23px;
+    height: 36px;
+    border-radius: 18px;
+    padding: 0 23px;
 
-        background-color: value(B10);
-        border-color: value(B10);
-        color: value(D80);
+    background-color: value(B10);
+    border-color: value(B10);
+    color: value(D80);
   }
 
   Button:hover:not(:disabled) {
