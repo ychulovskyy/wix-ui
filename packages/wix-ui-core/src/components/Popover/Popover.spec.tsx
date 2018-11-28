@@ -241,7 +241,7 @@ describe('Popover', () => {
     });
   });
 
-  describe('React 15 compatibility', () => {
+  describe('React <16 compatibility', () => {
     it('should wrap children in a <div/> if provided as strings to support React 15', async () => {
       await container.render(
         <Popover shown placement="bottom">
