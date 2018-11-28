@@ -240,4 +240,18 @@ describe('Popover', () => {
       expect(queryPopoverPortal().classList).toContain('some-class');
     });
   });
+
+  describe('React 15 compatibility', () => {
+    it('should wrap children in a <div/> if provided as strings to support React 15', async () => {
+      await container.render(
+        <Popover shown placement="bottom">
+          <Popover.Element>Element</Popover.Element>
+          <Popover.Content>Content</Popover.Content>
+        </Popover>
+      );
+
+      expect(queryPopoverElement().childNodes[0].nodeName).toEqual('DIV');
+      expect(queryPopoverContent().childNodes[0].nodeName).toEqual('DIV');
+    });
+  });
 });
