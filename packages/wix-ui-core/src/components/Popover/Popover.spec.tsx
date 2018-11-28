@@ -25,8 +25,6 @@ const queryPopoverContent = () => queryHook<HTMLElement>(document, 'popover-cont
 const queryPopoverArrow   = () => queryHook<HTMLElement>(document, 'popover-arrow');
 const queryPopoverPortal  = () => queryHook<HTMLElement>(document, 'popover-portal');
 
-jest.unmock('popper.js');
-
 describe('Popover', () => {
   const container = new ReactDOMTestContainer().destroyAfterEachTest();
 
@@ -79,30 +77,6 @@ describe('Popover', () => {
       }));
 
       expect(queryPopoverArrow().style.left).toBe('10px');
-    });
-
-    // The following test passes when using the popper.js mock (available at
-    // `./__mocks__/popper.js.ts`), but using this mock cause the previous test
-    // to fail, as it actually depends on popper's implementation.
-    // TODO: apply the mock for the current test only.
-    it.skip(`should update popper's position when props are chaning`, async () => {
-      const scheduleUpdateMock = jest.fn();
-      require('popper.js').default.__setScheduleUpdateImplementation(scheduleUpdateMock);
-
-      await container.render(popoverWithProps({
-        placement: 'bottom',
-        shown: true
-      }, 'Old Content!'));
-
-      await container.render(popoverWithProps({
-        placement: 'bottom',
-        shown: true
-      }, 'New content!'));
-
-      // Should be called for each update
-      expect(scheduleUpdateMock).toHaveBeenCalledTimes(2);
-
-      require('popper.js').default.__reset();
     });
   });
 
