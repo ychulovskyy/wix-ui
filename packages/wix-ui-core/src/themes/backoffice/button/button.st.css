@@ -25,465 +25,466 @@
   -st-named: sizeTiny, sizeSmall, sizeMedium, weightNormal, weightBold;
 }
 
-.button {
-  -st-extends: Button;
-}
-
-BackofficeTheme .button {
-  box-sizing: border-box;
-  text-align: center;
-  border: 1px solid;
-
-  -st-mixin: sizeMedium, weightNormal;
-
-  outline: none;
-  transition: all 100ms linear;
-
-  height: 36px;
-  border-radius: 18px;
-  padding: 0 23px;
-
-  background-color: value(B10);
-  border-color: value(B10);
-  color: value(D80);
-}
-
-BackofficeTheme .button:hover:not(:disabled) {
-  background-color: value(B20);
-  border-color: value(B20);
-  color: value(D80);
-}
-
-BackofficeTheme .button:active:not(:disabled) {
-  background-color: value(B10);
-  border-color: value(B10);
-  color: value(D80);
-}
-
-BackofficeTheme .button:disabled {
-  color: value(D80);
-  background-color: value(D55);
-  border-color: value(D55);
-}
-
-BackofficeTheme .button:focus-visible {
-  box-shadow: 0 0 0 3px value(F00);
-}
-
-/* Special cases */
-
-BackofficeTheme .inverted {
-  border: none;
-  background-color: value(D80);
-  color: value(B20);
-}
-
-BackofficeTheme .inverted:hover:not(:disabled) {
-  color: value(D80);
-  border-color: transparent;
-  background-color: value(B20);
-}
-
-BackofficeTheme .inverted:active:not(:disabled) {
-  background-color: value(B10);
-  border-color: value(B10);
-  color: value(D80);
-}
-
-BackofficeTheme .inverted:disabled {
-  background-color: value(B20);
-  border-color: value(B20);
-  color: value(D80);
-}
-
-/* Priority */
-
-BackofficeTheme .secondary {
-  border: solid 1px value(B10);
-  background: transparent;
-  color: value(B10);
-}
-
-BackofficeTheme .secondary:hover:not(:disabled) {
-  color: value(D80);
-  border-color: transparent;
-  background-color: value(B20);
-}
-
-BackofficeTheme .secondary:active:not(:disabled) {
-  background-color: value(B10);
-  border-color: value(B10);
-  color: value(D80);
-}
-
-/* skin Light */
-
-BackofficeTheme .light {
-  border: none;
-  background-color: value(D80);
-  color: value(B20);
-}
-
-BackofficeTheme .light:hover:not(:disabled) {
-  background-color: value(B50);
-  color: value(B10);
-  border-color: value(B50);
-}
-
-BackofficeTheme .light:active:not(:disabled) {
-  background-color: value(B40);
-  color: value(B10);
-}
-
-BackofficeTheme .light:disabled {
-  background-color: value(D55);
-  border-color: value(D55);
-  color: value(D80);
-}
-
-/* skin Light secondary */
-
-BackofficeTheme .light.secondary {
-  border: solid 1px value(D80);
-  background: transparent;
-  color: value(D80);
-}
-
-BackofficeTheme .light.secondary:hover:not(:disabled) {
-  background-color: value(B50);
-  color: value(B10);
-  border-color: value(B50);
-}
-
-BackofficeTheme .light.secondary:active:not(:disabled) {
-  background-color: value(B40);
-  border: solid 1px value(B40);
-  color: value(B10);
-}
-
-BackofficeTheme .light.secondary:disabled {
-  border-color: value(D55);
-  color: value(D55);
-  background-color: transparent;
-}
-
-/* skin Destructive */
-
-BackofficeTheme .destructive {
-  background-color: value(R10);
-  border-color: value(R10);
-  color: value(D80);
-}
-
-BackofficeTheme .destructive:hover:not(:disabled) {
-  background-color: value(R20);
-  border-color: value(R20);
-  color: value(D80);
-}
-
-BackofficeTheme .destructive:disabled {
-  color: value(D80);
-  background-color: value(D55);
-  border-color: value(D55);
-}
-
-BackofficeTheme .destructive:active:not(:disabled) {
-  background-color: value(R10);
-  border-color: value(R10);
-  color: value(D80);
-}
-
-/* skin Destructive secondary */
-
-BackofficeTheme .destructive.secondary {
-  border: solid 1px value(R10);
-  background: transparent;
-  color: value(R10);
-}
-
-BackofficeTheme .destructive.secondary:hover:not(:disabled) {
-  background-color: value(R20);
-  border-color: value(R20);
-  color: value(D80);
-}
-
-BackofficeTheme .destructive.secondary:active:not(:disabled) {
-  background-color: value(R10);
-  border-color: value(R10);
-  color: value(D80);
-}
-
-BackofficeTheme .destructive.secondary:disabled {
-  border-color: value(D55);
-  color: value(D55);
-  background-color: transparent;
-}
-
-/* skin Premium */
-
-BackofficeTheme .premium {
-  background-color: value(P10);
-  border-color: value(P10);
-  color: value(D80);
-}
-
-BackofficeTheme .premium:hover:not(:disabled) {
-  background-color: value(P20);
-  border-color: value(P20);
-  color: value(D80);
-}
-
-BackofficeTheme .premium:active:not(:disabled) {
-  background-color: value(P10);
-  border-color: value(P10);
-  color: value(D80);
-}
-
-BackofficeTheme .premium:disabled {
-  background-color: value(D55);
-  border-color: value(D55);
-  color: value(D80);
-}
-
-/* skin Premium secondary */
-
-BackofficeTheme .premium.secondary {
-  border: solid 1px value(P10);
-  background: transparent;
-  color: value(P10);
-}
-
-BackofficeTheme .premium.secondary:hover:not(:disabled) {
-  background-color: value(P20);
-  border-color: value(P20);
-  color: value(D80);
-}
-
-BackofficeTheme .premium.secondary:active:not(:disabled) {
-  background-color: value(P10);
-  border-color: value(P10);
-  color: value(D80);
-}
-
-BackofficeTheme .premium.secondary:disabled {
-  border-color: value(D55);
-  background-color: transparent;
-  color: value(D55);
-}
-
-/* skin Dark */
-
-BackofficeTheme .dark {
-  background-color: transparent;
-  border: solid 1px value(D40);
-  color: value(D10);
-}
-
-BackofficeTheme .dark:hover:not(:disabled) {
-  color: value(D80);
-  background-color: value(D20);
-  border-color: value(D20);
-}
-
-BackofficeTheme .dark:active:not(:disabled) {
-  background-color: value(D10);
-  border-color: value(D10);
-  color: value(D80);
-}
-
-BackofficeTheme .dark:disabled {
-  background-color: transparent;
-  border: solid 1px value(D55);
-  color: value(D55);
-}
-
-/* skin Dark secondary */
-
-BackofficeTheme .dark.secondary {
-  background-color: transparent;
-  border: solid 1px value(D40);
-  color: value(D10);
-}
-
-BackofficeTheme .dark.secondary:hover:not(:disabled) {
-  color: value(D80);
-  background-color: value(D20);
-  border-color: value(D20);
-}
-
-BackofficeTheme .dark.secondary:active:not(:disabled) {
-  background-color: value(D10);
-  border-color: value(D10);
-  color: value(D80);
-}
-
-BackofficeTheme .dark.secondary:disabled {
-  background-color: transparent;
-  border: solid 1px value(D55);
-  color: value(D55);
-}
-
-/* skin Transparent */
-
-BackofficeTheme .transparent {
-  border-color: transparent;
-  background-color: value(s5);
-  color: value(D80);
-}
-
-BackofficeTheme .transparent:hover:not(:disabled) {
-  border-color: transparent;
-  background-color: value(s6);
-  color: value(D80);
-}
-
-BackofficeTheme .transparent:active:not(:disabled) {
-  background-color: value(s7);
-  border-color: value(s7);
-  border-color: transparent;
-}
-
-BackofficeTheme .transparent:disabled {
-  background-color: value(D55);
-  border-color: value(D55);
-  color: value(D80);
-}
-
-/* skin Transparent secondary */
-
-BackofficeTheme .transparent.secondary {
-  border-color: transparent;
-  background-color: value(s5);
-  color: value(D80);
-}
-
-BackofficeTheme .transparent.secondary:hover:not(:disabled) {
-  border-color: transparent;
-  background-color: value(s6);
-  color: value(D80);
-}
-
-BackofficeTheme .transparent.secondary:active:not(:disabled) {
-  background-color: value(s7);
-  border-color: value(s7);
-  border-color: transparent;
-}
-
-BackofficeTheme .transparent.secondary:disabled {
-  background-color: value(D55);
-  border-color: value(D55);
-  color: value(D80);
-}
-
-/* sizes */
-
-BackofficeTheme .large {
-  height: 42px;
-
-  -st-mixin: sizeMedium, weightNormal;
-
-  border-radius: 21px;
-  padding: 0 30px;
-}
-
-BackofficeTheme .small {
-  height: 30px;
-
-  -st-mixin: sizeSmall, weightNormal;
-
-  border-radius: 15px;
-  padding: 0 18px;
-}
-
-BackofficeTheme .tiny {
-  height: 24px;
-
-  -st-mixin: sizeTiny, weightBold;
-
-  border-radius: 18px;
-  padding: 0 12px;
-}
-
-/* Suffix and prefix */
-
-BackofficeTheme .tiny .suffix {
-  margin: 0 -6px 0 3px;
-  width: 18px;
-  height: 18px;
-}
-
-BackofficeTheme .tiny .prefix {
-  margin: 0 3px 0 -6px;
-  width: 18px;
-  height: 18px;
-}
-
-BackofficeTheme .small .suffix {
-  margin: 0 -6px 0 6px;
-  width: 18px;
-  height: 18px;
-}
-
-BackofficeTheme .small .prefix {
-  margin: 0 6px 0 -6px;
-  width: 18px;
-  height: 18px;
-}
-
-BackofficeTheme .suffix {
-  margin: 0 -12px 0 6px;
-  width: 24px;
-  height: 24px;
-}
-
-BackofficeTheme .prefix {
-  margin: 0 6px 0 -12px;
-  width: 24px;
-  height: 24px;
-}
-
-BackofficeTheme .large .suffix {
-  margin: 0 -12px 0 12px;
-  width: 24px;
-  height: 24px;
-}
-
-BackofficeTheme .large .prefix {
-  margin: 0 12px 0 -12px;
-  width: 24px;
-  height: 24px;
-}
-
-/* rtl */
-
-BackofficeTheme :global([dir='rtl']) .large .suffix {
-  margin: 0 12px 0 -12px;
-}
-
-BackofficeTheme :global([dir='rtl']) .large .prefix {
-  margin: 0 -12px 0 12px;
-}
-
-BackofficeTheme :global([dir='rtl']) .small .suffix {
-  margin: 0 6px 0 -6px;
-}
-
-BackofficeTheme :global([dir='rtl']) .small .prefix {
-  margin: 0 -6px 0 6px;
-}
-
-BackofficeTheme :global([dir='rtl']) .suffix {
-  margin: 0 12px 0 -12px;
-}
-
-BackofficeTheme :global([dir='rtl']) .prefix {
-  margin: 0 -12px 0 12px;
-}
-
-BackofficeTheme :global([dir='rtl']) .tiny .suffix {
-  margin: 0 0 0 -6px;
-}
-
-BackofficeTheme :global([dir='rtl']) .tiny .prefix {
-  margin: 0 -6px 0 0;
+
+@st-scope {
+
+  Button {
+        box-sizing: border-box;
+        text-align: center;
+        border: 1px solid;
+
+        -st-mixin: sizeMedium, weightNormal;
+
+        outline: none;
+        transition: all 100ms linear;
+
+        height: 36px;
+        border-radius: 18px;
+        padding: 0 23px;
+
+        background-color: value(B10);
+        border-color: value(B10);
+        color: value(D80);
+  }
+
+  Button:hover:not(:disabled) {
+    background-color: value(B20);
+    border-color: value(B20);
+    color: value(D80);
+  }
+
+  Button:active:not(:disabled) {
+    background-color: value(B10);
+    border-color: value(B10);
+    color: value(D80);
+  }
+
+  Button:disabled {
+    color: value(D80);
+    background-color: value(D55);
+    border-color: value(D55);
+  }
+
+  Button:focus-visible {
+    box-shadow: 0 0 0 3px value(F00);
+  }
+
+  /* Special cases */
+
+  Button.inverted {
+    border: none;
+    background-color: value(D80);
+    color: value(B20);
+  }
+
+  Button.inverted:hover:not(:disabled) {
+    color: value(D80);
+    border-color: transparent;
+    background-color: value(B20);
+  }
+
+  Button.inverted:active:not(:disabled) {
+    background-color: value(B10);
+    border-color: value(B10);
+    color: value(D80);
+  }
+
+  Button.inverted:disabled {
+    background-color: value(B20);
+    border-color: value(B20);
+    color: value(D80);
+  }
+
+  /* Priority */
+
+  Button.secondary {
+    border: solid 1px value(B10);
+    background: transparent;
+    color: value(B10);
+  }
+
+  Button.secondary:hover:not(:disabled) {
+    color: value(D80);
+    border-color: transparent;
+    background-color: value(B20);
+  }
+
+  Button.secondary:active:not(:disabled) {
+    background-color: value(B10);
+    border-color: value(B10);
+    color: value(D80);
+  }
+
+  /* skin Light */
+
+  Button.light {
+    border: none;
+    background-color: value(D80);
+    color: value(B20);
+  }
+
+  Button.light:hover:not(:disabled) {
+    background-color: value(B50);
+    color: value(B10);
+    border-color: value(B50);
+  }
+
+  Button.light:active:not(:disabled) {
+    background-color: value(B40);
+    color: value(B10);
+  }
+
+  Button.light:disabled {
+    background-color: value(D55);
+    border-color: value(D55);
+    color: value(D80);
+  }
+
+  /* skin Light secondary */
+
+  Button.light.secondary {
+    border: solid 1px value(D80);
+    background: transparent;
+    color: value(D80);
+  }
+
+  Button.light.secondary:hover:not(:disabled) {
+    background-color: value(B50);
+    color: value(B10);
+    border-color: value(B50);
+  }
+
+  Button.light.secondary:active:not(:disabled) {
+    background-color: value(B40);
+    border: solid 1px value(B40);
+    color: value(B10);
+  }
+
+  Button.light.secondary:disabled {
+    border-color: value(D55);
+    color: value(D55);
+    background-color: transparent;
+  }
+
+  /* skin Destructive */
+
+  Button.destructive {
+    background-color: value(R10);
+    border-color: value(R10);
+    color: value(D80);
+  }
+
+  Button.destructive:hover:not(:disabled) {
+    background-color: value(R20);
+    border-color: value(R20);
+    color: value(D80);
+  }
+
+  Button.destructive:disabled {
+    color: value(D80);
+    background-color: value(D55);
+    border-color: value(D55);
+  }
+
+  Button.destructive:active:not(:disabled) {
+    background-color: value(R10);
+    border-color: value(R10);
+    color: value(D80);
+  }
+
+  /* skin Destructive secondary */
+
+  Button.destructive.secondary {
+    border: solid 1px value(R10);
+    background: transparent;
+    color: value(R10);
+  }
+
+  Button.destructive.secondary:hover:not(:disabled) {
+    background-color: value(R20);
+    border-color: value(R20);
+    color: value(D80);
+  }
+
+  Button.destructive.secondary:active:not(:disabled) {
+    background-color: value(R10);
+    border-color: value(R10);
+    color: value(D80);
+  }
+
+  Button.destructive.secondary:disabled {
+    border-color: value(D55);
+    color: value(D55);
+    background-color: transparent;
+  }
+
+  /* skin Premium */
+
+  Button.premium {
+    background-color: value(P10);
+    border-color: value(P10);
+    color: value(D80);
+  }
+
+  Button.premium:hover:not(:disabled) {
+    background-color: value(P20);
+    border-color: value(P20);
+    color: value(D80);
+  }
+
+  Button.premium:active:not(:disabled) {
+    background-color: value(P10);
+    border-color: value(P10);
+    color: value(D80);
+  }
+
+  Button.premium:disabled {
+    background-color: value(D55);
+    border-color: value(D55);
+    color: value(D80);
+  }
+
+  /* skin Premium secondary */
+
+  Button.premium.secondary {
+    border: solid 1px value(P10);
+    background: transparent;
+    color: value(P10);
+  }
+
+  Button.premium.secondary:hover:not(:disabled) {
+    background-color: value(P20);
+    border-color: value(P20);
+    color: value(D80);
+  }
+
+  Button.premium.secondary:active:not(:disabled) {
+    background-color: value(P10);
+    border-color: value(P10);
+    color: value(D80);
+  }
+
+  Button.premium.secondary:disabled {
+    border-color: value(D55);
+    background-color: transparent;
+    color: value(D55);
+  }
+
+  /* skin Dark */
+
+  Button.dark {
+    background-color: transparent;
+    border: solid 1px value(D40);
+    color: value(D10);
+  }
+
+  Button.dark:hover:not(:disabled) {
+    color: value(D80);
+    background-color: value(D20);
+    border-color: value(D20);
+  }
+
+  Button.dark:active:not(:disabled) {
+    background-color: value(D10);
+    border-color: value(D10);
+    color: value(D80);
+  }
+
+  Button.dark:disabled {
+    background-color: transparent;
+    border: solid 1px value(D55);
+    color: value(D55);
+  }
+
+  /* skin Dark secondary */
+
+  Button.dark.secondary {
+    background-color: transparent;
+    border: solid 1px value(D40);
+    color: value(D10);
+  }
+
+  Button.dark.secondary:hover:not(:disabled) {
+    color: value(D80);
+    background-color: value(D20);
+    border-color: value(D20);
+  }
+
+  Button.dark.secondary:active:not(:disabled) {
+    background-color: value(D10);
+    border-color: value(D10);
+    color: value(D80);
+  }
+
+  Button.dark.secondary:disabled {
+    background-color: transparent;
+    border: solid 1px value(D55);
+    color: value(D55);
+  }
+
+  /* skin Transparent */
+
+  Button.transparent {
+    border-color: transparent;
+    background-color: value(s5);
+    color: value(D80);
+  }
+
+  Button.transparent:hover:not(:disabled) {
+    border-color: transparent;
+    background-color: value(s6);
+    color: value(D80);
+  }
+
+  Button.transparent:active:not(:disabled) {
+    background-color: value(s7);
+    border-color: value(s7);
+    border-color: transparent;
+  }
+
+  Button.transparent:disabled {
+    background-color: value(D55);
+    border-color: value(D55);
+    color: value(D80);
+  }
+
+  /* skin Transparent secondary */
+
+  Button.transparent.secondary {
+    border-color: transparent;
+    background-color: value(s5);
+    color: value(D80);
+  }
+
+  Button.transparent.secondary:hover:not(:disabled) {
+    border-color: transparent;
+    background-color: value(s6);
+    color: value(D80);
+  }
+
+  Button.transparent.secondary:active:not(:disabled) {
+    background-color: value(s7);
+    border-color: value(s7);
+    border-color: transparent;
+  }
+
+  Button.transparent.secondary:disabled {
+    background-color: value(D55);
+    border-color: value(D55);
+    color: value(D80);
+  }
+
+  /* sizes */
+
+ .large {
+    height: 42px;
+
+    -st-mixin: sizeMedium, weightNormal;
+
+    border-radius: 21px;
+    padding: 0 30px;
+  }
+
+  .small {
+    height: 30px;
+
+    -st-mixin: sizeSmall, weightNormal;
+
+    border-radius: 15px;
+    padding: 0 18px;
+  }
+
+  .tiny {
+    height: 24px;
+
+    -st-mixin: sizeTiny, weightBold;
+
+    border-radius: 18px;
+    padding: 0 12px;
+  }
+
+  /* Suffix and prefix */
+
+  .tiny Button::suffix {
+    margin: 0 -6px 0 3px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .tiny Button::prefix {
+    margin: 0 3px 0 -6px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .small Button::suffix {
+    margin: 0 -6px 0 6px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .small Button::prefix {
+    margin: 0 6px 0 -6px;
+    width: 18px;
+    height: 18px;
+  }
+
+  Button::suffix {
+    margin: 0 -12px 0 6px;
+    width: 24px;
+    height: 24px;
+  }
+
+  Button::prefix {
+    margin: 0 6px 0 -12px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .large Button::suffix {
+    margin: 0 -12px 0 12px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .large Button::prefix {
+    margin: 0 12px 0 -12px;
+    width: 24px;
+    height: 24px;
+  }
+
+  /* rtl */
+
+  :global([dir='rtl']) .large Button::suffix {
+    margin: 0 12px 0 -12px;
+  }
+
+  :global([dir='rtl']) .large Button::prefix {
+    margin: 0 -12px 0 12px;
+  }
+
+  :global([dir='rtl']) .small Button::suffix {
+    margin: 0 6px 0 -6px;
+  }
+
+  :global([dir='rtl']) .small Button::prefix {
+    margin: 0 -6px 0 6px;
+  }
+
+  :global([dir='rtl']) Button::suffix {
+    margin: 0 12px 0 -12px;
+  }
+
+  :global([dir='rtl']) Button::prefix {
+    margin: 0 -12px 0 12px;
+  }
+
+  :global([dir='rtl']) .tiny Button::suffix {
+    margin: 0 0 0 -6px;
+  }
+
+  :global([dir='rtl']) .tiny Button::prefix {
+    margin: 0 -6px 0 0;
+  }
+
 }
