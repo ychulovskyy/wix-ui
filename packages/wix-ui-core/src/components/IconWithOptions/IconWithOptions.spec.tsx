@@ -3,7 +3,7 @@ import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {iconWithOptionsDriverFactory} from './icon-with-options.driver';
 import {IconWithOptions} from './';
 import {OptionFactory} from '../DropdownOption';
-import {generateOptions} from '../DropdownOption/OptionsExample';
+import {generateOptions} from '../DropdownOption/option-factory';
 
 describe('IconWithOptions', () => {
   const createDriver =

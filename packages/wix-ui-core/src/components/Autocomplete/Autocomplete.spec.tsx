@@ -3,7 +3,7 @@ import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {autocompleteDriverFactory} from './autocomplete.driver';
 import {Autocomplete} from '.';
 import {DividerArgs} from '../DropdownOption';
-import {generateOptions} from '../DropdownOption/OptionsExample';
+import {generateOptions} from '../DropdownOption/option-factory';
 import {autocompleteTestkitFactory} from '../../testkit';
 import {autocompleteTestkitFactory as enzymeAutocompleteTestkitFactory} from '../../testkit/enzyme';
 import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';

@@ -1,4 +1,4 @@
-import {BaseDriver, DriverFactory} from './../../common/BaseDriver.protractor';
+import {BaseDriver, DriverFactory} from '../../common/BaseDriver.protractor';
 
 export interface DropdownOptionDriver extends BaseDriver {
   click: () =>  Promise<void>;

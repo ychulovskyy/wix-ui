@@ -1,5 +1,5 @@
 import {BaseDriver, DriverFactory} from '../../common/BaseDriver.protractor';
-import {dropdownOptionDriverFactory, DropdownOptionDriver} from '../DropdownOption/DropdownOption.protractor.driver';
+import {dropdownOptionDriverFactory, DropdownOptionDriver} from '../DropdownOption/dropdown-option.protractor.driver';
 
 export interface DropdownContentDriver extends BaseDriver {
   getOptionsCount: () =>  Promise<number>;

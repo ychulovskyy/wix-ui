@@ -1,6 +1,6 @@
 import * as React from 'react';
 import style from './DropdownOption.st.css';
-import {Option} from './';
+import {Option} from '.';
 
 export interface DropdownOptionProps {
   className: string;
