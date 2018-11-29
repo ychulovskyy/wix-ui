@@ -97,7 +97,7 @@ export { CheckboxDriver };
 import {
   linearProgressBarDriverFactory,
   LinearProgressBarDriver
-} from '../components/LinearProgressBar/LinearProgressBar.protractor.driver';
+} from '../components/LinearProgressBar/linear-progress-bar.protractor.driver';
 export const linearProgressBarTestkitFactory = protractorTestkitFactoryCreator(
   linearProgressBarDriverFactory
 );

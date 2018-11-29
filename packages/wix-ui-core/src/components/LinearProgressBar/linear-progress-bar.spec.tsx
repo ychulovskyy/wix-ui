@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { linearProgressBarDriverFactory } from './linear-progress-bar.driver'
 import { ReactDOMTestContainer } from '../../../test/dom-test-container';
-import { LinearProgressBar } from './';
-import { LinearProgressBarProps } from './LinearProgressBar';
+import { LinearProgressBar } from '.';
+import { LinearProgressBarProps } from './linear-progress-bar';
 import { runTestkitExistsSuite } from '../../common/testkitTests';
 import { linearProgressBarTestkitFactory } from '../../testkit';
 import { linearProgressBarTestkitFactory as enzymeLinearProgressBarTestkitFactory } from '../../testkit/enzyme';

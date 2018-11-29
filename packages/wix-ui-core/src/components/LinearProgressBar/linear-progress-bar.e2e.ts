@@ -4,7 +4,7 @@ import {getStoryUrl, waitForVisibilityOf} from 'wix-ui-test-utils/protractor';
 import {linearProgressBarTestkitFactory, LinearProgressBarDriver} from '../../testkit/protractor';
 import {Key} from 'selenium-webdriver';
 import * as autoExampleDriver from 'wix-storybook-utils/AutoExampleDriver';
-import {LinearProgressBarProps} from './LinearProgressBar';
+import {LinearProgressBarProps} from './linear-progress-bar';
 
 describe('LinearProgresBar', () => {
   const storyUrl = getStoryUrl('Components', 'LinearProgressBar');

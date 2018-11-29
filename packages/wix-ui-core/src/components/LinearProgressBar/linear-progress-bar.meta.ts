@@ -1,4 +1,4 @@
-import {LinearProgressBar} from './LinearProgressBar';
+import {LinearProgressBar} from './linear-progress-bar';
 import Registry from '@ui-autotools/registry';
 
 const linearProgressBarMetadata = Registry.getComponentMetadata(LinearProgressBar);
