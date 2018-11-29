@@ -152,7 +152,7 @@ export { SliderDriver };
 import {
   addressInputDriverFactory,
   AddressInputDriver
-} from '../components/AddressInput/AddressInput.protractor.driver';
+} from '../components/AddressInput/address-input.protractor.driver';
 export const addressInputTestkitFactory = protractorTestkitFactoryCreator(
   addressInputDriverFactory
 );

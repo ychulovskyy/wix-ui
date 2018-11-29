@@ -2,18 +2,18 @@ import * as React from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {addressInputDriverFactory} from './address-input.driver';
-import {AddressInput, Handler} from './AddressInput';
+import {AddressInput, Handler} from './address-input';
 import {GoogleMapsClientStub} from './GoogleMapsClientStub';
 import * as waitForCond from 'wait-for-cond';
 import * as eventually from 'wix-eventually';
-import * as helper from './AddressInputTestHelper';
+import * as helper from './address-input-test-helper';
 import {sleep} from 'wix-ui-test-utils/react-helpers';
 import {isTestkitExists} from 'wix-ui-test-utils/vanilla';
 import {isEnzymeTestkitExists} from 'wix-ui-test-utils/enzyme';
 import {mount} from 'enzyme';
 import {addressInputTestkitFactory} from '../../testkit';
 import {addressInputTestkitFactory as enzymeAddressInputTestkitFactory} from '../../testkit/enzyme';
-import {AddressInputPrivateDriver} from './AddressInput.private.driver';
+import {AddressInputPrivateDriver} from './address-input.private.driver';
 
 describe('AddressInput', () => {
     const container = new ReactDOMTestContainer().unmountAfterEachTest();
