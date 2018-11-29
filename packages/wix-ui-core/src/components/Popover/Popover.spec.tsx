@@ -78,6 +78,25 @@ describe('Popover', () => {
 
       expect(queryPopoverArrow().style.left).toBe('10px');
     });
+
+    it(`should update popper's position when props are chaning`, async () => {
+      const updatePositionSpy = jest.spyOn(Popover.prototype, 'updatePosition');
+
+       await container.render(popoverWithProps({
+        placement: 'bottom',
+        shown: true
+      }, 'Old Content!'));
+
+       await container.render(popoverWithProps({
+        placement: 'bottom',
+        shown: true
+      }, 'New content!'));
+
+       // Should be called for each update
+      expect(updatePositionSpy).toHaveBeenCalledTimes(2);
+
+      updatePositionSpy.mockRestore();
+    });
   });
 
   describe('Animation', () => {

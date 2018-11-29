@@ -140,7 +140,7 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   stylesObj: AttributeMap = null;
   appendToNode: HTMLElement = null;
 
-  scheduleUpdate: () => void = null
+  popperScheduleUpdate: () => void = null
 
   state = {
     isMounted: false
@@ -156,7 +156,7 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
         placement={placement}
       >
         {({ ref, style: popperStyles, placement: popperPlacement, arrowProps, scheduleUpdate }) => {
-          this.scheduleUpdate = scheduleUpdate;
+          this.popperScheduleUpdate = scheduleUpdate;
 
           return (
             <div
@@ -277,6 +277,13 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
     this.portalNode = null;
   }
 
+  updatePosition() {
+    if (this.popperScheduleUpdate) {
+      this.popperScheduleUpdate();
+    }
+  }
+
+
   componentDidUpdate() {
     if (this.portalNode) {
       // Re-calculate the portal's styles
@@ -287,9 +294,7 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
     }
 
     // Update popper's position
-    if (this.scheduleUpdate) {
-      this.scheduleUpdate();
-    }
+    this.updatePosition();
   }
 
   render() {
