@@ -1,4 +1,4 @@
 export {
   inputWithOptionsDriverFactory as addressInputDriverFactory,
   InputWithOptionsDriver as AddressInputDriver
-} from '../InputWithOptions/InputWithOptions.protractor.driver';
+} from '../InputWithOptions/input-with-options.protractor.driver';

@@ -1,4 +1,4 @@
-import {BaseDriver, DriverFactory} from './../../common/BaseDriver.protractor';
+import {BaseDriver, DriverFactory} from '../../common/BaseDriver.protractor';
 import {inputDriverFactory, InputDriver} from '../Input/input.protractor.driver';
 import {dropdownDriverFactory, DropdownDriver} from '../Dropdown/dropdown.protractor.driver';
 

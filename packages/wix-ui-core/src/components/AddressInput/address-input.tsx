@@ -1,6 +1,6 @@
 import * as React from 'react';
 import style from './AddressInput.st.css';
-import {InputWithOptions} from '../InputWithOptions/InputWithOptions';
+import {InputWithOptions} from '../InputWithOptions/input-with-options';
 
 import {Option, OptionFactory} from '../DropdownOption';
 import {
