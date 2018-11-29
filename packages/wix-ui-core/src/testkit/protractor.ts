@@ -70,7 +70,7 @@ export { TooltipDriver };
 import {
   dividerDriverFactory,
   DividerDriver
-} from '../components/deprecated/Divider/Divider.protractor.driver';
+} from '../components/deprecated/Divider/divider.protractor.driver';
 export const dividerTestkitFactory = protractorTestkitFactoryCreator(
   dividerDriverFactory
 );
