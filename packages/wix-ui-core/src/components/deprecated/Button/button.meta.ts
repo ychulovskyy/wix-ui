@@ -1,4 +1,4 @@
-import {Button} from './Button';
+import {Button} from './button';
 import Registry from '@ui-autotools/registry';
 
 const buttonMetadata = Registry.getComponentMetadata(Button);

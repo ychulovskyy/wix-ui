@@ -15,7 +15,7 @@ export { AvatarDriver };
 import {
   buttonDriverFactory,
   ButtonDriver
-} from '../components/deprecated/Button/Button.protractor.driver';
+} from '../components/deprecated/Button/button.protractor.driver';
 export const buttonTestkitFactory = protractorTestkitFactoryCreator(
   buttonDriverFactory
 );

@@ -3,7 +3,7 @@ import {ReactDOMTestContainer} from '../../../../test/dom-test-container';
 import {buttonDriverFactory} from './button.driver';
 import {buttonTestkitFactory} from '../../../testkit';
 import {buttonTestkitFactory as enzymeButtonTestkitFactory} from '../../../testkit/enzyme';
-import {Button} from './';
+import {Button} from '.';
 import {runTestkitExistsSuite} from '../../../common/testkitTests';
 
 describe('Button', () => {
