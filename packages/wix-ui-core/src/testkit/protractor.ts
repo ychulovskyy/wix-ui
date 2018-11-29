@@ -43,7 +43,7 @@ export { PopoverDriver };
 import {
   inputDriverFactory,
   InputDriver
-} from '../components/Input/Input.protractor.driver';
+} from '../components/Input/input.protractor.driver';
 export const inputTestkitFactory = protractorTestkitFactoryCreator(
   inputDriverFactory
 );

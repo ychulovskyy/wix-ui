@@ -1,4 +1,4 @@
-import {Input} from './Input';
+import {Input} from './input';
 
 export class InputDriver {
   constructor(public root: HTMLElement, public instance: Input) {}

@@ -1,5 +1,5 @@
 import {BaseDriver, DriverFactory} from './../../common/BaseDriver.protractor';
-import {inputDriverFactory, InputDriver} from '../Input/Input.protractor.driver';
+import {inputDriverFactory, InputDriver} from '../Input/input.protractor.driver';
 import {dropdownDriverFactory, DropdownDriver} from '../Dropdown/dropdown.protractor.driver';
 
 export interface InputWithOptionsDriver extends InputDriver, DropdownDriver {

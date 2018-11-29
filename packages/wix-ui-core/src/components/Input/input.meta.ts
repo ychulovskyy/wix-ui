@@ -1,4 +1,4 @@
-import {Input} from './Input';
+import {Input} from './input';
 import Registry from '@ui-autotools/registry';
 
 const inputMetadata = Registry.getComponentMetadata(Input);
