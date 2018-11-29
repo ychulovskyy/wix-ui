@@ -1,7 +1,7 @@
 import {labelDriverFactory, LabelDriver} from '../deprecated/Label/label.protractor.driver';
 import {dropdownDriverFactory, DropdownDriver} from '../Dropdown/dropdown.protractor.driver';
 
-import {BaseDriver, DriverFactory} from './../../common/BaseDriver.protractor';
+import {BaseDriver, DriverFactory} from '../../common/BaseDriver.protractor';
 
 export interface LabelWithOptionsDriver extends LabelDriver, DropdownDriver {
   isCheckboxModeOn: () => Promise<boolean>

@@ -188,7 +188,7 @@ export { ToggleSwitchDriver };
 import {
   labelWithOptionsDriverFactory,
   LabelWithOptionsDriver
-} from '../components/LabelWithOptions/LabelWithOptions.protractor.driver';
+} from '../components/LabelWithOptions/label-with-options.protractor.driver';
 export const labelWithOptionsTestkitFactory = protractorTestkitFactoryCreator(
   labelWithOptionsDriverFactory
 );

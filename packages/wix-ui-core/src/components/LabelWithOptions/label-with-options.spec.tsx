@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {labelWithOptionsDriverFactory} from './label-with-options.driver';
-import {LabelWithOptions} from './';
+import {LabelWithOptions} from '.';
 import {generateOptions} from '../DropdownOption/option-factory';
 import {labelWithOptionsTestkitFactory} from '../../testkit';
 import {labelWithOptionsTestkitFactory as enzymeLabelWithOptionsTestkitFactory} from '../../testkit/enzyme';
