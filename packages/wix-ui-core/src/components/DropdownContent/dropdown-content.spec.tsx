@@ -3,7 +3,7 @@ import {dropdownContentDriverFactory} from './dropdown-content.driver';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {sleep} from 'wix-ui-test-utils/react-helpers';
 import {OptionFactory} from '../DropdownOption';
-import {DropdownContent} from './';
+import {DropdownContent} from '.';
 import {generateOptions} from '../DropdownOption/OptionsExample';
 
 describe('DropdownContent', () => {

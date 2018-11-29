@@ -1,6 +1,6 @@
 import {BaseDriver, DriverFactory} from '../../common/BaseDriver.protractor';
 import {popoverDriverFactory, PopoverDriver} from '../Popover/Popover.protractor.driver';
-import {dropdownContentDriverFactory, DropdownContentDriver} from '../DropdownContent/DropdownContent.protractor.driver';
+import {dropdownContentDriverFactory, DropdownContentDriver} from '../DropdownContent/dropdown-content.protractor.driver';
 
 export interface DropdownDriver extends PopoverDriver {
   dropdownContent: () => DropdownContentDriver;

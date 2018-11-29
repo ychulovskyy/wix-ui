@@ -1,4 +1,4 @@
-import {BaseDriver, DriverFactory} from './../../common/BaseDriver.protractor';
+import {BaseDriver, DriverFactory} from '../../common/BaseDriver.protractor';
 import {dropdownOptionDriverFactory, DropdownOptionDriver} from '../DropdownOption/DropdownOption.protractor.driver';
 
 export interface DropdownContentDriver extends BaseDriver {
