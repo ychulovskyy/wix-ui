@@ -283,7 +283,6 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
     }
   }
 
-
   componentDidUpdate() {
     if (this.portalNode) {
       // Re-calculate the portal's styles
