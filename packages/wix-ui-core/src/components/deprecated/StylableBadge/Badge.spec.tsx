@@ -6,7 +6,7 @@ import {isTestkitExists} from 'wix-ui-test-utils/vanilla';
 import {stylableBadgeTestkitFactory as badgeTestkitFactory} from '../../../testkit';
 import {stylableBadgeTestkitFactory as enzymeBadgeTestkitFactory} from '../../../testkit/enzyme';
 import {mount} from 'enzyme';
-import {Badge} from './';
+import {Badge} from '.';
 
 describe('Stylable Badge', () => {
 
