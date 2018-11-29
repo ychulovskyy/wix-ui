@@ -1,4 +1,4 @@
-import {Autocomplete} from './Autocomplete';
+import {Autocomplete} from './autocomplete';
 import Registry from '@ui-autotools/registry';
 
 const autocompleteMetadata = Registry.getComponentMetadata(Autocomplete);

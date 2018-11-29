@@ -134,7 +134,7 @@ export { StylableBadgeDriver };
 import {
   autocompleteDriverFactory,
   AutocompleteDriver
-} from '../components/Autocomplete/Autocomplete.protractor.driver';
+} from '../components/Autocomplete/autocomplete.protractor.driver';
 export const autocompleteTestkitFactory = protractorTestkitFactoryCreator(
   autocompleteDriverFactory
 );
