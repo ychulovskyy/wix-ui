@@ -4,7 +4,7 @@ import {getStoryUrl, waitForVisibilityOf} from 'wix-ui-test-utils/protractor';
 import {circularProgressBarTestkitFactory, CircularProgressBarDriver} from '../../testkit/protractor';
 import {Key} from 'selenium-webdriver';
 import * as autoExampleDriver from 'wix-storybook-utils/AutoExampleDriver';
-import {CircularProgressBarProps} from './CircularProgressBar';
+import {CircularProgressBarProps} from './circular-progress-bar';
 
 describe('CircularProgressBar', () => {
   const storyUrl = getStoryUrl('Components', 'CircularProgressBar');

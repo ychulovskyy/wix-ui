@@ -106,7 +106,7 @@ export { LinearProgressBarDriver };
 import {
   circularProgressBarDriverFactory,
   CircularProgressBarDriver
-} from '../components/CircularProgressBar/CircularProgressBar.protractor.driver';
+} from '../components/CircularProgressBar/circular-progress-bar.protractor.driver';
 export const circularProgressBarTestkitFactory = protractorTestkitFactoryCreator(
   circularProgressBarDriverFactory
 );

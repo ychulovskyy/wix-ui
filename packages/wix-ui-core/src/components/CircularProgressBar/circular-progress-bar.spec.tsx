@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { circularProgressBarDriverFactory } from './circular-progress-bar.driver'
 import { ReactDOMTestContainer } from '../../../test/dom-test-container';
-import { CircularProgressBar } from './';
-import { CircularProgressBarProps } from './CircularProgressBar';
+import { CircularProgressBar } from '.';
+import { CircularProgressBarProps } from './circular-progress-bar';
 import { runTestkitExistsSuite } from '../../common/testkitTests';
 import { circularProgressBarTestkitFactory } from '../../testkit';
 import { circularProgressBarTestkitFactory as enzymeCircularProgressBarTestkitFactory } from '../../testkit/enzyme';

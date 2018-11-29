@@ -1,4 +1,4 @@
-import {BaseDriver, DriverFactory} from './../../common/BaseDriver.protractor';
+import {BaseDriver, DriverFactory} from '../../common/BaseDriver.protractor';
 import { promise, ElementFinder, browser } from 'protractor';
 
 export interface CircularProgressBarDriver extends BaseDriver {
