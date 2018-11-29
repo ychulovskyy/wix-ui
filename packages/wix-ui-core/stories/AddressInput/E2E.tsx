@@ -3,7 +3,7 @@ import {storiesOf} from '@storybook/react';
 import {AddressInput} from '../../src/components/AddressInput';
 import {GoogleMapsClientStub} from '../../src/components/AddressInput/GoogleMapsClientStub';
 import {MapsClientConstructor} from '../../src/clients/GoogleMaps/types';
-import * as helper from '../../src/components/AddressInput/AddressInputTestHelper';
+import * as helper from '../../src/components/AddressInput/address-input-test-helper';
 
 GoogleMapsClientStub.setAddresses([helper.ADDRESS_1, helper.ADDRESS_2]);
 GoogleMapsClientStub.setGeocode(helper.GEOCODE_1);
