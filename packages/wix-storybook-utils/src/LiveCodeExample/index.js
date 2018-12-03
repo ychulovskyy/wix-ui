@@ -18,7 +18,7 @@ export default class LiveCodeExample extends Component {
     title: PropTypes.string,
     scope: PropTypes.object,
     compact: PropTypes.bool,
-    previewRow: PropTypes.bool,
+    previewProps: PropTypes.object,
   };
 
   static defaultProps = {
@@ -142,7 +142,7 @@ export default class LiveCodeExample extends Component {
               })}
               dir={isRtl ? 'rtl' : ''}
             >
-              <LivePreview className={previewRow ? styles.previewRow : null} />
+              <LivePreview {...previewProps} />
               <LiveError className={styles.error} />
             </div>
           </div>
