@@ -23,7 +23,7 @@ describe('Google Maps Iframe client', () => {
     await browser.get(storyUrl);
 
   });
-  it('should ask google to autocomplete Broadway and return relevant values', async () => {
+  xit('should ask google to autocomplete Broadway and return relevant values', async () => {
     const driver = googleMapsIframeClientTestkitFactory({dataHook});
 
     await waitForVisibilityOf(await driver.element(), 'Cant find storybook client Component');
@@ -36,7 +36,7 @@ describe('Google Maps Iframe client', () => {
     expect(firstResult.description.includes(searchTest)).toBeTruthy();
   });
 
-  it('should ask google to geocode Broadway and return relevant values', async () => {
+  xit('should ask google to geocode Broadway and return relevant values', async () => {
     const driver = googleMapsIframeClientTestkitFactory({dataHook});
     await waitForVisibilityOf(await driver.element(), 'Cant find storybook client Component');
     await driver.enterText(searchTest);
@@ -50,7 +50,7 @@ describe('Google Maps Iframe client', () => {
     expect(firstResult.geometry.location.lng - broadyWayLng).toBeLessThanOrEqual(allowedDiff); //It might be a flaky test due to flaky results in long/lat values
   });
 
-  it('should ask google for placeDetails for broadway and return relevant values', async () => {
+  xit('should ask google for placeDetails for broadway and return relevant values', async () => {
     const driver = googleMapsIframeClientTestkitFactory({dataHook});
     await waitForVisibilityOf(await driver.element(), 'Cant find storybook client Component');
     await driver.enterText(broadwayPlaceId);
