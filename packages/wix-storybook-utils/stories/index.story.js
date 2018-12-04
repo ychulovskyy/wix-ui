@@ -67,7 +67,7 @@ export default {
       <LiveCodeExample
         title="With non-inline code"
         scope={exampleScope}
-        inlineCode={false}
+        autoRender={false}
         initialCode={`
 const ComponentWithStyles = (props) => (
   <div
@@ -100,7 +100,7 @@ class ComponentWithState extends React.Component {
   }
 }
 
-// When using inlineCode={false}, we need to call the \`render\` function
+// When using autoRender={false}, we need to call the \`render\` function
 render(
   <ComponentWithStyles>
     <ComponentWithState />
