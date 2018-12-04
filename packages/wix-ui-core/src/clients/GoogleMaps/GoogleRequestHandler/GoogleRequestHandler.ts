@@ -65,7 +65,7 @@ export const googleRequestHandler = (eventEmitter, handlersName) => {
     const request = typeof event.data.request === 'string' ? {address: event.data.request} : event.data.request;
     context._geocoder.geocode(request, (results, status) => {
       if ((status !== context.googleInstance.maps.GeocoderStatus.OK) && (status !== context.googleInstance.maps.GeocoderStatus.ZERO_RESULTS)) {
-        event.source.postMessage({results, status: 'ERROR', requestId: event.data.requestId}, '*');
+        event.source.postMessage({results, status: 'ERROR', requestId: event.data.requestId, originalStatus: status}, '*');
       } else {
         event.source.postMessage({
           results: results.map(element =>

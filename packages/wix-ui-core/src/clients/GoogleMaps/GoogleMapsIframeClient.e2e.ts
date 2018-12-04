@@ -1,7 +1,7 @@
 import {browser} from 'protractor';
 
 import {getStoryUrl, waitForVisibilityOf} from 'wix-ui-test-utils/protractor';
-import {googleMapsIframeClientTestkitFactory} from '../../testkit/protractor';
+import {googleMapsIframeClientTestkitFactory, GoogleMapsIframeClientDriver} from '../../testkit/protractor';
 
 describe('Google Maps Iframe client', () => {
   const storyUrl = getStoryUrl('Components', 'GoogleMapsIframeClient');
@@ -23,7 +23,21 @@ describe('Google Maps Iframe client', () => {
     await browser.get(storyUrl);
 
   });
-  xit('should ask google to autocomplete Broadway and return relevant values', async () => {
+
+  async function failOrQuit(driver: GoogleMapsIframeClientDriver) {
+    if (!await driver.isResponseSuccess()) {
+      const {originalStatus} = await driver.getParsedError();
+      if (originalStatus === 'OVER_QUERY_LIMIT') {
+        console.warn('Got Google OVER_QUERY_LIMIT error');
+        // That's ok, we'll skip it, and wait limit to renew in future builds
+        return true;
+      } else {
+        fail(`Got ERROR status: ${originalStatus}`);
+      }
+    }
+  }
+
+  it('should ask google to autocomplete Broadway and return relevant values', async () => {
     const driver = googleMapsIframeClientTestkitFactory({dataHook});
 
     await waitForVisibilityOf(await driver.element(), 'Cant find storybook client Component');
@@ -31,18 +45,27 @@ describe('Google Maps Iframe client', () => {
     await driver.selectByValue(buttonDataHooks.autocompleteApiKey1En);
     await waitForVisibilityOf(driver.getResultsElementWrapper());
 
+    if (await failOrQuit(driver)) {
+      return;
+    }
+    
     const parsedResults = await driver.getParsedResults();
     const firstResult = parsedResults[0];
     expect(firstResult.description.includes(searchTest)).toBeTruthy();
   });
 
-  xit('should ask google to geocode Broadway and return relevant values', async () => {
+  it('should ask google to geocode Broadway and return relevant values', async () => {
     const driver = googleMapsIframeClientTestkitFactory({dataHook});
     await waitForVisibilityOf(await driver.element(), 'Cant find storybook client Component');
     await driver.enterText(searchTest);
     await driver.selectByValue(buttonDataHooks.geocode);
 
     await waitForVisibilityOf(driver.getResultsElementWrapper());
+    
+    if (await failOrQuit(driver)) {
+      return;
+    }
+
     const parsedResults = await driver.getParsedResults();
     const firstResult = parsedResults[0];
     expect(firstResult.formatted_address.includes(searchTest)).toBeTruthy();
@@ -50,13 +73,17 @@ describe('Google Maps Iframe client', () => {
     expect(firstResult.geometry.location.lng - broadyWayLng).toBeLessThanOrEqual(allowedDiff); //It might be a flaky test due to flaky results in long/lat values
   });
 
-  xit('should ask google for placeDetails for broadway and return relevant values', async () => {
+  it('should ask google for placeDetails for broadway and return relevant values', async () => {
     const driver = googleMapsIframeClientTestkitFactory({dataHook});
     await waitForVisibilityOf(await driver.element(), 'Cant find storybook client Component');
     await driver.enterText(broadwayPlaceId);
     await driver.selectByValue(buttonDataHooks.placeDetails);
-
     await waitForVisibilityOf(driver.getResultsElementWrapper());
+
+    if (await failOrQuit(driver)) {
+      return;
+    }
+    
     const parsedResults = await driver.getParsedResults();
     const firstResult = parsedResults[0];
     expect(firstResult.name).toEqual(searchTest);

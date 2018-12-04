@@ -6,8 +6,8 @@ const buttonStyle = {
     margin: '15px'
 };
 
-export class GoogleMapsIframeClientStory extends React.Component<{}, { inputValue: string, result: object[] }> {
-    state = {result: [], inputValue: ''};
+export class GoogleMapsIframeClientStory extends React.Component<{}, { inputValue: string, result: object[], error: any }> {
+    state = {result: [], inputValue: '', error: undefined };
     client = new GoogleMapsIframeClient();
 
     constructor(props: any) {
@@ -25,7 +25,13 @@ export class GoogleMapsIframeClientStory extends React.Component<{}, { inputValu
     }
 
     geocode(apiKey, lang) {
-        this.client.geocode(apiKey, lang, this.state.inputValue).then((result: object[]) => this.setState({result}));
+        this.client.geocode(apiKey, lang, this.state.inputValue)
+            .then((result: object[]) => {
+                this.setState({result})
+            })
+            .catch((err: any)=> {
+                this.setState({error: err})
+            });
     }
 
     placeDetails(apiKey, lang) {
@@ -73,7 +79,10 @@ export class GoogleMapsIframeClientStory extends React.Component<{}, { inputValu
                 >placeDetails
                 </button>
                 {this.state.result.length > 0 &&
-                <pre>{JSON.stringify(this.state.result, null, 4)}</pre>
+                    <pre data-hook="success">{JSON.stringify(this.state.result, null, 4)}</pre>
+                }
+                {this.state.error && 
+                    <pre data-hook="error">{JSON.stringify(this.state.error, null, 4)}</pre>
                 }
             </div>
         );
