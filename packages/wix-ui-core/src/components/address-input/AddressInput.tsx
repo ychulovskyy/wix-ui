@@ -67,6 +67,10 @@ export interface AddressInputProps {
     locationIcon?: React.ReactNode;
     /** Inline styles */
     style?: object;
+    /** Input inline styles */
+    inputStyle?: object;
+    /** Option inline styles */
+    optionStyle?: object;
     /** Prefix for input */
     prefix?: React.ReactNode;
     /** Suffix for input */
@@ -287,9 +291,9 @@ export class AddressInput extends React.PureComponent<AddressInputProps, Address
     }
 
     _renderOption(val) {
-        const {locationIcon} = this.props;
+        const {locationIcon, optionStyle} = this.props;
         return (
-          <div className={style.option}>
+          <div className={style.option} style={optionStyle}>
             {locationIcon && <div className={style.iconWrapper} data-hook="location-icon-wrapper">{locationIcon}</div>}
             <div className={style.optionContent}>{val}</div>
           </div>
@@ -315,7 +319,7 @@ export class AddressInput extends React.PureComponent<AddressInputProps, Address
     }
 
     render() {
-        const {placeholder, onKeyDown, onFocus, forceContentElementVisibility, readOnly, disabled, style: inlineStyles, prefix, suffix, fixedFooter, id} = this.props;
+        const {placeholder, onKeyDown, onFocus, forceContentElementVisibility, readOnly, disabled, style: inlineStyles, prefix, suffix, fixedFooter, id, inputStyle} = this.props;
         const options = this._options();
 
         const inputProps = {
@@ -334,7 +338,8 @@ export class AddressInput extends React.PureComponent<AddressInputProps, Address
             onClick: this.props.onClick,
             onDoubleClick: this.props.onDoubleClick,
             onMouseEnter: this.props.onMouseEnter,
-            onMouseLeave: this.props.onMouseLeave
+            onMouseLeave: this.props.onMouseLeave,
+            style: inputStyle
         };
 
         const states = {};
