@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PopperJS from 'popper.js';
 import {getScrollParent} from 'popper.js/dist/umd/popper-utils';
+import onClickOutside from 'react-onclickoutside';
 import {Manager, Reference, Popper} from 'react-popper';
 import {CSSTransition} from 'react-transition-group';
 import {Portal} from 'react-portal';
@@ -43,6 +44,8 @@ export interface PopoverProps {
   shown: boolean;
   /** onClick on the component */
   onClick?: React.MouseEventHandler<HTMLDivElement>;
+  /** Provides callback to invoke when outside of popover is clicked */
+  onClickOutside?: Function;
   /** onMouseEnter on the component */
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   /** onMouseLeave on the component */
@@ -124,6 +127,10 @@ function getAppendToNode({appendTo, targetRef}) {
 
 const shouldAnimatePopover = ({timeout}: PopoverProps) => !!timeout;
 
+const ClickOutsideWrapper = onClickOutside(
+  createComponentThatRendersItsChildren('ClickOutsideWrapper')
+);
+
 /**
  * Popover
  */
@@ -143,6 +150,12 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   state = {
     isMounted: false
   };
+
+  _handleClickOutside = () => {
+    if (this.props.onClickOutside) {
+      this.props.onClickOutside();
+    }
+  }
 
   getPopperContentStructure(childrenObject) {
     const {moveBy, appendTo, placement, showArrow, moveArrowTo} = this.props;
@@ -305,15 +318,16 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
     return (
       <Manager>
-        <div
-          style={inlineStyles}
-          {...style('root', {}, this.props)}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          id={id}
-        >
-          <Reference innerRef={r => this.targetRef = r}>
-            {({ref}) => (
+        <ClickOutsideWrapper handleClickOutside={this._handleClickOutside}>
+          <div
+            style={inlineStyles}
+            {...style('root', {}, this.props)}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            id={id}
+          >
+            <Reference innerRef={r => this.targetRef = r}>
+              {({ref}) => (
               <div
                 ref={ref}
                 className={style.popoverElement}
@@ -323,10 +337,11 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
               >
                 {childrenObject.Element}
               </div>
-            )}
-          </Reference>
-          {shouldRenderPopper && this.renderPopperContent(childrenObject)}
-        </div>
+              )}
+            </Reference>
+            {shouldRenderPopper && this.renderPopperContent(childrenObject)}
+          </div>
+        </ClickOutsideWrapper>
       </Manager>
     );
   }

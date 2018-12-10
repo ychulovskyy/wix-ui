@@ -56,7 +56,7 @@ export default {
   componentProps: {
     'data-hook': 'storybook-popover',
     children: children[0].value,
-    appendTo: null,
+    appendTo: 'window',
     showArrow: true,
     timeout: 150,
     shown: false,
@@ -65,6 +65,7 @@ export default {
 
   exampleProps: {
     children,
+    onClickOutside: () => 'onClickOutside called!',
 
     appendTo: [
       {label: 'window', value: window},
