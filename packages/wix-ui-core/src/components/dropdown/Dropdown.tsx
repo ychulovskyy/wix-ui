@@ -69,27 +69,27 @@ export class DropdownComponent extends React.PureComponent<DropdownProps & Injec
 
   state = {isOpen: false, selectedIds: []};
 
-  componentWillMount() {
-    this.initializeSelectedOptions(this.props);
+  componentDidMount() {
+    this.initializeSelectedOptions();
   }
 
-  componentWillReceiveProps(props: DropdownProps) {
-    if (!this.areSelectedIdsEqual(props.initialSelectedIds, this.props.initialSelectedIds)) {
-      this.initializeSelectedOptions(props);
+  componentDidUpdate(prevProps: DropdownProps) {
+    if (!DropdownComponent.areSelectedIdsEqual(this.props.initialSelectedIds, prevProps.initialSelectedIds)) {
+      this.initializeSelectedOptions();
     }
   }
 
-  areSelectedIdsEqual = (selectedIds1, selectedIds2) => {
+  static areSelectedIdsEqual = (selectedIds1, selectedIds2) => {
     if ((selectedIds1 === undefined && selectedIds2 === undefined) || (selectedIds1 === null && selectedIds2 === null)) {
       return true;
     }
     return Array.isArray(selectedIds1) && Array.isArray(selectedIds2) &&
-            selectedIds1.length === selectedIds2.length &&
-              selectedIds1.every((item, index) => item === selectedIds2[index]);
+      selectedIds1.length === selectedIds2.length &&
+      selectedIds1.every((item, index) => item === selectedIds2[index]);
   }
 
-  initializeSelectedOptions(props) {
-    const {initialSelectedIds, options, onInitialSelectedOptionsSet} = props;
+  initializeSelectedOptions() {
+    const {initialSelectedIds, options, onInitialSelectedOptionsSet} = this.props;
 
     const selectedOptions = (initialSelectedIds || [])
       .map(id => options.find(option => id === option.id))
@@ -117,14 +117,14 @@ export class DropdownComponent extends React.PureComponent<DropdownProps & Injec
 
   onPopoverClick() {
     if (this.state.isOpen) {
-        this.close();
+      this.close();
     } else {
-        this.open();
+      this.open();
     }
   }
 
   close() {
-      this.setState({isOpen: false});
+    this.setState({isOpen: false});
   }
 
   onKeyboardSelect() {
