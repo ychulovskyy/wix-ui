@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Component from './component';
 
 import {
   tab,
@@ -6,6 +7,8 @@ import {
   liveCode,
   code,
   importExample,
+  api,
+  playground,
 } from '../src/Sections';
 
 const LiveExampleComponent = ({ disabled }) => (
@@ -17,6 +20,7 @@ const LiveExampleComponent = ({ disabled }) => (
 export default {
   category: 'Components',
   storyName: 'Component with section',
+  component: Component,
   componentPath: './component.js',
   sections: [
     tab({
@@ -29,6 +33,8 @@ export default {
               description: 'this is the best code',
               source: '"hello"',
             }),
+
+            api({}),
           ],
         }),
         tab({
@@ -61,6 +67,11 @@ export default {
           source: '<div><LiveExampleComponent/></div>',
         }),
       ],
+    }),
+
+    tab({
+      title: 'Playground',
+      sections: [playground({})],
     }),
   ],
 };

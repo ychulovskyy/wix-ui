@@ -5,6 +5,8 @@ export enum SectionType {
   ImportExample = 'importExample',
   Error = 'error',
   Tab = 'tab',
+  Api = 'api',
+  Playground = 'playground',
 }
 
 export interface StorySection {
@@ -18,7 +20,8 @@ export type Section =
   | ImportExampleSection
   | LiveCodeSection
   | CodeSection
-  | TabSection;
+  | TabSection
+  | ApiSection;
 
 export interface DescriptionSection extends StorySection {
   text: string;
@@ -40,10 +43,13 @@ export interface CodeSection extends StorySection {
 }
 
 export interface TabSection extends StorySection {
-  sections: Partial<Section>[];
+  sections: Section[];
 }
 
 export interface ErrorSection extends StorySection {}
+
+export interface ApiSection extends StorySection {}
+export interface PlaygroundSection extends StorySection {}
 
 export interface SectionsMeta {
   tabs: string[];
