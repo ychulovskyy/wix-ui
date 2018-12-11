@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {queryHook} from 'wix-ui-test-utils/dom';
 import {Popover, PopoverProps} from './';
+import {popoverDriverFactory} from './Popover.driver';
 import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import * as eventually from 'wix-eventually';
 import styles from './Popover.st.css';
@@ -27,6 +28,7 @@ const queryPopoverPortal  = () => queryHook<HTMLElement>(document, 'popover-port
 
 describe('Popover', () => {
   const container = new ReactDOMTestContainer().destroyAfterEachTest();
+  const createDriver = container.createLegacyRenderer(popoverDriverFactory);
 
   describe('Display', () => {
     it(`doesn't display popup when shown={false}`, async () => {
@@ -64,6 +66,52 @@ describe('Popover', () => {
       Simulate.mouseLeave(container.componentNode);
       expect(onMouseEnter).toBeCalled();
       expect(onMouseLeave).toBeCalled();
+    });
+
+    describe('onClickOutside', () => {
+      it('should be triggered when outside of the popover is called', () => {
+        const onClickOutside = jest.fn();
+
+        const driver = createDriver(popoverWithProps({
+          placement: 'bottom',
+          shown: false,
+          onClickOutside,
+        }));
+
+        driver.clickOutside();
+
+        expect(onClickOutside).toBeCalled();
+      });
+
+      it('should not be triggered when content is clicked and appended to parent', async () => {
+        const onClickOutside = jest.fn();
+
+        await container.render(popoverWithProps({
+          placement: 'bottom',
+          shown: true,
+          onClickOutside,
+          appendTo: 'parent',
+        }));
+
+        Simulate.click(queryPopoverContent());
+
+        expect(onClickOutside).not.toBeCalled();
+      });
+
+      it('should be triggered when content is clicked and not appended to parent', async () => {
+        const onClickOutside = jest.fn();
+
+        await container.render(popoverWithProps({
+          placement: 'bottom',
+          shown: true,
+          onClickOutside,
+          appendTo: 'viewport',
+        }));
+
+        Simulate.click(queryPopoverContent());
+
+        expect(onClickOutside).not.toBeCalled();
+      });
     });
   });
 

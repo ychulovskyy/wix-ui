@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PopperJS from 'popper.js';
 import {getScrollParent} from 'popper.js/dist/umd/popper-utils';
+import onClickOutside from 'react-onclickoutside';
 import {Manager, Reference, Popper} from 'react-popper';
 import {CSSTransition} from 'react-transition-group';
 import {Portal} from 'react-portal';
@@ -43,6 +44,8 @@ export interface PopoverProps {
   shown: boolean;
   /** onClick on the component */
   onClick?: React.MouseEventHandler<HTMLDivElement>;
+  /** Provides callback to invoke when clicked outside of the popover */
+  onClickOutside?: Function;
   /** onMouseEnter on the component */
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   /** onMouseLeave on the component */
@@ -78,6 +81,8 @@ export type PopoverType = PopoverProps & {
   Content?: React.SFC<ElementProps>;
 };
 
+const shouldAnimatePopover = ({timeout}: PopoverProps) => !!timeout;
+
 const getArrowShift = (shift: number | undefined, direction: string) => {
   if (!shift && !isTestEnv) {
     return {};
@@ -88,10 +93,13 @@ const getArrowShift = (shift: number | undefined, direction: string) => {
   };
 };
 
-const createModifiers = ({moveBy, appendTo}) => {
+const createModifiers = ({moveBy, appendTo, shouldAnimate}) => {
   const modifiers: PopperJS.Modifiers = {
     offset: {
       offset: `${moveBy ? moveBy.x : 0}px, ${moveBy ? moveBy.y : 0}px`
+    },
+    computeStyle: {
+      gpuAcceleration: !shouldAnimate
     }
   };
 
@@ -122,7 +130,19 @@ function getAppendToNode({appendTo, targetRef}) {
   return appendToNode;
 };
 
-const shouldAnimatePopover = ({timeout}: PopoverProps) => !!timeout;
+// We're declaring a wrapper for the clickOutside machanism and not using the
+// HOC because of Typings errors.
+const ClickOutsideWrapper = onClickOutside(
+  class extends React.Component<any, any> {
+    handleClickOutside() {
+      this.props.handleClickOutside();
+    }
+
+    render() {
+      return this.props.children;
+    }
+  }
+);
 
 /**
  * Popover
@@ -144,9 +164,17 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
     isMounted: false
   };
 
+  _handleClickOutside = () => {
+    if (this.props.onClickOutside) {
+      this.props.onClickOutside();
+    }
+  }
+
   getPopperContentStructure(childrenObject) {
     const {moveBy, appendTo, placement, showArrow, moveArrowTo} = this.props;
-    const modifiers = createModifiers({moveBy, appendTo});
+    const shouldAnimate = shouldAnimatePopover(this.props);
+
+    const modifiers = createModifiers({moveBy, appendTo, shouldAnimate});
 
     const popper = (
       <Popper
@@ -305,15 +333,16 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
     return (
       <Manager>
-        <div
-          style={inlineStyles}
-          {...style('root', {}, this.props)}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          id={id}
-        >
-          <Reference innerRef={r => this.targetRef = r}>
-            {({ref}) => (
+        <ClickOutsideWrapper handleClickOutside={this._handleClickOutside}>
+          <div
+            style={inlineStyles}
+            {...style('root', {}, this.props)}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            id={id}
+          >
+            <Reference innerRef={r => this.targetRef = r}>
+              {({ref}) => (
               <div
                 ref={ref}
                 className={style.popoverElement}
@@ -323,10 +352,11 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
               >
                 {childrenObject.Element}
               </div>
-            )}
-          </Reference>
-          {shouldRenderPopper && this.renderPopperContent(childrenObject)}
-        </div>
+              )}
+            </Reference>
+            {shouldRenderPopper && this.renderPopperContent(childrenObject)}
+          </div>
+        </ClickOutsideWrapper>
       </Manager>
     );
   }
