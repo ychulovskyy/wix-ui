@@ -81,6 +81,8 @@ export type PopoverType = PopoverProps & {
   Content?: React.SFC<ElementProps>;
 };
 
+const shouldAnimatePopover = ({timeout}: PopoverProps) => !!timeout;
+
 const getArrowShift = (shift: number | undefined, direction: string) => {
   if (!shift && !isTestEnv) {
     return {};
@@ -91,10 +93,13 @@ const getArrowShift = (shift: number | undefined, direction: string) => {
   };
 };
 
-const createModifiers = ({moveBy, appendTo}) => {
+const createModifiers = ({moveBy, appendTo, shouldAnimate}) => {
   const modifiers: PopperJS.Modifiers = {
     offset: {
       offset: `${moveBy ? moveBy.x : 0}px, ${moveBy ? moveBy.y : 0}px`
+    },
+    computeStyle: {
+      gpuAcceleration: !shouldAnimate
     }
   };
 
@@ -124,8 +129,6 @@ function getAppendToNode({appendTo, targetRef}) {
   }
   return appendToNode;
 };
-
-const shouldAnimatePopover = ({timeout}: PopoverProps) => !!timeout;
 
 // We're declaring a wrapper for the clickOutside machanism and not using the
 // HOC because of Typings errors.
@@ -169,7 +172,9 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
   getPopperContentStructure(childrenObject) {
     const {moveBy, appendTo, placement, showArrow, moveArrowTo} = this.props;
-    const modifiers = createModifiers({moveBy, appendTo});
+    const shouldAnimate = shouldAnimatePopover(this.props);
+
+    const modifiers = createModifiers({moveBy, appendTo, shouldAnimate});
 
     const popper = (
       <Popper
