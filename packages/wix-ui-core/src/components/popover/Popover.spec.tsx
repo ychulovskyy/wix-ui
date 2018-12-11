@@ -68,18 +68,50 @@ describe('Popover', () => {
       expect(onMouseLeave).toBeCalled();
     });
 
-    it('call onClickOutside', () => {
-      const onClickOutside = jest.fn();
+    describe('onClickOutside', () => {
+      it('should be triggered when outside of the popover is called', () => {
+        const onClickOutside = jest.fn();
 
-      const driver = createDriver(popoverWithProps({
-        placement: 'bottom',
-        shown: false,
-        onClickOutside,
-      }));
+        const driver = createDriver(popoverWithProps({
+          placement: 'bottom',
+          shown: false,
+          onClickOutside,
+        }));
 
-      driver.clickOutside();
+        driver.clickOutside();
 
-      expect(onClickOutside).toBeCalled();
+        expect(onClickOutside).toBeCalled();
+      });
+
+      it('should not be triggered when content is clicked and appended to parent', async () => {
+        const onClickOutside = jest.fn();
+
+        await container.render(popoverWithProps({
+          placement: 'bottom',
+          shown: true,
+          onClickOutside,
+          appendTo: 'parent',
+        }));
+
+        Simulate.click(queryPopoverContent());
+
+        expect(onClickOutside).not.toBeCalled();
+      });
+
+      it('should be triggered when content is clicked and not appended to parent', async () => {
+        const onClickOutside = jest.fn();
+
+        await container.render(popoverWithProps({
+          placement: 'bottom',
+          shown: true,
+          onClickOutside,
+          appendTo: 'viewport',
+        }));
+
+        Simulate.click(queryPopoverContent());
+
+        expect(onClickOutside).not.toBeCalled();
+      });
     });
   });
 

@@ -44,7 +44,7 @@ export interface PopoverProps {
   shown: boolean;
   /** onClick on the component */
   onClick?: React.MouseEventHandler<HTMLDivElement>;
-  /** Provides callback to invoke when outside of popover is clicked */
+  /** Provides callback to invoke when clicked outside of the popover */
   onClickOutside?: Function;
   /** onMouseEnter on the component */
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
