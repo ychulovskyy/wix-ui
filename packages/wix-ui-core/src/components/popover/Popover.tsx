@@ -127,8 +127,18 @@ function getAppendToNode({appendTo, targetRef}) {
 
 const shouldAnimatePopover = ({timeout}: PopoverProps) => !!timeout;
 
+// We're declaring a wrapper for the clickOutside machanism and not using the
+// HOC because of Typings errors.
 const ClickOutsideWrapper = onClickOutside(
-  createComponentThatRendersItsChildren('ClickOutsideWrapper')
+  class extends React.Component<any, any> {
+    handleClickOutside() {
+      this.props.handleClickOutside();
+    }
+
+    render() {
+      return this.props.children;
+    }
+  }
 );
 
 /**
