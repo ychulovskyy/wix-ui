@@ -228,7 +228,12 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
         in={shown}
         timeout={Number(timeout)}
         unmountOnExit
-        classNames={style.popoverAnimation}
+        classNames={{
+          enter: style['popoverAnimation-enter'],
+          enterActive: style['popoverAnimation-enter-active'],
+          exit: style['popoverAnimation-exit'],
+          exitActive: style['popoverAnimation-exit-active'],
+        }}
         onExited={() => detachStylesFromNode(this.portalNode, this.stylesObj)}
       >
         {popper}
