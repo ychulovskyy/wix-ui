@@ -73,7 +73,8 @@ export async function isUniTestkitExists<T extends BaseUniDriver>(
   const div = document.createElement('div');
   const dataHook = 'myDataHook';
   const elementToRender = React.cloneElement(Element, {
-    'data-hook': dataHook
+    'data-hook': dataHook,
+    dataHook
   });
   const renderedElement = ReactTestUtils.renderIntoDocument(
     <div>{elementToRender}</div>
