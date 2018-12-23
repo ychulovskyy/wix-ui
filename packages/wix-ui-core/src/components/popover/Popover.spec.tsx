@@ -36,7 +36,7 @@ describe('Popover', () => {
         placement: 'bottom',
         shown: false
       }));
-  
+
       expect(queryPopoverElement()).toBeTruthy();
       expect(queryPopoverContent()).toBeNull();
     });
@@ -46,7 +46,7 @@ describe('Popover', () => {
         placement: 'bottom',
         shown: true
       }));
-      
+
       expect(queryPopoverContent()).toBeTruthy();
     });
   });
@@ -147,32 +147,105 @@ describe('Popover', () => {
     });
   });
 
-  describe('Animation', () => {
+  describe('Animation and delay', () => {
     it(`animates on close given a timeout`, async () => {
       await container.render(popoverWithProps(
         {placement: 'bottom', shown: true, timeout: 10}
       ));
-  
+
       await container.render(popoverWithProps(
         {placement: 'bottom', shown: false, timeout: 10}
       ));
-  
+
       expect(queryPopoverContent()).toBeTruthy();
       await eventually(() => {
         expect(queryPopoverContent()).toBeNull();
       }, {interval: 1});
     });
-  
+
     it(`doesn't animate on close when timeout={0}`, async () => {
       await container.render(popoverWithProps(
         {placement: 'bottom', shown: true, timeout: 0}
       ));
-  
+
       await container.render(popoverWithProps(
         {placement: 'bottom', shown: false, timeout: 0}
       ));
-  
+
       expect(queryPopoverContent()).toBeNull();
+    });
+
+    it(`should close after hideDelay`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 100,
+        shown: true,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 100,
+        shown: false,
+      }));
+
+      expect(queryPopoverContent()).toBeTruthy();
+      await eventually(() => {
+        expect(queryPopoverContent()).toBeNull();
+      }, {interval: 1});
+    });
+
+    it(`should open after showDelay`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        showDelay: 100,
+        shown: false,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        showDelay: 100,
+        shown: true,
+      }));
+
+      expect(queryPopoverContent()).toBeNull();
+      await eventually(() => {
+        expect(queryPopoverContent()).toBeTruthy();
+      }, {interval: 1});
+    });
+
+    it(`should reset timeout when state has changed`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 100,
+        showDelay: 100,
+        shown: false,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 100,
+        showDelay: 100,
+        shown: true,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 100,
+        showDelay: 100,
+        shown: false,
+      }));
+
+      expect(queryPopoverContent()).toBeNull();
+    });
+
+    it(`should show the popover immediately on first render if neede`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        showDelay: 100,
+        shown: true,
+      }));
+
+      expect(queryPopoverContent()).toBeTruthy();
     });
   });
 
@@ -184,7 +257,7 @@ describe('Popover', () => {
         placement: 'bottom',
         shown: true
       }));
-  
+
       expect(queryPopoverContent().parentElement).toBe(container.componentNode);
     });
 

@@ -65,7 +65,7 @@ export interface PopoverProps {
   /** Enables calculations in relation to a dom element */
   appendTo?: AppendTo;
   /** Animation timer */
-  timeout?: number;
+  timeout?: number | { enter?: number, exit?: number };
   /** Inline style */
   style?: object;
   /** Id */
@@ -74,6 +74,7 @@ export interface PopoverProps {
 
 export type PopoverState = {
   isMounted: boolean;
+  shown: boolean;
 };
 
 export type PopoverType = PopoverProps & {
@@ -160,8 +161,12 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
   popperScheduleUpdate: () => void = null
 
+  _hideTimeout: any = null;
+  _showTimeout: any = null;
+
   state = {
-    isMounted: false
+    isMounted: false,
+    shown: this.props.shown || false,
   };
 
   _handleClickOutside = () => {
@@ -221,12 +226,15 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   }
 
   wrapWithAnimations(popper) {
-    const {timeout, shown} = this.props;
+    const {timeout} = this.props;
+    const {shown} = this.state;
+
     const shouldAnimate = shouldAnimatePopover(this.props);
+
     return shouldAnimate ? (
       <CSSTransition
         in={shown}
-        timeout={Number(timeout)}
+        timeout={typeof timeout === 'object' ? timeout : Number(timeout)}
         unmountOnExit
         classNames={{
           enter: style['popoverAnimation-enter'],
@@ -299,6 +307,60 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
     }
   }
 
+  hidePopover() {
+    const { shown, isMounted } = this.state;
+    const { hideDelay } = this.props;
+
+    if (!shown || !isMounted || this._hideTimeout) {
+      return;
+    }
+
+    if (this._showTimeout) {
+      clearTimeout(this._showTimeout);
+      this._showTimeout = null;
+    }
+
+    if (hideDelay) {
+      this._hideTimeout = setTimeout(() => {
+        this.setState({ shown: false });
+      }, Number(hideDelay));
+    } else {
+      this.setState({ shown: false });
+    }
+  }
+
+  showPopover() {
+    const { shown, isMounted } = this.state;
+    const { showDelay } = this.props;
+
+    if (shown || !isMounted || this._showTimeout) {
+      return;
+    }
+
+    if (this._hideTimeout) {
+      clearTimeout(this._hideTimeout);
+      this._hideTimeout = null;
+    }
+
+    if (showDelay) {
+      this._showTimeout = setTimeout(() => {
+        this.setState({ shown: true });
+      }, Number(showDelay));
+    } else {
+      this.setState({ shown: true });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.shown !== undefined && this.props.shown !== nextProps.shown) {
+      if (nextProps.shown) {
+        this.showPopover();
+      } else {
+        this.hidePopover();
+      }
+    }
+  }
+
   componentWillUnmount() {
     if (this.portalNode) {
       // FIXME: What if component is updated with a different appendTo? It is a far-fetched use-case,
@@ -328,8 +390,8 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   }
 
   render() {
-    const {onMouseEnter, onMouseLeave, onKeyDown, onClick, children, shown, style: inlineStyles, id} = this.props;
-    const {isMounted} = this.state;
+    const {onMouseEnter, onMouseLeave, onKeyDown, onClick, children, style: inlineStyles, id} = this.props;
+    const {isMounted, shown} = this.state;
 
     const childrenObject = buildChildrenObject(children, {Element: null, Content: null});
 
