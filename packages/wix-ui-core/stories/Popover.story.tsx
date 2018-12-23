@@ -139,6 +139,27 @@ export default {
           </Popover.Content>
         </Popover>
       </div>
+
+      <div>
+        <h2>Delays</h2>
+        <p>
+          You can set the <code>hideDelay</code> and <code>showDelay</code> props in order to delay
+          the popover's enterance. Value is in <em>milliseconds</em>.
+
+          <br/>
+
+          The following example sets <code>hideDelay</code> and <code>showDelay</code> to &nbsp;
+          <code>1000</code> (1 second).
+
+          <br/>
+
+          You can click the popover in order to change its <code>shown</code> state.
+        </p>
+
+        <br/>
+
+        <PopoverWithState showDelay={1000} hideDelay={1000} />
+      </div>
     </div>
   )
 };
