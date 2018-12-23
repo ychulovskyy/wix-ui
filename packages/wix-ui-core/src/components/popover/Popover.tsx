@@ -368,6 +368,16 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
       this.appendToNode.removeChild(this.portalNode);
     }
     this.portalNode = null;
+
+    if (this._hideTimeout) {
+      clearTimeout(this._hideTimeout);
+      this._hideTimeout = null;
+    }
+
+    if (this._showTimeout) {
+      clearTimeout(this._showTimeout);
+      this._showTimeout = null;
+    }
   }
 
   updatePosition() {
