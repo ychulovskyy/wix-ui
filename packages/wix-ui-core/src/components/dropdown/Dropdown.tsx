@@ -171,7 +171,7 @@ export class DropdownComponent extends React.PureComponent<DropdownProps & Injec
     const {onSelect, onDeselect, multi, allowReselect} = this.props;
     const {selectedIds} = this.state;
     const newState = {
-      isOpen: multi,
+      isOpen: !!multi,
       selectedIds
     };
 
