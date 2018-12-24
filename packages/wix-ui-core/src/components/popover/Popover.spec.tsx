@@ -272,6 +272,31 @@ describe('Popover', () => {
       }, {interval: 10});
     });
 
+    it(`should not update delay until the popover visibillity has fully changed`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        shown: true,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        shown: false,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 1000,
+        shown: false,
+      }));
+
+      expect(queryPopoverContent()).toBeTruthy();
+      await eventually(() => {
+        expect(queryPopoverContent()).toBeNull();
+      }, {interval: 10});
+    });
+
     it(`should show the popover immediately on first render if needed`, async () => {
       await container.render(popoverWithProps({
         placement: 'bottom',
