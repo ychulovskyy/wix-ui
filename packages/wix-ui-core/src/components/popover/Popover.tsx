@@ -20,6 +20,7 @@ import {
 
 import * as classNames from 'classnames';
 import isElement = require('lodash/isElement');
+import { log } from 'util';
 
 // This is here and not in the test setup because we don't want consumers to need to run it as well
 const isTestEnv = process.env.NODE_ENV === 'test';
@@ -75,7 +76,6 @@ export interface PopoverProps {
 export type PopoverState = {
   isMounted: boolean;
   shown: boolean;
-  visible: boolean;
 };
 
 export type PopoverType = PopoverProps & {
@@ -155,16 +155,6 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   static Element = createComponentThatRendersItsChildren('Popover.Element');
   static Content = createComponentThatRendersItsChildren('Popover.Content');
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.shown !== undefined && props.shown !== state.shown) {
-      return {
-        shown: props.shown,
-      };
-    }
-
-    return null;
-  }
-
   targetRef: HTMLElement = null;
   portalNode: HTMLElement = null;
   stylesObj: AttributeMap = null;
@@ -178,7 +168,6 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   state = {
     isMounted: false,
     shown: this.props.shown || false,
-    visible: this.props.shown || false,
   };
 
   _handleClickOutside = () => {
@@ -239,13 +228,13 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
   wrapWithAnimations(popper) {
     const {timeout} = this.props;
-    const {visible} = this.state;
+    const {shown} = this.state;
 
     const shouldAnimate = shouldAnimatePopover(this.props);
 
     return shouldAnimate ? (
       <CSSTransition
-        in={visible}
+        in={shown}
         timeout={typeof timeout === 'object' ? timeout : Number(timeout)}
         unmountOnExit
         classNames={{
@@ -320,10 +309,10 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   }
 
   hidePopover() {
-    const { visible, isMounted } = this.state;
+    const { isMounted } = this.state;
     const { hideDelay } = this.props;
 
-    if (!visible || !isMounted || this._hideTimeout) {
+    if (!isMounted || this._hideTimeout) {
       return;
     }
 
@@ -334,18 +323,18 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
     if (hideDelay) {
       this._hideTimeout = setTimeout(() => {
-        this.setState({ visible: false });
+        this.setState({ shown: false });
       }, Number(hideDelay));
     } else {
-      this.setState({ visible: false });
+      this.setState({ shown: false });
     }
   }
 
   showPopover() {
-    const { visible, isMounted } = this.state;
+    const { isMounted } = this.state;
     const { showDelay } = this.props;
 
-    if (visible || !isMounted || this._showTimeout) {
+    if (!isMounted || this._showTimeout) {
       return;
     }
 
@@ -356,10 +345,10 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
     if (showDelay) {
       this._showTimeout = setTimeout(() => {
-        this.setState({ visible: true });
+        this.setState({ shown: true });
       }, Number(showDelay));
     } else {
-      this.setState({ visible: true });
+      this.setState({ shown: true });
     }
   }
 
@@ -388,7 +377,7 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const { shown } = this.props;
 
     if (this.portalNode) {
@@ -402,8 +391,8 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
     // Update popper's position
     this.updatePosition();
 
-    // Update the `visible` state accordinng to the `shown` prop
-    if (prevState.shown !== shown) {
+    // Update popover visibility
+    if (prevProps.shown !== undefined && prevProps.shown !== shown) {
       if (shown) {
         this.showPopover();
       } else {
@@ -414,12 +403,12 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
   render() {
     const {onMouseEnter, onMouseLeave, onKeyDown, onClick, children, style: inlineStyles, id} = this.props;
-    const {isMounted, visible} = this.state;
+    const {isMounted, shown} = this.state;
 
     const childrenObject = buildChildrenObject(children, {Element: null, Content: null});
 
     const shouldAnimate = shouldAnimatePopover(this.props);
-    const shouldRenderPopper = isMounted && (shouldAnimate || visible);
+    const shouldRenderPopper = isMounted && (shouldAnimate || shown);
 
     return (
       <Manager>
