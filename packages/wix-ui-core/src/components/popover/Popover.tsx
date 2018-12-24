@@ -20,7 +20,6 @@ import {
 
 import * as classNames from 'classnames';
 import isElement = require('lodash/isElement');
-import { log } from 'util';
 
 // This is here and not in the test setup because we don't want consumers to need to run it as well
 const isTestEnv = process.env.NODE_ENV === 'test';
@@ -235,7 +234,7 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
     return shouldAnimate ? (
       <CSSTransition
         in={shown}
-        timeout={typeof timeout === 'object' ? timeout : Number(timeout)}
+        timeout={timeout}
         unmountOnExit
         classNames={{
           enter: style['popoverAnimation-enter'],
@@ -324,7 +323,7 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
     if (hideDelay) {
       this._hideTimeout = setTimeout(() => {
         this.setState({ shown: false });
-      }, Number(hideDelay));
+      }, hideDelay);
     } else {
       this.setState({ shown: false });
     }
@@ -346,7 +345,7 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
     if (showDelay) {
       this._showTimeout = setTimeout(() => {
         this.setState({ shown: true });
-      }, Number(showDelay));
+      }, showDelay);
     } else {
       this.setState({ shown: true });
     }
@@ -388,9 +387,6 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
       this.applyStylesToPortaledNode();
     }
 
-    // Update popper's position
-    this.updatePosition();
-
     // Update popover visibility
     if (prevProps.shown !== undefined && prevProps.shown !== shown) {
       if (shown) {
@@ -398,6 +394,10 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
       } else {
         this.hidePopover();
       }
+    } else {
+
+      // Update popper's position
+      this.updatePosition();
     }
   }
 
