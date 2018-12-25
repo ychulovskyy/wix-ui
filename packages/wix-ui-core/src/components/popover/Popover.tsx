@@ -56,7 +56,7 @@ export interface PopoverProps {
   showArrow?: boolean;
   /** Moves popover relative to the parent */
   moveBy?: { x: number, y: number };
-  /** Fade Delay */
+  /** Hide Delay */
   hideDelay?: number;
   /** Show Delay */
   showDelay?: number;
@@ -82,7 +82,11 @@ export type PopoverType = PopoverProps & {
   Content?: React.SFC<ElementProps>;
 };
 
-const shouldAnimatePopover = ({timeout}: PopoverProps) => !!timeout;
+const shouldAnimatePopover = ({timeout}: PopoverProps) => {
+  return typeof timeout === 'object' ? (
+    timeout.enter && timeout.exit
+  ) : !!timeout;
+};
 
 const getArrowShift = (shift: number | undefined, direction: string) => {
   if (!shift && !isTestEnv) {
@@ -161,8 +165,8 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
   popperScheduleUpdate: () => void = null
 
-  _hideTimeout: any = null;
-  _showTimeout: any = null;
+  _hideTimeout: NodeJS.Timer = null;
+  _showTimeout: NodeJS.Timer = null;
 
   state = {
     isMounted: false,

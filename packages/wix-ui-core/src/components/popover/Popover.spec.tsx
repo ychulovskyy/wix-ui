@@ -7,6 +7,10 @@ import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import * as eventually from 'wix-eventually';
 import styles from './Popover.st.css';
 
+function delay(millis: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, millis));
+}
+
 const popoverWithProps = (props: PopoverProps, content: string = 'Content') => (
   <Popover {...props}>
     <Popover.Element>
@@ -148,7 +152,7 @@ describe('Popover', () => {
         shown: true
       }, 'New content!'));
 
-       // Should habe been called for each update
+       // Should have been called for each update
       expect(updatePositionSpy).toHaveBeenCalledTimes(2);
     });
 
@@ -267,9 +271,8 @@ describe('Popover', () => {
       }));
 
       expect(queryPopoverContent()).toBeNull();
-      await eventually(() => {
-        expect(queryPopoverContent()).toBeNull();
-      }, {interval: 10});
+      await delay(15);
+      expect(queryPopoverContent()).toBeNull();
     });
 
     it(`should not update delay until the popover visibillity has fully changed`, async () => {
@@ -292,9 +295,11 @@ describe('Popover', () => {
       }));
 
       expect(queryPopoverContent()).toBeTruthy();
-      await eventually(() => {
-        expect(queryPopoverContent()).toBeNull();
-      }, {interval: 10});
+
+      // Making sure the popover is closed after the first `hideDelay` (10ms), and not the second
+      // one (1000ms)
+      await delay(10);
+      expect(queryPopoverContent()).toBeNull();
     });
 
     it(`should show the popover immediately on first render if needed`, async () => {
@@ -325,6 +330,16 @@ describe('Popover', () => {
       }));
 
       expect(queryPopoverContent()).toBeTruthy();
+
+      // Close again the popover
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 0,
+        showDelay: 0,
+        shown: false,
+      }));
+
+      expect(queryPopoverContent()).toBeNull();
     });
   });
 
