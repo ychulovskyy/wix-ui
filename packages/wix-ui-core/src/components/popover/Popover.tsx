@@ -165,8 +165,9 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
   popperScheduleUpdate: () => void = null
 
-  _hideTimeout: NodeJS.Timer = null;
-  _showTimeout: NodeJS.Timer = null;
+  // Timer instances for the show/hide delays
+  _hideTimeout: any = null;
+  _showTimeout: any = null;
 
   state = {
     isMounted: false,
