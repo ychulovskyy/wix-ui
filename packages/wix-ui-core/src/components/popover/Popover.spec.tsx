@@ -210,6 +210,22 @@ describe('Popover', () => {
       expect(queryPopoverContent()).toBeNull();
     });
 
+    it(`doesn't animate on close when timeout is an object with 0 values`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        shown: true,
+        timeout: { enter: 0, exit: 0 }
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        shown: false,
+        timeout: { enter: 0, exit: 0 }
+      }));
+
+      expect(queryPopoverContent()).toBeNull();
+    });
+
     it(`should close after hideDelay`, async () => {
       await container.render(popoverWithProps({
         placement: 'bottom',
