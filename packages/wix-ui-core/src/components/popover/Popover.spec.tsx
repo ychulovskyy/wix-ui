@@ -7,6 +7,10 @@ import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import * as eventually from 'wix-eventually';
 import styles from './Popover.st.css';
 
+function delay(millis: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, millis));
+}
+
 const popoverWithProps = (props: PopoverProps, content: string = 'Content') => (
   <Popover {...props}>
     <Popover.Element>
@@ -36,7 +40,7 @@ describe('Popover', () => {
         placement: 'bottom',
         shown: false
       }));
-  
+
       expect(queryPopoverElement()).toBeTruthy();
       expect(queryPopoverContent()).toBeNull();
     });
@@ -46,7 +50,7 @@ describe('Popover', () => {
         placement: 'bottom',
         shown: true
       }));
-      
+
       expect(queryPopoverContent()).toBeTruthy();
     });
   });
@@ -116,6 +120,16 @@ describe('Popover', () => {
   });
 
   describe('Position', () => {
+    let updatePositionSpy;
+
+    beforeEach(() => {
+      updatePositionSpy = jest.spyOn(Popover.prototype, 'updatePosition');
+    });
+
+    afterEach(() => {
+      updatePositionSpy.mockRestore();
+    });
+
     it(`offsets the popup arrow by specified amount`, async () => {
       await container.render(popoverWithProps({
         placement: 'bottom',
@@ -128,8 +142,6 @@ describe('Popover', () => {
     });
 
     it(`should update popper's position when props are chaning`, async () => {
-      const updatePositionSpy = jest.spyOn(Popover.prototype, 'updatePosition');
-
        await container.render(popoverWithProps({
         placement: 'bottom',
         shown: true
@@ -140,38 +152,209 @@ describe('Popover', () => {
         shown: true
       }, 'New content!'));
 
-       // Should be called for each update
+       // Should have been called for each update
       expect(updatePositionSpy).toHaveBeenCalledTimes(2);
+    });
 
-      updatePositionSpy.mockRestore();
+    it(`should not directly update popper's position when the visibillity hasn't changed`, async () => {
+       await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        showDelay: 10,
+        shown: false,
+      }));
+
+       await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        showDelay: 10,
+        shown: true,
+      }));
+
+       await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        showDelay: 10,
+        shown: false,
+      }));
+
+      expect(updatePositionSpy).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('Animation', () => {
+  describe('Animation and delay', () => {
     it(`animates on close given a timeout`, async () => {
       await container.render(popoverWithProps(
         {placement: 'bottom', shown: true, timeout: 10}
       ));
-  
+
       await container.render(popoverWithProps(
         {placement: 'bottom', shown: false, timeout: 10}
       ));
-  
+
       expect(queryPopoverContent()).toBeTruthy();
       await eventually(() => {
         expect(queryPopoverContent()).toBeNull();
       }, {interval: 1});
     });
-  
+
     it(`doesn't animate on close when timeout={0}`, async () => {
       await container.render(popoverWithProps(
         {placement: 'bottom', shown: true, timeout: 0}
       ));
-  
+
       await container.render(popoverWithProps(
         {placement: 'bottom', shown: false, timeout: 0}
       ));
-  
+
+      expect(queryPopoverContent()).toBeNull();
+    });
+
+    it(`doesn't animate on close when timeout is an object with 0 values`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        shown: true,
+        timeout: { enter: 0, exit: 0 }
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        shown: false,
+        timeout: { enter: 0, exit: 0 }
+      }));
+
+      expect(queryPopoverContent()).toBeNull();
+    });
+
+    it(`should close after hideDelay`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        shown: true,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        shown: false,
+      }));
+
+      expect(queryPopoverContent()).toBeTruthy();
+      await eventually(() => {
+        expect(queryPopoverContent()).toBeNull();
+      }, {interval: 10});
+    });
+
+    it(`should open after showDelay`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        showDelay: 10,
+        shown: false,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        showDelay: 10,
+        shown: true,
+      }));
+
+      expect(queryPopoverContent()).toBeNull();
+      await eventually(() => {
+        expect(queryPopoverContent()).toBeTruthy();
+      }, {interval: 10});
+    });
+
+    it(`should reset timeout when state has changed`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        showDelay: 10,
+        shown: false,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        showDelay: 10,
+        shown: true,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        showDelay: 10,
+        shown: false,
+      }));
+
+      expect(queryPopoverContent()).toBeNull();
+      await delay(15);
+      expect(queryPopoverContent()).toBeNull();
+    });
+
+    it(`should not update delay until the popover visibillity has fully changed`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        shown: true,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 10,
+        shown: false,
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 1000,
+        shown: false,
+      }));
+
+      expect(queryPopoverContent()).toBeTruthy();
+
+      // Making sure the popover is closed after the first `hideDelay` (10ms), and not the second
+      // one (1000ms)
+      await delay(10);
+      expect(queryPopoverContent()).toBeNull();
+    });
+
+    it(`should show the popover immediately on first render if needed`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        showDelay: 10,
+        shown: true,
+      }));
+
+      expect(queryPopoverContent()).toBeTruthy();
+    });
+
+    it(`should show the popover immediately when delays are 0`, async () => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 0,
+        showDelay: 0,
+        shown: false,
+      }));
+
+      expect(queryPopoverContent()).toBeNull();
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 0,
+        showDelay: 0,
+        shown: true,
+      }));
+
+      expect(queryPopoverContent()).toBeTruthy();
+
+      // Close again the popover
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        hideDelay: 0,
+        showDelay: 0,
+        shown: false,
+      }));
+
       expect(queryPopoverContent()).toBeNull();
     });
   });
@@ -184,7 +367,7 @@ describe('Popover', () => {
         placement: 'bottom',
         shown: true
       }));
-  
+
       expect(queryPopoverContent().parentElement).toBe(container.componentNode);
     });
 

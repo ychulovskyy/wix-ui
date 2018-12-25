@@ -4,9 +4,6 @@ import {ReactDOMTestContainer} from '../../../test/dom-test-container';
 import {Checkbox} from './Checkbox';
 
 const tickSVG = (<span data-name="custom-tickmark">1</span>);
-function delay(millis: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, millis));
-}
 
 describe('Checkbox', () => {
   const createDriver =
