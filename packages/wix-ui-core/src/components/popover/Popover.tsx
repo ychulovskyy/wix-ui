@@ -88,7 +88,7 @@ const shouldAnimatePopover = ({timeout}: PopoverProps) => {
 
     return (
       typeof enter !== 'undefined' && typeof exit !== 'undefined' && (
-        !(enter === 0 && exit === 0)
+        enter > 0 || exit > 0
       )
     );
   }
