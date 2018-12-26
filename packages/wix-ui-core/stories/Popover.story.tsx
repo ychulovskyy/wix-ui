@@ -8,11 +8,11 @@ class PopoverWithState extends React.Component<Partial<PopoverProps>,{shown: boo
 
   render() {
     const props: PopoverProps & {children?: any} = {
-      ...this.props,
       placement: 'right',
       showArrow: true,
       shown: this.state.shown,
-      onClick:()=> this.setState({shown: !this.state.shown})
+      onClick:()=> this.setState({shown: !this.state.shown}),
+      ...this.props
     }
     return (
       <Popover {...props}>
@@ -26,6 +26,30 @@ class PopoverWithState extends React.Component<Partial<PopoverProps>,{shown: boo
     )
   }
 }
+
+const ScrollableContainer = props => (
+  <div
+    style={{
+      textAlign: 'center',
+      overflow: 'hidden',
+      position: 'relative',
+      border: '1px solid black',
+      width: 250,
+      margin: 10
+    }}
+  >
+    <div
+      style={{
+        overflow: 'auto',
+        height: 120,
+      }}
+    >
+      <div style={{ padding: '25px 25px 150px' }}>
+        {props.children}
+      </div>
+    </div>
+  </div>
+);
 
 const children = [
   {label: 'Default example',
@@ -127,10 +151,15 @@ export default {
         <h2>moveBy={'{x:50, y:100}'}</h2>
         <p>
           <em>x</em> and <em>y</em> axis orientation is relative to the placement of the popover.<br/>
-          If the <em>placement</em> is <code>"top"</code> or <code>"bottom"</code>, <em>x</em> represents offset in the horizontal axis and <em>y</em> in the vertical axis.<br/>
-          If the <em>placement</em> is <code>"left"</code> or <code>"right"</code>, <em>x</em> represents offset in the vertical axis and <em>y</em> in the horizontal axis.
+
+          <br/>
+
+          The <code>flip</code> behaviour is disabled when this props is used, in order to support
+          negative values when making the<br/>
+          Content element (<code>{`<Popover.Content/>`}</code>) intentionally overlapping the Target
+          element (<code>{`<Popover.Element/>`}</code>).
         </p>
-        <Popover placement="left" shown moveBy={{ x: 50, y: 100 }} showArrow>
+        <Popover placement="left" shown moveBy={{ x: 100, y: 50 }} showArrow>
           <Popover.Element>
             <div style={{ height: '80px' }}>The element</div>
           </Popover.Element>
@@ -159,6 +188,28 @@ export default {
         <br/>
 
         <PopoverWithState showDelay={1000} hideDelay={1000} />
+      </div>
+
+      <div>
+        <h2>Flip behaviour</h2>
+        <p>
+          This behaviour used to flip the <code>{`<Popover/>`}</code>'s placement
+          when it starts to overlap the target element (<code>{`<Popover.Element/>`}</code>).
+          <br/>
+          It is enabled by default.
+        </p>
+
+        <br/>
+
+        <ScrollableContainer>
+          With flip enabled:<br/>
+          <PopoverWithState placement="top" />
+        </ScrollableContainer>
+
+        <ScrollableContainer>
+          With flip disabled:<br/>
+          <PopoverWithState placement="top" flip={false} />
+        </ScrollableContainer>
       </div>
     </div>
   )

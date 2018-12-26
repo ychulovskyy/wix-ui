@@ -54,6 +54,11 @@ export interface PopoverProps {
   onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
   /** Show show arrow from the content */
   showArrow?: boolean;
+  /**
+   * Whether to enable the flip behaviour. This behaviour used to flip the `<Popover/>`'s placement
+   * when it starts to overlap the target element (`<Popover.Element/>`).
+   */
+  flip?: boolean;
   /** Moves popover relative to the parent */
   moveBy?: { x: number, y: number };
   /** Hide Delay */
@@ -98,13 +103,32 @@ const getArrowShift = (shift: number | undefined, direction: string) => {
   };
 };
 
-const createModifiers = ({moveBy, appendTo, shouldAnimate}) => {
+const calculateOffset = ({moveBy, placement}): string => {
+  /*
+   * For `right` and `left` placements, we need to flip the `x` and `y` values as Popper.JS will use
+   * the first value for the main axis. As per Popper.js docs:
+   *
+   *   if the placement is top or bottom, the length will be the width. In case of left or right, it
+   *   will be the height.
+   *
+   */
+  if (placement.includes('right') || placement.includes('left')) {
+    return `${moveBy ? moveBy.y : 0}px, ${moveBy ? moveBy.x : 0}px`;
+  }
+
+  return `${moveBy ? moveBy.x : 0}px, ${moveBy ? moveBy.y : 0}px`;
+};
+
+const createModifiers = ({moveBy, appendTo, shouldAnimate, flip, placement}) => {
   const modifiers: PopperJS.Modifiers = {
     offset: {
-      offset: `${moveBy ? moveBy.x : 0}px, ${moveBy ? moveBy.y : 0}px`
+      offset: calculateOffset({moveBy, placement}),
     },
     computeStyle: {
       gpuAcceleration: !shouldAnimate
+    },
+    flip: {
+      enabled: typeof moveBy === 'undefined' ? flip : !moveBy
     }
   };
 
@@ -155,6 +179,10 @@ const ClickOutsideWrapper = onClickOutside(
 export class Popover extends React.Component<PopoverProps, PopoverState> {
   static displayName = 'Popover';
 
+  static defaultProps = {
+    flip: true,
+  };
+
   static Element = createComponentThatRendersItsChildren('Popover.Element');
   static Content = createComponentThatRendersItsChildren('Popover.Content');
 
@@ -181,10 +209,10 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   }
 
   getPopperContentStructure(childrenObject) {
-    const {moveBy, appendTo, placement, showArrow, moveArrowTo} = this.props;
+    const {moveBy, appendTo, placement, showArrow, moveArrowTo, flip} = this.props;
     const shouldAnimate = shouldAnimatePopover(this.props);
 
-    const modifiers = createModifiers({moveBy, appendTo, shouldAnimate});
+    const modifiers = createModifiers({moveBy, appendTo, shouldAnimate, flip, placement});
 
     const popper = (
       <Popper
