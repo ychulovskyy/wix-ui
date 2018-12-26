@@ -463,6 +463,28 @@ describe('Popover', () => {
 
       expect(queryPopoverPortal().classList).toContain('some-class');
     });
+
+    it(`should not remove styles until unmounted with hideDelay`, async() => {
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        shown: true,
+        hideDelay: 10,
+        appendTo: portalContainer.node
+      }));
+
+      await container.render(popoverWithProps({
+        placement: 'bottom',
+        shown: false,
+        hideDelay: 10,
+        appendTo: portalContainer.node
+      }));
+
+      expect(queryPopoverPortal()).toBeTruthy();
+      expect(queryPopoverPortal().classList).toContain(styles.root);
+
+      await delay(10);
+      expect(queryPopoverPortal().classList).not.toContain(styles.root);
+    });
   });
 
   describe('React <16 compatibility', () => {

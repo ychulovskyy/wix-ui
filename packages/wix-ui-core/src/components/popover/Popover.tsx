@@ -83,9 +83,17 @@ export type PopoverType = PopoverProps & {
 };
 
 const shouldAnimatePopover = ({timeout}: PopoverProps) => {
-  return typeof timeout === 'object' ? (
-    typeof timeout.enter !== 'undefined' && typeof timeout.exit !== 'undefined'
-  ) : !!timeout;
+  if (typeof timeout === 'object') {
+    const { enter, exit } = timeout;
+
+    return (
+      typeof enter !== 'undefined' && typeof exit !== 'undefined' && (
+        !(enter === 0 && exit === 0)
+      )
+    );
+  }
+
+  return !!timeout;
 };
 
 const getArrowShift = (shift: number | undefined, direction: string) => {
