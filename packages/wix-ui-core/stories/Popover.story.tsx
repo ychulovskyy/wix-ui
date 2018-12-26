@@ -159,7 +159,7 @@ export default {
           Content element (<code>{`<Popover.Content/>`}</code>) intentionally overlapping the Target
           element (<code>{`<Popover.Element/>`}</code>).
         </p>
-        <Popover placement="left" shown moveBy={{ x: 100, y: 50 }} showArrow>
+        <Popover placement="right" shown moveBy={{ x: 50, y: 100 }} showArrow>
           <Popover.Element>
             <div style={{ height: '80px' }}>The element</div>
           </Popover.Element>
