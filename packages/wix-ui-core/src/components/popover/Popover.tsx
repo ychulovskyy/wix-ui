@@ -65,7 +65,7 @@ export interface PopoverProps {
   /** Enables calculations in relation to a dom element */
   appendTo?: AppendTo;
   /** Animation timer */
-  timeout?: number | { enter?: number, exit?: number };
+  timeout?: number | { enter: number, exit: number };
   /** Inline style */
   style?: object;
   /** Id */
@@ -83,9 +83,17 @@ export type PopoverType = PopoverProps & {
 };
 
 const shouldAnimatePopover = ({timeout}: PopoverProps) => {
-  return typeof timeout === 'object' ? (
-    timeout.enter && timeout.exit
-  ) : !!timeout;
+  if (typeof timeout === 'object') {
+    const { enter, exit } = timeout;
+
+    return (
+      typeof enter !== 'undefined' && typeof exit !== 'undefined' && (
+        enter > 0 || exit > 0
+      )
+    );
+  }
+
+  return !!timeout;
 };
 
 const getArrowShift = (shift: number | undefined, direction: string) => {
@@ -220,7 +228,7 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   }
 
   applyStylesToPortaledNode() {
-    const {shown} = this.props;
+    const {shown} = this.state;
     const shouldAnimate = shouldAnimatePopover(this.props);
 
     if (shouldAnimate || shown) {
