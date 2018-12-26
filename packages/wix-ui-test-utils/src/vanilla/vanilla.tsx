@@ -72,11 +72,8 @@ export async function isUniTestkitExists<T extends BaseUniDriver> (
   options?: { dataHookPropName?: string }) {
   const div = document.createElement('div');
   const dataHook = 'myDataHook';
-  const dataHookPropName = options && options.dataHookPropName;
-  const extraProps = dataHookPropName
-    ? {[dataHookPropName]: dataHook}
-    : {'data-hook': dataHook, dataHook}; // For backward compatibility add dataHook which is used in Wix-Style-React
-  const elementToRender = React.cloneElement(Element, extraProps);
+  const dataHookPropName = (options && options.dataHookPropName) || 'data-hook';
+  const elementToRender = React.cloneElement(Element, {[dataHookPropName]: dataHook});
   const renderedElement = ReactTestUtils.renderIntoDocument(<div>{elementToRender}</div>);
   const wrapper = div.appendChild((renderedElement as any));
   const testkit = testkitFactory({wrapper, dataHook});
