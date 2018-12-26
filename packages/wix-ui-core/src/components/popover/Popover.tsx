@@ -65,7 +65,7 @@ export interface PopoverProps {
   /** Enables calculations in relation to a dom element */
   appendTo?: AppendTo;
   /** Animation timer */
-  timeout?: number | { enter?: number, exit?: number };
+  timeout?: number | { enter: number, exit: number };
   /** Inline style */
   style?: object;
   /** Id */
@@ -84,7 +84,7 @@ export type PopoverType = PopoverProps & {
 
 const shouldAnimatePopover = ({timeout}: PopoverProps) => {
   return typeof timeout === 'object' ? (
-    timeout.enter && timeout.exit
+    typeof timeout.enter !== 'undefined' && typeof timeout.exit !== 'undefined'
   ) : !!timeout;
 };
 
