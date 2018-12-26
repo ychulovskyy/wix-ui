@@ -59,6 +59,11 @@ export interface PopoverProps {
    * when it starts to overlap the target element (`<Popover.Element/>`).
    */
   flip?: boolean;
+  /**
+   * Whether to enable the fixed behaviour. This behaviour used to keep the `<Popover/>` at it's
+   * original placement even when it's being positioned outside the boundary.
+   */
+  fixed?: boolean;
   /** Moves popover relative to the parent */
   moveBy?: { x: number, y: number };
   /** Hide Delay */
@@ -127,7 +132,7 @@ const calculateOffset = ({moveBy, placement}): string => {
   return `${moveBy ? moveBy.x : 0}px, ${moveBy ? moveBy.y : 0}px`;
 };
 
-const createModifiers = ({moveBy, appendTo, shouldAnimate, flip, placement}) => {
+const createModifiers = ({moveBy, appendTo, shouldAnimate, flip, fixed, placement}) => {
   const modifiers: PopperJS.Modifiers = {
     offset: {
       offset: calculateOffset({moveBy, placement}),
@@ -137,6 +142,9 @@ const createModifiers = ({moveBy, appendTo, shouldAnimate, flip, placement}) => 
     },
     flip: {
       enabled: typeof moveBy === 'undefined' ? flip : !moveBy
+    },
+    preventOverflow: {
+      enabled: !fixed,
     }
   };
 
@@ -146,6 +154,7 @@ const createModifiers = ({moveBy, appendTo, shouldAnimate, flip, placement}) => 
 
   if (appendTo) {
     modifiers.preventOverflow = {
+      ...modifiers.preventOverflow,
       boundariesElement: appendTo
     };
   }
@@ -189,6 +198,7 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
 
   static defaultProps = {
     flip: true,
+    fixed: false,
   };
 
   static Element = createComponentThatRendersItsChildren('Popover.Element');
@@ -217,10 +227,10 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   }
 
   getPopperContentStructure(childrenObject) {
-    const {moveBy, appendTo, placement, showArrow, moveArrowTo, flip} = this.props;
+    const {moveBy, appendTo, placement, showArrow, moveArrowTo, flip, fixed} = this.props;
     const shouldAnimate = shouldAnimatePopover(this.props);
 
-    const modifiers = createModifiers({moveBy, appendTo, shouldAnimate, flip, placement});
+    const modifiers = createModifiers({moveBy, appendTo, shouldAnimate, flip, placement, fixed});
 
     const popper = (
       <Popper

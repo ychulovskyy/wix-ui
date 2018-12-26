@@ -202,13 +202,36 @@ export default {
         <br/>
 
         <ScrollableContainer>
-          With flip enabled:<br/>
+          With <code>flip</code> enabled (default):<br/><br/><br/>
           <PopoverWithState placement="top" />
         </ScrollableContainer>
 
         <ScrollableContainer>
-          With flip disabled:<br/>
+          With <code>flip</code> disabled:<br/><br/><br/>
           <PopoverWithState placement="top" flip={false} />
+        </ScrollableContainer>
+      </div>
+
+      <div>
+        <h2>Fixed behaviour</h2>
+        <p>
+          This behaviour used to keep the <code>{`<Popover/>`}</code> in it's original
+          placement.<br/> By default this behaviour is <b>disabled</b>, and the &nbsp;
+          <code>{`<Popover/>`}</code> will change it's position when it'll being positioned outside<br/>
+          the boundary (the boundry is the value of the <code>appendTo</code> prop).
+          <br/>
+        </p>
+
+        <br/>
+
+        <ScrollableContainer>
+          With <code>fixed</code> disabled (default):<br/><br/><br/>
+          <PopoverWithState placement="top" />
+        </ScrollableContainer>
+
+        <ScrollableContainer>
+          With <code>fixed</code> enabled:<br/><br/><br/>
+          <PopoverWithState placement="top" fixed />
         </ScrollableContainer>
       </div>
     </div>
