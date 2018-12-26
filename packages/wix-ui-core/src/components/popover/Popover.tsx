@@ -220,7 +220,7 @@ export class Popover extends React.Component<PopoverProps, PopoverState> {
   }
 
   applyStylesToPortaledNode() {
-    const {shown} = this.props;
+    const {shown} = this.state;
     const shouldAnimate = shouldAnimatePopover(this.props);
 
     if (shouldAnimate || shown) {
