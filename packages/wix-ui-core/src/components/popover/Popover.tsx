@@ -145,6 +145,9 @@ const createModifiers = ({moveBy, appendTo, shouldAnimate, flip, fixed, placemen
     },
     preventOverflow: {
       enabled: !fixed,
+    },
+    hide: {
+      enabled: !fixed
     }
   };
 
