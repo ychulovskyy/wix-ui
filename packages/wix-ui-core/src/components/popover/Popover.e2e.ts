@@ -1,23 +1,75 @@
 import * as eyes from 'eyes.it';
 import {browser} from 'protractor';
-import {createStoryUrl, waitForVisibilityOf} from 'wix-ui-test-utils/protractor';
+import {createStoryUrl, waitForVisibilityOf, scrollToElement} from 'wix-ui-test-utils/protractor';
 import * as autoExampleDriver from 'wix-storybook-utils/AutoExampleDriver';
 import {popoverTestkitFactory} from '../../testkit/protractor';
 
+// Scroll to the bottom of a container
+const scrollToBottom = async dataHook => {
+  await browser.executeScript(
+    `document.querySelector('[data-hook="${dataHook}"]').scrollTop = 100`,
+  );
+};
+
 describe('Popover', () => {
-  const storyUrl = createStoryUrl({kind: 'Components', story: 'Popover', withExamples:false});
+  const storyUrl = createStoryUrl({
+    kind: 'Components',
+    story: 'Popover',
+    withExamples: true
+  });
 
-  beforeEach(() => browser.get(storyUrl));
+  const createDriver = async dataHook => {
+    const driver = popoverTestkitFactory({ dataHook });
+
+    await waitForVisibilityOf(
+      driver.element(),
+      `Cannot find Popover component ${dataHook}`,
+    );
+
+    await scrollToElement(driver.element());
+    return driver;
+  };
+
+  beforeAll(() => {
+    browser.get(storyUrl)
+  });
+
+  beforeEach(async () => {
+    await autoExampleDriver.reset();
+  });
+
   eyes.it('should exist', async () => {
-    const dataHook = 'storybook-popover';
-    const driver = popoverTestkitFactory({dataHook});
+    const driver = await createDriver('storybook-popover');
 
-    await waitForVisibilityOf(driver.element(), 'Cannot find Popover');
     expect(await driver.element().isPresent()).toBe(true);
-    // NOTE: make sure the storyURL is has withExample=falase, otherwise,
-    // it might find false positive for an open contentElement.
-    expect(await driver.isContentElementExists()).toBe(false);
     await autoExampleDriver.setProps({shown: true});
-    expect(await driver.isContentElementExists()).toBe(true);
+  });
+
+  describe('Flip behaviour', () => {
+    beforeAll(async () => {
+      await createDriver('story-popover-flip-behaviour');
+    });
+
+    eyes.it('flip enabled (default)', async () => {
+      await scrollToBottom('story-popover-flip-enabled');
+    });
+
+    eyes.it('flip disabled', async () => {
+      await scrollToBottom('story-popover-flip-disabled');
+    });
+  });
+
+  describe('Fixed behaviour', () => {
+    beforeAll(async () => {
+      await createDriver('story-popover-fixed-behaviour');
+    });
+
+    eyes.it('flip disabled (default)', async () => {
+      await scrollToBottom('story-popover-fixed-disabled');
+    });
+
+    eyes.it('flip enabled', async () => {
+      await scrollToBottom('story-popover-flip-enabled');
+    });
   });
 });

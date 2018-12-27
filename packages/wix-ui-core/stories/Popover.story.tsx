@@ -37,6 +37,7 @@ const ScrollableContainer = props => (
       width: 250,
       margin: 10
     }}
+    data-hook={props.dataHook}
   >
     <div
       style={{
@@ -44,7 +45,7 @@ const ScrollableContainer = props => (
         height: 120,
       }}
     >
-      <div style={{ padding: '25px 25px 150px' }}>
+      <div style={{ padding: '25px 25px 80px' }}>
         {props.children}
       </div>
     </div>
@@ -190,7 +191,7 @@ export default {
         <PopoverWithState showDelay={1000} hideDelay={1000} />
       </div>
 
-      <div>
+      <div data-hook="story-popover-flip-behaviour">
         <h2>Flip behaviour</h2>
         <p>
           This behaviour used to flip the <code>{`<Popover/>`}</code>'s placement
@@ -201,18 +202,18 @@ export default {
 
         <br/>
 
-        <ScrollableContainer>
+        <ScrollableContainer dataHook="story-popover-flip-enabled">
           With <code>flip</code> enabled (default):<br/><br/><br/>
           <PopoverWithState placement="top" />
         </ScrollableContainer>
 
-        <ScrollableContainer>
+        <ScrollableContainer dataHook="story-popover-flip-disabled">
           With <code>flip</code> disabled:<br/><br/><br/>
           <PopoverWithState placement="top" flip={false} />
         </ScrollableContainer>
       </div>
 
-      <div>
+      <div data-hook="story-popover-fixed-behaviour">
         <h2>Fixed behaviour</h2>
         <p>
           This behaviour used to keep the <code>{`<Popover/>`}</code> in it's original
@@ -224,12 +225,12 @@ export default {
 
         <br/>
 
-        <ScrollableContainer>
+        <ScrollableContainer dataHook="story-popover-fixed-disabled">
           With <code>fixed</code> disabled (default):<br/><br/><br/>
           <PopoverWithState placement="top" />
         </ScrollableContainer>
 
-        <ScrollableContainer>
+        <ScrollableContainer dataHook="story-popover-fixed-enabled">
           With <code>fixed</code> enabled:<br/><br/><br/>
           <PopoverWithState placement="top" fixed />
         </ScrollableContainer>
