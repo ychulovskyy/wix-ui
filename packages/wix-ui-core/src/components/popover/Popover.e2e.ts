@@ -64,11 +64,11 @@ describe('Popover', () => {
       await createDriver('story-popover-fixed-behaviour');
     });
 
-    eyes.it('flip disabled (default)', async () => {
+    eyes.it('fixed disabled (default)', async () => {
       await scrollToBottom('story-popover-fixed-disabled');
     });
 
-    eyes.it('flip enabled', async () => {
+    eyes.it('fixed enabled', async () => {
       await scrollToBottom('story-popover-flip-enabled');
     });
   });
