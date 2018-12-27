@@ -55,7 +55,7 @@ export interface PopoverProps {
   /** Show show arrow from the content */
   showArrow?: boolean;
   /**
-   * Whether to enable the flip behaviour. This behaviour used to flip the `<Popover/>`'s placement
+   * Whether to enable the flip behaviour. This behaviour is used to flip the `<Popover/>`'s placement
    * when it starts to overlap the target element (`<Popover.Element/>`).
    */
   flip?: boolean;
