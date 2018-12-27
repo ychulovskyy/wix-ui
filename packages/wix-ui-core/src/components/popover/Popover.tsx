@@ -60,7 +60,7 @@ export interface PopoverProps {
    */
   flip?: boolean;
   /**
-   * Whether to enable the fixed behaviour. This behaviour used to keep the `<Popover/>` at it's
+   * Whether to enable the fixed behaviour. This behaviour is used to keep the `<Popover/>` at it's
    * original placement even when it's being positioned outside the boundary.
    */
   fixed?: boolean;
