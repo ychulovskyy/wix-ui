@@ -37,9 +37,9 @@ const ScrollableContainer = props => (
       width: 250,
       margin: 10
     }}
-    data-hook={props.dataHook}
   >
     <div
+      data-hook={props.dataHook}
       style={{
         overflow: 'auto',
         height: 120,
